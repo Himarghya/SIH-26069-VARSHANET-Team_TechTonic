@@ -1,0 +1,118 @@
+﻿import axios from 'axios';
+import { WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth, EventImpactResponse, VerificationRequestItem } from '../types';
+
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+
+export const api = axios.create({
+  baseURL: API_BASE,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export const fetchReports = async (params?: Record<string, any>): Promise<WeatherReport[]> => {
+  const { data } = await api.get('/reports', { params });
+  return data;
+};
+
+export const fetchReportById = async (id: string): Promise<WeatherReport> => {
+  const { data } = await api.get(`/reports/${id}`);
+  return data;
+};
+
+export const fetchEvents = async (params?: Record<string, any>): Promise<EventCluster[]> => {
+  const { data } = await api.get('/events', { params });
+  return data;
+};
+
+export const fetchAlerts = async (): Promise<Alert[]> => {
+  const { data } = await api.get('/alerts');
+  return data;
+};
+
+export const fetchAnalyticsOverview = async (): Promise<AnalyticsOverview> => {
+  const { data } = await api.get('/analytics/overview');
+  return data;
+};
+
+export const fetchMapEvents = async (params?: Record<string, any>) => {
+  const { data } = await api.get('/map/events', { params });
+  return data;
+};
+
+export const fetchHeatmap = async () => {
+  const { data } = await api.get('/map/heatmap');
+  return data;
+};
+
+export const fetchPendingVerification = async (): Promise<WeatherReport[]> => {
+  const { data } = await api.get('/verification/pending');
+  return data;
+};
+
+export const performVerificationAction = async (reportId: string, action: string, reason?: string): Promise<WeatherReport> => {
+  const { data } = await api.post(`/verification/${reportId}/action`, { action, reason });
+  return data;
+};
+
+export const submitCitizenReport = async (payload: any): Promise<WeatherReport> => {
+  const { data } = await api.post('/citizen/submit', payload);
+  return data;
+};
+
+export const trackCitizenReport = async (ticketId: string): Promise<WeatherReport> => {
+  const { data } = await api.get(`/citizen/track/${ticketId}`);
+  return data;
+};
+
+export const fetchSystemHealth = async (): Promise<SystemHealth> => {
+  const { data } = await api.get('/system/health');
+  return data;
+};
+
+export const fetchSources = async () => {
+  const { data } = await api.get('/sources');
+  return data;
+};
+
+export const triggerLiveSync = async () => {
+  const { data } = await api.post('/sources/sync-live');
+  return data;
+};
+
+export const fetchAutomationStatus = async () => {
+  const { data } = await api.get('/sources/automation-status');
+  return data;
+};
+
+export const toggleAutomation = async () => {
+  const { data } = await api.post('/sources/toggle-automation');
+  return data;
+};
+
+// === VARSHANET 2.0 Impact & Decision Support APIs ===
+
+export const fetchEventImpact = async (eventId: string): Promise<EventImpactResponse> => {
+  const { data } = await api.get(`/impact/${eventId}`);
+  return data;
+};
+
+export const fetchVerificationRequests = async (): Promise<VerificationRequestItem[]> => {
+  const { data } = await api.get('/verification-requests');
+  return data;
+};
+
+export const respondToVerificationRequest = async (requestId: string, payload: any) => {
+  const { data } = await api.post(`/verification-requests/${requestId}/respond`, payload);
+  return data;
+};
+
+export const recordEventOutcome = async (eventId: string, payload: any) => {
+  const { data } = await api.post(`/impact/${eventId}/outcome`, payload);
+  return data;
+};
+
+export const fetchModelPerformance = async () => {
+  const { data } = await api.get('/impact/analytics/model-performance');
+  return data;
+};

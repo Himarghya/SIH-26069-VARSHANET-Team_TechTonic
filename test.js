@@ -1,0 +1,1 @@
+console.log('UTF8 works')
