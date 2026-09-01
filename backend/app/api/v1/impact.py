@@ -1,4 +1,4 @@
-﻿from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
@@ -33,11 +33,13 @@ async def get_event_impact_assessment(event_id: str, db: Session = Depends(get_d
         ((WeatherReport.city == cluster.city) & (WeatherReport.state == cluster.state))
     ).order_by(desc(WeatherReport.timestamp)).all()
 
+    seen_urls = set()
     verified_photos = []
     for rep in cluster_reports:
         if rep.media_urls:
             for url in rep.media_urls:
-                if rep.credibility_score >= 20: # Exclude flagged fake visuals
+                if rep.credibility_score >= 20 and url not in seen_urls: # Exclude flagged fake visuals and duplicates
+                    seen_urls.add(url)
                     verified_photos.append({
                         "report_id": rep.id,
                         "image_url": url,
@@ -50,6 +52,10 @@ async def get_event_impact_assessment(event_id: str, db: Session = Depends(get_d
                         "caption": rep.text[:140] + ("..." if len(rep.text) > 140 else ""),
                         "is_verified": rep.verification_status == "VERIFIED"
                     })
+                    if len(verified_photos) >= 2:
+                        break
+        if len(verified_photos) >= 2:
+            break
 
     # If no photos currently attached to this exact cluster, include representative verified field photos
     if not verified_photos:

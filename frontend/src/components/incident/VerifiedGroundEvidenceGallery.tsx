@@ -22,6 +22,9 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
     return null;
   }
 
+  // Strictly display top 2 verified ground evidence photos for a clean, non-cluttered layout
+  const displayPhotos = photos.slice(0, 2);
+
   return (
     <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
       {/* Header */}
@@ -32,11 +35,11 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
           </div>
           <div>
             <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 font-mono">
-              <span>Verified Ground Truth & Citizen Photo Evidence</span>
+              <span>Verified Ground Truth & Optical Evidence</span>
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             </h3>
             <p className="text-[10px] text-slate-400 font-mono">
-              Corroborated optical proof for: <strong className="text-cyan-300">{city}, {state}</strong>
+              Corroborated ground truth for: <strong className="text-cyan-300">{city}, {state}</strong>
             </p>
           </div>
         </div>
@@ -44,14 +47,14 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
         <div className="flex items-center gap-2">
           <span className="px-2.5 py-1 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-600/50 text-[10px] font-mono font-bold flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>{photos.length} Verified Photo Proof{photos.length > 1 ? 's' : ''}</span>
+            <span>{displayPhotos.length} Verified Field Proofs</span>
           </span>
         </div>
       </div>
 
-      {/* Grid of Verified Images */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {photos.map((item, idx) => (
+      {/* Clean 2-Photo Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {displayPhotos.map((item, idx) => (
           <div
             key={idx}
             onClick={() => setSelectedPhoto(item)}
@@ -68,33 +71,33 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
               {/* Overlay on hover */}
               <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-white text-xs font-bold font-mono">
                 <Eye className="w-4 h-4 text-cyan-400" />
-                <span>Inspect Proof</span>
+                <span>Inspect Ground Proof</span>
               </div>
 
               {/* Top status tag */}
               <div className="absolute top-2 left-2 flex items-center gap-1">
-                <span className="px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-sm text-emerald-300 border border-emerald-500/50 text-[9px] font-mono font-bold flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm text-emerald-300 border border-emerald-500/50 text-[9px] font-mono font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
-                  <span>VERIFIED PROOF</span>
+                  <span>VERIFIED PROOF #{idx + 1}</span>
                 </span>
               </div>
 
               {/* AI Trust Pill */}
               <div className="absolute top-2 right-2">
-                <span className="px-1.5 py-0.5 rounded bg-black/80 text-cyan-300 border border-cyan-500/50 text-[9px] font-mono font-bold">
+                <span className="px-2 py-0.5 rounded bg-black/80 text-cyan-300 border border-cyan-500/50 text-[9px] font-mono font-bold">
                   {Math.round(item.credibility_score)}% Trust
                 </span>
               </div>
             </div>
 
             {/* Bottom Caption & Metadata */}
-            <div className="p-3 space-y-1.5 bg-slate-950/90">
+            <div className="p-3.5 space-y-1.5 bg-slate-950/90">
               <p className="text-[11px] text-slate-200 line-clamp-2 leading-relaxed font-sans font-medium">
                 "{item.caption}"
               </p>
               
-              <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono pt-1 border-t border-slate-900">
-                <span className="text-cyan-300 font-bold truncate max-w-[120px]">
+              <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono pt-1.5 border-t border-slate-900">
+                <span className="text-cyan-300 font-bold truncate max-w-[150px]">
                   📍 {item.city}
                 </span>
                 <span className="text-slate-500">

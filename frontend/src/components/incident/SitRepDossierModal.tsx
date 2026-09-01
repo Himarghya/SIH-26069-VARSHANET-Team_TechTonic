@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { X, Printer, Download, FileCheck, Shield, MapPin, Building2, Users, AlertTriangle, Sparkles } from 'lucide-react';
+import { X, Printer, Download, FileCheck, Shield, MapPin, Building2, Users, AlertTriangle, Sparkles, Code2 } from 'lucide-react';
 import { EventImpactResponse } from '../../types';
 
 interface SitRepDossierModalProps {
@@ -71,8 +71,42 @@ ${response_recommendations.map(rec => `* **[${rec.priority_label}] ${rec.action}
     URL.revokeObjectURL(url);
   };
 
+  const handleDownloadCAP = () => {
+    const capXml = `<?xml version="1.0" encoding="UTF-8"?>
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
+  <identifier>VARSHANET-CAP-${incident.event_id}-${Date.now()}</identifier>
+  <sender>operations@varshanet.gov.in</sender>
+  <sent>${new Date().toISOString()}</sent>
+  <status>Actual</status>
+  <msgType>Alert</msgType>
+  <scope>Public</scope>
+  <info>
+    <category>Met</category>
+    <event>${incident.event_type}</event>
+    <urgency>${incident.severity === 'CRITICAL' ? 'Immediate' : 'Expected'}</urgency>
+    <severity>${incident.severity}</severity>
+    <certainty>Observed</certainty>
+    <headline>OFFICIAL ${incident.severity} ALERT: ${incident.event_type} in ${incident.city}, ${incident.state}</headline>
+    <description>${response_recommendations[0]?.reason || 'Severe weather and inundation risk detected by VARSHANET Big Data Grid.'}</description>
+    <instruction>${response_recommendations.map(r => r.action).join('. ')}</instruction>
+    <area>
+      <areaDesc>${incident.city}, ${incident.state}, India</areaDesc>
+      <circle>${incident.latitude.toFixed(4)},${incident.longitude.toFixed(4)},15.0</circle>
+    </area>
+  </info>
+</alert>`;
+
+    const blob = new Blob([capXml], { type: 'application/xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `CAP_1.2_${incident.event_id}.xml`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in font-sans">
       <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto shadow-2xl flex flex-col">
         {/* Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
@@ -86,6 +120,14 @@ ${response_recommendations.map(rec => `* **[${rec.priority_label}] ${rec.action}
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleDownloadCAP}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold transition-all border border-slate-700 cursor-pointer"
+              title="Download OASIS Common Alerting Protocol (CAP 1.2) XML payload"
+            >
+              <Code2 className="w-3.5 h-3.5" />
+              <span>CAP 1.2 XML</span>
+            </button>
             <button
               onClick={handleDownloadMarkdown}
               className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700 cursor-pointer"
@@ -110,7 +152,7 @@ ${response_recommendations.map(rec => `* **[${rec.priority_label}] ${rec.action}
         </div>
 
         {/* Printable Official Dossier Body */}
-        <div className="p-6 space-y-6 text-slate-200 font-sans text-xs">
+        <div className="p-6 space-y-6 text-slate-200 text-xs">
           {/* Government Official Header */}
           <div className="text-center pb-4 border-b border-slate-800 space-y-1">
             <h2 className="text-base font-extrabold text-white uppercase tracking-widest">
