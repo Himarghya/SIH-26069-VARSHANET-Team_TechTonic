@@ -29,7 +29,7 @@ export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
             return;
           }
           setIsConnected(true);
-          retryDelay = 3000; // reset delay on successful connection
+          retryDelay = 3000;
         };
 
         ws.onmessage = (event) => {
@@ -41,22 +41,22 @@ export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
               callbackRef.current(data);
             }
           } catch (err) {
-            // Ignore non-json or ping-pong
+            // Ignore non-json
           }
         };
 
         ws.onclose = () => {
           if (isCancelled) return;
           setIsConnected(false);
-          // Exponential backoff up to 15s to prevent console spam when backend is restarting
           reconnectTimer = setTimeout(() => {
-            retryDelay = Math.min(retryDelay * 1.5, 15000);
-            connect();
+            if (!isCancelled) {
+              retryDelay = Math.min(retryDelay * 1.5, 10000);
+              connect();
+            }
           }, retryDelay);
         };
 
         ws.onerror = () => {
-          // Browser will automatically trigger onclose, no manual ws.close() needed
           setIsConnected(false);
         };
       } catch (e) {
@@ -76,13 +76,18 @@ export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
       }
       if (wsRef.current) {
         const ws = wsRef.current;
-        // Detach listeners before closing to prevent StrictMode loops
         ws.onopen = null;
         ws.onmessage = null;
         ws.onerror = null;
         ws.onclose = null;
-        if (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING) {
+        
+        // In React 18 StrictMode, do not force-close while in CONNECTING state to avoid browser console error
+        if (ws.readyState === WebSocket.OPEN) {
           ws.close();
+        } else if (ws.readyState === WebSocket.CONNECTING) {
+          ws.onopen = () => {
+            try { ws.close(); } catch (_) {}
+          };
         }
         wsRef.current = null;
       }

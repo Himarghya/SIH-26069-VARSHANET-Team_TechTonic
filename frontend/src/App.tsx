@@ -105,6 +105,7 @@ export function App() {
             events={events}
             selectedEventId={selectedEventId}
             onSelectEventId={setSelectedEventId}
+            userRole={userRole}
           />
         )}
 

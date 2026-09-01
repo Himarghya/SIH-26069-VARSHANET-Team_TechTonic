@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+﻿from datetime import datetime, timezone
 from typing import Dict, List, Optional
 from processing.cleaning.text_cleaner import cleaner
 from processing.geolocation.indian_geo_resolver import geo_resolver
@@ -22,7 +22,6 @@ class WeatherIntelligencePipeline:
         # Stage 1: Data Cleaning & Language Identification
         raw_text = raw_data.get("text", "")
         cleaned_text, extracted_hashtags, language, is_spam = cleaner.clean_text(raw_text)
-        all_hashtags = list(set(raw_data.get("hashtags", []) + extracted_hashtags))
         
         # Stage 2: Location Intelligence (PostGIS / Indian Geo Resolving)
         loc = geo_resolver.resolve(
@@ -40,16 +39,23 @@ class WeatherIntelligencePipeline:
             event_confidence = 0.90
             class_details = {"manual_specified": True}
         else:
-            event_type, event_confidence, class_details = classifier.classify(cleaned_text, all_hashtags)
+            event_type, event_confidence, class_details = classifier.classify(cleaned_text, extracted_hashtags)
+
+        # Stage 3.5: AI Contextual Weather Hashtag Enrichment (#IMD, #Monsoon2026, #MumbaiRains, etc.)
+        all_hashtags = cleaner.generate_ai_hashtags(
+            text=raw_text,
+            event_type=event_type,
+            city=loc.get("city", ""),
+            state=loc.get("state", "")
+        )
             
         # Stage 4: Image Analysis (if media present)
         media_urls = raw_data.get("media_urls", [])
         image_analysis = {}
         if media_urls:
-            # Evaluate first image
             image_analysis = image_analyzer.analyze_image_heuristics(media_urls[0])
             
-        # Stage 5: Deduplication
+        # Stage 5: Deduplication (Simhash Hamming Distance)
         is_dup, dup_group_id, dup_sim = deduplicator.check_duplicate(
             text=cleaned_text,
             lat=loc["latitude"],
@@ -88,7 +94,7 @@ class WeatherIntelligencePipeline:
         enriched_record = {
             "source_id": raw_data.get("source_id"),
             "source_type": source_type,
-            "source_name": raw_data.get("source_name", "Citizen Portal"),
+            "source_name": raw_data.get("source_name", "Citizen Intelligence"),
             "author": raw_data.get("author", "citizen_user"),
             "text": raw_text,
             "original_language": language,

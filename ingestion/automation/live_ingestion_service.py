@@ -15,7 +15,7 @@ class LiveIngestionService:
     def __init__(self):
         self.is_running = False
         self._task: asyncio.Task = None
-        self.interval_seconds = 90 # Run every 90 seconds
+        self.interval_seconds = 1800 # Auto-sync every 30 minutes
         self.last_sync_time: datetime = None
         self.total_auto_ingested = 0
         self.last_sync_count = 0
@@ -25,14 +25,14 @@ class LiveIngestionService:
             return
         self.is_running = True
         self._task = asyncio.create_task(self._background_loop())
-        print("[VARSHANET AUTOMATION] Live Background Weather & News Ingestion Service STARTED.")
+        print("[VARSHANET AUTOMATION] Live Ingestion Service STARTED (30-min auto-cycle).")
 
     def stop(self):
         self.is_running = False
         if self._task:
             self._task.cancel()
             self._task = None
-        print("[VARSHANET AUTOMATION] Live Background Weather & News Ingestion Service STOPPED.")
+        print("[VARSHANET AUTOMATION] Live Ingestion Service STOPPED.")
 
     def get_status(self) -> Dict[str, Any]:
         return {
@@ -44,28 +44,21 @@ class LiveIngestionService:
         }
 
     async def _background_loop(self):
-        # Initial small delay on server boot
         await asyncio.sleep(5)
         while self.is_running:
             try:
                 count = await self.sync_live_data()
-                print(f"[AUTOMATION SYNC] Ingested {count} new live multi-source events at {datetime.now().strftime('%H:%M:%S')}")
+                print(f"[30-MIN AUTO-SYNC] Ingested {count} new live events at {datetime.now().strftime('%H:%M:%S')}")
             except Exception as e:
-                print(f"[AUTOMATION ERROR] Background sync error: {e}")
+                print(f"[30-MIN AUTO-SYNC ERROR] Background sync error: {e}")
             await asyncio.sleep(self.interval_seconds)
 
     async def sync_live_data(self) -> int:
-        """
-        Fetches live news and AWS weather observations across India, processes them,
-        saves them to the DB, and broadcasts WebSocket alerts in real time.
-        """
         db = SessionLocal()
         new_items_ingested = 0
         try:
-            # 1. Fetch live RSS news articles
             news_items = await news_connector.fetch_live_news_rss()
 
-            # 2. Fetch live AWS weather for key Indian cities
             weather_items = []
             selected_cities = ["bhopal", "mumbai", "delhi", "guwahati", "dehradun", "chennai", "bengaluru", "jaipur", "bhubaneswar", "kolkata", "patna"]
             for city_key in selected_cities:
@@ -79,7 +72,6 @@ class LiveIngestionService:
             all_incoming = news_items + weather_items
 
             for raw in all_incoming:
-                # Deduplication check against DB text
                 existing_rep = db.query(WeatherReport).filter(WeatherReport.text == raw["text"]).first()
                 if existing_rep:
                     continue
@@ -133,7 +125,6 @@ class LiveIngestionService:
                 db.add(new_rep)
                 new_items_ingested += 1
 
-                # Broadcast live event to WebSocket clients
                 await ws_manager.broadcast({
                     "type": "NEW_WEATHER_REPORT",
                     "id": new_rep.id,

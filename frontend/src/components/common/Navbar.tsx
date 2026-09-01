@@ -1,5 +1,5 @@
-﻿import React, { useState } from 'react';
-import { CloudRain, Shield, Activity, Map, FileText, BarChart3, Users, Radio, RefreshCw, Command, UserCheck } from 'lucide-react';
+﻿import React, { useState, useEffect } from 'react';
+import { CloudRain, Shield, Activity, Map, FileText, BarChart3, Users, Radio, RefreshCw, Command, UserCheck, Clock } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
 
 interface NavbarProps {
@@ -23,21 +23,40 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
+  const [countdownSeconds, setCountdownSeconds] = useState(1800); // 30 minutes in seconds
+
+  // 30-Minute Auto-Sync Countdown Timer
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdownSeconds(prev => {
+        if (prev <= 1) {
+          handleSync();
+          return 1800;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleSync = async () => {
     setIsSyncing(true);
     setSyncMessage(null);
     try {
       const res = await triggerLiveSync();
-      setSyncMessage(`+${res.new_reports_count}`);
+      setSyncMessage(`+${res.new_reports_count || 0}`);
+      setCountdownSeconds(1800); // Reset 30-min timer on manual sync
       if (onLiveSyncDone) onLiveSyncDone();
-      setTimeout(() => setSyncMessage(null), 3000);
+      setTimeout(() => setSyncMessage(null), 3500);
     } catch (err) {
       console.error('Live sync error', err);
     } finally {
       setIsSyncing(false);
     }
   };
+
+  const minutesLeft = Math.floor(countdownSeconds / 60);
+  const secondsLeft = countdownSeconds % 60;
 
   const handleRoleChange = (newRole: string) => {
     setUserRole(newRole);
@@ -121,22 +140,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Right Controls: Sync Live + Stream Status + Role Switcher */}
+        {/* Right Controls: Sync Live (30-min timer) + Stream Status + Role Switcher */}
         <div className="flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-          {/* Sync Live Button */}
+          {/* Sync Live Button & 30-min Auto Countdown */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-all cursor-pointer shrink-0"
-            title="Fetch real-time news & station data across India"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-all cursor-pointer shrink-0"
+            title={`Fetch live weather & news across India. Auto-syncs every 30 mins (Next in ${minutesLeft}m ${secondsLeft}s).`}
           >
-            <RefreshCw className={`w-3 h-3 shrink-0 ${isSyncing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 shrink-0 ${isSyncing ? 'animate-spin' : ''}`} />
             <span>{isSyncing ? 'Syncing...' : 'Sync Live'}</span>
-            {syncMessage && (
-              <span className="text-[9px] px-1 rounded bg-emerald-950 text-emerald-300 font-mono">
-                {syncMessage}
-              </span>
-            )}
+            <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 font-mono font-normal">
+              {syncMessage || `${minutesLeft}m`}
+            </span>
           </button>
 
           {/* WebSocket Status */}

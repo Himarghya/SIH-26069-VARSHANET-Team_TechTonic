@@ -1,5 +1,10 @@
 ﻿import axios from 'axios';
-import { WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth, EventImpactResponse, VerificationRequestItem } from '../types';
+import {
+  WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth,
+  EventImpactResponse, VerificationRequestItem,
+  RadarGridResponse, InsatSatelliteResponse, ClimatologyAnomalyResponse,
+  ExtremeWeatherMlResponse, StreamTelemetryResponse
+} from '../types';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
@@ -114,5 +119,34 @@ export const recordEventOutcome = async (eventId: string, payload: any) => {
 
 export const fetchModelPerformance = async () => {
   const { data } = await api.get('/impact/analytics/model-performance');
+  return data;
+};
+
+// === MoES Big Data & Meteorological Grid APIs ===
+
+export const fetchDwrRadarGrid = async (): Promise<RadarGridResponse> => {
+  const { data } = await api.get('/meteorology/dwr-radar');
+  return data;
+};
+
+export const fetchInsatSatellite = async (): Promise<InsatSatelliteResponse> => {
+  const { data } = await api.get('/meteorology/insat-satellite');
+  return data;
+};
+
+export const fetchClimatologyAnomaly = async (city: string = 'Bhopal', rain24h: number = 85, temp: number = 31): Promise<ClimatologyAnomalyResponse> => {
+  const { data } = await api.get('/meteorology/climatology-anomaly', {
+    params: { city, rain_24h_mm: rain24h, temp_c: temp }
+  });
+  return data;
+};
+
+export const fetchExtremeWeatherMl = async (params?: Record<string, any>): Promise<ExtremeWeatherMlResponse> => {
+  const { data } = await api.get('/meteorology/extreme-ml', { params });
+  return data;
+};
+
+export const fetchStreamTelemetry = async (): Promise<StreamTelemetryResponse> => {
+  const { data } = await api.get('/meteorology/stream-telemetry');
   return data;
 };

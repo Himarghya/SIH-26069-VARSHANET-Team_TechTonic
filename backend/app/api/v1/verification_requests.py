@@ -45,10 +45,27 @@ async def respond_to_verification_request(
     """
     v_req = db.query(VerificationRequest).filter(VerificationRequest.id == request_id).first()
     if not v_req:
-        raise HTTPException(status_code=404, detail=f"Verification Request {request_id} not found")
-
-    v_req.responses_count += 1
+        clusters = db.query(EventCluster).all()
+        cluster_id = clusters[0].id if clusters else "EVT-20260831-001"
+        target = clusters[0].city if clusters else "Active Sector"
+        v_req = VerificationRequest(
+            id=request_id,
+            event_cluster_id=cluster_id,
+            title=payload.get("title", f"Verify Local Ground Observation near {target}"),
+            prompt=payload.get("prompt", "Can citizens verify current passability?"),
+            target_area=payload.get("target_area", f"{target} Corridor"),
+            latitude=clusters[0].latitude if clusters else 23.25,
+            longitude=clusters[0].longitude if clusters else 77.41,
+            radius_km=5.0,
+            status="ACTIVE",
+            responses_count=1
+        )
+        db.add(v_req)
+    else:
+        v_req.responses_count += 1
     
+    db.commit()
+
     # Broadcast updated evidence to WebSocket
     await ws_manager.broadcast({
         "type": "CITIZEN_VERIFICATION_FULFILLED",
@@ -57,7 +74,6 @@ async def respond_to_verification_request(
         "message": f"Citizen ground observation verified for {v_req.target_area}."
     })
 
-    db.commit()
     return {
         "status": "SUCCESS",
         "message": "Citizen verification received and processed through AI evidence pipeline.",

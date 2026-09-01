@@ -98,8 +98,8 @@ export interface SystemHealth {
 // === VARSHANET 2.0 Impact & Nowcasting Types ===
 
 export interface ImpactScores {
-  evidence_confidence: number; // 0 - 100
-  impact_risk: number; // 0 - 100
+  evidence_confidence: number;
+  impact_risk: number;
   response_priority: 'P1' | 'P2' | 'P3' | 'P4';
   escalation_probability: number;
 }
@@ -203,4 +203,96 @@ export interface EventImpactResponse {
   severity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
   status: string;
   impact_evaluation: MasterImpactEvaluation;
+}
+
+// === MoES Big Data & Meteorological Types ===
+
+export interface DwrStation {
+  station_code: string;
+  station_name: string;
+  latitude: number;
+  longitude: number;
+  state: string;
+  range_km: number;
+  peak_reflectivity_dbz: number;
+  estimated_rain_rate_mmh: number;
+  hydrometeor_classification: {
+    category: string;
+    color: string;
+    label: string;
+    hazard: string;
+  };
+  sweep_elevation_deg: number;
+  last_scan_utc: string;
+}
+
+export interface RadarGridResponse {
+  network_status: string;
+  total_dwr_stations: number;
+  wavelength_band: string;
+  timestamp: string;
+  stations: DwrStation[];
+}
+
+export interface InsatSector {
+  sector: string;
+  ctt_celsius: number;
+  tir_kelvin: number;
+  cloud_type: string;
+  hazard_flag: string;
+}
+
+export interface InsatSatelliteResponse {
+  satellite_id: string;
+  sub_satellite_point: string;
+  imager_bands: string[];
+  resolution_km: number;
+  scan_timestamp: string;
+  cloud_motion_vectors: string;
+  monitored_sectors: InsatSector[];
+}
+
+export interface ClimatologyAnomalyResponse {
+  city: string;
+  baseline_period: string;
+  historical_mean_daily_rain_mm: number;
+  observed_rain_mm: number;
+  rain_anomaly_z_score: number;
+  rain_anomaly_classification: string;
+  historical_mean_temp_c: number;
+  observed_temp_c: number;
+  temp_anomaly_z_score: number;
+  is_extreme_climatological_anomaly: boolean;
+}
+
+export interface ExtremeWeatherMlResponse {
+  cloudburst_prediction: {
+    cloudburst_prediction_index: number;
+    alert_level: string;
+    estimated_lead_time_minutes: number;
+    radar_reflectivity_dbz: number;
+    cloud_top_temperature_c: number;
+    himalayan_orography_trigger: boolean;
+    meteorological_rationale: string;
+  };
+  heatwave_wbgt_prediction: {
+    ambient_temperature_c: number;
+    relative_humidity_pct: number;
+    heat_index_c: number;
+    wet_bulb_temperature_c: number;
+    severity_classification: string;
+    biometeorological_impact: string;
+  };
+}
+
+export interface StreamTelemetryResponse {
+  stream_engine: string;
+  active_topics: string[];
+  records_per_second: number;
+  total_records_ingested: number;
+  micro_batch_window_seconds: number;
+  sliding_processing_latency_ms: number;
+  kafka_broker_partitions: number;
+  backpressure_status: string;
+  data_sources_connected: number;
 }
