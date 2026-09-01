@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { AlertsBanner } from './components/common/AlertsBanner';
 import { ReportDetailModal } from './components/reports/ReportDetailModal';
@@ -84,8 +84,23 @@ export function App() {
         onLiveSyncDone={loadAllData}
       />
 
-      {/* Emergency Weather Alert Ticker Banner */}
-      <AlertsBanner alerts={alerts} />
+      {/* Emergency Weather Alert Ticker Banner (Live, Auto-Rotating & Interactive) */}
+      <AlertsBanner
+        alerts={alerts}
+        onSelectAlert={(alert) => {
+          const match = events.find(e => 
+            (alert.event_cluster_id && e.id === alert.event_cluster_id) ||
+            (alert.city && e.city && e.city.toLowerCase() === alert.city.toLowerCase()) ||
+            (e.state && e.state.toLowerCase() === alert.state.toLowerCase())
+          );
+          if (match) {
+            setSelectedEventId(match.id);
+          } else if (events.length > 0) {
+            setSelectedEventId(events[0].id);
+          }
+          setActiveTab('incident');
+        }}
+      />
 
       {/* Main Body */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6">
@@ -97,6 +112,7 @@ export function App() {
             alerts={alerts}
             onSelectReport={setSelectedReport}
             onSelectEvent={handleSelectEvent}
+            onNavigateTab={setActiveTab}
           />
         )}
 
@@ -146,6 +162,7 @@ export function App() {
             systemHealth={systemHealth}
             onRefreshData={loadAllData}
             onSelectReport={setSelectedReport}
+            onNavigateToTab={setActiveTab}
           />
         )}
       </main>

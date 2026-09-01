@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from typing import Dict, Any, List
 from sqlalchemy.orm import Session
 from backend.app.core.database import SessionLocal
+from backend.app.core.config import settings
 from backend.app.models.models import WeatherReport, EventCluster
 from backend.app.api.websocket import ws_manager
 from ingestion.connectors.news_api_connector import news_connector
@@ -15,7 +16,7 @@ class LiveIngestionService:
     def __init__(self):
         self.is_running = False
         self._task: asyncio.Task = None
-        self.interval_seconds = 1800 # Auto-sync every 30 minutes
+        self.interval_seconds = settings.AUTO_SYNC_INTERVAL_SECONDS # 5 minutes (300s) default
         self.last_sync_time: datetime = None
         self.total_auto_ingested = 0
         self.last_sync_count = 0
@@ -25,7 +26,7 @@ class LiveIngestionService:
             return
         self.is_running = True
         self._task = asyncio.create_task(self._background_loop())
-        print("[VARSHANET AUTOMATION] Live Ingestion Service STARTED (30-min auto-cycle).")
+        print(f"[VARSHANET AUTOMATION] Multi-Channel Live Ingestion Service STARTED ({self.interval_seconds}s / 5-min auto-cycle).")
 
     def stop(self):
         self.is_running = False
@@ -44,21 +45,23 @@ class LiveIngestionService:
         }
 
     async def _background_loop(self):
-        await asyncio.sleep(5)
+        await asyncio.sleep(4)
         while self.is_running:
             try:
                 count = await self.sync_live_data()
-                print(f"[30-MIN AUTO-SYNC] Ingested {count} new live events at {datetime.now().strftime('%H:%M:%S')}")
+                print(f"[5-MIN AUTO-SYNC] Ingested {count} new live events across channels at {datetime.now().strftime('%H:%M:%S')}")
             except Exception as e:
-                print(f"[30-MIN AUTO-SYNC ERROR] Background sync error: {e}")
+                print(f"[5-MIN AUTO-SYNC ERROR] Background sync error: {e}")
             await asyncio.sleep(self.interval_seconds)
 
     async def sync_live_data(self) -> int:
         db = SessionLocal()
         new_items_ingested = 0
         try:
-            news_items = await news_connector.fetch_live_news_rss()
+            # 1. Fetch live multi-channel breaking news (Google News, TOI, NDTV, India Today, Down To Earth, NewsAPI)
+            news_items = await news_connector.fetch_all_channels()
 
+            # 2. Fetch live synoptic AWS stations for 11 key Indian cities
             weather_items = []
             selected_cities = ["bhopal", "mumbai", "delhi", "guwahati", "dehradun", "chennai", "bengaluru", "jaipur", "bhubaneswar", "kolkata", "patna"]
             for city_key in selected_cities:
@@ -72,6 +75,7 @@ class LiveIngestionService:
             all_incoming = news_items + weather_items
 
             for raw in all_incoming:
+                # Text deduplication against DB
                 existing_rep = db.query(WeatherReport).filter(WeatherReport.text == raw["text"]).first()
                 if existing_rep:
                     continue
@@ -125,6 +129,7 @@ class LiveIngestionService:
                 db.add(new_rep)
                 new_items_ingested += 1
 
+                # Broadcast live event to WebSocket clients
                 await ws_manager.broadcast({
                     "type": "NEW_WEATHER_REPORT",
                     "id": new_rep.id,

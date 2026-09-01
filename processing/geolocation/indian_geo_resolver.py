@@ -1,4 +1,4 @@
-import re
+﻿import re
 from typing import Dict, Optional, Tuple
 
 INDIAN_STATES_DATA = {
@@ -40,7 +40,6 @@ CITY_COORDINATES = {}
 for state, data in INDIAN_STATES_DATA.items():
     for city in data["cities"]:
         CITY_TO_STATE_MAP[city.lower()] = state
-        # Slight deterministic variation for city centroid if not root
         CITY_COORDINATES[city.lower()] = {
             "city": city,
             "state": state,
@@ -85,10 +84,11 @@ PROMINENT_CITY_COORDS = {
 class IndianGeoResolver:
     @staticmethod
     def is_within_india_bounds(lat: float, lon: float) -> bool:
-        # India geographic bounding box roughly: 6.0 N to 37.5 N, 68.0 E to 97.5 E
         return (6.0 <= lat <= 37.5) and (68.0 <= lon <= 97.5)
 
     def extract_location_from_text(self, text: str) -> Optional[Dict]:
+        if not text:
+            return None
         clean_lower = text.lower()
         
         # 1. Match Prominent Cities
@@ -134,51 +134,72 @@ class IndianGeoResolver:
                 
         return None
 
-    def resolve(self, text: str, lat: Optional[float] = None, lon: Optional[float] = None, city: Optional[str] = None, state: Optional[str] = None) -> Dict:
-        # If valid GPS coordinates are already provided
-        if lat is not None and lon is not None and self.is_within_india_bounds(lat, lon):
-            resolved_state = state or "Madhya Pradesh"
-            resolved_city = city or "Bhopal"
-            if city and city.lower() in CITY_TO_STATE_MAP:
-                resolved_state = CITY_TO_STATE_MAP[city.lower()]
+    def resolve(
+        self,
+        text: Optional[str] = None,
+        lat: Optional[float] = None,
+        lon: Optional[float] = None,
+        city: Optional[str] = None,
+        state: Optional[str] = None,
+        raw_text: Optional[str] = None,
+        manual_city: Optional[str] = None,
+        manual_state: Optional[str] = None,
+        manual_lat: Optional[float] = None,
+        manual_lon: Optional[float] = None,
+        **kwargs
+    ) -> Dict:
+        # Flexible argument normalization
+        eff_text = text or raw_text or ""
+        eff_lat = lat if lat is not None else manual_lat
+        eff_lon = lon if lon is not None else manual_lon
+        eff_city = city or manual_city
+        eff_state = state or manual_state
+
+        # If valid GPS coordinates are provided
+        if eff_lat is not None and eff_lon is not None and self.is_within_india_bounds(eff_lat, eff_lon):
+            resolved_state = eff_state or "Madhya Pradesh"
+            resolved_city = eff_city or "Bhopal"
+            if eff_city and eff_city.lower() in CITY_TO_STATE_MAP:
+                resolved_state = CITY_TO_STATE_MAP[eff_city.lower()]
             return {
-                "latitude": round(lat, 4),
-                "longitude": round(lon, 4),
-                "city": resolved_city.title() if resolved_city else "Unknown",
-                "district": resolved_city.title() if resolved_city else "Unknown",
+                "latitude": round(eff_lat, 4),
+                "longitude": round(eff_lon, 4),
+                "city": resolved_city.title() if resolved_city else "Bhopal",
+                "district": resolved_city.title() if resolved_city else "Bhopal",
                 "state": resolved_state,
                 "location_confidence": 0.98
             }
             
         # Try extracting from text
-        extracted = self.extract_location_from_text(text)
-        if extracted:
-            return extracted
+        if eff_text:
+            extracted = self.extract_location_from_text(eff_text)
+            if extracted:
+                return extracted
             
         # Fallback to provided city or state
-        if city and city.lower() in PROMINENT_CITY_COORDS:
-            c_lat, c_lon = PROMINENT_CITY_COORDS[city.lower()]
+        if eff_city and eff_city.lower() in PROMINENT_CITY_COORDS:
+            c_lat, c_lon = PROMINENT_CITY_COORDS[eff_city.lower()]
             return {
                 "latitude": c_lat,
                 "longitude": c_lon,
-                "city": city.title(),
-                "district": city.title(),
-                "state": CITY_TO_STATE_MAP.get(city.lower(), state or "India"),
+                "city": eff_city.title(),
+                "district": eff_city.title(),
+                "state": CITY_TO_STATE_MAP.get(eff_city.lower(), eff_state or "India"),
                 "location_confidence": 0.85
             }
             
-        if state and state in INDIAN_STATES_DATA:
-            data = INDIAN_STATES_DATA[state]
+        if eff_state and eff_state in INDIAN_STATES_DATA:
+            data = INDIAN_STATES_DATA[eff_state]
             return {
                 "latitude": data["lat"],
                 "longitude": data["lon"],
                 "city": data["cities"][0],
                 "district": data["cities"][0],
-                "state": state,
+                "state": eff_state,
                 "location_confidence": 0.70
             }
             
-        # Default National Center (Bhopal, Madhya Pradesh - Center of India)
+        # Default National Center (Bhopal, MP)
         return {
             "latitude": 23.2599,
             "longitude": 77.4126,

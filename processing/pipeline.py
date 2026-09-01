@@ -1,35 +1,36 @@
-﻿from datetime import datetime, timezone
-from typing import Dict, List, Optional
+from datetime import datetime, timezone
+from typing import Dict, Any, List
 from processing.cleaning.text_cleaner import cleaner
 from processing.geolocation.indian_geo_resolver import geo_resolver
 from processing.classification.classifier import classifier
+from processing.vision.image_analyzer import image_analyzer
 from processing.deduplication.deduplicator import deduplicator
 from processing.verification.credibility_engine import credibility_engine
-from processing.vision.image_analyzer import image_analyzer
 from processing.clustering.event_clusterer import event_clusterer
 
-class WeatherIntelligencePipeline:
+class ProcessingPipeline:
     def process_raw_report(
         self,
-        raw_data: Dict,
-        existing_reports: Optional[List[Dict]] = None,
-        existing_clusters: Optional[List[Dict]] = None,
-        weather_observation: Optional[Dict] = None
-    ) -> Dict:
+        raw_data: Dict[str, Any],
+        existing_reports: List[Dict] = None,
+        existing_clusters: List[Dict] = None,
+        weather_observation: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         existing_reports = existing_reports or []
         existing_clusters = existing_clusters or []
         
-        # Stage 1: Data Cleaning & Language Identification
         raw_text = raw_data.get("text", "")
-        cleaned_text, extracted_hashtags, language, is_spam = cleaner.clean_text(raw_text)
         
-        # Stage 2: Location Intelligence (PostGIS / Indian Geo Resolving)
+        # Stage 1: Text Cleaning & Language Normalization
+        cleaned_text, language, extracted_hashtags = cleaner.clean_and_normalize(raw_text)
+        
+        # Stage 2: Geocoding & PostGIS Spatiotemporal Resolution
         loc = geo_resolver.resolve(
-            text=cleaned_text,
-            lat=raw_data.get("latitude"),
-            lon=raw_data.get("longitude"),
-            city=raw_data.get("city"),
-            state=raw_data.get("state")
+            raw_text=raw_text,
+            manual_city=raw_data.get("city"),
+            manual_state=raw_data.get("state"),
+            manual_lat=raw_data.get("latitude"),
+            manual_lon=raw_data.get("longitude")
         )
         
         # Stage 3: Event Classification (Hybrid Rule + ML)
@@ -41,7 +42,7 @@ class WeatherIntelligencePipeline:
         else:
             event_type, event_confidence, class_details = classifier.classify(cleaned_text, extracted_hashtags)
 
-        # Stage 3.5: AI Contextual Weather Hashtag Enrichment (#IMD, #Monsoon2026, #MumbaiRains, etc.)
+        # Stage 3.5: AI Contextual Weather Hashtag Enrichment
         all_hashtags = cleaner.generate_ai_hashtags(
             text=raw_text,
             event_type=event_type,
@@ -49,11 +50,29 @@ class WeatherIntelligencePipeline:
             state=loc.get("state", "")
         )
             
-        # Stage 4: Image Analysis (if media present)
+        # Stage 4: AI Multi-Photo Vision Authenticity & Fake Analysis (<20% Fake Rule)
         media_urls = raw_data.get("media_urls", [])
         image_analysis = {}
+        photo_evaluations = []
+        has_fake_image = False
+        avg_auth = 85.0
+        
         if media_urls:
-            image_analysis = image_analyzer.analyze_image_heuristics(media_urls[0])
+            for url in media_urls[:3]:
+                ev = image_analyzer.analyze_image_authenticity(url, event_type=event_type)
+                photo_evaluations.append(ev)
+                if ev.get("is_fake", False) or ev.get("authenticity_score", 100) < 20:
+                    has_fake_image = True
+            
+            if photo_evaluations:
+                avg_auth = round(sum(p.get("authenticity_score", 50) for p in photo_evaluations) / len(photo_evaluations), 1)
+                
+            image_analysis = {
+                "photo_evaluations": photo_evaluations,
+                "average_authenticity_score": avg_auth,
+                "has_fake_image": has_fake_image,
+                "overall_visual_verdict": f"🔴 FAKE / UNRELATED VISUAL ({avg_auth}% < 20%)" if (avg_auth < 20 or has_fake_image) else f"🟢 AUTHENTIC EVIDENCE ({avg_auth}%)"
+            }
             
         # Stage 5: Deduplication (Simhash Hamming Distance)
         is_dup, dup_group_id, dup_sim = deduplicator.check_duplicate(
@@ -77,6 +96,15 @@ class WeatherIntelligencePipeline:
             has_media=len(media_urls) > 0,
             weather_observation=weather_observation
         )
+
+        # Apply AI Visual Authenticity Rule (<20% -> Fake)
+        if media_urls and (has_fake_image or avg_auth < 20):
+            credibility = min(14.0, credibility)
+            v_status = "LIKELY_MISLEADING"
+            v_notes = f"AI Vision Alert: Attached proof photo flagged as FAKE/MANIPULATED ({avg_auth}% Authenticity < 20% threshold)."
+        elif media_urls and avg_auth >= 70:
+            credibility = min(98.0, credibility + 10.0)
+            v_notes += f" Corroborated with high-authenticity visual proof ({avg_auth}% AI score)."
         
         # Stage 7: Event Clustering (Cross-Source Correlation)
         cluster_id, is_new_cluster, cluster_data = event_clusterer.find_or_create_cluster(
@@ -91,6 +119,9 @@ class WeatherIntelligencePipeline:
         )
         
         # Assemble Enriched Record
+        raw_payload = raw_data.get("raw_payload", {}) or {}
+        raw_payload["image_analysis"] = image_analysis
+
         enriched_record = {
             "source_id": raw_data.get("source_id"),
             "source_type": source_type,
@@ -121,11 +152,11 @@ class WeatherIntelligencePipeline:
             "media_urls": media_urls,
             "hashtags": all_hashtags,
             "image_analysis_results": image_analysis,
-            "raw_payload": raw_data.get("raw_payload", {}),
+            "raw_payload": raw_payload,
             "_is_new_cluster": is_new_cluster,
             "_cluster_data": cluster_data
         }
         
         return enriched_record
 
-pipeline = WeatherIntelligencePipeline()
+pipeline = ProcessingPipeline()

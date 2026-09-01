@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CloudRain, Shield, Activity, Map, FileText, BarChart3, Users, Radio, RefreshCw, Command, UserCheck, Clock } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
 
@@ -23,15 +23,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
-  const [countdownSeconds, setCountdownSeconds] = useState(1800); // 30 minutes in seconds
+  const [countdownSeconds, setCountdownSeconds] = useState(300); // 5 minutes in seconds (300s)
 
-  // 30-Minute Auto-Sync Countdown Timer
+  // 5-Minute Auto-Sync Countdown Timer
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdownSeconds(prev => {
         if (prev <= 1) {
           handleSync();
-          return 1800;
+          return 300;
         }
         return prev - 1;
       });
@@ -44,12 +44,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     setSyncMessage(null);
     try {
       const res = await triggerLiveSync();
-      setSyncMessage(`+${res.new_reports_count || 0}`);
-      setCountdownSeconds(1800); // Reset 30-min timer on manual sync
+      const count = res.new_reports_count || 0;
+      setSyncMessage(count > 0 ? `+${count} New` : 'Live Fresh');
+      setCountdownSeconds(300); // Reset 5-min timer on manual sync
       if (onLiveSyncDone) onLiveSyncDone();
       setTimeout(() => setSyncMessage(null), 3500);
     } catch (err) {
       console.error('Live sync error', err);
+      setSyncMessage('Error');
+      setTimeout(() => setSyncMessage(null), 3000);
     } finally {
       setIsSyncing(false);
     }
@@ -57,6 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const minutesLeft = Math.floor(countdownSeconds / 60);
   const secondsLeft = countdownSeconds % 60;
+  const timerDisplay = `${minutesLeft}:${secondsLeft < 10 ? '0' : ''}${secondsLeft}`;
 
   const handleRoleChange = (newRole: string) => {
     setUserRole(newRole);
@@ -77,8 +81,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'reports', label: 'Reports', icon: FileText, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'events', label: 'Events', icon: Radio, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'analytics', label: 'Analytics', icon: BarChart3, roles: ['analyst', 'admin'] },
-    { id: 'citizen', label: 'Citizen Portal', icon: CloudRain, roles: ['citizen', 'admin'] },
-    { id: 'admin', label: 'Admin', icon: Shield, badge: alertCount > 0 ? alertCount : undefined, roles: ['admin'] },
+    { id: 'citizen', label: 'Citizen Portal', icon: CloudRain, roles: ['citizen'] },
+    { id: 'admin', label: 'Admin Ops', icon: Shield, badge: alertCount > 0 ? alertCount : undefined, roles: ['admin'] },
   ];
 
   const visibleNavItems = allNavItems.filter(item => item.roles.includes(userRole));
@@ -140,19 +144,19 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Right Controls: Sync Live (30-min timer) + Stream Status + Role Switcher */}
+        {/* Right Controls: Sync Live (5-min timer) + Stream Status + Role Switcher */}
         <div className="flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-          {/* Sync Live Button & 30-min Auto Countdown */}
+          {/* Sync Live Button & 5-min Auto Countdown */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-all cursor-pointer shrink-0"
-            title={`Fetch live weather & news across India. Auto-syncs every 30 mins (Next in ${minutesLeft}m ${secondsLeft}s).`}
+            title={`Fetch live multi-channel news & weather across India. Auto-syncs every 5 mins (Next in ${timerDisplay}).`}
           >
             <RefreshCw className={`w-3.5 h-3.5 shrink-0 ${isSyncing ? 'animate-spin' : ''}`} />
             <span>{isSyncing ? 'Syncing...' : 'Sync Live'}</span>
             <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 font-mono font-normal">
-              {syncMessage || `${minutesLeft}m`}
+              {syncMessage || timerDisplay}
             </span>
           </button>
 

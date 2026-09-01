@@ -1,8 +1,15 @@
 ﻿import React, { useState } from 'react';
-import { CloudRain, MapPin, Send, CheckCircle2, AlertCircle, Sparkles, Shield, Eye } from 'lucide-react';
-import { submitCitizenReport, trackCitizenReport, api } from '../../services/api';
+import { CloudRain, MapPin, Send, CheckCircle2, AlertCircle, Shield, Eye, Camera, Upload, Trash2, ArrowDownCircle, Clock, CheckCircle } from 'lucide-react';
+import { submitCitizenReport, trackCitizenReport } from '../../services/api';
 import { WeatherReport } from '../../types';
-import { StreetViewPin } from '../incident/StreetViewPin';
+
+// Sample verified ground proof images for instant testing
+const SAMPLE_PROOFS = [
+  { name: 'Flooded Road (Real)', url: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=600&auto=format&fit=crop&q=80', isReal: true },
+  { name: 'Waterlogged Submersion (Real)', url: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&auto=format&fit=crop&q=80', isReal: true },
+  { name: 'Storm Overcast (Real)', url: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=600&auto=format&fit=crop&q=80', isReal: true },
+  { name: 'Unrelated/Indoor Meme (Fake <20%)', url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&auto=format&fit=crop&q=80&fake=true', isReal: false },
+];
 
 export const CitizenReportForm: React.FC = () => {
   const [eventType, setEventType] = useState('Urban Flooding');
@@ -15,12 +22,117 @@ export const CitizenReportForm: React.FC = () => {
   const [isLocating, setIsLocating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedReport, setSubmittedReport] = useState<WeatherReport | null>(null);
-  const [geminiAdvice, setGeminiAdvice] = useState<any>(null);
+
+  // 2-3 Photo Proof State & Drag-and-Drop
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Tracking state
   const [trackingId, setTrackingId] = useState('');
   const [trackedReport, setTrackedReport] = useState<WeatherReport | null>(null);
   const [trackError, setTrackError] = useState('');
+
+  // Process files from file input, drag & drop, or clipboard paste
+  const processFiles = (files: FileList | File[]) => {
+    setPhotoError(null);
+    if (!files || files.length === 0) return;
+
+    const remainingSlots = 3 - photos.length;
+    if (remainingSlots <= 0) {
+      setPhotoError('You have already attached the maximum of 3 photo proofs.');
+      return;
+    }
+
+    const filesToProcess = Array.from(files).slice(0, remainingSlots);
+
+    filesToProcess.forEach(file => {
+      if (!file.type.startsWith('image/')) {
+        setPhotoError('Only image files (JPG, PNG, WebP) can be attached as ground proof.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        if (loadEvent.target?.result) {
+          setPhotos(prev => {
+            if (prev.length >= 3) return prev;
+            return [...prev, loadEvent.target!.result as string];
+          });
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    if (files.length > remainingSlots) {
+      setPhotoError(`Only attached ${remainingSlots} photo(s) to stay within the 3 photo limit.`);
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      processFiles(e.target.files);
+    }
+  };
+
+  // Drag and Drop Event Handlers
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      processFiles(e.dataTransfer.files);
+    }
+  };
+
+  // Clipboard Paste (Ctrl+V) handler
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    const imageFiles: File[] = [];
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.startsWith('image/')) {
+        const file = items[i].getAsFile();
+        if (file) imageFiles.push(file);
+      }
+    }
+
+    if (imageFiles.length > 0) {
+      processFiles(imageFiles);
+    }
+  };
+
+  const handleAddSamplePhoto = (url: string) => {
+    setPhotoError(null);
+    if (photos.length >= 3) {
+      setPhotoError('Maximum of 3 photo proofs already attached.');
+      return;
+    }
+    setPhotos(prev => [...prev, url]);
+  };
+
+  const handleRemovePhoto = (index: number) => {
+    setPhotos(prev => prev.filter((_, i) => i !== index));
+    setPhotoError(null);
+  };
 
   const handleAutoGPS = () => {
     setIsLocating(true);
@@ -48,35 +160,26 @@ export const CitizenReportForm: React.FC = () => {
     e.preventDefault();
     if (!description) return;
     setIsSubmitting(true);
-    setGeminiAdvice(null);
     try {
       const repCity = city || 'Bhopal';
       const repLat = latitude || 23.2599;
       const repLon = longitude || 77.4126;
 
-      const [res, aiRes] = await Promise.all([
-        submitCitizenReport({
-          event_type: eventType,
-          description,
-          city: repCity,
-          state,
-          latitude: repLat,
-          longitude: repLon,
-          author_contact: contact || 'citizen_reporter'
-        }),
-        api.post('/analytics/test-ai', {
-          text: description,
-          city: repCity,
-          state: state,
-          source_type: 'citizen_report'
-        })
-      ]);
+      const res = await submitCitizenReport({
+        event_type: eventType,
+        description,
+        city: repCity,
+        state,
+        latitude: repLat,
+        longitude: repLon,
+        media_urls: photos,
+        author_contact: contact || 'citizen_reporter'
+      });
 
       setSubmittedReport(res);
-      setGeminiAdvice(aiRes.data);
       setDescription('');
     } catch (err) {
-      console.error(err);
+      console.error('Error submitting citizen report:', err);
     } finally {
       setIsSubmitting(false);
     }
@@ -95,17 +198,17 @@ export const CitizenReportForm: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" onPaste={handlePaste}>
       {/* Submission Form */}
-      <div className="lg:col-span-7 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl">
+      <div className="lg:col-span-7 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl font-sans">
         <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800">
           <div className="p-3 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
             <CloudRain className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white">Citizen Weather Intelligence & AI Response Submission</h2>
+            <h2 className="text-lg font-bold text-white">Citizen Weather Intelligence & Ground Report Portal</h2>
             <p className="text-xs text-slate-400">
-              Submit ground observations, flood hotspots, or severe storms. Google Gemini AI will immediately evaluate the situation and provide life-safety guidance.
+              Submit real-time ground observations, localized flood hotspots, or storm damage with 2-3 photo proofs. Directly transmits to State Disaster Management & IMD Operations.
             </p>
           </div>
         </div>
@@ -114,56 +217,63 @@ export const CitizenReportForm: React.FC = () => {
           <div className="p-6 rounded-2xl bg-slate-950/90 border border-slate-800 text-center space-y-4 animate-fade-in">
             <div className="flex items-center justify-center gap-2">
               <CheckCircle2 className="w-8 h-8 text-emerald-400" />
-              <h3 className="text-base font-bold text-white">Report Ingested into National Grid</h3>
+              <h3 className="text-base font-bold text-white">Report Successfully Submitted to National Grid</h3>
             </div>
             
             <p className="text-xs text-emerald-300 font-mono">
-              Tracking Ticket ID: <strong className="text-white text-sm underline">{submittedReport.source_id}</strong>
+              Official Tracking Ticket: <strong className="text-white text-sm underline">{submittedReport.source_id}</strong>
             </p>
 
-            {/* Google Gemini Immediate Action Recommendation */}
-            {geminiAdvice && (
-              <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-950/70 via-slate-900 to-slate-950 border border-indigo-500/50 text-left space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5 uppercase">
-                    <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-                    Google Gemini Live Safety Guidance
-                  </span>
-                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
-                    geminiAdvice.gemini_llm_stage?.severity === 'CRITICAL' ? 'bg-rose-950 text-rose-300 border border-rose-800' :
-                    'bg-amber-950 text-amber-300 border border-amber-800'
-                  }`}>
-                    {geminiAdvice.gemini_llm_stage?.severity || 'HIGH'} PRIORITY
-                  </span>
-                </div>
+            {/* Official Citizen Confirmation Receipt (No AI internal percentages shown to user) */}
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-left space-y-2.5 font-mono text-xs text-slate-300">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span className="text-slate-400 uppercase text-[10px]">Transmission Status</span>
+                <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold text-[10px]">
+                  DISPATCHED TO OPERATIONS
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div>Hazard Category: <strong className="text-white font-sans">{submittedReport.event_type}</strong></div>
+                <div>Location: <strong className="text-cyan-300 font-sans">{submittedReport.city}, {submittedReport.state}</strong></div>
+                <div>Time Logged: <strong className="text-slate-300">{new Date(submittedReport.timestamp).toLocaleTimeString()}</strong></div>
+                <div>Assigned Grid Sector: <strong className="text-slate-300">{submittedReport.event_cluster_id || 'Active Incident Unit'}</strong></div>
+              </div>
+              <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400 font-sans">
+                Observation: "{submittedReport.text}"
+              </div>
+            </div>
 
-                <p className="text-xs text-slate-200 leading-relaxed font-sans">
-                  <strong>AI Assessment:</strong> "{geminiAdvice.gemini_llm_stage?.reasoning || 'Incident evaluated by Google Gemini model.'}"
-                </p>
-
-                {/* Ground Pinpoint */}
-                <div className="pt-2 flex items-center justify-between border-t border-slate-800/80">
-                  <span className="text-[11px] text-slate-400 font-sans">Ground Pinpoint:</span>
-                  <StreetViewPin latitude={submittedReport.latitude} longitude={submittedReport.longitude} size="sm" />
+            {/* Uploaded Photo Thumbnails in Receipt */}
+            {photos.length > 0 && (
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-left">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2 font-mono">
+                  Attached Ground Proof Photos ({photos.length})
+                </span>
+                <div className="flex gap-2">
+                  {photos.map((p, i) => (
+                    <img
+                      key={i}
+                      src={p}
+                      alt={`Proof ${i + 1}`}
+                      className="w-16 h-16 rounded-lg object-cover border border-slate-700 shadow-md"
+                    />
+                  ))}
                 </div>
               </div>
             )}
 
-            <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-left font-mono text-xs space-y-1 text-slate-300">
-              <div>Event: <strong className="text-white">{submittedReport.event_type}</strong></div>
-              <div>Location: <strong className="text-cyan-300">{submittedReport.city}, {submittedReport.state}</strong></div>
-              <div>AI Initial Trust: <strong className="text-emerald-400">{submittedReport.credibility_score}%</strong></div>
-              <div>Assigned Cluster: <strong className="text-cyan-400">{submittedReport.event_cluster_id || 'Active'}</strong></div>
+            <div className="p-3 rounded-xl bg-cyan-950/20 border border-cyan-800/30 text-xs text-cyan-200 text-left">
+              <span>Thank you for contributing to national life-safety intelligence. Operational units have been notified.</span>
             </div>
 
             <button
               onClick={() => {
                 setSubmittedReport(null);
-                setGeminiAdvice(null);
+                setPhotos([]);
               }}
-              className="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md"
+              className="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md"
             >
-              Submit Another Observation
+              Submit Another Ground Report
             </button>
           </div>
         ) : (
@@ -234,6 +344,113 @@ export const CitizenReportForm: React.FC = () => {
               />
             </div>
 
+            {/* 📸 2-3 PHOTO PROOF DRAG & DROP ZONE */}
+            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-white flex items-center gap-1.5 font-mono uppercase">
+                  <Camera className="w-4 h-4 text-cyan-400" />
+                  <span>Attach 2-3 Photo Proofs (Ground Evidence)</span>
+                </label>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-800">
+                  {photos.length} / 3 Photos Attached
+                </span>
+              </div>
+
+              <p className="text-[11px] text-slate-400">
+                Upload photos of flood water depth, traffic disruption, or damage. Photos will be verified by meteorological moderation.
+              </p>
+
+              {/* Photo Previews */}
+              {photos.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 pt-1">
+                  {photos.map((photoUrl, idx) => (
+                    <div key={idx} className="relative group rounded-xl overflow-hidden border border-cyan-500/50 bg-slate-900 aspect-video shadow-md">
+                      <img src={photoUrl} alt={`Proof ${idx + 1}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePhoto(idx)}
+                        className="absolute top-1 right-1 p-1 rounded-md bg-black/80 text-rose-400 hover:text-white transition-colors cursor-pointer"
+                        title="Remove photo"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                      <span className="absolute bottom-1 left-1 px-1.5 py-0.2 rounded bg-black/80 text-[9px] font-mono text-cyan-300">
+                        Photo #{idx + 1}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Interactive Drag and Drop Zone */}
+              {photos.length < 3 && (
+                <div className="space-y-2 pt-1">
+                  <div
+                    onDragOver={handleDragOver}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`relative flex flex-col items-center justify-center p-5 rounded-xl border-2 border-dashed transition-all cursor-pointer ${
+                      isDragging
+                        ? 'border-cyan-400 bg-cyan-950/60 scale-[1.02] shadow-lg shadow-cyan-500/20'
+                        : 'border-slate-700 hover:border-cyan-500/80 bg-slate-900/60 hover:bg-slate-900/90'
+                    }`}
+                  >
+                    <label className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                      {isDragging ? (
+                        <div className="flex flex-col items-center gap-1.5 text-cyan-300 animate-bounce">
+                          <ArrowDownCircle className="w-8 h-8 text-cyan-400" />
+                          <span className="text-xs font-bold font-mono">Drop photo(s) here to attach proof!</span>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center gap-1.5 text-slate-300 text-center">
+                          <Upload className="w-5 h-5 text-cyan-400" />
+                          <span className="text-xs font-semibold">
+                            <strong>Drag & Drop photos here</strong>, or <span className="text-cyan-400 underline">browse files</span>
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-mono">
+                            Supports JPG, PNG, WebP (or paste with Ctrl+V)
+                          </span>
+                        </div>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Quick Preset Buttons */}
+                  <div className="pt-1">
+                    <span className="text-[10px] text-slate-400 block mb-1 font-mono">Or pick sample proof for testing:</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {SAMPLE_PROOFS.map((sample, sIdx) => (
+                        <button
+                          key={sIdx}
+                          type="button"
+                          onClick={() => handleAddSamplePhoto(sample.url)}
+                          className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all border cursor-pointer ${
+                            sample.isReal
+                              ? 'bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 border-emerald-700/50'
+                              : 'bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border-rose-700/50'
+                          }`}
+                        >
+                          + {sample.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {photoError && (
+                <p className="text-xs text-rose-400 font-mono mt-1">{photoError}</p>
+              )}
+            </div>
+
             {/* GPS & Location Assistant */}
             <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
@@ -255,21 +472,21 @@ export const CitizenReportForm: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-xs tracking-wide shadow-lg shadow-cyan-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-xs tracking-wide shadow-lg shadow-cyan-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Send className="w-4 h-4" />
-              {isSubmitting ? 'Analyzing with Google Gemini & Transmitting...' : 'Submit & Receive Instant AI Guidance'}
+              {isSubmitting ? 'Transmitting to State Disaster Command...' : 'Submit Ground Observation & Photos'}
             </button>
           </form>
         )}
       </div>
 
       {/* Tracking Portal */}
-      <div className="lg:col-span-5 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 flex flex-col justify-between">
+      <div className="lg:col-span-5 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 flex flex-col justify-between font-sans">
         <div>
           <h3 className="text-base font-bold text-white mb-1">Track Citizen Submission</h3>
           <p className="text-xs text-slate-400 mb-4">
-            Enter your VR report code to view real-time AI credibility analysis, clustering state, and meteorological verification status.
+            Enter your official VR tracking code to view verification and meteorological dispatch status.
           </p>
 
           <div className="flex gap-2">
@@ -293,17 +510,34 @@ export const CitizenReportForm: React.FC = () => {
           )}
 
           {trackedReport && (
-            <div className="mt-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2 text-xs font-mono">
+            <div className="mt-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2.5 text-xs font-mono">
               <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                 <span className="text-white font-bold">{trackedReport.event_type}</span>
-                <span className="text-cyan-400">{trackedReport.verification_status}</span>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                  trackedReport.verification_status === 'VERIFIED' ? 'bg-emerald-950 text-emerald-300' :
+                  trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'bg-rose-950 text-rose-300' : 'bg-cyan-950 text-cyan-300'
+                }`}>
+                  {trackedReport.verification_status === 'VERIFIED' ? 'VERIFIED OFFICIAL' :
+                   trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'FLAGGED / REJECTED' : 'UNDER OPERATIONAL REVIEW'}
+                </span>
               </div>
               <p className="text-slate-300 font-sans text-xs py-1">{trackedReport.text}</p>
+              
+              {/* Image Proof Inspection in Tracking */}
+              {trackedReport.media_urls && trackedReport.media_urls.length > 0 && (
+                <div className="pt-2 border-t border-slate-800">
+                  <span className="text-[10px] text-slate-400 block mb-1.5">Submitted Photo Evidence ({trackedReport.media_urls.length}):</span>
+                  <div className="flex gap-2">
+                    {trackedReport.media_urls.map((p, i) => (
+                      <img key={i} src={p} alt="Tracked Proof" className="w-14 h-14 rounded-lg object-cover border border-slate-700" />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-[11px]">
-                <div>Credibility: <strong className="text-emerald-400">{trackedReport.credibility_score}%</strong></div>
-                <div>Risk: <strong className="text-cyan-300">{trackedReport.risk_level}</strong></div>
-                <div>Cluster: <strong className="text-slate-200">{trackedReport.event_cluster_id || 'Queued'}</strong></div>
-                <div>Duplicates: <strong className="text-amber-400">{trackedReport.duplicate_count}</strong></div>
+                <div>Location: <strong className="text-white">{trackedReport.city || 'District'}, {trackedReport.state}</strong></div>
+                <div>Status: <strong className="text-cyan-300">{trackedReport.verification_status}</strong></div>
               </div>
             </div>
           )}

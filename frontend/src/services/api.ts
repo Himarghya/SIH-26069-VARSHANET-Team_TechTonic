@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 import {
   WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth,
   EventImpactResponse, VerificationRequestItem,
@@ -119,6 +119,22 @@ export const recordEventOutcome = async (eventId: string, payload: any) => {
 
 export const fetchModelPerformance = async () => {
   const { data } = await api.get('/impact/analytics/model-performance');
+  return data;
+};
+
+export const publishAdminVerifiedReport = async (payload: {
+  title?: string;
+  event_type: string;
+  description: string;
+  city: string;
+  state: string;
+  severity: string;
+  latitude?: number;
+  longitude?: number;
+  media_urls?: string[];
+  author?: string;
+}): Promise<WeatherReport> => {
+  const { data } = await api.post('/reports/admin-publish', payload);
   return data;
 };
 

@@ -33,10 +33,6 @@ class TextCleaner:
         return list(set(found))
 
     def generate_ai_hashtags(self, text: str, event_type: str = "Rainfall", city: str = "India", state: str = "") -> List[str]:
-        """
-        AI Contextual Hashtag Generator: Automatically predicts and extracts high-relevance
-        hashtags (#IMD, #Monsoon2026, #MumbaiRains, #Cloudburst, #FloodAlert) based on text and location.
-        """
         tags = ["#IMD", "#Monsoon2026"]
         lower_text = (text or "").lower()
         event_lower = (event_type or "").lower()
@@ -102,5 +98,9 @@ class TextCleaner:
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         
         return cleaned, hashtags, language, is_spam
+
+    def clean_and_normalize(self, text: str) -> Tuple[str, str, List[str]]:
+        cleaned, hashtags, language, is_spam = self.clean_text(text)
+        return cleaned, language, hashtags
 
 cleaner = TextCleaner()

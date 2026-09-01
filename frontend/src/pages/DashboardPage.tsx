@@ -12,68 +12,104 @@ interface DashboardPageProps {
   alerts: Alert[];
   onSelectReport: (report: WeatherReport) => void;
   onSelectEvent: (event: EventCluster) => void;
+  onNavigateTab?: (tab: string) => void;
 }
 
 export const DashboardPage: React.FC<DashboardPageProps> = ({
   overview,
-  events,
-  reports,
-  alerts,
+  events = [],
+  reports = [],
+  alerts = [],
   onSelectReport,
-  onSelectEvent
+  onSelectEvent,
+  onNavigateTab
 }) => {
+  // 1. Live Dynamic Calculations from current datasets
+  const totalIngested = overview?.total_reports || reports.length;
+  
+  // Active vs Total Clusters
+  const activeEventsCount = events.filter(e => e.status === 'ACTIVE' || e.status === 'VERIFIED').length;
+  
+  // Verified Incidents count & percentage
+  const verifiedCount = events.filter(e => e.status === 'VERIFIED').length;
+  const verifiedRate = events.length > 0 ? Math.round((verifiedCount / events.length) * 100) : 100;
+
+  // Active Critical / High Alerts
+  const criticalCount = alerts.filter(a => (a.severity === 'CRITICAL' || a.severity === 'HIGH') && a.is_active !== false).length;
+
+  // Unique Indian States affected
+  const statesSet = new Set(
+    [...events.map(e => e.state), ...reports.map(r => r.state)].filter(Boolean)
+  );
+  const statesAffectedCount = overview?.states_affected || statesSet.size || 12;
+
+  // Real-time Mean AI Credibility Score
+  const avgTrust = reports.length > 0
+    ? (reports.reduce((sum, r) => sum + (r.credibility_score || 0), 0) / reports.length).toFixed(1)
+    : (overview?.avg_credibility ? overview.avg_credibility.toFixed(1) : '85.4');
+
+  // Reports ingested in past 24h
+  const nowMs = Date.now();
+  const past24hCount = reports.filter(r => (nowMs - new Date(r.timestamp).getTime()) <= 24 * 3600 * 1000).length;
+
   return (
     <div className="space-y-6">
-      {/* Metric Cards Row */}
+      {/* 6 Clickable Live Interactive Metric Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <MetricCard
           title="Total Ingested"
-          value={overview?.total_reports || reports.length}
-          subtext="Multi-source posts"
+          value={totalIngested}
+          subtext="Multi-source stream"
           icon={Activity}
-          trend="+18% 24h"
+          trend={`+${past24hCount} 24h`}
           colorTheme="cyan"
+          onClick={() => onNavigateTab && onNavigateTab('reports')}
         />
         <MetricCard
           title="Active Clusters"
-          value={overview?.active_events || events.length}
-          subtext="Correlated incidents"
+          value={activeEventsCount || events.length}
+          subtext="Spatiotemporal grids"
           icon={Radio}
-          trend="8 Active"
+          trend={`${activeEventsCount} Live`}
           colorTheme="blue"
+          onClick={() => onNavigateTab && onNavigateTab('events')}
         />
         <MetricCard
           title="Verified Incidents"
-          value={overview?.verified_events || 6}
+          value={verifiedCount}
           subtext="Ground truth confirmed"
           icon={ShieldCheck}
-          trend="88% Rate"
+          trend={`${verifiedRate}% Rate`}
           colorTheme="emerald"
+          onClick={() => onNavigateTab && onNavigateTab('admin')}
         />
         <MetricCard
           title="Critical Alerts"
-          value={overview?.critical_alerts || alerts.length}
-          subtext="Emergency bulletins"
+          value={criticalCount}
+          subtext="Emergency red bulletins"
           icon={AlertTriangle}
-          trend="Red warnings"
-          trendPositive={false}
+          trend={criticalCount > 0 ? `${criticalCount} Red Warning` : 'Clear'}
+          trendPositive={criticalCount === 0}
           colorTheme="rose"
+          onClick={() => onNavigateTab && onNavigateTab('incident')}
         />
         <MetricCard
           title="States Affected"
-          value={overview?.states_affected || 8}
+          value={statesAffectedCount}
           subtext="Across Indian Union"
           icon={MapPin}
           trend="Pan-India"
           colorTheme="amber"
+          onClick={() => onNavigateTab && onNavigateTab('map')}
         />
         <MetricCard
           title="Mean AI Trust"
-          value={`${overview?.avg_credibility || 83.7}%`}
+          value={`${avgTrust}%`}
           subtext="Multi-factor score"
           icon={Shield}
           trend="High Accuracy"
           colorTheme="purple"
+          onClick={() => onNavigateTab && onNavigateTab('analytics')}
         />
       </div>
 

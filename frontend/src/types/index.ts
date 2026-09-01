@@ -1,4 +1,4 @@
-﻿export interface WeatherReport {
+export interface WeatherReport {
   id: string;
   source_id?: string;
   source_type: 'citizen_report' | 'weather_api' | 'rss_news' | 'social_media' | 'government_open_data';
@@ -66,6 +66,7 @@ export interface Alert {
   latitude: number;
   longitude: number;
   reports_count: number;
+  event_cluster_id?: string;
   is_active: boolean;
   created_at: string;
 }
@@ -192,6 +193,19 @@ export interface MasterImpactEvaluation {
   assessed_at: string;
 }
 
+export interface VerifiedGroundPhoto {
+  report_id: string;
+  image_url: string;
+  event_type: string;
+  city: string;
+  state: string;
+  credibility_score: number;
+  verification_status: string;
+  timestamp?: string;
+  caption: string;
+  is_verified: boolean;
+}
+
 export interface EventImpactResponse {
   event_id: string;
   event_title: string;
@@ -202,6 +216,7 @@ export interface EventImpactResponse {
   longitude: number;
   severity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
   status: string;
+  verified_ground_photos?: VerifiedGroundPhoto[];
   impact_evaluation: MasterImpactEvaluation;
 }
 

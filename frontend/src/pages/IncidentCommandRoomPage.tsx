@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Radio, AlertTriangle, ShieldCheck, Activity, RefreshCw, ChevronRight, FileText, PhoneCall, ShieldAlert, HeartHandshake, MapPin } from 'lucide-react';
 import { EventCluster, EventImpactResponse } from '../types';
 import { fetchEventImpact } from '../services/api';
@@ -14,6 +14,7 @@ import { AudioEmergencyBroadcast } from '../components/incident/AudioEmergencyBr
 import { CapBroadcastSimulator } from '../components/incident/CapBroadcastSimulator';
 import { EmergencyResourceDispatch } from '../components/incident/EmergencyResourceDispatch';
 import { SitRepDossierModal } from '../components/incident/SitRepDossierModal';
+import { VerifiedGroundEvidenceGallery } from '../components/incident/VerifiedGroundEvidenceGallery';
 
 interface IncidentCommandRoomPageProps {
   events: EventCluster[];
@@ -187,6 +188,14 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                   <li>Report local waterlogging or distress directly via the <strong>Citizen Portal</strong>.</li>
                 </ul>
               </div>
+
+              {/* Verified Ground Truth & Citizen Photo Evidence Gallery */}
+              <VerifiedGroundEvidenceGallery
+                photos={impactData.verified_ground_photos}
+                city={impactData.city || impactData.state}
+                state={impactData.state}
+                eventType={impactData.event_type}
+              />
             </div>
           ) : (
             /* ANALYST / ADMIN VIEW: Full Tactical Command Suite */
@@ -224,6 +233,8 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                   <EmergencyResourceDispatch
                     city={impactData.city || impactData.state}
                     state={impactData.state}
+                    latitude={impactData.latitude}
+                    longitude={impactData.longitude}
                     totalPopulationExposed={impactData.impact_evaluation.population_exposure.total_population_exposed}
                     severity={impactData.severity}
                   />
@@ -248,6 +259,14 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                   />
                 </div>
               </div>
+
+              {/* Verified Ground Truth & Citizen Photo Evidence Gallery */}
+              <VerifiedGroundEvidenceGallery
+                photos={impactData.verified_ground_photos}
+                city={impactData.city || impactData.state}
+                state={impactData.state}
+                eventType={impactData.event_type}
+              />
 
               {/* Evidence Chain */}
               <EvidenceChain evidenceChain={impactData.impact_evaluation.evidence_chain} />
