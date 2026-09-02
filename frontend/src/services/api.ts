@@ -1,4 +1,4 @@
-import axios from 'axios';
+﻿import axios from 'axios';
 import {
   WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth,
   EventImpactResponse, VerificationRequestItem,
@@ -102,28 +102,8 @@ export const fetchEventImpact = async (eventId: string): Promise<EventImpactResp
   return data;
 };
 
-export const fetchVerificationRequests = async (): Promise<VerificationRequestItem[]> => {
-  const { data } = await api.get('/verification-requests');
-  return data;
-};
-
-export const respondToVerificationRequest = async (requestId: string, payload: any) => {
-  const { data } = await api.post(`/verification-requests/${requestId}/respond`, payload);
-  return data;
-};
-
-export const recordEventOutcome = async (eventId: string, payload: any) => {
-  const { data } = await api.post(`/impact/${eventId}/outcome`, payload);
-  return data;
-};
-
-export const fetchModelPerformance = async () => {
-  const { data } = await api.get('/impact/analytics/model-performance');
-  return data;
-};
-
 export const publishAdminVerifiedReport = async (payload: {
-  title?: string;
+  title: string;
   event_type: string;
   description: string;
   city: string;
@@ -133,12 +113,32 @@ export const publishAdminVerifiedReport = async (payload: {
   longitude?: number;
   media_urls?: string[];
   author?: string;
-}): Promise<WeatherReport> => {
+}): Promise<any> => {
   const { data } = await api.post('/reports/admin-publish', payload);
   return data;
 };
 
-// === MoES Big Data & Meteorological Grid APIs ===
+export const updateInformationGap = async (gapId: string, resolutionData: Record<string, any>) => {
+  const { data } = await api.post(`/impact/gaps/${gapId}/resolve`, resolutionData);
+  return data;
+};
+
+export const updateResponseRecommendation = async (recommendationId: string, status: string) => {
+  const { data } = await api.post(`/impact/recommendations/${recommendationId}/status`, { status });
+  return data;
+};
+
+export const fetchVerificationRequests = async (): Promise<VerificationRequestItem[]> => {
+  const { data } = await api.get('/impact/verification-requests');
+  return data;
+};
+
+export const respondToVerificationRequest = async (requestId: string, payload: any) => {
+  const { data } = await api.post(`/impact/verification-requests/${requestId}/respond`, payload);
+  return data;
+};
+
+// === Meteorological & Big Data Radar Endpoints ===
 
 export const fetchDwrRadarGrid = async (): Promise<RadarGridResponse> => {
   const { data } = await api.get('/meteorology/dwr-radar');
@@ -150,19 +150,53 @@ export const fetchInsatSatellite = async (): Promise<InsatSatelliteResponse> => 
   return data;
 };
 
-export const fetchClimatologyAnomaly = async (city: string = 'Bhopal', rain24h: number = 85, temp: number = 31): Promise<ClimatologyAnomalyResponse> => {
+export const fetchClimatologyAnomaly = async (
+  city: string = 'Bhopal',
+  rain24hMm: number = 85.0,
+  tempC: number = 31.0
+): Promise<ClimatologyAnomalyResponse> => {
   const { data } = await api.get('/meteorology/climatology-anomaly', {
-    params: { city, rain_24h_mm: rain24h, temp_c: temp }
+    params: { city, rain_24h_mm: rain24hMm, temp_c: tempC }
   });
   return data;
 };
 
-export const fetchExtremeWeatherMl = async (params?: Record<string, any>): Promise<ExtremeWeatherMlResponse> => {
+export const fetchExtremeWeatherMl = async (params?: {
+  radar_dbz?: number;
+  cloud_top_temp_c?: number;
+  rainfall_rate_mmh?: number;
+  temp_c?: number;
+  humidity_pct?: number;
+}): Promise<ExtremeWeatherMlResponse> => {
   const { data } = await api.get('/meteorology/extreme-ml', { params });
   return data;
 };
 
 export const fetchStreamTelemetry = async (): Promise<StreamTelemetryResponse> => {
   const { data } = await api.get('/meteorology/stream-telemetry');
+  return data;
+};
+
+// === Advanced Analytics & SQL Explorer APIs ===
+
+export const executeCustomSqlQuery = async (query: string): Promise<{
+  columns: string[];
+  rows: any[][];
+  row_count: number;
+  execution_time_ms: number;
+  query_executed: string;
+  status: string;
+}> => {
+  const { data } = await api.post('/analytics/sql-query', { query });
+  return data;
+};
+
+export const fetchDataQualityMetrics = async (): Promise<any> => {
+  const { data } = await api.get('/analytics/data-quality');
+  return data;
+};
+
+export const fetchSentimentPanicMetrics = async (): Promise<any> => {
+  const { data } = await api.get('/analytics/sentiment-panic');
   return data;
 };

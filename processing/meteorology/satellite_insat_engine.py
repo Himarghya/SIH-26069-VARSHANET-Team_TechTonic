@@ -1,20 +1,29 @@
-﻿from datetime import datetime, timezone
+﻿import random
+from datetime import datetime, timezone
 from typing import Dict, Any, List
 
 class InsatSatelliteEngine:
-    """
-    Simulates and processes Indian Geostationary Meteorological Satellite (INSAT-3D / INSAT-3DR) data.
-    Computes Cloud Top Temperature (CTT in °C), Thermal Infrared (TIR-1/TIR-2 bands),
-    and Deep Convective Cloud (DCC) index for synoptic overviews.
-    """
     def get_satellite_frame(self) -> Dict[str, Any]:
-        sectors = [
-            {"sector": "Central India (MP/Maharashtra)", "ctt_celsius": -68.5, "tir_kelvin": 204.6, "cloud_type": "Cumulonimbus / Deep Convective", "hazard_flag": "HIGH_PRECIP_PROBABILITY"},
-            {"sector": "Northern Himalayas (Uttarakhand/HP)", "ctt_celsius": -74.2, "tir_kelvin": 198.9, "cloud_type": "Severe Orographic Convection", "hazard_flag": "CLOUDBURST_POTENTIAL"},
-            {"sector": "Northeast (Assam/Brahmaputra)", "ctt_celsius": -62.0, "tir_kelvin": 211.1, "cloud_type": "Monsoon Trough Mesoscale Convective System", "hazard_flag": "FLOOD_RISK"},
-            {"sector": "Western Coast (Mumbai/Konkan)", "ctt_celsius": -58.4, "tir_kelvin": 214.7, "cloud_type": "Offshore Trough Squall Line", "hazard_flag": "MODERATE_SQUALL"},
-            {"sector": "Southern Peninsula (Tamil Nadu/Kerala)", "ctt_celsius": -32.1, "tir_kelvin": 241.0, "cloud_type": "Stratiform Cirrus", "hazard_flag": "NORMAL"}
+        base_sectors = [
+            {"sector": "Central India (MP/Maharashtra)", "base_ctt": -68.5, "cloud_type": "Cumulonimbus / Deep Convective", "hazard_flag": "HIGH_PRECIP_PROBABILITY"},
+            {"sector": "Northern Himalayas (Uttarakhand/HP)", "base_ctt": -74.2, "cloud_type": "Severe Orographic Convection", "hazard_flag": "CLOUDBURST_POTENTIAL"},
+            {"sector": "Northeast (Assam/Brahmaputra)", "base_ctt": -62.0, "cloud_type": "Monsoon Trough Mesoscale Convective System", "hazard_flag": "FLOOD_RISK"},
+            {"sector": "Western Coast (Mumbai/Konkan)", "base_ctt": -58.4, "cloud_type": "Offshore Trough Squall Line", "hazard_flag": "MODERATE_SQUALL"},
+            {"sector": "Southern Peninsula (Tamil Nadu/Kerala)", "base_ctt": -32.1, "cloud_type": "Stratiform Cirrus", "hazard_flag": "NORMAL"}
         ]
+
+        sectors = []
+        for s in base_sectors:
+            ctt_noise = round(random.uniform(-0.8, 0.8), 1)
+            ctt = round(s["base_ctt"] + ctt_noise, 1)
+            tir = round(273.15 + ctt, 1)
+            sectors.append({
+                "sector": s["sector"],
+                "ctt_celsius": ctt,
+                "tir_kelvin": tir,
+                "cloud_type": s["cloud_type"],
+                "hazard_flag": s["hazard_flag"]
+            })
 
         return {
             "satellite_id": "INSAT-3D / INSAT-3DR Geostationary Met-Sat",

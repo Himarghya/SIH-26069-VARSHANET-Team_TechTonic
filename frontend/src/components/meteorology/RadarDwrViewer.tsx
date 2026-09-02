@@ -7,6 +7,7 @@ export const RadarDwrViewer: React.FC = () => {
   const [radarData, setRadarData] = useState<RadarGridResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedStation, setSelectedStation] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<string>('Live');
 
   const loadData = async () => {
     setIsLoading(true);
@@ -16,6 +17,7 @@ export const RadarDwrViewer: React.FC = () => {
       if (data.stations.length > 0 && !selectedStation) {
         setSelectedStation(data.stations[0].station_code);
       }
+      setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     } catch (err) {
       console.error('DWR Fetch error', err);
     } finally {
@@ -32,9 +34,9 @@ export const RadarDwrViewer: React.FC = () => {
   const activeStn = radarData?.stations.find(s => s.station_code === selectedStation) || radarData?.stations[0];
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
             <Radio className="w-4 h-4 animate-pulse" />
@@ -49,13 +51,20 @@ export const RadarDwrViewer: React.FC = () => {
           </div>
         </div>
 
-        <button
-          onClick={loadData}
-          className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all cursor-pointer"
-          title="Refresh Radar Sweeps"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-        </button>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-slate-500 font-mono hidden sm:inline">
+            Sweep: {lastUpdated}
+          </span>
+          <button
+            onClick={loadData}
+            disabled={isLoading}
+            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 text-cyan-300 transition-all cursor-pointer border border-slate-700 flex items-center gap-1 text-[11px] font-mono"
+            title="Refresh Radar Sweeps"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-cyan-400' : ''}`} />
+            <span className="hidden md:inline">{isLoading ? 'Sweeping...' : 'Reload Sweeps'}</span>
+          </button>
+        </div>
       </div>
 
       {/* DWR Stations Horizontal Selector */}

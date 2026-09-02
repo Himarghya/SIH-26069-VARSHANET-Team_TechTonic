@@ -6,12 +6,14 @@ import { InsatSatelliteResponse } from '../../types';
 export const InsatSatelliteViewer: React.FC = () => {
   const [insatData, setInsatData] = useState<InsatSatelliteResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<string>('Live');
 
   const loadData = async () => {
     setIsLoading(true);
     try {
       const data = await fetchInsatSatellite();
       setInsatData(data);
+      setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     } catch (err) {
       console.error('INSAT Fetch error', err);
     } finally {
@@ -21,12 +23,14 @@ export const InsatSatelliteViewer: React.FC = () => {
 
   useEffect(() => {
     loadData();
+    const interval = setInterval(loadData, 20000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-indigo-950 text-indigo-400 border border-indigo-800/40">
             <Globe className="w-4 h-4" />
@@ -41,13 +45,20 @@ export const InsatSatelliteViewer: React.FC = () => {
           </div>
         </div>
 
-        <button
-          onClick={loadData}
-          className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all cursor-pointer"
-          title="Refresh Satellite Scans"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-        </button>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-slate-500 font-mono hidden sm:inline">
+            Scanned: {lastUpdated}
+          </span>
+          <button
+            onClick={loadData}
+            disabled={isLoading}
+            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 text-cyan-300 transition-all cursor-pointer border border-slate-700 flex items-center gap-1 text-[11px] font-mono"
+            title="Refresh Satellite Scans"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-cyan-400' : ''}`} />
+            <span className="hidden md:inline">{isLoading ? 'Scanning...' : 'Reload Scans'}</span>
+          </button>
+        </div>
       </div>
 
       {insatData && (

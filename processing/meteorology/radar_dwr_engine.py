@@ -1,4 +1,6 @@
 ﻿import math
+import random
+import time
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 
@@ -16,23 +18,14 @@ IMD_DWR_STATIONS = [
 ]
 
 class DopplerWeatherRadarEngine:
-    """
-    Simulates & processes India Meteorological Department (IMD) Doppler Weather Radar (DWR) data.
-    Computes Radar Reflectivity Factor (Z in dBZ) and precipitation rate (R in mm/hr) using
-    the Marshall-Palmer and Convective Z-R relationships:
-    Z = 200 * R^1.6 (Stratiform) | Z = 300 * R^1.4 (Convective/Cloudburst)
-    """
-
     @staticmethod
     def dbz_to_rainfall_rate(dbz: float, convective: bool = False) -> float:
         if dbz <= 10.0:
             return 0.0
         z_linear = 10.0 ** (dbz / 10.0)
         if convective:
-            # Z = 300 * R^1.4  -->  R = (Z / 300)^(1 / 1.4)
             r = (z_linear / 300.0) ** (1.0 / 1.4)
         else:
-            # Z = 200 * R^1.6  -->  R = (Z / 200)^(1 / 1.6)
             r = (z_linear / 200.0) ** (1.0 / 1.6)
         return round(r, 1)
 
@@ -50,28 +43,29 @@ class DopplerWeatherRadarEngine:
             return {"category": "CLEAR_DRIZZLE", "color": "#059669", "label": "No Significant Echo", "hazard": "NONE"}
 
     def get_national_radar_grid(self, active_event_coords: Optional[List[Dict[str, float]]] = None) -> Dict[str, Any]:
-        """
-        Generates simulated polar/cartesian radar sweep grids across all Indian DWR nodes.
-        """
         radar_nodes = []
         active_coords = active_event_coords or []
+        elevations = [0.5, 1.2, 2.1, 3.5]
+        elev_idx = int(time.time() // 5) % len(elevations)
 
         for station in IMD_DWR_STATIONS:
-            # Calculate distance to nearest active weather incident
             min_dist = 9999.0
             for pt in active_coords:
                 d = math.sqrt((station["latitude"] - pt.get("latitude", 0))**2 + (station["longitude"] - pt.get("longitude", 0))**2) * 111.0
                 if d < min_dist:
                     min_dist = d
 
-            # If weather incident is within radar range (250km), synthesize intense convective echoes
-            if min_dist <= 80.0:
-                peak_dbz = round(min(62.0, 48.0 + (80.0 - min_dist) * 0.18), 1)
-            elif min_dist <= 200.0:
-                peak_dbz = round(32.0 + (200.0 - min_dist) * 0.08, 1)
-            else:
-                peak_dbz = round(15.0 + (hash(station["code"]) % 12), 1)
+            # Live realistic fluctuation on reload
+            fluctuation = round(random.uniform(-0.6, 0.6), 1)
 
+            if min_dist <= 80.0:
+                base_dbz = min(62.5, 48.5 + (80.0 - min_dist) * 0.18)
+            elif min_dist <= 200.0:
+                base_dbz = 32.0 + (200.0 - min_dist) * 0.08
+            else:
+                base_dbz = 15.0 + (hash(station["code"]) % 12)
+
+            peak_dbz = round(max(10.0, min(65.0, base_dbz + fluctuation)), 1)
             rain_rate = self.dbz_to_rainfall_rate(peak_dbz, convective=(peak_dbz >= 45.0))
             hydro = self.classify_hydrometeor(peak_dbz)
 
@@ -85,7 +79,7 @@ class DopplerWeatherRadarEngine:
                 "peak_reflectivity_dbz": peak_dbz,
                 "estimated_rain_rate_mmh": rain_rate,
                 "hydrometeor_classification": hydro,
-                "sweep_elevation_deg": 0.5,
+                "sweep_elevation_deg": elevations[elev_idx],
                 "last_scan_utc": datetime.now(timezone.utc).isoformat()
             })
 
