@@ -1,15 +1,40 @@
-﻿# 🌧️ VARSHANET 2.0
+﻿<div align="center">
 
-## National Weather Big Data Analytics, Real-Time AI Impact Nowcasting & Disaster Decision Support Grid
+# 🌧️ VARSHANET 2.0
+### National Weather Big Data Analytics, Multi-Modal AI Verification & Disaster Impact Grid
 
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/Frontend-React%2018%20%2B%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Build-Vite%208-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini%202.5%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
-[![GIS Mapping](https://img.shields.io/badge/GIS-Leaflet%20%2B%20ESRI-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
-[![TailwindCSS](https://img.shields.io/badge/UI-TailwindCSS%203.4-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![WebSockets](https://img.shields.io/badge/Streaming-Native%20WebSockets-010101?style=for-the-badge&logo=socketdotio&logoColor=white)](https://websockets.readthedocs.io/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+<p align="center">
+  <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Frontend-React%2018%20%2B%20TS-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/Build-Vite%208-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=flat-square&logo=google&logoColor=white" alt="Gemini" />
+  <img src="https://img.shields.io/badge/GIS-Leaflet%20%2B%20ESRI-199900?style=flat-square&logo=leaflet&logoColor=white" alt="Leaflet" />
+  <img src="https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/Streaming-Native%20WebSockets-010101?style=flat-square&logo=socketdotio&logoColor=white" alt="WebSockets" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="MIT License" />
+</p>
+
+<p align="center">
+  <b>An open-standard disaster intelligence grid uniting 33 IMD Doppler Radars, INSAT-3DR Satellites, CWC Flood Telemetry, and VayuScore™ Multi-Modal Citizen Verification into automated NDRF Convoy Routing & CAP 1.2 Alerting.</b>
+</p>
+
+<p align="center">
+  <a href="#-local-setup--installation-guide">🚀 <b>Quickstart</b></a> •
+  <a href="#-key-highlights--operational-capabilities">⚡ <b>Features</b></a> •
+  <a href="#-technology-stack">🛠️ <b>Tech Stack</b></a> •
+  <a href="#-git-workflow-how-to-fork-clone-branch-pull--push">🌿 <b>Git Workflow</b></a> •
+  <a href="#-rest-api--websocket-documentation">📖 <b>API Docs</b></a>
+</p>
+
+---
+
+### ⚡ Prototype at a Glance
+
+| 🛰️ **33** IMD Radar Feeds | 🌊 **16** NDRF Battalions | 🏆 **VayuScore™ (0-100)** | ⚡ **<50ms** Live Streaming |
+| :---: | :---: | :---: | :---: |
+| ⏱️ **6-Hour** Active Lifecycle | 🔄 **5-Min** News Auto-Sync | 🚨 **1-Click** CAP 1.2 XML | 📄 **1-Click** NDMA SitRep PDF |
+
+</div>
 
 ---
 
@@ -31,7 +56,7 @@
 
 ## 🌧️ Platform Overview
 
-**VARSHANET 2.0** is an open-standard National Weather Big Data Analytics and AI Disaster Impact Nowcasting Grid built specifically for India. 
+**VARSHANET 2.0** is an enterprise-grade National Weather Big Data Analytics and AI Disaster Impact Nowcasting Grid built specifically for India. 
 
 It continuously ingests real-time observations across **IMD Doppler Weather Radars (DWR)**, **INSAT-3DR/3DS Satellite Imagers**, **Multi-Channel Indian News Streams** (*TOI, NDTV, India Today, Down To Earth, Google News*), **Social Media Firehose Streams** (*#IMD, #MumbaiRains, #ChennaiFloods*), **Central Water Commission (CWC) River Flood Gauges**, and **Citizen Geotagged Ground Proofs**.
 
@@ -58,7 +83,7 @@ VARSHANET transforms raw data into actionable life-safety intelligence:
 ## ⚡ Key Highlights & Operational Capabilities
 
 ### 1. 🚒 Flood-Aware 16 NDRF Battalion Tactical Routing & Requisition
-* Complete directory of **all 16 official National Disaster Response Force (NDRF) Battalions** across India (Guwahati, Kolkata, Cuttack, Arakkonam, Pune, Vadodara, Bhatinda, Ghaziabad, Patna, Vijayawada, Varanasi, Itanagar, Ludhiana, Jasur, Srinagar, Bhopal).
+* Complete directory of **all 16 official National Disaster Response Force (NDRF) Battalions** across India (*Guwahati, Kolkata, Cuttack, Arakkonam, Pune, Vadodara, Bhatinda, Ghaziabad, Patna, Vijayawada, Varanasi, Itanagar, Ludhiana, Jasur, Srinagar, Bhopal*).
 * **Graph-Based Detour Routing (`pgRouting` / `OSRM`)**: Dynamically computes realistic road transit paths instead of static Euclidean straight lines.
 * **CWC River Flood Gauge Integration**: Automatically applies a **$1.22\times$ flood detour factor** during high/critical alerts to actively detour convoys around submerged highways, waterlogged underpasses, and vulnerable river bridges.
 * **1-Click Official Requisition Order Generator**: Formats and drafts official NDRF Requisition Orders addressed to primary battalion commandants with road transit ETAs ($0.5\text{h} + \text{detour distance} / 48\text{km/h}$).
@@ -180,6 +205,33 @@ varshanet/
 
 ---
 
+## 🌿 Git Workflow: How to Fork, Clone, Branch, Pull & Push
+
+### 1. Fork & Clone
+```bash
+# Clone your fork
+git clone https://github.com/<YOUR_USERNAME>/SIH-26069-VARSHANET-Team_TechTonic.git
+cd SIH-26069-VARSHANET-Team_TechTonic
+
+# Add official upstream remote
+git remote add upstream https://github.com/Himarghya/SIH-26069-VARSHANET-Team_TechTonic.git
+```
+
+### 2. Create Feature Branch & Commit
+```bash
+# Create and switch to your feature branch
+git checkout -b feature/your-feature-name
+
+# Stage and commit your changes
+git add .
+git commit -m "feat: add your feature description"
+
+# Push to your fork
+git push -u origin feature/your-feature-name
+```
+
+---
+
 ## 🚀 Local Setup & Installation Guide
 
 ### Prerequisites
@@ -189,10 +241,6 @@ varshanet/
 
 ### 1. Backend Setup
 ```bash
-# Clone the repository
-git clone https://github.com/Himarghya/SIH-26069-VARSHANET-Team_TechTonic.git
-cd SIH-26069-VARSHANET-Team_TechTonic
-
 # Create and activate Python virtual environment
 python -m venv venv
 # Windows:
