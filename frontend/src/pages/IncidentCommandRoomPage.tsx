@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Radio, AlertTriangle, ShieldCheck, Activity, RefreshCw, ChevronRight, FileText, PhoneCall, ShieldAlert, HeartHandshake, MapPin } from 'lucide-react';
 import { EventCluster, EventImpactResponse } from '../types';
 import { fetchEventImpact } from '../services/api';
@@ -15,6 +15,8 @@ import { CapBroadcastSimulator } from '../components/incident/CapBroadcastSimula
 import { EmergencyResourceDispatch } from '../components/incident/EmergencyResourceDispatch';
 import { SitRepDossierModal } from '../components/incident/SitRepDossierModal';
 import { VerifiedGroundEvidenceGallery } from '../components/incident/VerifiedGroundEvidenceGallery';
+import { SeverityForecastRadar } from '../components/ml/SeverityForecastRadar';
+import { MultimodalFusionInspector } from '../components/ml/MultimodalFusionInspector';
 
 interface IncidentCommandRoomPageProps {
   events: EventCluster[];
@@ -80,19 +82,18 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
 
         <div className="flex items-center gap-2 overflow-x-auto py-1">
           {events.map((evt) => {
-            const isSelected = evt.id === currentEventId;
+            const isSelected = currentEventId === evt.id;
             return (
               <button
                 key={evt.id}
                 onClick={() => handleSwitchEvent(evt.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 border ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold shrink-0 transition-all border cursor-pointer ${
                   isSelected
-                    ? 'bg-cyan-600 text-white border-cyan-500 shadow-md shadow-cyan-900/40 font-bold'
-                    : 'bg-slate-950/80 text-slate-400 hover:text-slate-200 border-slate-800'
+                    ? 'bg-cyan-600 text-white border-cyan-400 shadow-md shadow-cyan-900/40'
+                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200 hover:border-slate-700'
                 }`}
               >
-                <span>{evt.city || evt.state}</span>
-                <span className="text-[10px] font-mono opacity-80">({evt.event_type})</span>
+                📍 {evt.city || evt.state} ({evt.event_type})
               </button>
             );
           })}
@@ -135,6 +136,9 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
             priority={impactData.impact_evaluation.scores.response_priority}
             recommendations={impactData.impact_evaluation.response_recommendations.map(r => r.action)}
           />
+
+          {/* Spatio-Temporal 1h-3h Severity Escalation Forecaster & Anomaly Trigger */}
+          <SeverityForecastRadar />
 
           {/* CITIZEN VIEW: Clean Public Safety & Emergency Directives Card */}
           {isCitizen ? (
@@ -208,6 +212,9 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                 eventType={impactData.event_type}
                 recommendations={impactData.impact_evaluation.response_recommendations.map(r => r.action)}
               />
+
+              {/* Multimodal Verification Model Embedded Tensor Inspector */}
+              <MultimodalFusionInspector />
             </>
           )}
 

@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { AlertTriangle, BellRing, ArrowRight, ChevronLeft, ChevronRight, Flame, ShieldAlert, Sparkles, ExternalLink } from 'lucide-react';
+import { AlertTriangle, BellRing, ArrowRight, ChevronLeft, ChevronRight, Flame, ShieldAlert, Sparkles, ExternalLink, Share2 } from 'lucide-react';
 import { Alert } from '../../types';
+import { broadcastAlertToX } from '../../services/api';
 
 interface AlertsBannerProps {
   alerts: Alert[];
@@ -12,11 +13,13 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
   const [isPaused, setIsPaused] = useState(false);
   const [isNewAlertFlash, setIsNewAlertFlash] = useState(false);
   const [prevAlertsLength, setPrevAlertsLength] = useState(alerts.length);
+  const [isPostingToX, setIsPostingToX] = useState(false);
+  const [postSuccess, setPostSuccess] = useState(false);
 
   // Detect incoming new live critical alert
   useEffect(() => {
     if (alerts.length > prevAlertsLength) {
-      setCurrentIndex(0); // Jump directly to the newest alert
+      setCurrentIndex(0);
       setIsNewAlertFlash(true);
       setTimeout(() => setIsNewAlertFlash(false), 4500);
     }
@@ -49,6 +52,33 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentIndex(prev => (prev - 1 + alerts.length) % alerts.length);
+  };
+
+  const handlePostToX = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsPostingToX(true);
+    try {
+      const res = await broadcastAlertToX({
+        city: currentAlert.city || 'District',
+        state: currentAlert.state || 'India',
+        event_type: currentAlert.title || 'Extreme Weather Warning',
+        severity: severity,
+        directive: currentAlert.message,
+        event_id: currentAlert.event_cluster_id
+      });
+
+      // Open X / Twitter Web Intent in a new tab for instant 1-click posting
+      if (res?.dispatch_details?.web_intent_url) {
+        window.open(res.dispatch_details.web_intent_url, '_blank', 'noopener,noreferrer');
+      }
+
+      setPostSuccess(true);
+      setTimeout(() => setPostSuccess(false), 4000);
+    } catch (err) {
+      console.error('X Broadcast error', err);
+    } finally {
+      setIsPostingToX(false);
+    }
   };
 
   return (
@@ -109,9 +139,20 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
         </p>
       </div>
 
-      {/* Right: Location & Interactive Carousel Controls */}
-      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-        {/* Location (hidden on very small screens) */}
+      {/* Right: Location, 1-Click Post to X Button & Carousel Controls */}
+      <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        {/* 1-Click Post to X (Twitter) Button */}
+        <button
+          onClick={handlePostToX}
+          disabled={isPostingToX}
+          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-black/70 hover:bg-black text-white hover:text-cyan-300 border border-slate-700 hover:border-cyan-500 transition-all text-[10px] font-mono font-bold shadow-sm cursor-pointer shrink-0"
+          title="Post this Red Alert immediately to X (Twitter) & notify Somadas7803@gmail.com"
+        >
+          <span className="font-black text-xs leading-none">𝕏</span>
+          <span className="hidden sm:inline">{postSuccess ? 'Posted ✓' : isPostingToX ? 'Posting...' : 'Post to 𝕏'}</span>
+        </button>
+
+        {/* Location (hidden on small mobile) */}
         <span className="text-[10px] font-mono text-slate-300 hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/10">
           📍 {currentAlert.city || 'District'}, {currentAlert.state} • <strong className="text-cyan-300">{currentAlert.reports_count} reports</strong>
         </span>

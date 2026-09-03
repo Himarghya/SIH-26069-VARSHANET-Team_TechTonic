@@ -2,7 +2,7 @@
 from backend.app.api.v1 import (
     auth, reports, events, analytics, map,
     verification, alerts, citizen, system, sources,
-    impact, verification_requests, meteorology
+    impact, verification_requests, meteorology, ml_intelligence
 )
 
 api_router = APIRouter()
@@ -19,3 +19,4 @@ api_router.include_router(sources.router)
 api_router.include_router(impact.router)
 api_router.include_router(verification_requests.router)
 api_router.include_router(meteorology.router)
+api_router.include_router(ml_intelligence.router)

@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { CloudRain, Shield, Activity, Map, FileText, BarChart3, Users, Radio, RefreshCw, Command, UserCheck, Menu, X } from 'lucide-react';
+import { CloudRain, Shield, Activity, Map, FileText, BarChart3, Radio, RefreshCw, Command, UserCheck, Menu, X } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
 
 interface NavbarProps {
@@ -74,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  // Role-filtered navigation items
+  // Role-filtered navigation items (clean core operational suite)
   const allNavItems = [
     { id: 'dashboard', label: 'Overview', icon: Activity, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'incident', label: 'Incident Room', icon: Command, roles: ['analyst', 'admin'] },
@@ -121,8 +121,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Desktop Nav Tabs (Hidden on mobile) */}
-        <nav className="hidden lg:flex items-center gap-0.5 bg-slate-950/80 p-0.5 rounded-lg border border-slate-800 shrink-0">
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800/80">
           {visibleNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -130,16 +130,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`relative flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all relative cursor-pointer ${
                   isActive
-                    ? 'bg-cyan-600 text-white shadow-sm font-bold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30 font-bold'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5 shrink-0" />
+                <Icon className="w-3.5 h-3.5" />
                 <span>{item.label}</span>
-                {item.badge && (
-                  <span className="ml-0.5 px-1 py-0.2 text-[8px] font-bold rounded-full bg-rose-500 text-white animate-pulse">
+                {item.badge !== undefined && (
+                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white">
                     {item.badge}
                   </span>
                 )}
@@ -148,54 +148,50 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Right Controls: Sync Live + Role Switcher + Mobile Menu Button */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          {/* Sync Live Button */}
+        {/* Right Tools: Live Sync Countdown, Role Switcher, Mobile Hamburger */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Live Sync Trigger & Countdown Badge */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-all cursor-pointer shrink-0"
-            title={`Fetch live multi-channel news & weather. Auto-sync in ${timerDisplay}`}
+            className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-300 hover:text-white transition-all text-[11px] font-mono shadow-sm cursor-pointer shrink-0"
+            title="Auto-cycles every 5 minutes. Click to force instant live sync"
           >
-            <RefreshCw className={`w-3.5 h-3.5 shrink-0 ${isSyncing ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">{isSyncing ? 'Syncing...' : 'Sync Live'}</span>
-            <span className="text-[9px] px-1 py-0.2 rounded bg-emerald-950 text-emerald-300 font-mono font-normal">
-              {syncMessage || timerDisplay}
+            <RefreshCw className={`w-3 h-3 text-cyan-400 ${isSyncing ? 'animate-spin text-cyan-300' : ''}`} />
+            <span className="text-[10px] hidden xs:inline text-cyan-400 font-bold">
+              {syncMessage ? syncMessage : timerDisplay}
             </span>
           </button>
 
-          {/* Role Switcher */}
-          <div className="flex items-center gap-1 bg-slate-950 px-1.5 sm:px-2 py-1 rounded-lg border border-slate-800 text-xs shrink-0">
-            <UserCheck className={`w-3.5 h-3.5 shrink-0 ${
-              userRole === 'admin' ? 'text-rose-400' :
-              userRole === 'analyst' ? 'text-cyan-400' : 'text-emerald-400'
-            }`} />
+          {/* User Role Switcher Dropdown */}
+          <div className="flex items-center bg-slate-950 rounded-lg border border-slate-800 p-0.5 text-xs">
+            <UserCheck className="w-3.5 h-3.5 text-slate-400 ml-1.5 mr-1 hidden xs:inline" />
             <select
               value={userRole}
               onChange={(e) => handleRoleChange(e.target.value)}
-              className="bg-transparent text-xs text-slate-200 font-bold focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-[11px] font-mono font-semibold text-cyan-300 focus:outline-none cursor-pointer pr-1 py-1"
             >
-              <option value="citizen" className="bg-slate-900 text-white">Citizen</option>
               <option value="analyst" className="bg-slate-900 text-white">Analyst</option>
               <option value="admin" className="bg-slate-900 text-white">Admin</option>
+              <option value="citizen" className="bg-slate-900 text-white">Citizen</option>
             </select>
           </div>
 
-          {/* Mobile Hamburger Menu Toggle */}
+          {/* Mobile Menu Hamburger Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white border border-slate-700 cursor-pointer"
+            className="lg:hidden p-1.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 hover:text-white transition-all"
             aria-label="Toggle Navigation Menu"
           >
-            {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            {isMobileMenuOpen ? <X className="w-4 h-4 text-cyan-400" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Dropdown Drawer */}
+      {/* Mobile Dropdown Menu Drawer */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 shadow-2xl space-y-1 animate-fade-in">
-          <div className="grid grid-cols-2 gap-1.5">
+        <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 space-y-1 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="grid grid-cols-2 gap-1">
             {visibleNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -206,27 +202,22 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setActiveTab(item.id);
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`flex items-center gap-2 p-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all w-full text-left ${
                     isActive
-                      ? 'bg-cyan-600 text-white shadow-md'
-                      : 'bg-slate-900 text-slate-300 hover:bg-slate-800'
+                      ? 'bg-cyan-600 text-white shadow-md font-bold'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-900'
                   }`}
                 >
-                  <Icon className="w-4 h-4 shrink-0 text-cyan-400" />
+                  <Icon className="w-4 h-4 shrink-0" />
                   <span className="truncate">{item.label}</span>
-                  {item.badge && (
-                    <span className="ml-auto px-1.5 py-0.2 text-[9px] font-bold rounded-full bg-rose-500 text-white">
+                  {item.badge !== undefined && (
+                    <span className="ml-auto px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white">
                       {item.badge}
                     </span>
                   )}
                 </button>
               );
             })}
-          </div>
-
-          <div className="flex items-center justify-between pt-2 px-2 text-[10px] text-slate-500 font-mono border-t border-slate-900">
-            <span>WebSocket: <strong className={isLiveConnected ? 'text-emerald-400' : 'text-amber-400'}>{isLiveConnected ? 'CONNECTED' : 'OFFLINE'}</strong></span>
-            <span>Role: <strong className="text-white uppercase">{userRole}</strong></span>
           </div>
         </div>
       )}

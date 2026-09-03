@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+﻿from datetime import datetime, timezone
 from typing import Dict, Any, List
 from processing.cleaning.text_cleaner import cleaner
 from processing.geolocation.indian_geo_resolver import geo_resolver
@@ -33,14 +33,19 @@ class ProcessingPipeline:
             manual_lon=raw_data.get("longitude")
         )
         
-        # Stage 3: Event Classification (Hybrid Rule + ML)
+        # Stage 3: Strict Meteorological Event Classification
         specified_event = raw_data.get("event_type")
-        if specified_event and specified_event != "Other":
+        if specified_event and specified_event not in ["Other", "Non-Weather News"]:
             event_type = specified_event
             event_confidence = 0.90
-            class_details = {"manual_specified": True}
+            class_details = {"manual_specified": True, "is_weather": True}
         else:
             event_type, event_confidence, class_details = classifier.classify(cleaned_text, extracted_hashtags)
+
+        # Check if strictly meteorological
+        is_weather_domain = class_details.get("is_weather", True) and event_type != "Non-Weather News"
+        if not is_weather_domain:
+            event_type = "Non-Weather News"
 
         # Stage 3.5: AI Contextual Weather Hashtag Enrichment
         all_hashtags = cleaner.generate_ai_hashtags(
@@ -118,45 +123,52 @@ class ProcessingPipeline:
             existing_clusters=existing_clusters
         )
         
-        # Assemble Enriched Record
-        raw_payload = raw_data.get("raw_payload", {}) or {}
-        raw_payload["image_analysis"] = image_analysis
-
-        enriched_record = {
-            "source_id": raw_data.get("source_id"),
+        # Determine Severity based on event and credibility
+        severity = "MODERATE"
+        if event_type in ["Cloudburst", "Flash Flood", "Cyclone", "Landslide"]:
+            severity = "CRITICAL"
+        elif event_type in ["Heavy Rainfall", "Urban Flooding", "Heatwave", "Hailstorm"]:
+            severity = "HIGH"
+        elif event_type in ["Rainfall", "Fog", "Strong Winds"]:
+            severity = "MODERATE"
+        else:
+            severity = "LOW"
+            
+        result = {
+            "source_id": raw_data.get("source_id", "manual_input"),
             "source_type": source_type,
-            "source_name": raw_data.get("source_name", "Citizen Intelligence"),
-            "author": raw_data.get("author", "citizen_user"),
-            "text": raw_text,
-            "original_language": language,
-            "normalized_text": cleaned_text,
-            "event_type": event_type,
-            "event_confidence": event_confidence,
-            "raw_classification_details": class_details,
-            "latitude": loc["latitude"],
-            "longitude": loc["longitude"],
+            "source_name": raw_data.get("source_name", "Open Weather Stream"),
+            "author": raw_data.get("author"),
+            "text": cleaned_text,
+            "raw_text": raw_text,
+            "language": language,
+            "extracted_hashtags": all_hashtags,
             "city": loc["city"],
             "district": loc["district"],
             "state": loc["state"],
+            "latitude": loc["latitude"],
+            "longitude": loc["longitude"],
             "location_confidence": loc["location_confidence"],
-            "timestamp": raw_data.get("timestamp") or datetime.now(timezone.utc),
-            "ingestion_timestamp": datetime.now(timezone.utc),
+            "event_type": event_type,
+            "event_confidence": event_confidence,
+            "severity": severity,
             "credibility_score": credibility,
             "risk_level": risk_level,
             "verification_status": v_status,
             "verification_notes": v_notes,
-            "duplicate_group_id": dup_group_id,
             "is_duplicate": is_dup,
-            "duplicate_count": 1 if is_dup else 0,
-            "event_cluster_id": cluster_id,
+            "duplicate_group_id": dup_group_id,
+            "duplicate_similarity": dup_sim,
             "media_urls": media_urls,
-            "hashtags": all_hashtags,
-            "image_analysis_results": image_analysis,
-            "raw_payload": raw_payload,
+            "image_analysis": image_analysis,
+            "extracted_metrics": class_details,
+            "is_weather_domain": is_weather_domain,
+            "timestamp": raw_data.get("timestamp", datetime.now(timezone.utc)),
+            "event_cluster_id": cluster_id,
             "_is_new_cluster": is_new_cluster,
             "_cluster_data": cluster_data
         }
         
-        return enriched_record
+        return result
 
 pipeline = ProcessingPipeline()

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { AlertsBanner } from './components/common/AlertsBanner';
 import { ReportDetailModal } from './components/reports/ReportDetailModal';
@@ -102,17 +102,16 @@ export function App() {
         }}
       />
 
-      {/* Main Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6">
+      {/* Main Content View Switcher */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 overflow-x-hidden">
         {activeTab === 'dashboard' && (
           <DashboardPage
-            overview={overview}
-            events={events}
             reports={reports}
+            events={events}
             alerts={alerts}
+            overview={overview}
             onSelectReport={setSelectedReport}
             onSelectEvent={handleSelectEvent}
-            onNavigateTab={setActiveTab}
           />
         )}
 

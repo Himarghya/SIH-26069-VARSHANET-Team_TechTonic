@@ -1,4 +1,4 @@
-import re
+﻿import re
 from typing import Dict, Tuple, List
 
 EVENT_CATEGORIES = [
@@ -18,168 +18,161 @@ EVENT_CATEGORIES = [
     "Hailstorm",
     "Cloudburst",
     "Landslide",
-    "Drought",
-    "Other"
+    "Drought"
 ]
 
-# Keywords & Synonyms including Indian regional terms
+# Strict Non-Weather / Political / Foreign Blacklist
+STRICT_BLACKLIST = [
+    # 1. Foreign / Non-India Locations
+    r"\bnepal\b", r"\bkathmandu\b", r"\bpokhara\b", r"\bbangladesh\b", r"\bdhaka\b",
+    r"\bpakistan\b", r"\blahore\b", r"\bkarachi\b", r"\bislamabad\b", r"\bchina\b",
+    r"\btaiwan\b", r"\bjapan\b", r"\btokyo\b", r"\bsri lanka\b", r"\bcolombo\b",
+    r"\bmyanmar\b", r"\bbirma\b", r"\bafghanistan\b", r"\busa\b", r"\bunited states\b",
+    r"\bflorida\b", r"\btexas\b", r"\beurope\b", r"\buk\b", r"\blondon\b",
+    
+    # 2. Political Figures, Ministers & Celebrity Commentary
+    r"\bmodi\b", r"\bpm modi\b", r"\bprime minister\b", r"\brahul gandhi\b", r"\bamit shah\b",
+    r"\bchief minister\b", r"\bcm \b", r"\bminister\b", r"\bpolitician\b", r"\bpolitical\b",
+    r"\bpolitics\b", r"\bparty\b", r"\belection\b", r"\bvoting\b", r"\bvoters\b",
+    r"\bbjp\b", r"\bcongress\b", r"\btmc\b", r"\baap\b", r"\btrinamool\b", r"\bshiv sena\b",
+    r"\bmla\b", r"\bmp\b", r"\bparliament\b", r"\bassembly\b", r"\bsonu sood\b",
+    r"\bcelebrity\b", r"\bactor\b", r"\bactress\b", r"\bjournalist\b", r"\bjibe\b",
+    r"\bmarketing\b", r"\bcremat\b", r"\bbury\b", r"\bburying\b", r"\btakes stock\b",
+    r"\brally\b", r"\bspeech\b", r"\bprotest\b", r"\bgrilling\b", r"\bscuffle\b",
+    r"\bpolice\b", r"\bcbi\b", r"\bed\b", r"\barrest\b", r"\bbail\b", r"\bcourt\b",
+    r"\bmurder\b", r"\bcrime\b", r"\bswindle\b", r"\bnrc\b", r"\bcensus\b",
+    
+    # 3. Business, Finance, Stocks, Real Estate, Education
+    r"\bshares\b", r"\bstock\b", r"\bstocks\b", r"\bmarket cap\b", r"\bipo\b", r"\bderivative\b",
+    r"\bsensex\b", r"\bnifty\b", r"\bclosing price\b", r"\brevenue\b", r"\bprofit\b",
+    r"\bcrore incentive\b", r"\bmineral mission\b", r"\bplastics\b", r"\buber\b",
+    r"\blayoffs\b", r"\blaid off\b", r"\brestructuring\b", r"\brera\b", r"\brealtor\b",
+    r"\bmba\b", r"\bexam\b", r"\bexams\b", r"\bentrance\b", r"\bb-school\b", r"\badmissions\b",
+    r"\bcricket\b", r"\bipl\b", r"\bmatch\b", r"\bmovie\b", r"\bbox office\b"
+]
+
+COMPILED_BLACKLIST = [re.compile(p, re.IGNORECASE) for p in STRICT_BLACKLIST]
+
+# Positive Genuine Meteorological Keywords (Weather places & conditions)
 EVENT_KEYWORDS = {
-    "Heavy Rainfall": [
-        "heavy rain", "heavy rainfall", "torrential rain", "incessant rain", "downpour", "deluge", 
-        "mumbai rains", "delhi rains", "bhopal rains", "chennai rains", "barish", "bhaari barish", "masladhar barish"
-    ],
-    "Rainfall": [
-        "rain", "rainfall", "shower", "drizzle", "wet spell", "monsoon shower", "precipitation", "barsat", "paani girna"
-    ],
-    "Flash Flood": [
-        "flash flood", "sudden flood", "surging water", "nallah overflow", "river breached", "dam overflow"
+    "Cloudburst": [
+        "cloudburst", "cloud burst", "badal fata", "debris flow", "extreme localized downpour", "torrential cloudburst"
     ],
     "Urban Flooding": [
-        "waterlogging", "water logged", "submerged roads", "water accumulation", "street flooding", "underpass flooded", "drain overflow"
+        "waterlogging", "water logged", "water-logged", "submerged roads", "water accumulation",
+        "street flooding", "underpass flooded", "drain overflow", "submerged vehicles", "waterlogged streets", "jal-bharav"
+    ],
+    "Flash Flood": [
+        "flash flood", "sudden flood", "surging water", "nallah overflow", "river breached",
+        "dam overflow", "barrage discharge", "flood fury", "inundated villages", "inundated low-lying"
     ],
     "Flood": [
-        "flood", "flooding", "inundated", "submerged", "deluged", "baadh", "jal-bharav", "paani bhar gaya", "relief camp"
+        "flood alert", "flood situation", "river water rises", "danger mark", "river swollen",
+        "inundated", "submerged", "deluged", "baadh", "paani bhar gaya", "cwc alert", "river overflow"
+    ],
+    "Heavy Rainfall": [
+        "heavy rain", "heavy rainfall", "torrential rain", "incessant rain", "downpour", "deluge", 
+        "mumbai rains", "delhi rains", "bhopal rains", "chennai rains", "guwahati rains", "bhaari barish",
+        "masladhar barish", "red alert for rain", "orange alert for rain", "excess rainfall"
+    ],
+    "Rainfall": [
+        "rain", "rainfall", "shower", "showers", "drizzle", "wet spell", "monsoon shower", "precipitation",
+        "barsat", "paani girna", "light rain", "moderate rain", "monsoon rains", "intermittent rain", "cloudy skies with rain"
     ],
     "Thunderstorm": [
-        "thunderstorm", "thunder", "toofan", "aandhi toofan", "rumbling", "squall", "convective storm"
+        "thunderstorm", "thunder", "toofan", "aandhi toofan", "rumbling", "squall", "convective storm",
+        "lightning and thunder", "gusty winds and rain"
     ],
     "Lightning": [
-        "lightning", "lightning strike", "thunderbolt", "bijli giri", "bijli kadakna", "electrocution risk"
-    ],
-    "Cloudburst": [
-        "cloudburst", "cloud burst", "badal fata", "extreme localized downpour", "debris flow"
-    ],
-    "Hailstorm": [
-        "hailstorm", "hail", "hailstones", "ice pellets", "ole pade", "pather barish"
-    ],
-    "Landslide": [
-        "landslide", "mudslide", "rockfall", "hill collapse", "bhooskhalan", "road blocked ghat"
+        "lightning", "lightning strike", "thunderbolt", "bijli giri", "bijli kadakna", "electrocution risk",
+        "killed by lightning", "struck by lightning"
     ],
     "Cyclone": [
-        "cyclone", "cyclonic storm", "super cyclone", "deep depression", "eye of cyclone", "coastal landfall", "chakravat"
+        "cyclone", "cyclonic storm", "super cyclone", "deep depression", "eye of cyclone", "coastal landfall",
+        "chakravat", "cyclone alert", "cyclone warning"
     ],
     "Heatwave": [
-        "heatwave", "heat wave", "loo", "scorching heat", "extreme temperature", "loo chalna", "sunstroke", "tapman"
+        "heatwave", "heat wave", "loo", "scorching heat", "extreme temperature", "loo chalna", "sunstroke",
+        "maximum temperature", "severe heatwave", "tapman", "heat index"
     ],
     "Cold Wave": [
-        "cold wave", "severe cold", "chilling winds", "freezing temperature", "sheet lahar", "thandi", "pala"
+        "cold wave", "severe cold", "chilling winds", "freezing temperature", "sheet lahar", "thandi", "pala", "dense frost"
     ],
     "Fog": [
-        "fog", "dense fog", "smog", "poor visibility", "zero visibility", "kohra", "dhund"
+        "dense fog", "smog", "poor visibility", "zero visibility", "kohra", "dhund", "fog delays flights", "shallow fog"
     ],
     "Dust Storm": [
         "dust storm", "sandstorm", "aandhi", "dhool bhari aandhi", "haboob", "blowing dust"
     ],
     "Strong Winds": [
-        "strong winds", "gale", "high speed winds", "uprooted trees", "damaged hoardings", "tez hawa"
+        "strong winds", "gale", "high speed winds", "uprooted trees", "damaged hoardings", "tez hawa", "wind gusts"
+    ],
+    "Hailstorm": [
+        "hailstorm", "hail", "hailstones", "ice pellets", "ole pade", "pather barish"
+    ],
+    "Landslide": [
+        "landslide", "mudslide", "rockfall", "hill collapse", "bhooskhalan", "road blocked ghat", "debris block highway"
     ],
     "Drought": [
-        "drought", "dry spell", "water crisis", "sukha", "crop failure", "groundwater depleted"
+        "drought", "dry spell", "water crisis", "sukha", "groundwater depleted", "drought hit"
     ]
 }
 
 class WeatherClassifier:
     def __init__(self):
-        # Build compiled regex dict for high performance
         self.compiled_rules = {}
         for category, keywords in EVENT_KEYWORDS.items():
             patterns = [rf"\b{re.escape(kw)}\b" for kw in keywords]
             self.compiled_rules[category] = re.compile("|".join(patterns), re.IGNORECASE)
 
-    def rule_based_score(self, text: str) -> Dict[str, float]:
-        scores = {}
+    def is_strictly_weather(self, text: str) -> Tuple[bool, str, float]:
+        """
+        Determines if the text is genuinely meteorological, within India,
+        and FREE from foreign/Nepal news or political/celebrity figure names.
+        """
         lower = text.lower()
         
-        # Check specific prioritized categories first
+        # 1. Check strict blacklist (Nepal, foreign, PM Modi, politicians, celebrities)
+        for b_regex in COMPILED_BLACKLIST:
+            if b_regex.search(lower):
+                return False, "Non-Weather / Foreign / Political", 0.0
+                
+        # 2. Count positive meteorological matches
+        category_matches: Dict[str, int] = {}
         for category, regex in self.compiled_rules.items():
             matches = regex.findall(lower)
             if matches:
-                # Count and weight matches
-                scores[category] = min(0.98, 0.60 + len(matches) * 0.15)
+                category_matches[category] = len(matches)
                 
-        # If no specific matches, default to Other
-        if not scores:
-            scores["Other"] = 0.50
+        total_weather_matches = sum(category_matches.values())
+        if total_weather_matches == 0:
+            return False, "Non-Weather News", 0.0
             
-        return scores
-
-    def ml_based_score(self, text: str) -> Dict[str, float]:
-        """
-        Lightweight fast inference simulating statistical classifier scores.
-        """
-        lower = text.lower()
-        scores = {}
+        # Get top matching category
+        sorted_cats = sorted(category_matches.items(), key=lambda x: x[1], reverse=True)
+        top_cat, top_count = sorted_cats[0]
+        confidence = min(0.98, 0.65 + top_count * 0.12)
         
-        # Check for characteristic n-grams
-        if any(w in lower for w in ["water", "flood", "submerge", "river", "boat"]):
-            if "waterlog" in lower or "road" in lower or "traffic" in lower:
-                scores["Urban Flooding"] = 0.88
-            elif "flash" in lower or "sudden" in lower:
-                scores["Flash Flood"] = 0.90
-            else:
-                scores["Flood"] = 0.85
-                
-        if any(w in lower for w in ["rain", "barish", "shower", "pour", "mm"]):
-            if any(w in lower for w in ["heavy", "bhaari", "torrential", "cm", "gauge"]):
-                scores["Heavy Rainfall"] = 0.92
-            else:
-                scores["Rainfall"] = 0.82
-                
-        if any(w in lower for w in ["thunder", "bijli", "lightning", "strike", "bolt"]):
-            if "lightning" in lower or "bijli giri" in lower:
-                scores["Lightning"] = 0.91
-            else:
-                scores["Thunderstorm"] = 0.87
-                
-        if any(w in lower for w in ["heat", "loo", "temperature", "deg", "celsius", "45", "48"]):
-            scores["Heatwave"] = 0.89
-            
-        if any(w in lower for w in ["fog", "visibility", "runway", "flights delayed", "kohra"]):
-            scores["Fog"] = 0.88
-            
-        if any(w in lower for w in ["cyclone", "landfall", "depression", "imd alert", "evacuate"]):
-            scores["Cyclone"] = 0.93
-            
-        if any(w in lower for w in ["landslide", "debris", "ghat", "rockfall"]):
-            scores["Landslide"] = 0.91
-            
-        if not scores:
-            scores["Other"] = 0.40
-            
-        return scores
+        return True, top_cat, confidence
 
     def classify(self, text: str, hashtags: List[str] = None) -> Tuple[str, float, Dict]:
         hashtags = hashtags or []
         combined_text = text + " " + " ".join(hashtags)
         
-        rule_scores = self.rule_based_score(combined_text)
-        ml_scores = self.ml_based_score(combined_text)
+        is_weather, top_cat, conf = self.is_strictly_weather(combined_text)
         
-        all_categories = set(rule_scores.keys()).union(set(ml_scores.keys()))
-        final_scores = {}
-        
-        for cat in all_categories:
-            r_score = rule_scores.get(cat, 0.0)
-            m_score = ml_scores.get(cat, 0.0)
-            # Weighted hybrid formula: 0.4 * keyword + 0.6 * ML
-            final_scores[cat] = round(0.4 * r_score + 0.6 * m_score, 3)
+        if not is_weather:
+            return "Non-Weather News", 0.0, {
+                "is_weather": False,
+                "top_category": "Non-Weather News",
+                "confidence": 0.0,
+                "reason": "Text rejected: contains foreign location, political figure, or non-meteorological content."
+            }
             
-        # Get top category
-        sorted_cats = sorted(final_scores.items(), key=lambda x: x[1], reverse=True)
-        top_category, top_confidence = sorted_cats[0]
-        
-        if top_confidence < 0.35:
-            top_category = "Other"
-            top_confidence = 0.40
-            
-        details = {
-            "top_category": top_category,
-            "confidence": top_confidence,
-            "rule_scores": rule_scores,
-            "ml_scores": ml_scores,
-            "all_scores": final_scores
+        return top_cat, conf, {
+            "is_weather": True,
+            "top_category": top_cat,
+            "confidence": conf
         }
-        
-        return top_category, top_confidence, details
 
 classifier = WeatherClassifier()

@@ -200,3 +200,115 @@ export const fetchSentimentPanicMetrics = async (): Promise<any> => {
   const { data } = await api.get('/analytics/sentiment-panic');
   return data;
 };
+
+// === X (Twitter) Automated Disaster Broadcaster APIs ===
+
+export const broadcastAlertToX = async (payload: {
+  city: string;
+  state: string;
+  event_type: string;
+  severity: string;
+  directive?: string;
+  event_id?: string;
+}): Promise<any> => {
+  const { data } = await api.post('/alerts/broadcast-x', payload);
+  return data;
+};
+
+export const fetchXDispatcherStatus = async (): Promise<any> => {
+  const { data } = await api.get('/alerts/x-dispatcher-status');
+  return data;
+};
+// === VARSHANET 2.0 Enterprise ML Intelligence APIs ===
+
+export const fetchMultimodalVerify = async (payload: {
+  text: string;
+  city?: string;
+  state?: string;
+  media_urls?: string[];
+  rainfall_mmh?: number;
+  radar_dbz?: number;
+  elevation_m?: number;
+  co_located_reports?: number;
+}): Promise<any> => {
+  const { data } = await api.post('/ml/multimodal-verify', payload);
+  return data;
+};
+
+export const fetchSeverityForecast = async (payload: {
+  cluster_id?: string;
+  event_type?: string;
+  current_severity?: string;
+  rainfall_rate_mmh?: number;
+  rainfall_acc_24h?: number;
+  radar_dbz?: number;
+  river_level_trend?: string;
+  report_velocity_per_min?: number;
+  elevation_m?: number;
+  drainage_susceptibility?: number;
+  social_media_burst_ratio?: number;
+}): Promise<any> => {
+  const { data } = await api.post('/ml/severity-forecast', payload);
+  return data;
+};
+
+export const fetchAnomalyDetection = async (payload: {
+  city?: string;
+  zone?: string;
+  normal_hourly_rate?: number;
+  current_10m_reports?: number;
+  rainfall_dev_zscore?: number;
+  water_level_rise_rate_cm_hr?: number;
+  social_burst_spike?: number;
+}): Promise<any> => {
+  const { data } = await api.post('/ml/anomaly-detect', payload);
+  return data;
+};
+
+export const fetchHdbscanClusters = async (): Promise<any> => {
+  const { data } = await api.get('/ml/hdbscan-clusters');
+  return data;
+};
+
+export const fetchImageForensics = async (payload: {
+  image_url?: string;
+  city?: string;
+  event_type?: string;
+  timestamp?: string;
+}): Promise<any> => {
+  const { data } = await api.post('/ml/image-forensics', payload);
+  return data;
+};
+
+export const fetchVayuScoreShap = async (payload: {
+  report_text?: string;
+  independent_reports_count?: number;
+  rainfall_correlation_rate?: number;
+  image_authenticity_score?: number;
+  source_reliability_score?: number;
+  geographic_consistency_km?: number;
+  temporal_window_minutes?: number;
+}): Promise<any> => {
+  const { data } = await api.post('/ml/vayuscore-shap', payload);
+  return data;
+};
+
+export const fetchActiveLearningTelemetry = async (): Promise<any> => {
+  const { data } = await api.get('/ml/active-learning');
+  return data;
+};
+
+export const submitActiveLearningFeedback = async (payload: {
+  report_id: string;
+  human_label: string;
+  initial_confidence?: number;
+  reviewer_notes?: string;
+}): Promise<any> => {
+  const { data } = await api.post('/ml/active-learning/feedback', payload);
+  return data;
+};
+
+export const fetchDynamicSources = async (): Promise<any[]> => {
+  const { data } = await api.get('/ml/dynamic-sources');
+  return data;
+};

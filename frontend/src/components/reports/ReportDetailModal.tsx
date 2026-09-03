@@ -3,6 +3,7 @@ import { X, Shield, ShieldCheck, AlertTriangle, MapPin, CheckCircle2, XCircle, C
 import { WeatherReport } from '../../types';
 import { performVerificationAction } from '../../services/api';
 import { StreetViewPin } from '../incident/StreetViewPin';
+import { ShapWaterfallInspector } from '../ml/ShapWaterfallInspector';
 
 interface ReportDetailModalProps {
   report: WeatherReport | null;
@@ -43,7 +44,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in font-sans">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
         {/* Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
           <div className="flex items-center gap-2">
@@ -94,80 +95,58 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                   <Camera className="w-4 h-4" /> Attached Ground Proofs ({photos.length})
                 </span>
                 
-                {/* AI Visual Authenticity Badge */}
                 {isFakeVisual ? (
                   <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-700/60 flex items-center gap-1">
                     <AlertTriangle className="w-3 h-3 text-rose-400" />
-                    <span>AI FLAGGED: FAKE VISUAL (&lt;20%)</span>
+                    <span>FLAGGED FAKE VISUAL (&lt; 20% Authenticity)</span>
                   </span>
                 ) : (
                   <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/60 flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                    <span>AI: AUTHENTIC VISUAL ({report.credibility_score}%)</span>
+                    <span>CLIP VERIFIED AUTHENTIC</span>
                   </span>
                 )}
               </div>
 
-              {/* Photos Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                {photos.map((photoUrl, pIdx) => (
+                {photos.map((url, idx) => (
                   <div
-                    key={pIdx}
-                    onClick={() => setSelectedPhoto(photoUrl)}
-                    className="relative group rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-400 bg-slate-900 aspect-video cursor-pointer transition-all shadow-md"
+                    key={idx}
+                    onClick={() => setSelectedPhoto(url)}
+                    className="relative group rounded-xl overflow-hidden border border-slate-800 bg-black aspect-video cursor-pointer"
                   >
-                    <img src={photoUrl} alt={`Evidence ${pIdx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1">
-                      <Eye className="w-3.5 h-3.5" /> Inspect
+                    <img
+                      src={url}
+                      alt={`Evidence ${idx + 1}`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                      <span className="text-[10px] text-white font-mono flex items-center gap-1">
+                        <Eye className="w-3 h-3" /> Inspect Proof
+                      </span>
                     </div>
-                    <span className="absolute bottom-1 left-1 px-1.5 py-0.2 rounded bg-black/80 text-[9px] font-mono text-cyan-300">
-                      Proof #{pIdx + 1}
-                    </span>
                   </div>
                 ))}
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-400 flex items-start gap-2">
-                <span className="text-cyan-400 shrink-0">AI Vision Engine:</span>
-                <span>
-                  {isFakeVisual
-                    ? `Optical analysis calculated ${report.credibility_score}% consistency (< 20% fake threshold). Detected non-conforming lighting and absence of rain/flood reflections.`
-                    : `Optical analysis verified ${report.credibility_score}% ground authenticity matching reported ${report.event_type} conditions.`}
-                </span>
               </div>
             </div>
           )}
 
-          {/* AI Intelligence & Geolocation with Google Street View Pinpoint */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1">
-                <Shield className="w-3.5 h-3.5" /> AI Credibility Matrix
-              </span>
-              <div className="flex items-baseline gap-2">
-                <span className={`text-3xl font-black font-mono ${isFakeVisual ? 'text-rose-400' : 'text-white'}`}>
-                  {report.credibility_score}
-                </span>
-                <span className="text-xs text-slate-400 font-mono">/ 100 Score</span>
-              </div>
-              <p className="text-xs text-slate-400 leading-tight">
-                {report.verification_notes || 'Assessed through multi-modal spatiotemporal corroboration & meteorological consistency.'}
-              </p>
-            </div>
+          {/* Explainable ML for VayuScore TreeSHAP Waterfall (Embedded) */}
+          <ShapWaterfallInspector />
 
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5" /> Geolocation & Ground Pinpoint
-              </span>
-              <div className="text-sm font-semibold text-white">
-                {report.city || 'Unknown District'}, {report.state}
-              </div>
-              <div className="text-xs font-mono text-slate-400">
-                GPS: {report.latitude.toFixed(4)}° N, {report.longitude.toFixed(4)}° E
-              </div>
-              <div className="pt-1">
-                <StreetViewPin latitude={report.latitude} longitude={report.longitude} size="sm" />
-              </div>
+          {/* Geolocation with Google Street View Pinpoint */}
+          <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5" /> Geolocation & Ground Pinpoint
+            </span>
+            <div className="text-sm font-semibold text-white">
+              {report.city || 'Unknown District'}, {report.state}
+            </div>
+            <div className="text-xs font-mono text-slate-400">
+              GPS: {report.latitude.toFixed(4)}° N, {report.longitude.toFixed(4)}° E
+            </div>
+            <div className="pt-1">
+              <StreetViewPin latitude={report.latitude} longitude={report.longitude} size="sm" />
             </div>
           </div>
 

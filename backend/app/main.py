@@ -29,16 +29,10 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Robust CORS Configuration supporting Vite dev server on port 5173
+# Robust CORS Configuration supporting all localhost/Vite ports
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "*"
-    ],
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
@@ -58,17 +52,10 @@ async def websocket_weather_feed(websocket: WebSocket):
         ws_manager.disconnect(websocket)
 
 @app.get("/")
-def root_status():
+def root():
     return {
-        "platform": "VARSHANET",
-        "tagline": "National Weather Big Data Analytics and Citizen Intelligence Platform",
-        "country": "India",
-        "version": settings.VERSION,
-        "docs": "/api/docs",
+        "platform": "VARSHANET 2.0 National Meteorological Decision Support Grid",
         "status": "OPERATIONAL",
-        "automation": live_ingestion_service.get_status()
+        "api_docs": "/api/docs",
+        "active_automation_interval_seconds": 300
     }
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("backend.app.main:app", host="0.0.0.0", port=8000, reload=True)

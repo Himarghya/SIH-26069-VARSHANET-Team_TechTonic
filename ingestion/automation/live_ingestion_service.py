@@ -16,7 +16,7 @@ class LiveIngestionService:
     def __init__(self):
         self.is_running = False
         self._task: asyncio.Task = None
-        self.interval_seconds = settings.AUTO_SYNC_INTERVAL_SECONDS # 5 minutes (300s) default
+        self.interval_seconds = settings.AUTO_SYNC_INTERVAL_SECONDS
         self.last_sync_time: datetime = None
         self.total_auto_ingested = 0
         self.last_sync_count = 0
@@ -26,7 +26,7 @@ class LiveIngestionService:
             return
         self.is_running = True
         self._task = asyncio.create_task(self._background_loop())
-        print(f"[VARSHANET AUTOMATION] Multi-Channel Live Ingestion Service STARTED ({self.interval_seconds}s / 5-min auto-cycle).")
+        print(f"[VARSHANET AUTOMATION] Multi-Channel Live Ingestion Service STARTED ({self.interval_seconds}s auto-cycle).")
 
     def stop(self):
         self.is_running = False
@@ -49,7 +49,7 @@ class LiveIngestionService:
         while self.is_running:
             try:
                 count = await self.sync_live_data()
-                print(f"[5-MIN AUTO-SYNC] Ingested {count} new live events across channels at {datetime.now().strftime('%H:%M:%S')}")
+                print(f"[5-MIN AUTO-SYNC] Ingested {count} new live weather events at {datetime.now().strftime('%H:%M:%S')}")
             except Exception as e:
                 print(f"[5-MIN AUTO-SYNC ERROR] Background sync error: {e}")
             await asyncio.sleep(self.interval_seconds)
@@ -58,7 +58,7 @@ class LiveIngestionService:
         db = SessionLocal()
         new_items_ingested = 0
         try:
-            # 1. Fetch live multi-channel breaking news (Google News, TOI, NDTV, India Today, Down To Earth, NewsAPI)
+            # 1. Fetch live multi-channel breaking weather news (strictly meteorological)
             news_items = await news_connector.fetch_all_channels()
 
             # 2. Fetch live synoptic AWS stations for 11 key Indian cities
@@ -95,6 +95,10 @@ class LiveIngestionService:
                     existing_clusters=existing_clusters
                 )
 
+                # STRICT METEOROLOGICAL GATEKEEPER: Reject non-weather, Nepal, or political figure news
+                if not enriched.get("is_weather_domain", True) or enriched["event_type"] in ["Non-Weather News", "Other", "Non-Weather / Foreign / Political"]:
+                    continue
+
                 cluster_id = enriched["event_cluster_id"]
                 if enriched.get("_is_new_cluster"):
                     c_data = enriched["_cluster_data"]
@@ -124,7 +128,9 @@ class LiveIngestionService:
                         existing_cl.total_reports += 1
                         existing_cl.last_reported_at = datetime.now(timezone.utc)
 
-                report_dict = {k: v for k, v in enriched.items() if not k.startswith("_")}
+                valid_keys = {c.name for c in WeatherReport.__table__.columns}
+                report_dict = {k: v for k, v in enriched.items() if k in valid_keys}
+                
                 new_rep = WeatherReport(**report_dict)
                 db.add(new_rep)
                 new_items_ingested += 1

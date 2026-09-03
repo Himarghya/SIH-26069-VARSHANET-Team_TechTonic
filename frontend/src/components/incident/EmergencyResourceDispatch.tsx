@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Truck, ShieldCheck, PhoneCall, CheckCircle2, FileText, Send, Compass, Waves, ShieldAlert, Sparkles } from 'lucide-react';
+import { Truck, ShieldCheck, PhoneCall, CheckCircle2, FileText, Send, Compass, Waves, ShieldAlert, Sparkles, Layers } from 'lucide-react';
 
 interface ResourceDispatchProps {
   city: string;
@@ -101,9 +101,23 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
   const nearestSecondary = sortedBattalions[1];
   const nearestTertiary = sortedBattalions[2];
 
+  // Dynamic Asset Allocation Table
+  const baseFactor = Math.max(1, Math.round(totalPopulationExposed / 50000));
+  const [resources, setResources] = useState([
+    { name: 'NDRF Quick Response Teams (QRT)', required: Math.min(18, Math.max(3, baseFactor * 2)), allocated: Math.min(18, Math.max(3, baseFactor * 2)), unit: 'Teams (45 personnel/team)', status: 'Fully Deployed' },
+    { name: 'Inflatable Motorized Rescue Boats (IRB)', required: Math.min(45, Math.max(8, baseFactor * 4)), allocated: Math.min(45, Math.max(6, baseFactor * 3)), unit: 'Boats with OBM', status: 'Partially Deployed' },
+    { name: 'Amphibious All-Terrain Vehicles (AATV)', required: Math.min(6, Math.max(2, Math.round(baseFactor / 2))), allocated: Math.min(6, Math.max(2, Math.round(baseFactor / 2))), unit: 'Vehicles', status: 'Active on Scene' },
+    { name: 'High-Capacity Submersible De-watering Pumps', required: Math.min(30, Math.max(10, baseFactor * 3)), allocated: Math.min(30, Math.max(10, baseFactor * 3)), unit: 'Heavy Diesel Pumps', status: 'Fully Deployed' },
+    { name: 'Emergency Ration & Potable Water Kits', required: Math.min(25000, totalPopulationExposed > 0 ? Math.round(totalPopulationExposed * 0.15) : 5000), allocated: Math.min(20000, totalPopulationExposed > 0 ? Math.round(totalPopulationExposed * 0.12) : 4000), unit: 'Family Ration Packs', status: 'Distributing' },
+  ]);
+
+  const [selectedBnForOrder, setSelectedBnForOrder] = useState<NdrfBattalion>(nearestPrimary);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [dispatchSuccess, setDispatchSuccess] = useState<string | null>(null);
+
   const handleUseUserGps = () => {
     if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser.');
+      alert('Geolocation not supported by your browser');
       return;
     }
     setIsLocating(true);
@@ -112,39 +126,23 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
         setCurrentCoords({
           lat: pos.coords.latitude,
           lon: pos.coords.longitude,
-          label: 'Your Current Live GPS'
+          label: `GPS Location (${pos.coords.latitude.toFixed(4)}°N, ${pos.coords.longitude.toFixed(4)}°E)`
         });
         setIsLocating(false);
       },
       (err) => {
-        console.warn('GPS location error:', err);
+        console.error('GPS error', err);
         setIsLocating(false);
-        alert('Could not retrieve live GPS coordinates. Using incident location.');
-      },
-      { timeout: 8000 }
+        alert('Could not acquire your GPS coordinates. Using incident coordinates.');
+      }
     );
   };
-
-  const boatsRequired = Math.max(8, Math.min(30, Math.ceil(totalPopulationExposed / 25000)));
-  const pumpsRequired = Math.max(4, Math.min(20, Math.ceil(totalPopulationExposed / 40000)));
-  const rationsRequired = Math.max(2000, Math.min(25000, Math.ceil(totalPopulationExposed / 15)));
-
-  const [resources, setResources] = useState([
-    { name: 'Motorized Inflatable Rescue Boats (IRBs)', allocated: 6, required: boatsRequired, unit: 'Boats', status: 'Partially Deployed' },
-    { name: 'Heavy-Duty Dewatering Pumps (500 GPM)', allocated: 3, required: pumpsRequired, unit: 'Heavy Units', status: 'In Transit' },
-    { name: 'Emergency Food & Potable Water Kits', allocated: 2500, required: rationsRequired, unit: 'Packs', status: 'Distributing' },
-    { name: 'NDRF Flood Rescue Teams (QRT)', allocated: 2, required: 4, unit: 'Companies (90 Troops)', status: 'Active on Scene' },
-  ]);
-
-  const [showOrderModal, setShowOrderModal] = useState(false);
-  const [selectedBnForOrder, setSelectedBnForOrder] = useState<NdrfBattalion>(nearestPrimary);
-  const [dispatchSuccess, setDispatchSuccess] = useState<string | null>(null);
 
   const handleAllocate = (index: number) => {
     setResources(prev =>
       prev.map((r, i) => {
         if (i === index) {
-          const next = Math.min(r.required, r.allocated + 2);
+          const next = Math.min(r.required, r.allocated + 1);
           return {
             ...r,
             allocated: next,
@@ -194,9 +192,14 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
               <Truck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white tracking-wide">
-                Flood-Aware 16 NDRF Battalion Tactical Routing & Logistics
-              </h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-bold text-white tracking-wide">
+                  Flood-Aware 16 NDRF Battalion Tactical Routing & Logistics
+                </h3>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-700/50">
+                  PHASE 2 LOGISTICS EXTENSION
+                </span>
+              </div>
               <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-2 flex-wrap">
                 <span>Target: <strong className="text-cyan-300 font-medium">{currentCoords.label}</strong></span>
                 <span className="text-slate-600">•</span>
@@ -253,70 +256,84 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
 
               <div>
                 <h4 className="text-sm font-bold text-white">{bn.name}</h4>
-                <p className="text-xs text-cyan-400 mt-0.5">📍 Base: {bn.baseCity}, {bn.state}</p>
-                <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                  {bn.specialization}
-                </p>
+                <p className="text-xs text-slate-400 font-mono">Base: {bn.baseCity}, {bn.state}</p>
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 font-mono text-xs">
+                <div className="flex justify-between text-slate-300">
+                  <span>Detour Road Distance:</span>
+                  <strong className="text-cyan-300">{bn.distanceKm} km</strong>
+                </div>
+                <div className="flex justify-between text-slate-300">
+                  <span>Estimated Convoy ETA:</span>
+                  <strong className="text-emerald-400">~{bn.etaHours} hours</strong>
+                </div>
+                <div className="flex justify-between text-[11px] text-slate-500">
+                  <span>CWC Detour Factor:</span>
+                  <span>{bn.detourFactor}x flood bypass</span>
+                </div>
+              </div>
+
+              <div className="text-[11px] text-slate-400 space-y-0.5 pt-1">
+                <div>Commandant: <span className="text-slate-200 font-medium">{bn.commander}</span></div>
+                <div>Specialty: <span className="text-slate-300 font-medium">{bn.specialization}</span></div>
+                <div className="flex items-center gap-1 text-cyan-400 font-mono">
+                  <PhoneCall className="w-3 h-3" />
+                  <span>{bn.phone}</span>
+                </div>
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-slate-900 space-y-2">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-400">Detour Distance:</span>
-                <span className="text-white font-mono font-bold">{bn.distanceKm} km</span>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-400">Convoy Road ETA:</span>
-                <span className="text-emerald-400 font-mono font-bold">{bn.etaHours} hrs</span>
-              </div>
-
-              <div className="flex gap-2 pt-1">
-                <a
-                  href={`tel:${bn.phone}`}
-                  className="flex-1 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center justify-center gap-1.5 border border-slate-800 hover:border-slate-700 transition-colors"
-                >
-                  <PhoneCall className="w-3 h-3 text-cyan-400" />
-                  <span>Call Line</span>
-                </a>
-                <button
-                  onClick={() => handleGenerateRequisition(bn)}
-                  className="flex-1 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
-                >
-                  <Send className="w-3 h-3" />
-                  <span>Requisition</span>
-                </button>
-              </div>
+            <div className="pt-3 mt-3 border-t border-slate-800/80">
+              <button
+                onClick={() => handleGenerateRequisition(bn)}
+                className={`w-full py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm ${
+                  isPrimary
+                    ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-cyan-900/30'
+                    : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
+                }`}
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Draft Requisition Order</span>
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Resource Allocation Table */}
+      {/* Asset Allocation Table */}
       <div className="space-y-3 pt-2">
         <div className="flex items-center justify-between">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-            Tactical Resource Allocation Matrix
+          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2 font-mono">
+            <span>Dynamic NDRF & Civil Defense Tactical Allocation</span>
+            <span className="text-slate-500 font-normal">({totalPopulationExposed.toLocaleString()} citizens exposed)</span>
           </h4>
-          <span className="text-xs text-slate-500">Auto-calculated from exposed population</span>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950/60 shadow-inner">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800">
+        <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/80 shadow-inner">
+          <table className="w-full text-left text-xs font-sans">
+            <thead className="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-[10px] font-mono border-b border-slate-800">
               <tr>
-                <th className="py-3 px-4">RESOURCE ASSET</th>
-                <th className="py-3 px-4">ALLOCATED</th>
-                <th className="py-3 px-4">REQUIRED</th>
-                <th className="py-3 px-4">STATUS</th>
-                <th className="py-3 px-4 text-right">ACTION</th>
+                <th className="py-3 px-4">Emergency Asset Type</th>
+                <th className="py-3 px-4">Required Scale</th>
+                <th className="py-3 px-4">Deployed</th>
+                <th className="py-3 px-4">Deployment Status</th>
+                <th className="py-3 px-4 text-right">Field Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-800/60 text-slate-300 font-sans">
               {resources.map((res, i) => (
-                <tr key={i} className="hover:bg-slate-900/50 transition-colors">
-                  <td className="py-3.5 px-4 font-medium text-slate-200">{res.name}</td>
-                  <td className="py-3.5 px-4 font-mono font-bold text-cyan-300">{res.allocated} {res.unit}</td>
-                  <td className="py-3.5 px-4 font-mono text-slate-400">{res.required} {res.unit}</td>
+                <tr key={i} className="hover:bg-slate-900/40 transition-colors">
+                  <td className="py-3.5 px-4 font-semibold text-white">
+                    {res.name}
+                    <span className="block text-[10px] font-mono text-slate-500 font-normal">{res.unit}</span>
+                  </td>
+                  <td className="py-3.5 px-4 font-mono text-slate-300">
+                    {res.required}
+                  </td>
+                  <td className="py-3.5 px-4 font-mono font-bold text-cyan-400">
+                    {res.allocated}
+                  </td>
                   <td className="py-3.5 px-4">
                     {getStatusBadge(res.status)}
                   </td>
@@ -344,13 +361,13 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-slate-950 border border-slate-800 rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl text-slate-200 cursor-default font-sans text-xs"
+            className="bg-slate-950 border border-slate-800 rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl text-slate-200 cursor-default font-sans text-xs max-h-[90vh] overflow-y-auto"
           >
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-cyan-400" />
                 <h4 className="text-sm font-bold text-white uppercase tracking-wide">
-                  Official NDRF Requisition Order
+                  Official NDRF Requisition Order (Phase 2 Prototype)
                 </h4>
               </div>
               <button
