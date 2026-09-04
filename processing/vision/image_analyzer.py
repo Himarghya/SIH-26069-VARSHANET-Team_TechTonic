@@ -233,7 +233,8 @@ class ImageWeatherAnalyzer:
                     is_non_weather_object = True
                     non_weather_category_type = "Dry Non-Flooded Vehicle"
                     detected_label = f"Vehicle on Dry Pavement ({primary_pred})"
-                elif any(k in all_preds_str for k in DISASTER_WEATHER_OBJECTS) or 'umbrella' in primary_tokens or turbidity > 0.60 or is_muddy_water:
+                is_disaster_terrain = any(k in all_preds_str for k in DISASTER_WEATHER_OBJECTS) or 'umbrella' in primary_tokens
+                if is_disaster_terrain:
                     detected_label = f"Flood / Inundation Hazard ({primary_pred})"
                 elif overcast_index > 0.60:
                     detected_label = "Dense Overcast Storm Clouds"
@@ -241,8 +242,8 @@ class ImageWeatherAnalyzer:
                     detected_label = f"Outdoor Environment ({primary_pred})"
 
             # Evaluate with Kaggle Disaster Images Dataset ML model (CDD Dataset)
-            is_disaster_confirmed = False
-            if _disaster_ml_model is not None and not is_non_weather_object:
+            is_disaster_confirmed = is_disaster_terrain
+            if _disaster_ml_model is not None and not is_non_weather_object and not is_disaster_confirmed:
                 f32 = self._extract_32dim_features(img_rgb)
                 if f32 is not None:
                     rf = _disaster_ml_model.get('rf_model')
