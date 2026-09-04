@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { AlertsBanner } from './components/common/AlertsBanner';
 import { ReportDetailModal } from './components/reports/ReportDetailModal';
@@ -28,7 +28,12 @@ export function App() {
 
   // WebSocket Live Stream Listener
   const { isConnected } = useWeatherWebSocket((message) => {
-    if (message.type === 'NEW_WEATHER_REPORT' || message.type === 'NEW_CITIZEN_REPORT' || message.type === 'CITIZEN_VERIFICATION_FULFILLED') {
+    if (
+      message.type === 'NEW_WEATHER_REPORT' ||
+      message.type === 'NEW_CITIZEN_REPORT' ||
+      message.type === 'CITIZEN_VERIFICATION_FULFILLED' ||
+      message.type === 'VERIFICATION_UPDATED'
+    ) {
       loadAllData();
     }
   });

@@ -1,4 +1,4 @@
-﻿import uuid
+import uuid
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
@@ -52,25 +52,9 @@ async def submit_citizen_report(
     cluster_id = processed["event_cluster_id"]
     if processed.get("_is_new_cluster"):
         c_data = processed["_cluster_data"]
-        new_cl = EventCluster(
-            id=c_data["id"],
-            title=c_data["title"],
-            event_type=c_data["event_type"],
-            city=c_data["city"],
-            district=c_data["district"],
-            state=c_data["state"],
-            latitude=c_data["latitude"],
-            longitude=c_data["longitude"],
-            status=c_data["status"],
-            severity=c_data["severity"],
-            total_reports=c_data["total_reports"],
-            independent_sources_count=c_data["independent_sources_count"],
-            citizen_reports_count=1,
-            weather_api_confirmed=False,
-            confidence_score=c_data["confidence_score"],
-            overall_credibility=c_data["overall_credibility"],
-            summary=c_data["summary"]
-        )
+        valid_cl_cols = set(c.name for c in EventCluster.__table__.columns)
+        cl_dict = {k: v for k, v in c_data.items() if k in valid_cl_cols}
+        new_cl = EventCluster(**cl_dict)
         db.add(new_cl)
     else:
         existing_cl = db.query(EventCluster).filter(EventCluster.id == cluster_id).first()
@@ -79,7 +63,8 @@ async def submit_citizen_report(
             existing_cl.citizen_reports_count += 1
             existing_cl.last_reported_at = datetime.now()
             
-    report_dict = {k: v for k, v in processed.items() if not k.startswith("_")}
+    valid_rep_cols = set(c.name for c in WeatherReport.__table__.columns)
+    report_dict = {k: v for k, v in processed.items() if k in valid_rep_cols}
     new_report = WeatherReport(**report_dict)
     db.add(new_report)
     db.commit()

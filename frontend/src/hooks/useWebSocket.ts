@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
   const [isConnected, setIsConnected] = useState(false);
@@ -14,7 +14,16 @@ export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
     let isCancelled = false;
     let reconnectTimer: any = null;
     let retryDelay = 3000;
-    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws/weather';
+    const getWsUrl = (): string => {
+      if (import.meta.env.VITE_WS_URL) return import.meta.env.VITE_WS_URL;
+      if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const port = window.location.port ? `:${window.location.port}` : '';
+        return `${protocol}//${window.location.hostname}${port === ':5173' ? ':8000' : port}/ws/weather`;
+      }
+      return 'ws://localhost:8000/ws/weather';
+    };
+    const wsUrl = getWsUrl();
 
     function connect() {
       if (isCancelled) return;
@@ -23,19 +32,31 @@ export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
         const ws = new WebSocket(wsUrl);
         wsRef.current = ws;
 
+        let pingInterval: any = null;
+
         ws.onopen = () => {
           if (isCancelled) {
-            ws.close();
+            try { ws.close(); } catch (_) {}
             return;
           }
           setIsConnected(true);
           retryDelay = 3000;
+          
+          // Heartbeat ping every 15 seconds to keep connection alive
+          pingInterval = setInterval(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+              try {
+                ws.send(JSON.stringify({ type: 'PING' }));
+              } catch (_) {}
+            }
+          }, 15000);
         };
 
         ws.onmessage = (event) => {
           if (isCancelled) return;
           try {
             const data = JSON.parse(event.data);
+            if (data.type === 'PONG') return; // Heartbeat ack
             setLastMessage(data);
             if (callbackRef.current) {
               callbackRef.current(data);
@@ -46,6 +67,7 @@ export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
         };
 
         ws.onclose = () => {
+          if (pingInterval) clearInterval(pingInterval);
           if (isCancelled) return;
           setIsConnected(false);
           reconnectTimer = setTimeout(() => {
@@ -57,12 +79,13 @@ export function useWeatherWebSocket(onMessageReceived?: (data: any) => void) {
         };
 
         ws.onerror = () => {
+          if (pingInterval) clearInterval(pingInterval);
           setIsConnected(false);
         };
       } catch (e) {
         if (!isCancelled) {
           setIsConnected(false);
-          reconnectTimer = setTimeout(connect, 5000);
+          reconnectTimer = setTimeout(connect, 4000);
         }
       }
     }

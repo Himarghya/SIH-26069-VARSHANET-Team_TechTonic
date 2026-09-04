@@ -1,4 +1,4 @@
-﻿import os
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,9 +11,13 @@ from ingestion.automation.live_ingestion_service import live_ingestion_service
 # Ensure tables are created
 Base.metadata.create_all(bind=engine)
 
+from backend.app.core.init_db import init_and_refresh_database
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Start live weather & news ingestion automation service
+    # Startup: Auto-initialize DB and refresh timestamps for active 6h timers
+    init_and_refresh_database()
+    # Start live weather & news ingestion automation service
     live_ingestion_service.start()
     yield
     # Shutdown: Cleanly stop background tasks
@@ -29,12 +33,12 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Robust CORS Configuration supporting all localhost/Vite ports
+# Robust Production CORS Configuration supporting localhost, IPs, and online cloud domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origin_regex=r".*",
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"]
 )

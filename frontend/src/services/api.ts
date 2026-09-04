@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 import {
   WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth,
   EventImpactResponse, VerificationRequestItem,
@@ -6,7 +6,17 @@ import {
   ExtremeWeatherMlResponse, StreamTelemetryResponse
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+const getApiBaseUrl = (): string => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    // If frontend is deployed online, default to the backend API
+    const port = window.location.port ? `:${window.location.port}` : '';
+    return `${window.location.protocol}//${window.location.hostname}${port === ':5173' ? ':8000' : port}/api/v1`;
+  }
+  return 'http://localhost:8000/api/v1';
+};
+
+const API_BASE = getApiBaseUrl();
 
 export const api = axios.create({
   baseURL: API_BASE,
