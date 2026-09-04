@@ -10,8 +10,10 @@ for _p in [_project_root, _backend_dir, os.path.join(_backend_dir, "app")]:
     if _p and os.path.exists(_p) and _p not in sys.path:
         sys.path.insert(0, _p)
 
-from backend.app.main import app
+from backend.app.main import app as _fastapi_app
 
 # Vercel looks for 'app' or 'handler'
-handler = app
+app = _fastapi_app
+handler = _fastapi_app
+
 
