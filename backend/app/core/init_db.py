@@ -59,8 +59,27 @@ DEMO_SCENARIOS = [
     }
 ]
 
+def _migrate_sqlite_columns():
+    try:
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            for col_def in [
+                ("infrastructure_assets", "elevation_m", "FLOAT DEFAULT 0.0"),
+                ("infrastructure_assets", "details", "TEXT DEFAULT '{}'"),
+                ("event_clusters", "elevation_risk", "TEXT DEFAULT 'LOW'"),
+            ]:
+                table, col, sql_type = col_def
+                try:
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col} {sql_type}"))
+                    conn.commit()
+                except Exception:
+                    pass
+    except Exception:
+        pass
+
 def init_and_refresh_database():
     Base.metadata.create_all(bind=engine)
+    _migrate_sqlite_columns()
     db: Session = SessionLocal()
     try:
         # 1. Seed Users
