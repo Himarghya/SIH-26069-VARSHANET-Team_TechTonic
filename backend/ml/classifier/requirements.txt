@@ -5,5 +5,3 @@ matplotlib
 scikit-learn
 streamlit
 Pillow
-torch
-torchvision
