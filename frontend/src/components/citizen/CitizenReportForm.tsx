@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CloudRain, MapPin, Send, CheckCircle2, AlertCircle, Shield, Eye, Camera, Upload, Trash2, ArrowDownCircle, Clock, CheckCircle } from 'lucide-react';
 import { submitCitizenReport, trackCitizenReport } from '../../services/api';
 import { WeatherReport } from '../../types';
+import { LiveMlForensicInspector } from '../ml/LiveMlForensicInspector';
 
 // Sample verified ground proof images & videos for instant testing
 const SAMPLE_PROOFS = [
@@ -32,6 +33,7 @@ export const CitizenReportForm: React.FC = () => {
   const [trackingId, setTrackingId] = useState('');
   const [trackedReport, setTrackedReport] = useState<WeatherReport | null>(null);
   const [trackError, setTrackError] = useState('');
+  const [showMlModal, setShowMlModal] = useState(false);
 
   // Process files from file input, drag & drop, or clipboard paste (Supports Photo & Video)
   const processFiles = (files: FileList | File[]) => {
@@ -204,16 +206,34 @@ export const CitizenReportForm: React.FC = () => {
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" onPaste={handlePaste}>
       {/* Submission Form */}
       <div className="lg:col-span-7 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl font-sans">
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800">
+        <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-800">
           <div className="p-3 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
             <CloudRain className="w-6 h-6" />
           </div>
-          <div>
+          <div className="flex-1">
             <h2 className="text-lg font-bold text-white">Citizen Weather Intelligence & Ground Report Portal</h2>
             <p className="text-xs text-slate-400">
-              Submit real-time ground observations, localized flood hotspots, or storm damage with 2-3 photo proofs. Directly transmits to State Disaster Management & IMD Operations.
+              Submit real-time ground observations, localized flood hotspots, or storm damage with photo/video proofs. Media is pre-screened in real-time by in-house ML neural models.
             </p>
           </div>
+        </div>
+
+        {/* 🧠 Interactive In-House ML Model Status Bar */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 mb-5 gap-2">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-xs font-mono text-purple-200">
+              <strong>ML Filter Online:</strong> VARSHANET Dual Neural Guards (25 Epochs)
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowMlModal(true)}
+            className="px-2.5 py-1 rounded-lg bg-purple-900/80 hover:bg-purple-800 text-purple-200 text-xs font-mono font-bold border border-purple-600/50 transition cursor-pointer flex items-center gap-1.5"
+          >
+            <span>🔬</span>
+            <span>Inspect 25-Epoch ML Model &amp; Loss Curves</span>
+          </button>
         </div>
 
         {submittedReport ? (
@@ -347,20 +367,20 @@ export const CitizenReportForm: React.FC = () => {
               />
             </div>
 
-            {/* 📸 2-3 PHOTO PROOF DRAG & DROP ZONE */}
+            {/* 📸 2-3 PHOTO / VIDEO PROOF DRAG & DROP ZONE */}
             <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-white flex items-center gap-1.5 font-mono uppercase">
                   <Camera className="w-4 h-4 text-cyan-400" />
-                  <span>Attach 2-3 Photo Proofs (Ground Evidence)</span>
+                  <span>Attach Photo / Video Proofs (Ground Evidence)</span>
                 </label>
                 <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-800">
-                  {photos.length} / 3 Photos Attached
+                  {photos.length} / 3 Media Attached
                 </span>
               </div>
 
               <p className="text-[11px] text-slate-400">
-                Upload photos of flood water depth, traffic disruption, or damage. Photos will be verified by meteorological moderation.
+                Upload photos or videos (MP4, WebM, MOV) of flood water depth, traffic disruption, or storm damage. Media is filtered in real-time by <span className="text-purple-300 font-semibold">VARSHANET-VisionGuard-v2.1</span>.
               </p>
 
               {/* Photo & Video Previews */}
@@ -581,6 +601,11 @@ export const CitizenReportForm: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* 🔬 Live ML Model & Training Curves Modal */}
+      {showMlModal && (
+        <LiveMlForensicInspector onClose={() => setShowMlModal(false)} />
+      )}
     </div>
   );
 };

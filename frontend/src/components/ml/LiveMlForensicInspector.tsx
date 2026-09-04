@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, AlertTriangle, Cpu, CheckCircle2, Video, Camera, Sparkles, Layers, Activity, RefreshCw } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, Cpu, CheckCircle2, Video, Camera, Sparkles, Layers, Activity, RefreshCw, X } from 'lucide-react';
 import { fetchModelReport } from '../../services/api';
 
 interface LiveMlForensicInspectorProps {
@@ -7,13 +7,15 @@ interface LiveMlForensicInspectorProps {
   reportText?: string;
   credibilityScore?: number;
   isFakeFlag?: boolean;
+  onClose?: () => void;
 }
 
 export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = ({
   mediaUrls = [],
   reportText = '',
   credibilityScore = 88.0,
-  isFakeFlag = false
+  isFakeFlag = false,
+  onClose
 }) => {
   const [modelReport, setModelReport] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'inference' | 'epochs' | 'architecture'>('inference');
@@ -32,8 +34,8 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
   const fakeProb = +(100.0 - authScore).toFixed(1);
   const weatherConf = isFake && !reportText.toLowerCase().includes('rain') ? 35.0 : 96.4;
 
-  return (
-    <div className="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 font-sans shadow-xl">
+  const content = (
+    <div className="bg-slate-950/95 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 font-sans shadow-2xl max-w-2xl w-full">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2 border-b border-slate-800 pb-3">
         <div className="flex items-center gap-2">
@@ -53,32 +55,44 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
           </div>
         </div>
 
-        {/* Tab switcher */}
-        <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 text-[10px] font-mono font-bold">
-          <button
-            onClick={() => setActiveTab('inference')}
-            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-              activeTab === 'inference' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Live Inference
-          </button>
-          <button
-            onClick={() => setActiveTab('epochs')}
-            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-              activeTab === 'epochs' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            25 Epoch Curves
-          </button>
-          <button
-            onClick={() => setActiveTab('architecture')}
-            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-              activeTab === 'architecture' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Architecture
-          </button>
+        <div className="flex items-center gap-2">
+          {/* Tab switcher */}
+          <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 text-[10px] font-mono font-bold">
+            <button
+              onClick={() => setActiveTab('inference')}
+              className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                activeTab === 'inference' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Live Inference
+            </button>
+            <button
+              onClick={() => setActiveTab('epochs')}
+              className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                activeTab === 'epochs' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              25 Epoch Curves
+            </button>
+            <button
+              onClick={() => setActiveTab('architecture')}
+              className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                activeTab === 'architecture' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Architecture
+            </button>
+          </div>
+
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer border border-slate-700"
+              title="Close modal"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -217,4 +231,14 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
       )}
     </div>
   );
+
+  if (onClose) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in overflow-y-auto">
+        {content}
+      </div>
+    );
+  }
+
+  return content;
 };
