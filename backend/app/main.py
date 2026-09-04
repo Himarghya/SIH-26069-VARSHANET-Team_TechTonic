@@ -1,4 +1,15 @@
+import sys
 import os
+
+# Universal path resolution for local dev, Docker, and Vercel serverless
+_current_dir = os.path.dirname(os.path.abspath(__file__)) # backend/app
+_backend_dir = os.path.dirname(_current_dir)              # backend
+_project_root = os.path.dirname(_backend_dir)             # repository root
+
+for _p in [_project_root, _backend_dir, _current_dir]:
+    if _p and _p not in sys.path:
+        sys.path.insert(0, _p)
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
