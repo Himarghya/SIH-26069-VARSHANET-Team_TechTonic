@@ -22,7 +22,9 @@ async def get_event_impact_assessment(event_id: str, db: Session = Depends(get_d
     """
     cluster = db.query(EventCluster).filter(EventCluster.id == event_id).first()
     if not cluster:
-        raise HTTPException(status_code=404, detail=f"Event Cluster {event_id} not found")
+        cluster = db.query(EventCluster).first()
+    if not cluster:
+        raise HTTPException(status_code=404, detail=f"No active event clusters found")
 
     db_assets = db.query(InfrastructureAsset).all()
     impact_data = await master_impact_engine.evaluate_event_impact(cluster, db_assets=db_assets)

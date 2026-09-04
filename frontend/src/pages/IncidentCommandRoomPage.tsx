@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Radio, AlertTriangle, ShieldCheck, Activity, RefreshCw, ChevronRight, FileText, PhoneCall, ShieldAlert, HeartHandshake, MapPin } from 'lucide-react';
 import { EventCluster, EventImpactResponse } from '../types';
 import { fetchEventImpact } from '../services/api';
@@ -286,9 +286,17 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
           )}
         </div>
       ) : (
-        <div className="h-72 rounded-2xl border border-slate-800 bg-slate-900/50 flex items-center justify-center text-slate-400">
-          <RefreshCw className="w-6 h-6 animate-spin mr-2 text-cyan-400" />
-          Loading Incident Impact Intelligence...
+        <div className="h-72 rounded-2xl border border-slate-800 bg-slate-900/50 flex flex-col items-center justify-center text-slate-400 gap-3">
+          <div className="flex items-center gap-2">
+            <RefreshCw className="w-5 h-5 animate-spin text-cyan-400" />
+            <span className="text-sm font-medium">Loading Incident Impact Intelligence...</span>
+          </div>
+          <button
+            onClick={() => loadImpactData(currentEventId || 'default')}
+            className="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded-lg text-xs font-semibold border border-cyan-500/30 transition-all cursor-pointer"
+          >
+            Retry Loading Incident Feed
+          </button>
         </div>
       )}
 

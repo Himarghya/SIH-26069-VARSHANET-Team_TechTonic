@@ -40,7 +40,7 @@ export function App() {
 
   const loadAllData = async () => {
     try {
-      const [reps, evts, alrts, ovr, pnd, hlth] = await Promise.all([
+      const results = await Promise.allSettled([
         fetchReports(),
         fetchEvents(),
         fetchAlerts(),
@@ -48,12 +48,12 @@ export function App() {
         fetchPendingVerification(),
         fetchSystemHealth()
       ]);
-      setReports(reps);
-      setEvents(evts);
-      setAlerts(alrts);
-      setOverview(ovr);
-      setPendingReports(pnd);
-      setSystemHealth(hlth);
+      if (results[0].status === 'fulfilled' && Array.isArray(results[0].value)) setReports(results[0].value);
+      if (results[1].status === 'fulfilled' && Array.isArray(results[1].value)) setEvents(results[1].value);
+      if (results[2].status === 'fulfilled' && Array.isArray(results[2].value)) setAlerts(results[2].value);
+      if (results[3].status === 'fulfilled' && results[3].value) setOverview(results[3].value);
+      if (results[4].status === 'fulfilled' && Array.isArray(results[4].value)) setPendingReports(results[4].value);
+      if (results[5].status === 'fulfilled' && results[5].value) setSystemHealth(results[5].value);
     } catch (err) {
       console.error('Error loading VARSHANET platform data', err);
     }
