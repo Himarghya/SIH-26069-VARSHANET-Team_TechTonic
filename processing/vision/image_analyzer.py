@@ -1,417 +1,251 @@
 import os
 import io
-import re
+import json
 import base64
 import urllib.request
-from typing import Dict, List, Optional, Any, Tuple
-from PIL import Image, ImageStat, ImageFilter
+from typing import Dict, Any, Optional, List
 
-import joblib
+import numpy as np
+from PIL import Image
 
-# Initialize MobileNetV3 deep vision backbone safely
+# ---------------------------------------------------------------------------
+# Real Trained Two-Stage Disaster Models
+# Stage 1: Disaster Detector (Disaster vs Normal Everyday Scene)
+# Stage 2: Disaster Type Classifier (Flood, Fire, Landslide, Infrastructure, etc.)
+# ---------------------------------------------------------------------------
+
+_MODEL_DIR = os.environ.get("DISASTER_MODEL_DIR", os.path.dirname(__file__))
+
+_binary_model = None
+_multiclass_model = None
+_class_names = []
+_backend = None
+HAS_DISASTER_MODEL = False
+
+# 1. Try TensorFlow / Keras models if available
 try:
-    import torch
-    import torchvision.models as models
-    _weights = models.MobileNet_V3_Small_Weights.DEFAULT
-    _vision_model = models.mobilenet_v3_small(weights=_weights)
-    _vision_model.eval()
-    _categories = _weights.meta['categories']
-    _preprocess = _weights.transforms()
-    HAS_TORCH = True
-except Exception as _e:
-    _vision_model = None
-    _categories = []
-    _preprocess = None
-    HAS_TORCH = False
+    import tensorflow as tf
+    _bin_k = os.path.join(_MODEL_DIR, "disaster_detector.keras")
+    _mul_k = os.path.join(_MODEL_DIR, "disaster_classifier.keras")
+    _cls_k = os.path.join(_MODEL_DIR, "class_names.json")
 
-# Load pre-trained Kaggle Disaster Dataset ML Model (varpit94/disaster-images-dataset)
-_disaster_ml_model = None
-try:
-    _model_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "backend", "ml", "models", "disaster_vision_model.joblib")
-    if os.path.exists(_model_file):
-        _disaster_ml_model = joblib.load(_model_file)
-except Exception as _e:
-    _disaster_ml_model = None
+    if os.path.exists(_bin_k) and os.path.exists(_mul_k):
+        _binary_model = tf.keras.models.load_model(_bin_k)
+        _multiclass_model = tf.keras.models.load_model(_mul_k)
+        with open(_cls_k, "r") as f:
+            _class_names = json.load(f)
+        _backend = "keras"
+        HAS_DISASTER_MODEL = True
+        print("[VisionGuard] Loaded trained disaster_detector.keras + disaster_classifier.keras")
+except Exception:
+    pass
 
-# Semantic categories for non-disaster discrimination (Animals, Wildlife, Domestic Pets)
-NON_WEATHER_PETS = {
-    'cat', 'tabby', 'kitten', 'persian', 'siamese', 'cougar', 'lynx', 'leopard', 'cheetah', 'jaguar', 'tiger', 'lion',
-    'elephant', 'tusker', 'mammoth', 'african_elephant', 'indian_elephant',
-    'dog', 'hound', 'retriever', 'terrier', 'pug', 'bulldog', 'shepherd', 'beagle', 'poodle', 'chihuahua',
-    'husky', 'malamute', 'cocker', 'boxer', 'rottweiler', 'doberman', 'collie', 'spaniel', 'pinscher',
-    'hamster', 'rabbit', 'guinea', 'squirrel', 'bird', 'parrot', 'canary', 'finch', 'owl', 'penguin', 'peacock', 'eagle',
-    'fish', 'goldfish', 'shark', 'lizard', 'snake', 'frog', 'turtle', 'tortoise', 'horse', 'zebra', 'cow', 'bull', 'ox',
-    'pig', 'sheep', 'goat', 'monkey', 'gorilla', 'chimpanzee', 'bear', 'panda', 'koala', 'deer', 'stag', 'bison',
-    'giraffe', 'rhino', 'hippopotamus', 'camel', 'llama', 'fox', 'wolf', 'hyena', 'crocodile', 'alligator'
-}
+# 2. If Keras not active, load trained PyTorch models (Native CUDA acceleration)
+if not HAS_DISASTER_MODEL:
+    try:
+        import torch
+        import torch.nn as nn
+        from torchvision import transforms, models
 
-NON_WEATHER_FOOD = {
-    'burger', 'cheeseburger', 'pizza', 'sandwich', 'hotdog', 'bagel', 'loaf', 'bread', 'cake', 'bakery',
-    'coffee', 'espresso', 'ice cream', 'fruit', 'apple', 'banana', 'orange', 'strawberry', 'lemon', 'pineapple',
-    'chocolate', 'salad', 'soup', 'pasta', 'spaghetti', 'burrito', 'taco', 'plate', 'dish', 'dining table'
-}
+        _bin_pt = os.path.join(_MODEL_DIR, "disaster_detector_pytorch.pt")
+        _mul_pt = os.path.join(_MODEL_DIR, "disaster_classifier_pytorch.pt")
+        _cls_pt = os.path.join(_MODEL_DIR, "class_names.json")
 
-NON_WEATHER_INDOOR = {
-    'bedroom', 'wardrobe', 'sofa', 'couch', 'desk', 'toilet', 'television', 'laptop', 'cellphone', 'notebook',
-    'pillow', 'quilt', 'curtain', 'window shade', 'bookcase', 'refrigerator', 'microwave', 'oven', 'stove',
-    'bathtub', 'shower', 'washbasin', 'mirror', 'lamp', 'lampshade', 'vase', 'clock', 'wall clock'
-}
+        if os.path.exists(_bin_pt) and os.path.exists(_mul_pt):
+            _torch_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            with open(_cls_pt, "r") as f:
+                _class_names = json.load(f)
 
-NON_WEATHER_APPAREL = {
-    'suit', 'dress', 'gown', 'skirt', 'shoe', 'boot', 'sandal', 'sneaker', 'sunglasses', 'glasses',
-    'watch', 'necklace', 'lipstick', 'purse', 'handbag', 'backpack', 'wallet'
-}
+            # Build Stage 1 MobileNetV2 Binary Model
+            _base1 = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.DEFAULT)
+            in_f1 = _base1.classifier[1].in_features
+            _base1.classifier = nn.Sequential(
+                nn.Dropout(0.3),
+                nn.Linear(in_f1, 128),
+                nn.ReLU(),
+                nn.Dropout(0.2),
+                nn.Linear(128, 2)
+            )
+            _base1.load_state_dict(torch.load(_bin_pt, map_location=_torch_device))
+            _base1 = _base1.to(_torch_device).eval()
 
-NON_WEATHER_VEHICLES = {
-    'sports car', 'convertible', 'limousine', 'minivan', 'racer', 'go-kart', 'bicycle', 'tricycle', 'unicycle'
-}
+            # Build Stage 2 MobileNetV2 Multi-class Model
+            _base2 = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.DEFAULT)
+            in_f2 = _base2.classifier[1].in_features
+            _base2.classifier = nn.Sequential(
+                nn.Dropout(0.3),
+                nn.Linear(in_f2, 128),
+                nn.ReLU(),
+                nn.Dropout(0.2),
+                nn.Linear(128, len(_class_names))
+            )
+            _base2.load_state_dict(torch.load(_mul_pt, map_location=_torch_device))
+            _base2 = _base2.to(_torch_device).eval()
 
-DISASTER_WEATHER_OBJECTS = {
-    'canoe', 'lifeboat', 'speedboat', 'breakwater', 'dam', 'lakeshore', 'seashore', 'geyser', 'cliff',
-    'valley', 'waterfall', 'fountain', 'alp', 'volcano', 'promontory', 'sandbar', 'mud turtle'
-}
+            _binary_model = _base1
+            _multiclass_model = _base2
+            _torch_transform = transforms.Compose([
+                transforms.Resize((224, 224)),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+            ])
+            _backend = "pytorch"
+            HAS_DISASTER_MODEL = True
+            print(f"[VisionGuard] Loaded trained disaster_detector_pytorch.pt + disaster_classifier_pytorch.pt (Device: {_torch_device})")
+    except Exception as e:
+        print(f"[VisionGuard] PyTorch load error: {e}")
 
-HISTORICAL_DISASTER_ARCHIVES = {
-    "kerala_2018_floods_submerged_bus": "1100110011001100",
-    "chennai_2015_floods_airport_runway": "1010101010101010",
-    "kedarnath_2013_temple_debris": "1111000011110000",
-    "amphan_cyclone_2020_kolkata_trees": "1100001111000011"
-}
+if not HAS_DISASTER_MODEL:
+    print("[VisionGuard] WARNING: could not load trained disaster models. "
+          "Falling back to a permissive default — verify deployment includes "
+          "disaster_detector + disaster_classifier models and class_names.json.")
+
+IMG_SIZE = (224, 224)
+NORMAL_PROB_THRESHOLD = 0.5
+TYPE_CONFIDENCE_THRESHOLD = 0.40
 
 
 def load_image_from_source(source: str) -> Optional[Image.Image]:
-    """
-    Safely decodes an image from Base64 data URL, HTTP/HTTPS URL, or local file path.
-    """
+    """Safely decodes Base64 data URLs, remote URLs, or local file paths into a PIL Image."""
     if not source:
         return None
-
     try:
-        # 1. Handle Base64 Data URI
         if source.startswith('data:image'):
             header, encoded = source.split(',', 1)
-            data = base64.b64decode(encoded)
-            return Image.open(io.BytesIO(data)).convert('RGB')
-        
-        # 2. Handle raw Base64 string
-        if len(source) > 200 and not source.startswith('http') and not os.path.exists(source):
-            try:
-                data = base64.b64decode(source)
-                return Image.open(io.BytesIO(data)).convert('RGB')
-            except Exception:
-                pass
-
-        # 3. Handle Remote HTTP / HTTPS URL
+            return Image.open(io.BytesIO(base64.b64decode(encoded))).convert('RGB')
         if source.startswith(('http://', 'https://')):
-            req = urllib.request.Request(
-                source,
-                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) VARSHANET-VisionGuard/3.0'}
-            )
+            req = urllib.request.Request(source, headers={'User-Agent': 'VARSHANET-VisionGuard/3.0'})
             with urllib.request.urlopen(req, timeout=6) as response:
                 return Image.open(io.BytesIO(response.read())).convert('RGB')
-
-        # 4. Handle Local File Path
         if os.path.exists(source):
             return Image.open(source).convert('RGB')
-
     except Exception as e:
-        print(f"[VisionGuard] Failed to load image from source: {e}")
-
+        print(f"[VisionGuard] Image load error: {e}")
     return None
 
 
 class ImageWeatherAnalyzer:
     def __init__(self):
-        self.model_version = "VARSHANET-VisionGuard-v3.0 (PyTorch Deep Neural Backbone)"
-        self.epochs_trained = 25
-
-    def _compute_dhash(self, img: Image.Image) -> str:
-        resized = img.convert("L").resize((9, 8), Image.Resampling.LANCZOS)
-        pixels = list(resized.getdata())
-        diff = []
-        for row in range(8):
-            for col in range(8):
-                diff.append(pixels[row * 9 + col] > pixels[row * 9 + col + 1])
-        return "".join(["1" if b else "0" for b in diff])
-
-    def _hamming_distance(self, s1: str, s2: str) -> int:
-        return sum(c1 != c2 for c1, c2 in zip(s1, s2))
-
-    def _extract_32dim_features(self, img_rgb: Image.Image) -> Any:
-        try:
-            stat = ImageStat.Stat(img_rgb)
-            r_mean, g_mean, b_mean = stat.mean[:3]
-            r_std, g_std, b_std = stat.stddev[:3]
-            is_muddy = (r_mean > b_mean + 20 and g_mean > b_mean + 10 and r_mean < 180)
-            turbidity = 0.85 if is_muddy else 0.20
-            lum = sum(stat.mean[:3]) / 3.0
-            overcast = max(0.0, min(1.0, (180.0 - lum) / 130.0))
-            edges = img_rgb.convert('L').filter(ImageFilter.FIND_EDGES)
-            edge_stat = ImageStat.Stat(edges)
-            edge_entropy = min(1.0, edge_stat.mean[0] / 40.0)
-            w, h = img_rgb.size
-            upper = img_rgb.crop((0, 0, w, max(1, h // 3)))
-            lower = img_rgb.crop((0, max(1, h // 3), w, h))
-            u_lum = sum(ImageStat.Stat(upper).mean[:3]) / 3.0
-            l_lum = sum(ImageStat.Stat(lower).mean[:3]) / 3.0
-            split_ratio = u_lum / max(1.0, l_lum)
-            
-            import numpy as np
-            vec = [
-                r_mean, g_mean, b_mean, r_std, g_std, b_std,
-                turbidity, overcast, 0.40,
-                r_mean / max(1.0, g_mean), g_mean / max(1.0, b_mean), b_mean / max(1.0, r_mean),
-                edge_entropy, edge_entropy * 0.9, edge_entropy * 0.8, edge_entropy * 0.85,
-                0.5, 0.5, 0.5, 0.5,
-                split_ratio, 0.5, 0.5, 0.5,
-                0.5, 0.5, 0.5, 0.5,
-                0.5, 0.5, 0.5, 0.5
-            ]
-            return np.array(vec, dtype=np.float32).reshape(1, -1)
-        except Exception:
-            return None
+        self.model_version = "VARSHANET-VisionGuard-TwoStage (MobileNetV2 Kaggle CDD Disaster Neural Backbone)"
 
     def analyze_pil_image(self, img_rgb: Image.Image) -> Dict[str, Any]:
-        """
-        Executes deep vision neural object classification & forensic analysis on PIL Image.
-        Returns clear binary TRUE/FALSE decision and Admin Recommendation.
-        """
-        try:
-            stat = ImageStat.Stat(img_rgb)
-            r_mean, g_mean, b_mean = stat.mean[:3]
+        """Runs Stage 1 (Disaster vs Normal) and Stage 2 (Disaster Type
+        Classification) using the actual trained two-stage neural models."""
+        if not HAS_DISASTER_MODEL:
+            return {
+                "media_type": "image",
+                "is_weather_related": False,
+                "is_disaster": False,
+                "is_authentic": False,
+                "model_verdict": "ERROR: MODEL NOT LOADED",
+                "stage1_result": "Model Unavailable",
+                "stage2_result": "Model Unavailable",
+                "admin_verdict": "UNVERIFIED: ML MODEL UNAVAILABLE",
+                "admin_recommendation": "⚠️ MANUAL REVIEW REQUIRED",
+                "verdict_reason": "Trained disaster_detector / disaster_classifier "
+                                  "were not found on this server. Deploy the model files or set DISASTER_MODEL_DIR.",
+                "detected_category": "Unclassified — model unavailable",
+                "top_predictions": [],
+                "weather_relevance_confidence": 0.0,
+                "authenticity_score": 0.0,
+                "fake_probability": 100.0,
+            }
 
-            # 1. Turbidity / Muddy flood sediment index (0.0 to 1.0)
-            is_muddy_water = (r_mean > b_mean + 12 and g_mean > b_mean + 5 and r_mean < 185)
-            turbidity = 0.88 if is_muddy_water else 0.45 if (b_mean > r_mean + 8) else 0.20
+        # --- Inference via PyTorch or Keras backend ---
+        if _backend == "pytorch":
+            tensor = _torch_transform(img_rgb).unsqueeze(0).to(_torch_device)
+            with torch.no_grad():
+                out1 = _binary_model(tensor).softmax(dim=1).squeeze(0)
+                p_disaster = float(out1[0].item())
+                p_normal = float(out1[1].item())
 
-            # 2. Overcast / Dark storm cloud index (0.0 to 1.0)
-            overall_luminance = sum(stat.mean[:3]) / 3.0
-            overcast_index = round(max(0.0, min(1.0, (180.0 - overall_luminance) / 130.0)), 2)
+            is_disaster = p_normal < NORMAL_PROB_THRESHOLD
 
-            # 3. Rain Streak / Spatial Edge Gradient Entropy
-            edges = img_rgb.convert("L").filter(ImageFilter.FIND_EDGES)
-            edge_stat = ImageStat.Stat(edges)
-            edge_entropy = round(min(1.0, edge_stat.mean[0] / 40.0), 2)
-
-            # 4. Deep Neural Network Object Detection via MobileNetV3
-            top_classes = []
-            detected_label = "General Scene"
-            is_non_weather_object = False
-            non_weather_category_type = None
-
-            if _vision_model is not None and _preprocess is not None:
-                batch = _preprocess(img_rgb).unsqueeze(0)
+            if is_disaster:
                 with torch.no_grad():
-                    preds = _vision_model(batch).squeeze(0).softmax(0)
-                    top_k = torch.topk(preds, 5)
-                    top_classes = [_categories[top_k.indices[i].item()] for i in range(5)]
-                    top_conf = top_k.values[0].item()
+                    out2 = _multiclass_model(tensor).softmax(dim=1).squeeze(0)
+                preds = out2.tolist()
+        else:
+            resized = img_rgb.resize(IMG_SIZE)
+            arr = np.expand_dims(np.array(resized).astype("float32"), axis=0)
+            p_normal = float(_binary_model.predict(arr, verbose=0)[0][0])
+            p_disaster = 1.0 - p_normal
+            is_disaster = p_normal < NORMAL_PROB_THRESHOLD
 
-                primary_pred = top_classes[0].lower()
-                all_preds_str = " ".join(top_classes).lower()
-                pred_tokens = set(re.findall(r'[a-z]+', all_preds_str))
-                primary_tokens = set(re.findall(r'[a-z]+', primary_pred))
+            if is_disaster:
+                preds = _multiclass_model.predict(arr, verbose=0)[0].tolist()
 
-                # Evaluate against non-disaster classes (using token intersection to prevent substring collisions)
-                if primary_tokens.intersection(NON_WEATHER_PETS) or (pred_tokens.intersection(NON_WEATHER_PETS) and 'umbrella' not in primary_tokens and 'dam' not in primary_tokens and 'lake' not in primary_tokens):
-                    is_non_weather_object = True
-                    non_weather_category_type = "Wildlife / Animal / Pet"
-                    detected_label = f"Wildlife / Animal ({primary_pred})"
-                elif primary_tokens.intersection(NON_WEATHER_FOOD) or pred_tokens.intersection(NON_WEATHER_FOOD):
-                    is_non_weather_object = True
-                    non_weather_category_type = "Food / Dining"
-                    detected_label = f"Food Item ({primary_pred})"
-                elif primary_tokens.intersection(NON_WEATHER_INDOOR):
-                    is_non_weather_object = True
-                    non_weather_category_type = "Indoor Furniture / Electronics"
-                    detected_label = f"Indoor Object ({primary_pred})"
-                elif primary_tokens.intersection(NON_WEATHER_APPAREL) and 'umbrella' not in primary_tokens:
-                    is_non_weather_object = True
-                    non_weather_category_type = "Fashion / Apparel"
-                    detected_label = f"Apparel / Accessory ({primary_pred})"
-                elif primary_tokens.intersection(NON_WEATHER_VEHICLES) and turbidity < 0.40:
-                    is_non_weather_object = True
-                    non_weather_category_type = "Dry Non-Flooded Vehicle"
-                    detected_label = f"Vehicle on Dry Pavement ({primary_pred})"
-                if not is_non_weather_object:
-                    is_disaster_terrain = any(k in all_preds_str for k in DISASTER_WEATHER_OBJECTS) or 'umbrella' in primary_tokens
-                    if is_disaster_terrain:
-                        detected_label = f"Flood / Inundation Hazard ({primary_pred})"
-                    elif overcast_index > 0.60:
-                        detected_label = "Dense Overcast Storm Clouds"
-                    else:
-                        detected_label = f"Outdoor Environment ({primary_pred})"
-                else:
-                    is_disaster_terrain = False
-
-            # Evaluate with Kaggle Disaster Images Dataset ML model (CDD Dataset)
-            is_disaster_confirmed = is_disaster_terrain
-            if _disaster_ml_model is not None and not is_non_weather_object and not is_disaster_confirmed:
-                f32 = self._extract_32dim_features(img_rgb)
-                if f32 is not None:
-                    rf = _disaster_ml_model.get('rf_model')
-                    gb = _disaster_ml_model.get('gb_model')
-                    rf_p = rf.predict(f32)[0] if rf is not None else 0
-                    gb_p = gb.predict(f32)[0] if gb is not None else 0
-                    if rf_p == 0 or gb_p == 0:
-                        is_non_weather_object = True
-                        non_weather_category_type = "Non-Damage / Wildlife Scene"
-                        detected_label = "Non-Damage / Wildlife Scene (Kaggle Dataset Model)"
-                    elif rf_p == 1 and gb_p == 1:
-                        is_disaster_confirmed = True
-                        detected_label = "Disaster / Hazard Scene (Kaggle Dataset Model)"
-
-            # 5. Perceptual dHash & Recycled Disaster Archive matching
-            phash = self._compute_dhash(img_rgb)
-            min_archive_dist = 64
-            matched_archive = None
-
-            for name, arch_hash in HISTORICAL_DISASTER_ARCHIVES.items():
-                dist = self._hamming_distance(phash[:16], arch_hash)
-                if dist < min_archive_dist:
-                    min_archive_dist = dist
-                    if dist <= 3:
-                        matched_archive = name
-
-            is_recycled_archive = matched_archive is not None
-
-            # 6. Binary Verdict & Admin Recommendation Logic
-            if is_non_weather_object:
-                # Direct FALSE: Non-disaster image detected (e.g. Fox, Elephant, Cat, Dog, Food, Bedroom, Wildlife)
-                is_weather = False
-                is_authentic = False
-                admin_verdict = "FALSE: NOT DISASTER RELATED"
-                admin_recommendation = "❌ RECOMMEND REJECT"
-                verdict_reason = f"Non-disaster {non_weather_category_type} detected ({detected_label}). Not relevant to meteorological hazard tracking."
-                auth_score = 10.0
-                fake_prob = 90.0
-                weather_conf = 10.0
-
-            elif is_recycled_archive:
-                is_weather = True
-                is_authentic = False
-                admin_verdict = "FALSE: RECYCLED HOAX ARCHIVE"
-                admin_recommendation = "❌ RECOMMEND REJECT"
-                verdict_reason = f"Recycled historical disaster footage detected (Matches {matched_archive})."
-                auth_score = 15.0
-                fake_prob = 85.0
-                weather_conf = 85.0
-
-            elif (turbidity > 0.60 or is_muddy_water or is_disaster_confirmed) and not is_non_weather_object:
-                # Direct TRUE: Authentic disaster ground proof
-                is_weather = True
-                is_authentic = True
-                admin_verdict = "TRUE: DISASTER RELATED"
-                admin_recommendation = "✅ RECOMMEND VERIFY"
-                verdict_reason = f"Authentic disaster ground proof verified: {detected_label}."
-                auth_score = 92.5
-                fake_prob = 7.5
-                weather_conf = 96.0
-
-            else:
-                # Default strictly FALSE for non-matching or ambiguous images
-                is_weather = False
-                is_authentic = False
-                admin_verdict = "FALSE: NOT DISASTER RELATED"
-                admin_recommendation = "❌ RECOMMEND REJECT"
-                verdict_reason = f"Non-disaster ambient scene detected ({detected_label}). No visible flood, storm, or meteorological damage."
-                auth_score = 20.0
-                fake_prob = 80.0
-                weather_conf = 20.0
-
-            return {
-                "media_type": "image",
-                "is_weather_related": is_weather,
-                "is_disaster": is_weather,
-                "is_authentic": is_authentic,
-                "model_verdict": "TRUE: DISASTER PHOTO" if is_weather else "FALSE: NOT A DISASTER PHOTO",
-                "stage1_result": "Disaster Detected" if is_weather else "Normal Everyday Scene (Non-Disaster)",
-                "stage2_result": detected_label if is_weather else "None (Non-Disaster Scene)",
-                "admin_verdict": admin_verdict,
-                "admin_recommendation": admin_recommendation,
-                "verdict_reason": verdict_reason,
-                "detected_category": detected_label,
-                "top_predictions": top_classes,
-                "weather_relevance_confidence": weather_conf,
-                "authenticity_score": auth_score,
-                "fake_probability": fake_prob,
-                "turbidity_index": turbidity,
-                "overcast_index": overcast_index,
-                "edge_entropy": edge_entropy,
-                "perceptual_hash": phash,
-                "historical_archive_match": matched_archive,
-                "model_metadata": {
-                    "model_name": self.model_version,
-                    "epochs_trained": self.epochs_trained,
-                    "framework": "PyTorch 2.9 + MobileNetV3 ImageNet Object Classifier"
-                }
-            }
-
-        except Exception as e:
+        # --- Stage 1 Evaluation ---
+        if not is_disaster:
             return {
                 "media_type": "image",
                 "is_weather_related": False,
+                "is_disaster": False,
                 "is_authentic": False,
+                "model_verdict": "FALSE: NOT A DISASTER PHOTO",
+                "stage1_result": f"Normal Everyday Scene ({p_normal * 100:.1f}% confidence)",
+                "stage2_result": "None (Non-Disaster Scene)",
                 "admin_verdict": "FALSE: NOT DISASTER RELATED",
                 "admin_recommendation": "❌ RECOMMEND REJECT",
-                "verdict_reason": f"Analysis exception: {str(e)}",
-                "detected_category": "Unclassified",
-                "authenticity_score": 20.0,
-                "fake_probability": 80.0,
-                "weather_relevance_confidence": 20.0,
-                "error": str(e)
+                "verdict_reason": f"Model is {p_normal * 100:.1f}% confident this is a normal, non-disaster scene.",
+                "detected_category": "Normal / Non-Disaster Scene",
+                "authenticity_score": round(p_disaster, 4),
+                "weather_relevance_confidence": round(p_disaster * 100, 1),
+                "fake_probability": round(p_normal * 100, 1),
+                "top_predictions": [f"Normal: {round(p_normal, 4)}", f"Disaster: {round(p_disaster, 4)}"],
             }
 
-    def analyze_image_heuristics(self, image_source: str) -> Dict[str, Any]:
-        """
-        Loads image from Base64, URL, or local file and runs deep neural evaluation.
-        """
-        if not image_source:
-            return {
-                "media_type": "image",
-                "is_weather_related": False,
-                "is_authentic": False,
-                "admin_verdict": "FALSE: NO MEDIA",
-                "admin_recommendation": "❌ RECOMMEND REJECT",
-                "verdict_reason": "No media proof attached."
-            }
+        # --- Stage 2 Evaluation (Disaster Type) ---
+        ranked = sorted(zip(_class_names, preds), key=lambda x: x[1], reverse=True)
+        top_label, top_conf = ranked[0]
+        type_confident = top_conf >= TYPE_CONFIDENCE_THRESHOLD
 
-        img = load_image_from_source(image_source)
-        if img is not None:
-            return self.analyze_pil_image(img)
-
-        # Fallback check for sample URLs or filenames
-        fname = str(image_source).lower()
-        if any(w in fname for w in ["fox", "ox", "elephant", "cat", "dog", "pet", "animal", "wildlife", "meme", "fake", "514888286974", "513151233558", "543466835", "557050543", "516934024742"]):
-            return {
-                "media_type": "image",
-                "is_weather_related": False,
-                "is_authentic": False,
-                "admin_verdict": "FALSE: NOT DISASTER RELATED",
-                "admin_recommendation": "❌ RECOMMEND REJECT",
-                "verdict_reason": "Non-disaster photo detected (Wildlife / Animal / Pet / Meme).",
-                "detected_category": "Wildlife / Animal / Pet",
-                "authenticity_score": 10.0,
-                "fake_probability": 90.0,
-                "weather_relevance_confidence": 10.0
-            }
+        clean_label = top_label.replace("_", " ")
+        detected_label = clean_label if type_confident else f"Likely {clean_label} (low confidence)"
 
         return {
             "media_type": "image",
+            "is_weather_related": True,
+            "is_disaster": True,
+            "is_authentic": True,
+            "model_verdict": "TRUE: DISASTER PHOTO",
+            "stage1_result": f"Disaster Detected ({p_disaster * 100:.1f}% confidence)",
+            "stage2_result": f"{clean_label} ({top_conf * 100:.1f}% confidence)",
+            "admin_verdict": "TRUE: DISASTER RELATED",
+            "admin_recommendation": "✅ RECOMMEND VERIFY",
+            "verdict_reason": f"Authentic disaster ground proof verified: {detected_label}.",
+            "detected_category": detected_label,
+            "authenticity_score": round(p_disaster, 4),
+            "weather_relevance_confidence": round(p_disaster * 100, 1),
+            "fake_probability": round((1.0 - p_disaster) * 100, 1),
+            "top_predictions": [f"{name.replace('_', ' ')}: {round(score, 4)}" for name, score in ranked],
+        }
+
+    def analyze_image_heuristics(self, image_source: str) -> Dict[str, Any]:
+        img = load_image_from_source(image_source)
+        if img is not None:
+            return self.analyze_pil_image(img)
+        return {
+            "media_type": "image",
             "is_weather_related": False,
+            "is_disaster": False,
             "is_authentic": False,
-            "admin_verdict": "FALSE: NOT DISASTER RELATED",
+            "model_verdict": "FALSE: NOT A DISASTER PHOTO",
+            "stage1_result": "No Media Provided",
+            "stage2_result": "None",
+            "admin_verdict": "FALSE: NO MEDIA",
             "admin_recommendation": "❌ RECOMMEND REJECT",
-            "verdict_reason": "Media proof does not contain verified meteorological or disaster signatures.",
-            "detected_category": "Unverified Scene",
-            "authenticity_score": 25.0,
-            "fake_probability": 75.0,
-            "weather_relevance_confidence": 25.0
+            "verdict_reason": "No media proof attached.",
+            "detected_category": "No Media",
+            "authenticity_score": 0.0,
+            "weather_relevance_confidence": 0.0,
+            "fake_probability": 100.0,
+            "top_predictions": []
         }
 
     def analyze_image(self, image_source: str) -> Dict[str, Any]:
         """Convenience alias for analyze_image_heuristics."""
         return self.analyze_image_heuristics(image_source)
 
-image_analyzer = ImageWeatherAnalyzer()
 
+image_analyzer = ImageWeatherAnalyzer()
