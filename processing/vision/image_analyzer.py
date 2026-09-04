@@ -119,6 +119,19 @@ def load_image_from_source(source: str) -> Optional[Image.Image]:
                 return Image.open(io.BytesIO(response.read())).convert('RGB')
         if os.path.exists(source):
             return Image.open(source).convert('RGB')
+
+        # Resolve local server upload paths (/uploads/xxx.jpg)
+        fname = os.path.basename(source)
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        candidate_paths = [
+            os.path.join(project_root, source.lstrip('/\\')),
+            os.path.join(project_root, "backend", source.lstrip('/\\')),
+            os.path.join(project_root, "backend", "uploads", fname),
+            os.path.join(project_root, "uploads", fname)
+        ]
+        for p in candidate_paths:
+            if os.path.exists(p):
+                return Image.open(p).convert('RGB')
     except Exception as e:
         print(f"[VisionGuard] Image load error: {e}")
     return None
