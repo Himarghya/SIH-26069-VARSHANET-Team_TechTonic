@@ -13,15 +13,23 @@ Base.metadata.create_all(bind=engine)
 
 from backend.app.core.init_db import init_and_refresh_database
 
+is_serverless = bool(os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"))
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: Auto-initialize DB and refresh timestamps for active 6h timers
-    init_and_refresh_database()
-    # Start live weather & news ingestion automation service
-    live_ingestion_service.start()
+    try:
+        init_and_refresh_database()
+    except Exception as e:
+        print(f"[VARSHANET LIFESPAN WARNING] {e}")
+        
+    # Start live weather & news ingestion automation service only in long-running environments
+    if not is_serverless:
+        live_ingestion_service.start()
     yield
     # Shutdown: Cleanly stop background tasks
-    live_ingestion_service.stop()
+    if not is_serverless:
+        live_ingestion_service.stop()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
