@@ -16,6 +16,11 @@ from PIL import Image
 
 _MODEL_DIR = os.environ.get("DISASTER_MODEL_DIR", os.path.dirname(__file__))
 
+_bin_k = os.path.join(_MODEL_DIR, "disaster_detector.keras")
+_mul_k = os.path.join(_MODEL_DIR, "disaster_classifier.keras")
+_bin_pt = os.path.join(_MODEL_DIR, "disaster_detector_pytorch.pt")
+_mul_pt = os.path.join(_MODEL_DIR, "disaster_classifier_pytorch.pt")
+
 _binary_model = None
 _multiclass_model = None
 _class_names = []
@@ -25,8 +30,6 @@ HAS_DISASTER_MODEL = False
 # 1. Try TensorFlow / Keras models if available
 try:
     import tensorflow as tf
-    _bin_k = os.path.join(_MODEL_DIR, "disaster_detector.keras")
-    _mul_k = os.path.join(_MODEL_DIR, "disaster_classifier.keras")
     _cls_k = os.path.join(_MODEL_DIR, "class_names.json")
 
     if os.path.exists(_bin_k) and os.path.exists(_mul_k):
@@ -146,6 +149,9 @@ class ImageWeatherAnalyzer:
     def analyze_pil_image(self, img_rgb: Image.Image) -> Dict[str, Any]:
         """Runs Stage 1 (Disaster vs Normal) and Stage 2 (Disaster Type
         Classification) using the actual trained two-stage neural models."""
+        active_bin_path = _bin_pt if (HAS_DISASTER_MODEL and _backend == 'pytorch') else _bin_k
+        print(f"[DEBUG-PERCALL] pid={os.getpid()} bin_path={active_bin_path} HAS_DISASTER_MODEL={HAS_DISASTER_MODEL} backend={_backend}")
+
         if not HAS_DISASTER_MODEL:
             return {
                 "media_type": "image",
