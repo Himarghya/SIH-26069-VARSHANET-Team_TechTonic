@@ -18,7 +18,6 @@ import json
 
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 IMG_SIZE = (224, 224)
 
@@ -26,7 +25,12 @@ BINARY_MODEL_PATH = "disaster_detector.keras"
 MULTICLASS_MODEL_PATH = "disaster_classifier.keras"
 CLASS_NAMES_PATH = "class_names.json"
 
+# Stage 1 threshold: model outputs P(Normal). Below this, we call it a
+# disaster. Tune based on your validation results (see training_history_*.png).
 NORMAL_PROB_THRESHOLD = 0.5
+
+# Stage 2 threshold: minimum confidence to commit to a specific disaster type
+# rather than reporting "disaster detected, type unclear".
 TYPE_CONFIDENCE_THRESHOLD = 0.40
 
 
@@ -39,10 +43,14 @@ def load_models():
 
 
 def _load_and_preprocess(image_path: str):
+    # NOTE: do NOT call preprocess_input here — the saved models already
+    # include a preprocess_input layer internally (see build_model() in
+    # train_binary.py / train_multiclass.py). Applying it twice rescales
+    # pixel values incorrectly and produces wrong predictions on every image.
     img = tf.keras.utils.load_img(image_path, target_size=IMG_SIZE)
-    arr = tf.keras.utils.img_to_array(img)
+    arr = tf.keras.utils.img_to_array(img)  # raw [0, 255] float32
     arr = np.expand_dims(arr, axis=0)
-    return preprocess_input(arr)
+    return arr
 
 
 def predict_image(image_path: str, binary_model=None, multiclass_model=None, class_names=None):
@@ -52,6 +60,8 @@ def predict_image(image_path: str, binary_model=None, multiclass_model=None, cla
     arr = _load_and_preprocess(image_path)
 
     # --- Stage 1: disaster or not? ---
+    # Trained with class order ['Disaster', 'Normal'] (label_mode='binary'
+    # assigns 0 = Disaster, 1 = Normal alphabetically).
     p_normal = float(binary_model.predict(arr, verbose=0)[0][0])
     p_disaster = 1.0 - p_normal
     is_disaster = p_normal < NORMAL_PROB_THRESHOLD

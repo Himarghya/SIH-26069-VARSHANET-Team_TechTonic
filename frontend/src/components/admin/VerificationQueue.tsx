@@ -52,6 +52,9 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
       ) : (
         <div className="space-y-3">
           {pendingReports.map((rep) => {
+            const imgAnalysis = rep.image_analysis_results || {};
+            const hasModelAnalysis = imgAnalysis && typeof imgAnalysis === 'object' && ('is_weather_related' in imgAnalysis || 'is_disaster' in imgAnalysis || 'admin_verdict' in imgAnalysis);
+
             const isNonWeatherOrFake = 
               rep.credibility_score < 70 || 
               (rep.verification_status as string) === 'LIKELY_MISLEADING' || 
@@ -60,7 +63,16 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
               ((rep.text || '').toLowerCase().includes('fox') || (rep.text || '').toLowerCase().includes(' ox') || (rep.text || '').toLowerCase().includes('elephant') || (rep.text || '').toLowerCase().includes('cat') || (rep.text || '').toLowerCase().includes('dog') || (rep.text || '').toLowerCase().includes('meme') || (rep.text || '').toLowerCase().includes('fake')) ||
               (rep.media_urls && rep.media_urls.some(u => typeof u === 'string' && (u.includes('fox') || u.includes('cat=true') || u.includes('dog=true') || u.includes('elephant=true') || u.includes('elephant') || u.includes('fake=true') || u.includes('514888286974') || u.includes('543466835') || u.includes('513151233558') || u.includes('557050543') || u.includes('516934024742'))));
 
-            const isDisasterRelated = !isNonWeatherOrFake;
+            // ML Model Decision drives truth
+            const isDisasterRelated = hasModelAnalysis 
+              ? (imgAnalysis.is_weather_related === true || imgAnalysis.is_disaster === true)
+              : !isNonWeatherOrFake;
+
+            const modelVerdict = imgAnalysis.model_verdict || imgAnalysis.admin_verdict || (isDisasterRelated ? 'TRUE: DISASTER PHOTO' : 'FALSE: NOT A DISASTER PHOTO');
+            const modelRecommendation = imgAnalysis.admin_recommendation || (isDisasterRelated ? '✅ RECOMMEND APPROVE' : '❌ RECOMMEND REJECT');
+            const detectedCategory = imgAnalysis.detected_category || (isDisasterRelated ? 'Disaster Ground Evidence' : 'Non-Disaster Everyday Scene');
+            const stage1 = imgAnalysis.stage1_result || (isDisasterRelated ? 'Disaster Detected' : 'Normal Everyday Scene (Non-Disaster)');
+            const stage2 = imgAnalysis.stage2_result || (isDisasterRelated ? rep.event_type : 'None');
             const hasPhotos = rep.media_urls && rep.media_urls.length > 0;
 
             return (
@@ -77,29 +89,27 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                       {rep.city || 'District'}, {rep.state}
                     </span>
                     
-                    {/* 🎯 Explicit Binary ML Verdict Pill */}
+                    {/* 🤖 Direct In-House ML Model Verdict to Admin */}
                     {!isDisasterRelated ? (
                       <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-rose-950 text-rose-200 border border-rose-500 shadow-md animate-pulse">
                         <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-                        <span>❌ FALSE: NOT DISASTER RELATED</span>
+                        <span>🤖 ML: {modelVerdict}</span>
                       </span>
                     ) : (
                       <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-emerald-950 text-emerald-200 border border-emerald-500 shadow-md">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>✅ TRUE: DISASTER GROUND PROOF</span>
+                        <span>🤖 ML: {modelVerdict}</span>
                       </span>
                     )}
 
-                    {/* Admin Action Recommendation */}
-                    {!isDisasterRelated ? (
-                      <span className="text-[11px] font-mono font-black px-2.5 py-0.5 rounded bg-rose-900/90 text-white border border-rose-400">
-                        ⚠️ RECOMMEND REJECT
-                      </span>
-                    ) : (
-                      <span className="text-[11px] font-mono font-black px-2.5 py-0.5 rounded bg-emerald-900/90 text-white border border-emerald-400">
-                        ⚡ RECOMMEND APPROVE
-                      </span>
-                    )}
+                    {/* Admin Action Recommendation from ML Model */}
+                    <span className={`text-[11px] font-mono font-black px-2.5 py-0.5 rounded border ${
+                      !isDisasterRelated 
+                        ? 'bg-rose-900/90 text-white border-rose-400' 
+                        : 'bg-emerald-900/90 text-white border-emerald-400'
+                    }`}>
+                      {modelRecommendation}
+                    </span>
 
                     {hasPhotos && (
                       <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/50 flex items-center gap-1">
@@ -108,6 +118,16 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                       </span>
                     )}
                   </div>
+
+                  {/* Model Classification Breakdown */}
+                  {hasPhotos && (
+                    <div className="text-[11px] font-mono flex items-center gap-2 text-slate-300 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 w-fit">
+                      <span className="text-purple-400 font-bold">ML Analysis:</span>
+                      <span>Stage 1: <strong className={!isDisasterRelated ? "text-rose-300" : "text-emerald-300"}>{stage1}</strong></span>
+                      <span>&bull;</span>
+                      <span>Category: <strong className="text-cyan-300">{detectedCategory}</strong></span>
+                    </div>
+                  )}
 
                   <p className="text-xs text-slate-200 leading-relaxed font-sans">{rep.text}</p>
 

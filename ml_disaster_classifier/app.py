@@ -14,7 +14,6 @@ import json
 import numpy as np
 import streamlit as st
 import tensorflow as tf
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from PIL import Image
 
 IMG_SIZE = (224, 224)
@@ -36,10 +35,14 @@ def load_models():
 
 
 def preprocess(image: Image.Image):
+    # NOTE: do NOT call preprocess_input here — the saved models already
+    # include a preprocess_input layer internally (see build_model() in
+    # train_binary.py / train_multiclass.py). Applying it twice rescales
+    # pixel values incorrectly and produces wrong predictions on every image.
     image = image.convert("RGB").resize(IMG_SIZE)
-    arr = np.array(image).astype("float32")
+    arr = np.array(image).astype("float32")  # raw [0, 255]
     arr = np.expand_dims(arr, axis=0)
-    return preprocess_input(arr)
+    return arr
 
 
 def main():

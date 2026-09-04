@@ -148,6 +148,47 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
             </div>
           )}
 
+          {/* 🤖 Two-Stage In-House ML Disaster Model Audit for Admin */}
+          {photos.length > 0 && (
+            <div className="p-4 rounded-xl bg-purple-950/30 border border-purple-800/60 space-y-3 font-mono">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                  <span>🤖 In-House ML Disaster Model Audit</span>
+                </span>
+                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded border ${
+                  report.image_analysis_results?.is_weather_related === false || report.credibility_score < 70
+                    ? 'bg-rose-950 text-rose-300 border-rose-700'
+                    : 'bg-emerald-950 text-emerald-300 border-emerald-700'
+                }`}>
+                  {report.image_analysis_results?.admin_recommendation || (report.credibility_score < 70 ? '❌ RECOMMEND REJECT' : '✅ RECOMMEND VERIFY')}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1">
+                  <span className="text-[10px] text-slate-400 block uppercase">Stage 1 (Disaster Detector)</span>
+                  <strong className={report.image_analysis_results?.is_weather_related === false ? "text-rose-300" : "text-emerald-300"}>
+                    {report.image_analysis_results?.stage1_result || (report.credibility_score < 70 ? 'Normal Everyday Scene (Non-Disaster)' : 'Disaster Detected')}
+                  </strong>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1">
+                  <span className="text-[10px] text-slate-400 block uppercase">Stage 2 (Disaster Type Classifier)</span>
+                  <strong className="text-cyan-300">
+                    {report.image_analysis_results?.detected_category || report.event_type}
+                  </strong>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300 space-y-1">
+                <div>Model Verdict: <strong className={report.image_analysis_results?.is_weather_related === false ? "text-rose-400" : "text-emerald-400"}>
+                  {report.image_analysis_results?.model_verdict || report.image_analysis_results?.admin_verdict || (report.credibility_score < 70 ? 'FALSE: NOT A DISASTER PHOTO' : 'TRUE: DISASTER PHOTO')}
+                </strong></div>
+                <div>Verdict Rationale: <span className="text-slate-400 font-sans">{report.image_analysis_results?.verdict_reason || report.verification_notes || 'Evaluated by two-stage deep vision neural backbone.'}</span></div>
+              </div>
+            </div>
+          )}
+
           {/* 🤖 Live Custom ML Forensic Inspector (VARSHANET-VisionGuard & TextGuard v2.1) */}
           <LiveMlForensicInspector
             mediaUrls={photos}

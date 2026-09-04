@@ -322,7 +322,11 @@ class ImageWeatherAnalyzer:
             return {
                 "media_type": "image",
                 "is_weather_related": is_weather,
+                "is_disaster": is_weather,
                 "is_authentic": is_authentic,
+                "model_verdict": "TRUE: DISASTER PHOTO" if is_weather else "FALSE: NOT A DISASTER PHOTO",
+                "stage1_result": "Disaster Detected" if is_weather else "Normal Everyday Scene (Non-Disaster)",
+                "stage2_result": detected_label if is_weather else "None (Non-Disaster Scene)",
                 "admin_verdict": admin_verdict,
                 "admin_recommendation": admin_recommendation,
                 "verdict_reason": verdict_reason,
