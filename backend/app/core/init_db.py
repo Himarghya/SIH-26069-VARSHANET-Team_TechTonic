@@ -66,6 +66,7 @@ def _migrate_sqlite_columns():
             for col_def in [
                 ("infrastructure_assets", "elevation_m", "FLOAT DEFAULT 0.0"),
                 ("infrastructure_assets", "details", "TEXT DEFAULT '{}'"),
+                ("infrastructure_assets", "created_at", "DATETIME"),
                 ("event_clusters", "elevation_risk", "TEXT DEFAULT 'LOW'"),
             ]:
                 table, col, sql_type = col_def
