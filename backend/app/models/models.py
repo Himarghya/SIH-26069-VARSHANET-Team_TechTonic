@@ -1,4 +1,4 @@
-﻿import uuid
+import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, Float, Integer, Boolean, DateTime, Text, JSON, ForeignKey
 from sqlalchemy.orm import relationship
@@ -101,138 +101,6 @@ class EventCluster(Base):
     summary = Column(Text, nullable=True)
     
     reports = relationship("WeatherReport", back_populates="cluster")
-    impact_assessments = relationship("ImpactAssessment", back_populates="cluster")
-    nowcasts = relationship("NowcastPrediction", back_populates="cluster")
-    recommendations = relationship("ResponseRecommendation", back_populates="cluster")
-    information_gaps = relationship("InformationGap", back_populates="cluster")
-    verification_requests = relationship("VerificationRequest", back_populates="cluster")
-    prediction_evaluations = relationship("PredictionEvaluation", back_populates="cluster")
-
-class InfrastructureAsset(Base):
-    __tablename__ = "infrastructure_assets"
-    
-    id = Column(String(64), primary_key=True, default=generate_uuid)
-    name = Column(String(128), nullable=False, index=True)
-    type = Column(String(64), nullable=False, index=True) # HOSPITAL, SCHOOL, RAILWAY_STATION, AIRPORT, BRIDGE, HIGHWAY, EMERGENCY_SHELTER, GOVT_BUILDING
-    city = Column(String(128), index=True, nullable=True)
-    district = Column(String(128), index=True, nullable=False)
-    state = Column(String(128), index=True, nullable=False)
-    latitude = Column(Float, nullable=False, index=True)
-    longitude = Column(Float, nullable=False, index=True)
-    vulnerability_score = Column(Float, default=0.5) # 0 to 1.0
-    operational_status = Column(String(32), default="OPERATIONAL") # OPERATIONAL, AT_RISK, INUNDATED, EVACUATED
-    capacity = Column(Integer, default=500)
-    contact_phone = Column(String(32), nullable=True)
-
-class ImpactAssessment(Base):
-    __tablename__ = "impact_assessments"
-    
-    id = Column(String(64), primary_key=True, default=generate_uuid)
-    event_cluster_id = Column(String(64), ForeignKey("event_clusters.id"), nullable=False, index=True)
-    
-    # Three Core Scores
-    evidence_confidence = Column(Float, default=85.0) # 0 to 100
-    impact_risk = Column(Float, default=70.0) # 0 to 100
-    response_priority = Column(String(16), default="P2") # P1 (Critical), P2 (High), P3 (Moderate), P4 (Monitor)
-    
-    # Population Exposure
-    total_population_exposed = Column(Integer, default=0)
-    vulnerable_population_exposed = Column(Integer, default=0)
-    urban_population = Column(Integer, default=0)
-    rural_population = Column(Integer, default=0)
-    population_density_per_sqkm = Column(Float, default=0.0)
-    
-    # Infrastructure & Escalation
-    infrastructure_risk_score = Column(Float, default=65.0)
-    hospitals_at_risk_count = Column(Integer, default=0)
-    schools_at_risk_count = Column(Integer, default=0)
-    bridges_roads_at_risk_count = Column(Integer, default=0)
-    escalation_probability = Column(Float, default=0.45) # 0.0 to 1.0
-    accessibility_risk = Column(String(32), default="MODERATE") # LOW, MODERATE, HIGH, SEVERED
-    
-    explainability_factors = Column(JSON, default=list) # List of "Why?" evidence statements
-    assessed_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    
-    cluster = relationship("EventCluster", back_populates="impact_assessments")
-
-class NowcastPrediction(Base):
-    __tablename__ = "nowcast_predictions"
-    
-    id = Column(String(64), primary_key=True, default=generate_uuid)
-    event_cluster_id = Column(String(64), ForeignKey("event_clusters.id"), nullable=False, index=True)
-    forecast_offset_minutes = Column(Integer, nullable=False) # 0 (current), 30, 60, 120, 180
-    predicted_risk_score = Column(Float, nullable=False) # 0 to 100
-    predicted_rainfall_mm = Column(Float, default=0.0)
-    predicted_severity = Column(String(32), default="MODERATE")
-    confidence = Column(Float, default=0.85)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    
-    cluster = relationship("EventCluster", back_populates="nowcasts")
-
-class ResponseRecommendation(Base):
-    __tablename__ = "response_recommendations"
-    
-    id = Column(String(64), primary_key=True, default=generate_uuid)
-    event_cluster_id = Column(String(64), ForeignKey("event_clusters.id"), nullable=False, index=True)
-    priority = Column(Integer, default=1) # 1 (Highest) to 4 (Lowest)
-    priority_label = Column(String(16), default="P1") # P1, P2, P3, P4
-    action = Column(String(256), nullable=False)
-    reason = Column(Text, nullable=False)
-    supporting_evidence = Column(JSON, default=list)
-    confidence = Column(Float, default=0.9)
-    affected_area = Column(String(128), nullable=True)
-    status = Column(String(32), default="PENDING") # PENDING, ACKNOWLEDGED, DISPATCHED, RESOLVED
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    
-    cluster = relationship("EventCluster", back_populates="recommendations")
-
-class InformationGap(Base):
-    __tablename__ = "information_gaps"
-    
-    id = Column(String(64), primary_key=True, default=generate_uuid)
-    event_cluster_id = Column(String(64), ForeignKey("event_clusters.id"), nullable=False, index=True)
-    missing_information = Column(String(256), nullable=False)
-    affected_decision = Column(String(256), nullable=False)
-    severity = Column(String(32), default="HIGH") # LOW, MEDIUM, HIGH, CRITICAL
-    recommended_action = Column(Text, nullable=False)
-    is_resolved = Column(Boolean, default=False, index=True)
-    resolved_at = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    
-    cluster = relationship("EventCluster", back_populates="information_gaps")
-
-class VerificationRequest(Base):
-    __tablename__ = "verification_requests"
-    
-    id = Column(String(64), primary_key=True, default=generate_uuid)
-    information_gap_id = Column(String(64), nullable=True)
-    event_cluster_id = Column(String(64), ForeignKey("event_clusters.id"), nullable=False, index=True)
-    title = Column(String(256), nullable=False)
-    prompt = Column(Text, nullable=False) # e.g. "Can someone near MP Nagar Zone-2 confirm if Link Road is passable?"
-    target_area = Column(String(128), nullable=False)
-    latitude = Column(Float, nullable=False)
-    longitude = Column(Float, nullable=False)
-    radius_km = Column(Float, default=5.0)
-    status = Column(String(32), default="ACTIVE", index=True) # ACTIVE, FULFILLED, EXPIRED
-    responses_count = Column(Integer, default=0)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    
-    cluster = relationship("EventCluster", back_populates="verification_requests")
-
-class PredictionEvaluation(Base):
-    __tablename__ = "prediction_evaluations"
-    
-    id = Column(String(64), primary_key=True, default=generate_uuid)
-    event_cluster_id = Column(String(64), ForeignKey("event_clusters.id"), nullable=False, index=True)
-    predicted_population_exposure = Column(Integer, nullable=False)
-    actual_population_exposure = Column(Integer, nullable=False)
-    predicted_risk_score = Column(Float, nullable=False)
-    actual_impact_outcome = Column(String(64), nullable=False)
-    prediction_error_pct = Column(Float, nullable=False)
-    model_version = Column(String(32), default="VARSHANET-Impact-v2.0")
-    evaluated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    
-    cluster = relationship("EventCluster", back_populates="prediction_evaluations")
 
 class WeatherObservation(Base):
     __tablename__ = "weather_observations"
@@ -301,3 +169,88 @@ class AuditLog(Base):
     target_id = Column(String(64), nullable=True)
     details = Column(JSON, default=dict)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class InfrastructureAsset(Base):
+    __tablename__ = "infrastructure_assets"
+    
+    id = Column(String(64), primary_key=True, default=generate_uuid)
+    name = Column(String(128), nullable=False)
+    type = Column(String(64), nullable=False, index=True)
+    city = Column(String(128), nullable=False, index=True)
+    district = Column(String(128), nullable=True)
+    state = Column(String(128), nullable=False, index=True)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
+    elevation_m = Column(Float, default=0.0)
+    vulnerability_score = Column(Float, default=0.5)
+    capacity = Column(Integer, default=1000)
+    details = Column(JSON, default=dict)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class PredictionEvaluation(Base):
+    __tablename__ = "prediction_evaluations"
+    
+    id = Column(String(64), primary_key=True, default=generate_uuid)
+    event_cluster_id = Column(String(64), nullable=True, index=True)
+    predicted_population_exposure = Column(Integer, default=0)
+    actual_population_exposure = Column(Integer, default=0)
+    predicted_risk_score = Column(Float, default=0.0)
+    actual_impact_outcome = Column(Text, nullable=True)
+    prediction_error_pct = Column(Float, default=0.0)
+    model_version = Column(String(64), default="VARSHANET-Impact-v2.0")
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class ImpactAssessment(Base):
+    __tablename__ = "impact_assessments"
+    
+    id = Column(String(64), primary_key=True, default=generate_uuid)
+    event_cluster_id = Column(String(64), nullable=True, index=True)
+    risk_score = Column(Float, default=0.0)
+    population_exposed = Column(Integer, default=0)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class NowcastPrediction(Base):
+    __tablename__ = "nowcast_predictions"
+    
+    id = Column(String(64), primary_key=True, default=generate_uuid)
+    event_cluster_id = Column(String(64), nullable=True, index=True)
+    lead_time_minutes = Column(Integer, default=30)
+    predicted_severity = Column(String(32), default="MODERATE")
+    confidence = Column(Float, default=0.85)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class ResponseRecommendation(Base):
+    __tablename__ = "response_recommendations"
+    
+    id = Column(String(64), primary_key=True, default=generate_uuid)
+    event_cluster_id = Column(String(64), nullable=True, index=True)
+    priority = Column(String(16), default="P2")
+    action = Column(Text, nullable=False)
+    status = Column(String(32), default="PENDING")
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class InformationGap(Base):
+    __tablename__ = "information_gaps"
+    
+    id = Column(String(64), primary_key=True, default=generate_uuid)
+    event_cluster_id = Column(String(64), nullable=True, index=True)
+    missing_information = Column(Text, nullable=False)
+    severity = Column(String(32), default="HIGH")
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class VerificationRequest(Base):
+    __tablename__ = "verification_requests"
+    
+    id = Column(String(64), primary_key=True, default=generate_uuid)
+    information_gap_id = Column(String(64), nullable=True, index=True)
+    event_cluster_id = Column(String(64), nullable=True, index=True)
+    title = Column(String(256), nullable=False)
+    prompt = Column(Text, nullable=False)
+    target_area = Column(String(128), nullable=True)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
+    radius_km = Column(Float, default=5.0)
+    status = Column(String(32), default="ACTIVE")
+    responses_count = Column(Integer, default=0)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+

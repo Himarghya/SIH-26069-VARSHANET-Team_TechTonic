@@ -1,4 +1,4 @@
-﻿from typing import List, Optional, Any, Dict
+from typing import List, Optional, Any, Dict
 from datetime import datetime
 from pydantic import BaseModel, Field
 
@@ -42,7 +42,7 @@ class CitizenReportCreate(BaseModel):
 # Raw Ingestion Schema
 class NormalizedReportIn(BaseModel):
     source_id: Optional[str] = None
-    source_type: str = "citizen_report"
+    source_type: str = "citizen_report" # social_media, weather_api, citizen_report, rss_news, government_open_data
     source_name: Optional[str] = "Citizen Portal"
     author: Optional[str] = "anonymous"
     text: str
@@ -118,137 +118,9 @@ class EventClusterOut(BaseModel):
     class Config:
         from_attributes = True
 
-# Infrastructure Asset
-class InfrastructureAssetOut(BaseModel):
-    id: str
-    name: str
-    type: str
-    city: Optional[str]
-    district: str
-    state: str
-    latitude: float
-    longitude: float
-    vulnerability_score: float
-    operational_status: str
-    capacity: int
-    contact_phone: Optional[str] = None
-
-    class Config:
-        from_attributes = True
-
-# Nowcast Prediction
-class NowcastPredictionOut(BaseModel):
-    id: str
-    event_cluster_id: str
-    forecast_offset_minutes: int
-    predicted_risk_score: float
-    predicted_rainfall_mm: float
-    predicted_severity: str
-    confidence: float
-
-    class Config:
-        from_attributes = True
-
-# Response Recommendation
-class ResponseRecommendationOut(BaseModel):
-    id: str
-    event_cluster_id: str
-    priority: int
-    priority_label: str
-    action: str
-    reason: str
-    supporting_evidence: List[str]
-    confidence: float
-    affected_area: Optional[str]
-    status: str
-
-    class Config:
-        from_attributes = True
-
-# Information Gap
-class InformationGapOut(BaseModel):
-    id: str
-    event_cluster_id: str
-    missing_information: str
-    affected_decision: str
-    severity: str
-    recommended_action: str
-    is_resolved: bool
-    resolved_at: Optional[datetime] = None
-
-    class Config:
-        from_attributes = True
-
-# Verification Request (Citizen Crowd Sourcing)
-class VerificationRequestCreate(BaseModel):
-    information_gap_id: Optional[str] = None
-    event_cluster_id: str
-    title: str
-    prompt: str
-    target_area: str
-    latitude: float
-    longitude: float
-    radius_km: Optional[float] = 5.0
-
-class VerificationRequestOut(BaseModel):
-    id: str
-    information_gap_id: Optional[str]
-    event_cluster_id: str
-    title: str
-    prompt: str
-    target_area: str
-    latitude: float
-    longitude: float
-    radius_km: float
-    status: str
-    responses_count: int
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
-# Impact Assessment Master
-class ImpactAssessmentOut(BaseModel):
-    id: str
-    event_cluster_id: str
-    evidence_confidence: float
-    impact_risk: float
-    response_priority: str
-    total_population_exposed: int
-    vulnerable_population_exposed: int
-    urban_population: int
-    rural_population: int
-    population_density_per_sqkm: float
-    infrastructure_risk_score: float
-    hospitals_at_risk_count: int
-    schools_at_risk_count: int
-    bridges_roads_at_risk_count: int
-    escalation_probability: float
-    accessibility_risk: str
-    explainability_factors: List[str]
-    assessed_at: datetime
-
-    class Config:
-        from_attributes = True
-
-# Incident Outcome Evaluation
-class PredictionEvaluationOut(BaseModel):
-    id: str
-    event_cluster_id: str
-    predicted_population_exposure: int
-    actual_population_exposure: int
-    predicted_risk_score: float
-    actual_impact_outcome: str
-    prediction_error_pct: float
-    model_version: str
-    evaluated_at: datetime
-
-    class Config:
-        from_attributes = True
-
-# Verification Action (Admin moderation)
-class VerificationActionRequest(BaseModel):
-    action: str = Field(..., example="VERIFIED")
+# Verification Action
+class VerificationRequest(BaseModel):
+    action: str = Field(..., example="VERIFIED") # VERIFIED, REJECTED, MARK_DUPLICATE, FLAG_MISINFORMATION, REQUEST_REVIEW
     reason: Optional[str] = Field(None, example="Cross-verified with IMD radar bulletin and ground citizen reports")
 
 # Alert Schema
@@ -293,5 +165,31 @@ class SystemHealthOut(BaseModel):
     ai_workers: str
     ingestion_rate_per_min: int
     processing_latency_ms: float
-    active_connections: int# Verification Action alias for backward compatibility
-VerificationRequest = VerificationActionRequest
+    active_connections: int
+
+class VerificationRequestCreate(BaseModel):
+    information_gap_id: Optional[str] = None
+    event_cluster_id: Optional[str] = None
+    title: str
+    prompt: str
+    target_area: Optional[str] = None
+    latitude: float
+    longitude: float
+    radius_km: float = 5.0
+
+class VerificationRequestOut(BaseModel):
+    id: str
+    information_gap_id: Optional[str] = None
+    event_cluster_id: Optional[str] = None
+    title: str
+    prompt: str
+    target_area: Optional[str] = None
+    latitude: float
+    longitude: float
+    radius_km: float
+    status: str
+    responses_count: int
+    created_at: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
