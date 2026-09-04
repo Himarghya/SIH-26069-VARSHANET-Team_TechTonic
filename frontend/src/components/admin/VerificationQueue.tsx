@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { ShieldCheck, CheckCircle2, XCircle, AlertTriangle, Eye, RefreshCw, Hash, Camera } from 'lucide-react';
 import { WeatherReport } from '../../types';
 import { performVerificationAction } from '../../services/api';
@@ -90,21 +90,30 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
 
                   <p className="text-xs text-slate-300 leading-relaxed font-sans">{rep.text}</p>
 
-                  {/* Photo Thumbnails in Queue Row */}
+                  {/* Photo/Video Thumbnails in Queue Row */}
                   {hasPhotos && (
                     <div className="flex items-center gap-2 pt-1">
-                      {rep.media_urls!.map((pUrl, pIndex) => (
-                        <div
-                          key={pIndex}
-                          onClick={() => onSelectReport(rep)}
-                          className="w-12 h-12 rounded-lg overflow-hidden border border-slate-700 hover:border-cyan-400 bg-slate-900 cursor-pointer shrink-0"
-                          title="Click to inspect photo in detail"
-                        >
-                          <img src={pUrl} alt="Queue Evidence" className="w-full h-full object-cover" />
-                        </div>
-                      ))}
+                      {rep.media_urls!.map((pUrl, pIndex) => {
+                        const isVid = pUrl.startsWith('data:video') || pUrl.endsWith('.mp4') || pUrl.endsWith('.webm') || pUrl.endsWith('.mov') || pUrl.includes('video');
+                        return (
+                          <div
+                            key={pIndex}
+                            onClick={() => onSelectReport(rep)}
+                            className="relative w-12 h-12 rounded-lg overflow-hidden border border-slate-700 hover:border-cyan-400 bg-slate-900 cursor-pointer shrink-0 flex items-center justify-center"
+                            title="Click to inspect media in detail"
+                          >
+                            {isVid ? (
+                              <div className="w-full h-full bg-slate-950 flex flex-col items-center justify-center text-cyan-400 text-[9px] font-bold font-mono">
+                                <span>▶ VID</span>
+                              </div>
+                            ) : (
+                              <img src={pUrl} alt="Queue Evidence" className="w-full h-full object-cover" />
+                            )}
+                          </div>
+                        );
+                      })}
                       <span className="text-[10px] text-slate-400 font-mono">
-                        {isFake ? '⚠️ AI Flagged: Fake/Unrelated Visual' : '✓ Visual Proof Attached'}
+                        {isFake ? '⚠️ AI Flagged: Fake/Recycled Visual' : '✓ Ground Truth Media Attached (VARSHANET-VisionGuard)'}
                       </span>
                     </div>
                   )}

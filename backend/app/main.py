@@ -84,6 +84,10 @@ async def websocket_weather_feed(websocket: WebSocket):
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
+uploads_dir = os.path.join(_project_root, "uploads")
+os.makedirs(uploads_dir, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+
 frontend_dist = os.path.join(_project_root, "frontend", "dist")
 if os.path.exists(frontend_dist):
     assets_dir = os.path.join(frontend_dist, "assets")

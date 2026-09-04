@@ -1,9 +1,10 @@
-﻿import React, { useState } from 'react';
-import { X, Shield, ShieldCheck, AlertTriangle, MapPin, CheckCircle2, XCircle, Cpu, Eye, ExternalLink, Camera, Image as ImageIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Shield, ShieldCheck, AlertTriangle, MapPin, CheckCircle2, XCircle, Cpu, Eye, ExternalLink, Camera, Image as ImageIcon, Video } from 'lucide-react';
 import { WeatherReport } from '../../types';
 import { performVerificationAction } from '../../services/api';
 import { StreetViewPin } from '../incident/StreetViewPin';
 import { ShapWaterfallInspector } from '../ml/ShapWaterfallInspector';
+import { LiveMlForensicInspector } from '../ml/LiveMlForensicInspector';
 
 interface ReportDetailModalProps {
   report: WeatherReport | null;
@@ -87,12 +88,12 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
             )}
           </div>
 
-          {/* 📸 CITIZEN PHOTO EVIDENCE GALLERY & AI VISUAL VERDICT */}
+          {/* 📸 CITIZEN PHOTO & VIDEO EVIDENCE GALLERY & AI VISUAL VERDICT */}
           {photos.length > 0 && (
             <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5 font-mono">
-                  <Camera className="w-4 h-4" /> Attached Ground Proofs ({photos.length})
+                  <Camera className="w-4 h-4" /> Attached Ground Media Proofs ({photos.length})
                 </span>
                 
                 {isFakeVisual ? (
@@ -103,33 +104,57 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                 ) : (
                   <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/60 flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                    <span>CLIP VERIFIED AUTHENTIC</span>
+                    <span>VARSHANET-VisionGuard VERIFIED</span>
                   </span>
                 )}
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                {photos.map((url, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setSelectedPhoto(url)}
-                    className="relative group rounded-xl overflow-hidden border border-slate-800 bg-black aspect-video cursor-pointer"
-                  >
-                    <img
-                      src={url}
-                      alt={`Evidence ${idx + 1}`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
-                      <span className="text-[10px] text-white font-mono flex items-center gap-1">
-                        <Eye className="w-3 h-3" /> Inspect Proof
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {photos.map((url, idx) => {
+                  const isVid = url.startsWith('data:video') || url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.mov') || url.includes('video');
+
+                  return (
+                    <div
+                      key={idx}
+                      className="relative group rounded-xl overflow-hidden border border-slate-800 bg-black aspect-video flex items-center justify-center shadow-lg"
+                    >
+                      {isVid ? (
+                        <video
+                          src={url}
+                          controls
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div onClick={() => setSelectedPhoto(url)} className="w-full h-full cursor-pointer">
+                          <img
+                            src={url}
+                            alt={`Evidence ${idx + 1}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                            <span className="text-[10px] text-white font-mono flex items-center gap-1">
+                              <Eye className="w-3 h-3" /> Inspect High-Res
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-cyan-300 pointer-events-none">
+                        {isVid ? '🎥 Field Video' : `Photo #${idx + 1}`}
                       </span>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
+
+          {/* 🤖 Live Custom ML Forensic Inspector (VARSHANET-VisionGuard & TextGuard v2.1) */}
+          <LiveMlForensicInspector
+            mediaUrls={photos}
+            reportText={report.text}
+            credibilityScore={report.credibility_score}
+            isFakeFlag={isFakeVisual}
+          />
 
           {/* Explainable ML for VayuScore TreeSHAP Waterfall (Embedded) */}
           <ShapWaterfallInspector />

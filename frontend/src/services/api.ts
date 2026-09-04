@@ -322,3 +322,22 @@ export const fetchDynamicSources = async (): Promise<any[]> => {
   const { data } = await api.get('/ml/dynamic-sources');
   return data;
 };
+
+export const uploadMedia = async (file: File, simulateFake: boolean = false): Promise<any> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  if (simulateFake) {
+    formData.append('simulate_fake', 'true');
+  }
+  const { data } = await api.post('/media/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return data;
+};
+
+export const fetchModelReport = async (): Promise<any> => {
+  const { data } = await api.get('/media/model-report');
+  return data;
+};

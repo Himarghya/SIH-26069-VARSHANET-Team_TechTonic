@@ -1,0 +1,381 @@
+{
+  "framework": "PyTorch 2.9.1+cu128 + Scikit-Learn 1.9.0",
+  "trained_at": "2026-09-04T23:55:00Z",
+  "epochs_trained": 25,
+  "text_model": {
+    "name": "VARSHANET-TextGuard-v2.1",
+    "architecture": "Multi-lingual TF-IDF + 4-Layer Dual-Head Dense Neural Network (BatchNorm + Dropout)",
+    "summary": {
+      "final_weather_accuracy": 100.0,
+      "final_auth_accuracy": 100.0,
+      "final_auth_f1": 100.0,
+      "total_epochs": 25,
+      "input_features": 1200
+    },
+    "history": [
+      {
+        "epoch": 1,
+        "loss": 0.3,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 2,
+        "loss": 0.0032,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 3,
+        "loss": 0.0013,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 4,
+        "loss": 0.0007,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 5,
+        "loss": 0.0005,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 6,
+        "loss": 0.0003,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 7,
+        "loss": 0.0002,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 8,
+        "loss": 0.0002,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 9,
+        "loss": 0.0001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 10,
+        "loss": 0.0001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 11,
+        "loss": 0.0001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 12,
+        "loss": 0.0001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 13,
+        "loss": 0.0001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 14,
+        "loss": 0.0001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 15,
+        "loss": 0.0,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 16,
+        "loss": 0.0,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 17,
+        "loss": 0.0,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 18,
+        "loss": 0.0,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 19,
+        "loss": 0.0005,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 20,
+        "loss": 0.0012,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 21,
+        "loss": 0.0005,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 22,
+        "loss": 0.0002,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 23,
+        "loss": 0.0001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 24,
+        "loss": 0.0,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 25,
+        "loss": 0.0,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      }
+    ]
+  },
+  "vision_model": {
+    "name": "VARSHANET-VisionGuard-v2.1",
+    "architecture": "Multi-Modal Forensic Feature Fusion (HSV Turbidity + dHash Archive Distance + Gradient Entropy) + Dual-Head MLP",
+    "summary": {
+      "final_weather_accuracy": 100.0,
+      "final_auth_accuracy": 100.0,
+      "final_auth_f1": 100.0,
+      "total_epochs": 25,
+      "input_features": 8
+    },
+    "history": [
+      {
+        "epoch": 1,
+        "loss": 0.4757,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 2,
+        "loss": 0.0234,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 3,
+        "loss": 0.0091,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 4,
+        "loss": 0.006,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 5,
+        "loss": 0.0036,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 6,
+        "loss": 0.0022,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 7,
+        "loss": 0.0017,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 8,
+        "loss": 0.0057,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 9,
+        "loss": 0.0019,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 10,
+        "loss": 0.0021,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 11,
+        "loss": 0.0019,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 12,
+        "loss": 0.0021,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 13,
+        "loss": 0.0027,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 14,
+        "loss": 0.0013,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 15,
+        "loss": 0.0011,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 16,
+        "loss": 0.001,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 17,
+        "loss": 0.0044,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 18,
+        "loss": 0.0008,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 19,
+        "loss": 0.0004,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 20,
+        "loss": 0.0006,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 21,
+        "loss": 0.0046,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 22,
+        "loss": 0.002,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 23,
+        "loss": 0.0047,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 24,
+        "loss": 0.0014,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      },
+      {
+        "epoch": 25,
+        "loss": 0.0017,
+        "weather_acc": 100.0,
+        "auth_acc": 100.0,
+        "auth_f1": 100.0
+      }
+    ]
+  }
+}
