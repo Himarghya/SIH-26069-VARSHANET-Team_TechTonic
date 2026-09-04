@@ -470,15 +470,8 @@ export const CitizenReportForm: React.FC = () => {
                       const isVid = mediaUrl.startsWith('data:video') || mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm') || mediaUrl.endsWith('.mov') || mediaUrl.includes('video');
                       const analysis = mediaAnalyses[mediaUrl];
                       const isAnalyzing = analysis?.status === 'analyzing';
-                      const isKnownFakeSample = typeof mediaUrl === 'string' && (
-                        mediaUrl.includes('fake=true') || mediaUrl.includes('fox=true') || mediaUrl.includes('cat=true') ||
-                        mediaUrl.includes('dog=true') || mediaUrl.includes('elephant=true') || mediaUrl.includes('fox') ||
-                        mediaUrl.includes('elephant') || mediaUrl.includes('meme') || mediaUrl.includes('514888286974') ||
-                        mediaUrl.includes('513151233558') || mediaUrl.includes('543466835') || mediaUrl.includes('557050543') ||
-                        mediaUrl.includes('516934024742')
-                      );
-                      const isDisaster = analysis?.is_weather_related === true;
-                      const isFake = (analysis && analysis.is_weather_related === false) || (!analysis && isKnownFakeSample);
+                      const isDisaster = analysis?.is_disaster === true || analysis?.is_weather_related === true;
+                      const isNotDisaster = analysis && (analysis.is_disaster === false || analysis.is_weather_related === false);
 
                       return (
                         <div key={idx} className="flex flex-col rounded-xl overflow-hidden border border-slate-800 bg-slate-900/90 shadow-md">
@@ -514,31 +507,35 @@ export const CitizenReportForm: React.FC = () => {
                                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
                                 <span className="font-bold">Scanning ML Models...</span>
                               </div>
-                            ) : isFake ? (
+                            ) : isNotDisaster ? (
                               <div className="space-y-1">
                                 <div className="text-[10px] font-black text-rose-300 flex items-center gap-1 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800">
                                   <AlertCircle className="w-3 h-3 text-rose-400 shrink-0" />
                                   <span>FALSE: NOT DISASTER</span>
                                 </div>
                                 <div className="text-[9px] text-rose-300/90 truncate">
-                                  {analysis?.detected_category || 'Wildlife / Animal / Pet Detected'}
+                                  {analysis?.detected_category || 'Normal Everyday Scene'}
                                 </div>
                                 <div className="text-[9px] font-bold text-rose-400">
                                   {analysis?.admin_recommendation || '❌ RECOMMEND REJECT'}
                                 </div>
                               </div>
-                            ) : (
+                            ) : isDisaster ? (
                               <div className="space-y-1">
                                 <div className="text-[10px] font-black text-emerald-300 flex items-center gap-1 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
                                   <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
                                   <span>TRUE: DISASTER GROUND PROOF</span>
                                 </div>
                                 <div className="text-[9px] text-emerald-300/90 truncate">
-                                  {analysis?.detected_category || 'Flood / Hazard Confirmed'}
+                                  {analysis?.detected_category || 'Disaster Ground Evidence'}
                                 </div>
                                 <div className="text-[9px] font-bold text-emerald-400">
                                   {analysis?.admin_recommendation || '✅ RECOMMEND VERIFY'}
                                 </div>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1.5 text-slate-400 text-[10px]">
+                                <span>Awaiting Analysis...</span>
                               </div>
                             )}
                           </div>
@@ -550,16 +547,13 @@ export const CitizenReportForm: React.FC = () => {
                   {/* Instant Aggregate ML Pre-Screening Summary Banner */}
                   {(() => {
                     const isAnyAnalyzing = photos.some(p => mediaAnalyses[p]?.status === 'analyzing');
-                    const isAnyFake = photos.some(p => {
+                    const isAnyNonDisaster = photos.some(p => {
                       const an = mediaAnalyses[p];
-                      if (an && an.is_weather_related === false) return true;
-                      return typeof p === 'string' && (
-                        p.includes('fake=true') || p.includes('fox=true') || p.includes('cat=true') ||
-                        p.includes('dog=true') || p.includes('elephant=true') || p.includes('fox') ||
-                        p.includes('elephant') || p.includes('meme') || p.includes('514888286974') ||
-                        p.includes('513151233558') || p.includes('543466835') || p.includes('557050543') ||
-                        p.includes('516934024742')
-                      );
+                      return an && (an.is_disaster === false || an.is_weather_related === false);
+                    });
+                    const allDisasters = photos.every(p => {
+                      const an = mediaAnalyses[p];
+                      return an && (an.is_disaster === true || an.is_weather_related === true);
                     });
 
                     if (isAnyAnalyzing) {
@@ -573,27 +567,35 @@ export const CitizenReportForm: React.FC = () => {
                       );
                     }
 
-                    return isAnyFake ? (
-                      <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
-                        <span className="flex items-center gap-2 font-black text-rose-300">
-                          <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-                          <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - WILDLIFE / PET / NON-DISASTER OBJECT DETECTED)</span>
-                        </span>
-                        <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
-                          ⚠️ Flagged For Immediate Admin Rejection
-                        </span>
-                      </div>
-                    ) : (
-                      <div className="p-3 rounded-xl bg-emerald-950/70 border border-emerald-800/80 text-[11px] font-mono text-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
-                        <span className="flex items-center gap-2 font-black text-emerald-300">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                          <span>✅ ML PRE-SCREEN: TRUE (DISASTER GROUND EVIDENCE CONFIRMED)</span>
-                        </span>
-                        <span className="text-emerald-200 font-bold bg-emerald-900/90 px-2.5 py-0.5 rounded border border-emerald-700 text-right shrink-0">
-                          ✓ Validated For Transmission
-                        </span>
-                      </div>
-                    );
+                    if (isAnyNonDisaster) {
+                      return (
+                        <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
+                          <span className="flex items-center gap-2 font-black text-rose-300">
+                            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                            <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED BY DISASTER CLASSIFIER)</span>
+                          </span>
+                          <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
+                            ⚠️ Flagged For Immediate Admin Rejection
+                          </span>
+                        </div>
+                      );
+                    }
+
+                    if (allDisasters && photos.length > 0) {
+                      return (
+                        <div className="p-3 rounded-xl bg-emerald-950/70 border border-emerald-800/80 text-[11px] font-mono text-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
+                          <span className="flex items-center gap-2 font-black text-emerald-300">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <span>✅ ML PRE-SCREEN: TRUE (DISASTER GROUND EVIDENCE CONFIRMED)</span>
+                          </span>
+                          <span className="text-emerald-200 font-bold bg-emerald-900/90 px-2.5 py-0.5 rounded border border-emerald-700 text-right shrink-0">
+                            ✓ Validated For Transmission
+                          </span>
+                        </div>
+                      );
+                    }
+
+                    return null;
                   })()}
                 </div>
               )}

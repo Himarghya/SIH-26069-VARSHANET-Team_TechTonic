@@ -1,7 +1,4 @@
 [
-  "Fire_Wildfire_Disaster",
-  "Flood_Water_Disaster",
-  "Human_Disaster_Impact",
-  "Infrastructure_Damage",
-  "Landslide_Drought_Disaster"
+  "disaster",
+  "normal"
 ]

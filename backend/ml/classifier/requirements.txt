@@ -1,7 +1,5 @@
-tensorflow>=2.15.0
+torch
+torchvision
 kagglehub
-numpy
-matplotlib
+pillow
 scikit-learn
-streamlit
-Pillow

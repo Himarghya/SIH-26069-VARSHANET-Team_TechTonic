@@ -1,214 +1,160 @@
 """
 train.py
---------
-Trains a multi-class disaster image classifier (Flood, Earthquake, Cyclone,
-Wildfire, ... — whatever classes exist as sub-folders in the dataset) using
-transfer learning on MobileNetV2.
 
-Dataset: varpit94/disaster-images-dataset (Kaggle)
-The dataset is organized as:
-    <root>/<some_folder>/<ClassName>/<image files>
+Fine-tunes a ResNet18 (ImageNet-pretrained) into a binary classifier:
+    "disaster"  vs  "normal"
 
-Usage:
-    python train.py
+Run prepare_dataset.py first so ./data/disaster and ./data/normal exist.
+
 Outputs:
-    disaster_classifier.keras   -> trained model
-    class_names.json            -> ordered list of class labels
-    training_history.png        -> accuracy/loss curves
+    disaster_binary_classifier.pt   - model weights
+    class_names.json                - ["disaster", "normal"] index mapping
 """
-
-import os
+import copy
 import json
-import pathlib
+import random
+from pathlib import Path
 
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras import layers, models
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, random_split
+from torchvision import datasets, transforms, models
+from sklearn.metrics import classification_report, confusion_matrix
+from PIL import Image, ImageFile
 
-IMG_SIZE = (224, 224)
-BATCH_SIZE = 32
-INITIAL_EPOCHS = 10
-FINE_TUNE_EPOCHS = 8
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
 SEED = 42
+random.seed(SEED)
+torch.manual_seed(SEED)
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+MODEL_OUT = BASE_DIR / "disaster_binary_classifier.pt"
+LABELS_OUT = BASE_DIR / "class_names.json"
+IMG_SIZE = 224
+BATCH_SIZE = 32
+EPOCHS = 15
+LR = 1e-4
+VAL_SPLIT = 0.15
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+train_tf = transforms.Compose([
+    transforms.RandomResizedCrop(IMG_SIZE, scale=(0.8, 1.0)),
+    transforms.RandomHorizontalFlip(),
+    transforms.ColorJitter(0.15, 0.15, 0.1),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+])
+val_tf = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(IMG_SIZE),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+])
 
 
-def download_dataset() -> str:
-    """Downloads the Kaggle dataset and returns the local path to the
-    directory that actually contains the class sub-folders."""
-    # Check pre-structured project dataset first if available
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    prep_dir = os.path.join(script_dir, "..", "data", "cdd_dataset")
-    if os.path.exists(prep_dir) and len(os.listdir(prep_dir)) >= 2:
-        print("Found prepared CDD class dataset at:", os.path.abspath(prep_dir))
-        return os.path.abspath(prep_dir)
+def build_dataloaders():
+    full_ds = datasets.ImageFolder(DATA_DIR)
+    class_names = full_ds.classes  # alphabetical -> ['disaster', 'normal']
+    print(f"Detected classes: {class_names}")
 
-    import kagglehub
-
-    path = kagglehub.dataset_download("varpit94/disaster-images-dataset")
-    print("Path to dataset files:", path)
-
-    # The kaggle archive sometimes nests everything inside one more folder.
-    # Walk the tree and find the first directory that itself contains only
-    # sub-directories (i.e. the class folders), and has at least 2 classes.
-    root = pathlib.Path(path)
-    candidates = [root] + [p for p in root.rglob("*") if p.is_dir()]
-    for candidate in candidates:
-        subdirs = [d for d in candidate.iterdir() if d.is_dir()]
-        if len(subdirs) >= 2:
-            has_images = any(
-                f.suffix.lower() in (".jpg", ".jpeg", ".png")
-                for d in subdirs
-                for f in d.glob("*")
-            )
-            if has_images:
-                return str(candidate)
-
-    raise RuntimeError(
-        f"Could not auto-locate the class folders under {path}. "
-        "Please inspect the folder structure manually and set DATA_DIR."
+    n_val = int(len(full_ds) * VAL_SPLIT)
+    n_train = len(full_ds) - n_val
+    train_subset, val_subset = random_split(
+        full_ds, [n_train, n_val], generator=torch.Generator().manual_seed(SEED)
     )
 
+    # Apply different transforms to train vs val by wrapping copies of the dataset.
+    train_ds = copy.copy(full_ds)
+    train_ds.transform = train_tf
+    val_ds = copy.copy(full_ds)
+    val_ds.transform = val_tf
+    train_subset.dataset = train_ds
+    val_subset.dataset = val_ds
 
-def build_datasets(data_dir: str):
-    train_ds = tf.keras.utils.image_dataset_from_directory(
-        data_dir,
-        validation_split=0.2,
-        subset="training",
-        seed=SEED,
-        image_size=IMG_SIZE,
-        batch_size=BATCH_SIZE,
-        label_mode="categorical",
-    )
-    val_ds = tf.keras.utils.image_dataset_from_directory(
-        data_dir,
-        validation_split=0.2,
-        subset="validation",
-        seed=SEED,
-        image_size=IMG_SIZE,
-        batch_size=BATCH_SIZE,
-        label_mode="categorical",
-    )
+    labels = [full_ds.samples[i][1] for i in range(len(full_ds))]
+    class_counts = [labels.count(i) for i in range(len(class_names))]
+    weights = [len(labels) / c for c in class_counts]
+    class_weights = torch.tensor(weights, dtype=torch.float32)
+    print(f"Class counts: {dict(zip(class_names, class_counts))}")
 
-    class_names = train_ds.class_names
-    print("Detected classes:", class_names)
-
-    # Split validation into val + test (half/half)
-    val_batches = tf.data.experimental.cardinality(val_ds)
-    test_ds = val_ds.take(val_batches // 2)
-    val_ds = val_ds.skip(val_batches // 2)
-
-    AUTOTUNE = tf.data.AUTOTUNE
-    train_ds = train_ds.prefetch(buffer_size=AUTOTUNE)
-    val_ds = val_ds.prefetch(buffer_size=AUTOTUNE)
-    test_ds = test_ds.prefetch(buffer_size=AUTOTUNE)
-
-    return train_ds, val_ds, test_ds, class_names
+    # num_workers=0 for safe Windows multiprocessing compatibility
+    train_loader = DataLoader(train_subset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
+    val_loader = DataLoader(val_subset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
+    return train_loader, val_loader, class_names, class_weights
 
 
-def build_model(num_classes: int) -> tf.keras.Model:
-    data_augmentation = tf.keras.Sequential(
-        [
-            layers.RandomFlip("horizontal"),
-            layers.RandomRotation(0.1),
-            layers.RandomZoom(0.1),
-            layers.RandomContrast(0.1),
-        ],
-        name="data_augmentation",
-    )
-
-    base_model = MobileNetV2(
-        input_shape=IMG_SIZE + (3,), include_top=False, weights="imagenet"
-    )
-    base_model.trainable = False  # freeze for initial training
-
-    inputs = tf.keras.Input(shape=IMG_SIZE + (3,))
-    x = data_augmentation(inputs)
-    x = preprocess_input(x)
-    x = base_model(x, training=False)
-    x = layers.GlobalAveragePooling2D()(x)
-    x = layers.Dropout(0.3)(x)
-    x = layers.Dense(128, activation="relu")(x)
-    x = layers.Dropout(0.2)(x)
-    outputs = layers.Dense(num_classes, activation="softmax")(x)
-
-    model = models.Model(inputs, outputs)
-    return model, base_model
+def build_model(num_classes=2):
+    model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
+    # Freeze early layers, fine-tune the last block + classifier head only.
+    for p in model.parameters():
+        p.requires_grad = False
+    for p in model.layer4.parameters():
+        p.requires_grad = True
+    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    return model.to(DEVICE)
 
 
-def plot_history(history_1, history_2, out_path="training_history.png"):
-    acc = history_1.history["accuracy"] + history_2.history["accuracy"]
-    val_acc = history_1.history["val_accuracy"] + history_2.history["val_accuracy"]
-    loss = history_1.history["loss"] + history_2.history["loss"]
-    val_loss = history_1.history["val_loss"] + history_2.history["val_loss"]
+def train():
+    print(f"Training on device: {DEVICE}")
+    train_loader, val_loader, class_names, class_weights = build_dataloaders()
+    model = build_model(len(class_names))
+    criterion = nn.CrossEntropyLoss(weight=class_weights.to(DEVICE))
+    optimizer = optim.Adam([p for p in model.parameters() if p.requires_grad], lr=LR)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="max", patience=2, factor=0.5)
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-    axes[0].plot(acc, label="train acc")
-    axes[0].plot(val_acc, label="val acc")
-    axes[0].set_title("Accuracy")
-    axes[0].legend()
+    best_acc = 0.0
+    best_state = None
+    all_preds, all_labels = [], []
 
-    axes[1].plot(loss, label="train loss")
-    axes[1].plot(val_loss, label="val loss")
-    axes[1].set_title("Loss")
-    axes[1].legend()
+    for epoch in range(1, EPOCHS + 1):
+        model.train()
+        running_loss = 0.0
+        for imgs, labels in train_loader:
+            imgs, labels = imgs.to(DEVICE), labels.to(DEVICE)
+            optimizer.zero_grad()
+            out = model(imgs)
+            loss = criterion(out, labels)
+            loss.backward()
+            optimizer.step()
+            running_loss += loss.item() * imgs.size(0)
+        train_loss = running_loss / len(train_loader.dataset)
 
-    plt.tight_layout()
-    plt.savefig(out_path)
-    print(f"Saved training curves to {out_path}")
+        model.eval()
+        correct, total = 0, 0
+        epoch_preds, epoch_labels = [], []
+        with torch.no_grad():
+            for imgs, labels in val_loader:
+                imgs, labels = imgs.to(DEVICE), labels.to(DEVICE)
+                out = model(imgs)
+                preds = out.argmax(1)
+                correct += (preds == labels).sum().item()
+                total += labels.size(0)
+                epoch_preds.extend(preds.cpu().tolist())
+                epoch_labels.extend(labels.cpu().tolist())
+        val_acc = correct / total
+        scheduler.step(val_acc)
+        print(f"Epoch {epoch}/{EPOCHS} - train_loss={train_loss:.4f} val_acc={val_acc:.4f}", flush=True)
 
+        if val_acc > best_acc:
+            best_acc = val_acc
+            best_state = copy.deepcopy(model.state_dict())
+            all_preds, all_labels = epoch_preds, epoch_labels
 
-def main():
-    data_dir = os.environ.get("DATA_DIR") or download_dataset()
-    train_ds, val_ds, test_ds, class_names = build_datasets(data_dir)
+    model.load_state_dict(best_state)
+    print(f"\nBest val accuracy: {best_acc:.4f}\n")
+    print(classification_report(all_labels, all_preds, target_names=class_names))
+    print("Confusion matrix:")
+    print(confusion_matrix(all_labels, all_preds))
 
-    model, base_model = build_model(num_classes=len(class_names))
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
-        loss="categorical_crossentropy",
-        metrics=["accuracy"],
-    )
-    model.summary()
-
-    print("\n--- Phase 1: training the classification head ---")
-    history_1 = model.fit(
-        train_ds, validation_data=val_ds, epochs=INITIAL_EPOCHS
-    )
-
-    print("\n--- Phase 2: fine-tuning top layers of MobileNetV2 ---")
-    base_model.trainable = True
-    # Freeze all but the last ~30 layers so fine-tuning is fast & stable
-    for layer in base_model.layers[:-30]:
-        layer.trainable = False
-
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
-        loss="categorical_crossentropy",
-        metrics=["accuracy"],
-    )
-
-    total_epochs = INITIAL_EPOCHS + FINE_TUNE_EPOCHS
-    history_2 = model.fit(
-        train_ds,
-        validation_data=val_ds,
-        epochs=total_epochs,
-        initial_epoch=history_1.epoch[-1] + 1,
-    )
-
-    print("\n--- Evaluating on held-out test set ---")
-    test_loss, test_acc = model.evaluate(test_ds)
-    print(f"Test accuracy: {test_acc:.4f}  |  Test loss: {test_loss:.4f}")
-
-    model.save("disaster_classifier.keras")
-    with open("class_names.json", "w") as f:
+    torch.save(model.state_dict(), MODEL_OUT)
+    with open(LABELS_OUT, "w") as f:
         json.dump(class_names, f, indent=2)
-    print("Saved model -> disaster_classifier.keras")
-    print("Saved class labels -> class_names.json")
-
-    plot_history(history_1, history_2)
+    print(f"\nSaved model to {MODEL_OUT}")
+    print(f"Saved class labels to {LABELS_OUT}")
 
 
 if __name__ == "__main__":
-    main()
+    train()

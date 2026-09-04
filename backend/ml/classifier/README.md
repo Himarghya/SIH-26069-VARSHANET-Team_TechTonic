@@ -1,119 +1,57 @@
-# Disaster Detection System
+# Disaster vs. Not-Disaster Image Classifier
 
-Given an uploaded photo, this system automatically:
+## Why this needed a second dataset
 
-1. **Detects whether it shows a disaster at all** (vs. an everyday, normal scene)
-2. **If it's a disaster, identifies which type** — Flood, Earthquake, Cyclone,
-   Wildfire, or whatever classes exist in the dataset
+`varpit94/disaster-images-dataset` only contains disaster photos (fire, flood,
+earthquake, cyclone). It has **no "not a disaster" images at all**. Training
+only on it — which is likely what caused the dog-photo false positive — gives
+the model no examples of ordinary scenes to contrast against, so it has no
+real decision boundary.
 
-It's a **two-stage transfer-learning pipeline** built on MobileNetV2.
+To fix that, this setup pairs it with `puneet6060/intel-image-classification`
+(buildings, forest, glacier, mountain, sea, street) as the **negative /
+"normal"** class — realistic everyday photos with no disaster content.
 
-```
-photo --> [Stage 1: Disaster Detector]  --> "Normal"     --> stop, report "no disaster"
-                     |
-                     v
-               "Disaster"
-                     |
-                     v
-        [Stage 2: Disaster Type Classifier] --> "Flood" / "Earthquake" / ...
-```
-
-## Why two stages instead of one?
-
-The original disaster-images dataset only contains disaster photos — there's
-no "everyday scene" class in it. A model trained only on that data will
-always force a guess between Flood/Earthquake/Cyclone/etc., even for a photo
-of your cat. Stage 1 fixes that by learning what a disaster *looks like at
-all*, using a second dataset of ordinary scenes as negative examples.
-
-## 1. Setup
+## Setup
 
 ```bash
 pip install -r requirements.txt
 ```
 
-You need a Kaggle API token (`kaggle.json`) available so `kagglehub` can
-download the datasets — see https://github.com/Kagglehub/kagglehub for auth
-setup, or place `kaggle.json` in `~/.kaggle/`.
+You need a Kaggle API token for `kagglehub` to download datasets:
+place `kaggle.json` at `~/.kaggle/kaggle.json` (get it from
+Kaggle → Account → Create New API Token), or set `KAGGLE_USERNAME` /
+`KAGGLE_KEY` environment variables.
 
-## 2. Train Stage 1 — the disaster detector
-
-```bash
-python train_binary.py
-```
-
-What it does:
-- Downloads `varpit94/disaster-images-dataset` (all disaster types combined
-  → relabeled as a single "Disaster" class).
-- Downloads `puneet6060/intel-image-classification` (buildings, forests,
-  streets, mountains, sea, glaciers — used as "Normal" / non-disaster
-  examples).
-- Builds a balanced binary dataset (capped at `MAX_IMAGES_PER_CLASS` per
-  class, default 3000) and trains a MobileNetV2-based binary classifier.
-- Saves `disaster_detector.keras` and `training_history_binary.png`.
-
-## 3. Train Stage 2 — the disaster type classifier
+## Run
 
 ```bash
-python train_multiclass.py
+python prepare_dataset.py   # downloads both datasets, builds data/disaster + data/normal
+python train.py             # fine-tunes ResNet18, saves disaster_binary_classifier.pt
+python infer.py path/to/test_image.jpg --threshold 0.85
 ```
 
-Same as before: trains on the disaster dataset's own sub-folders (Flood,
-Earthquake, Cyclone, Wildfire, ...) to classify *which* disaster it is.
-Saves `disaster_classifier.keras` and `class_names.json`.
+`train.py` prints a classification report and confusion matrix on a held-out
+validation split at the end, so you can see precision/recall per class before
+trusting it on real uploads.
 
-*(Run this in any order relative to Stage 1 — they're independent models.)*
+## Tuning false positives / false negatives
 
-## 4. Predict on a single photo (CLI)
+`infer.py`'s `--threshold` controls how confident the model must be before
+saying "DISASTER". Test types of predictable false positives from your
+VarshaNet fox/dog case in mind:
 
-```bash
-python predict.py path/to/photo.jpg
-```
+- Getting **too many false positives** (normal photos flagged as disaster) →
+  raise the threshold (e.g. `0.9`–`0.95`).
+- Getting **too many false negatives** (real disaster photos missed) →
+  lower it (e.g. `0.6`–`0.7`).
 
-Example — disaster photo:
-```
---- Prediction ---
-Disaster present: YES (94.2% confidence)
-Type: Flood (88.1% confidence)
+Start at `0.85` and adjust based on your validation report.
 
-All type scores:
-  Flood            88.1%
-  Cyclone           6.3%
-  Earthquake        3.4%
-  Wildfire          2.2%
-```
+## Integrating into your existing pipeline
 
-Example — random, non-disaster photo:
-```
---- Prediction ---
-Disaster present: NO (91.7% confidence)
-No disaster detected in this image.
-```
-
-## 5. Upload-a-photo web app
-
-```bash
-streamlit run app.py
-```
-
-Shows both stages live: a Stage 1 verdict (disaster / no disaster) and, if
-a disaster is detected, a Stage 2 breakdown of which type it most likely is.
-
-## Tuning
-
-- **`NORMAL_PROB_THRESHOLD`** (in `predict.py` / `app.py`, default 0.5):
-  lower it to make Stage 1 more trigger-happy about flagging disasters
-  (fewer missed disasters, more false alarms); raise it for the opposite.
-- **`TYPE_CONFIDENCE_THRESHOLD`** (default 0.40): minimum Stage 2 confidence
-  before committing to a specific disaster type rather than reporting
-  "disaster detected, type unclear."
-- **`MAX_IMAGES_PER_CLASS`** in `train_binary.py`: increase for a more
-  thorough Stage 1 model if you have the compute/time; set to `None` to use
-  every available image.
-- **Class imbalance in Stage 2**: if one disaster type has far more images
-  than others, consider `class_weight=...` in `train_multiclass.py`'s
-  `model.fit()`, computed via
-  `sklearn.utils.class_weight.compute_class_weight`.
-- **Accuracy**: swap `MobileNetV2` for a larger backbone like
-  `EfficientNetB0` if you have a GPU, or unfreeze more base-model layers
-  during fine-tuning.
+`infer.py`'s `analyze_pil_image(pil_img, model, class_names, threshold)`
+returns the same shape of result your `image_analyzer.py` expects
+(`verdict`, `disaster_prob`, `class_probs`), so it can be dropped in as your
+Stage 1 binary gate, with your existing multiclass model (Fire/Flood/
+Landslide) continuing to run as Stage 2 only when Stage 1 says `DISASTER`.

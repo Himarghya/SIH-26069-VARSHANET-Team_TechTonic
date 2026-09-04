@@ -47,4 +47,5 @@ data/
 *.h5
 *.pt
 !processing/vision/*.pt
-!processing/vision/*.onnx*
+!ml_disaster_classifier/*.pt
+!backend/ml/classifier/*.pt
