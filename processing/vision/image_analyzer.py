@@ -95,6 +95,8 @@ if not HAS_DISASTER_MODEL:
     except Exception as e:
         print(f"[VisionGuard] PyTorch load error: {e}")
 
+print(f"[DEBUG] image_analyzer.py loaded from: {__file__} | HAS_DISASTER_MODEL={HAS_DISASTER_MODEL}")
+
 if not HAS_DISASTER_MODEL:
     print("[VisionGuard] WARNING: could not load trained disaster models. "
           "Falling back to a permissive default — verify deployment includes "
