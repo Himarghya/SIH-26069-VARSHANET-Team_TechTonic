@@ -6,8 +6,11 @@ import { LiveMlForensicInspector } from '../ml/LiveMlForensicInspector';
 
 export interface MediaAnalysisResult {
   status: 'analyzing' | 'done' | 'error';
+  is_disaster?: boolean;
   is_weather_related?: boolean;
   is_authentic?: boolean;
+  verdict?: string;
+  disaster_prob?: number;
   admin_verdict?: string;
   admin_recommendation?: string;
   detected_category?: string;
