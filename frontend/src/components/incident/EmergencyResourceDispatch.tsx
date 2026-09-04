@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Truck, ShieldCheck, PhoneCall, CheckCircle2, FileText, Send, Compass, Waves, ShieldAlert, Sparkles, Layers } from 'lucide-react';
 
 interface ResourceDispatchProps {
@@ -303,47 +303,47 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
 
       {/* Asset Allocation Table */}
       <div className="space-y-3 pt-2">
-        <div className="flex items-center justify-between">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2 font-mono">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2 font-mono flex-wrap">
             <span>Dynamic NDRF & Civil Defense Tactical Allocation</span>
             <span className="text-slate-500 font-normal">({totalPopulationExposed.toLocaleString()} citizens exposed)</span>
           </h4>
         </div>
 
-        <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/80 shadow-inner">
-          <table className="w-full text-left text-xs font-sans">
+        <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/80 shadow-inner w-full">
+          <table className="w-full min-w-[580px] text-left text-xs font-sans">
             <thead className="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-[10px] font-mono border-b border-slate-800">
               <tr>
-                <th className="py-3 px-4">Emergency Asset Type</th>
-                <th className="py-3 px-4">Required Scale</th>
-                <th className="py-3 px-4">Deployed</th>
-                <th className="py-3 px-4">Deployment Status</th>
-                <th className="py-3 px-4 text-right">Field Action</th>
+                <th className="py-3 px-3 sm:px-4">Emergency Asset Type</th>
+                <th className="py-3 px-3 sm:px-4">Required Scale</th>
+                <th className="py-3 px-3 sm:px-4">Deployed</th>
+                <th className="py-3 px-3 sm:px-4">Deployment Status</th>
+                <th className="py-3 px-3 sm:px-4 text-right">Field Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 text-slate-300 font-sans">
               {resources.map((res, i) => (
                 <tr key={i} className="hover:bg-slate-900/40 transition-colors">
-                  <td className="py-3.5 px-4 font-semibold text-white">
+                  <td className="py-3 px-3 sm:px-4 font-semibold text-white">
                     {res.name}
                     <span className="block text-[10px] font-mono text-slate-500 font-normal">{res.unit}</span>
                   </td>
-                  <td className="py-3.5 px-4 font-mono text-slate-300">
+                  <td className="py-3 px-3 sm:px-4 font-mono text-slate-300">
                     {res.required}
                   </td>
-                  <td className="py-3.5 px-4 font-mono font-bold text-cyan-400">
+                  <td className="py-3 px-3 sm:px-4 font-mono font-bold text-cyan-400">
                     {res.allocated}
                   </td>
-                  <td className="py-3.5 px-4">
+                  <td className="py-3 px-3 sm:px-4">
                     {getStatusBadge(res.status)}
                   </td>
-                  <td className="py-3.5 px-4 text-right">
+                  <td className="py-3 px-3 sm:px-4 text-right">
                     <button
                       onClick={() => handleAllocate(i)}
                       disabled={res.allocated >= res.required}
-                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-cyan-600 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 hover:text-white disabled:text-slate-500 text-xs font-medium border border-slate-700 hover:border-cyan-500 transition-all cursor-pointer shadow-sm"
+                      className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-cyan-600 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 hover:text-white disabled:text-slate-500 text-xs font-medium border border-slate-700 hover:border-cyan-500 transition-all cursor-pointer shadow-sm whitespace-nowrap"
                     >
-                      + Dispatch Units
+                      + Dispatch
                     </button>
                   </td>
                 </tr>

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrendingUp, AlertTriangle, CloudRain, Activity, Compass, ShieldAlert, ArrowRight, Sparkles, RefreshCw, Zap } from 'lucide-react';
 import { fetchSeverityForecast, fetchAnomalyDetection } from '../../services/api';
 
@@ -79,31 +79,31 @@ export const SeverityForecastRadar: React.FC = () => {
 
       {/* Top Banner: Unsupervised Anomaly Alert */}
       {anomalyResult && (
-        <div className={`p-4 rounded-xl border flex items-center justify-between flex-wrap gap-3 ${
+        <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
           anomalyResult.is_anomaly
             ? 'bg-rose-950/60 border-rose-600/60 text-rose-100'
             : 'bg-slate-950 border-slate-800 text-slate-300'
         }`}>
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-rose-900/80 text-rose-200">
+          <div className="flex items-start sm:items-center gap-3 min-w-0">
+            <div className="p-2 rounded-lg bg-rose-900/80 text-rose-200 shrink-0 mt-0.5 sm:mt-0">
               <AlertTriangle className="w-5 h-5 animate-pulse" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
                 <strong className="text-xs font-mono font-bold uppercase tracking-wider text-rose-400">
                   Unsupervised Isolation Forest Anomaly Trigger:
                 </strong>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 shrink-0">
                   Score: {anomalyResult.anomaly_score} / 1.0
                 </span>
               </div>
-              <p className="text-xs text-slate-200 mt-0.5">
+              <p className="text-xs text-slate-200 mt-0.5 leading-relaxed">
                 Surge of <strong>{anomalyResult.signals?.surge_ratio}</strong> &bull; <strong>{anomalyResult.signals?.rainfall_z_score}</strong>
               </p>
             </div>
           </div>
 
-          <span className="text-xs font-mono font-bold text-rose-400 bg-black/40 px-3 py-1 rounded-lg border border-rose-900/80">
+          <span className="text-[11px] font-mono font-bold text-rose-300 bg-black/50 px-3 py-1.5 rounded-lg border border-rose-900/80 break-all sm:break-normal text-center sm:text-left self-stretch sm:self-auto">
             {anomalyResult.trigger_action}
           </span>
         </div>

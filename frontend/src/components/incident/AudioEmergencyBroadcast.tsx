@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Volume2, VolumeX, Radio, Play, Square, Languages, Info, AlertTriangle, BellRing } from 'lucide-react';
 
 interface AudioBroadcastProps {
@@ -97,13 +97,13 @@ export const AudioEmergencyBroadcast: React.FC<AudioBroadcastProps> = ({
   };
 
   return (
-    <div className={`p-3.5 rounded-xl border flex flex-wrap items-center justify-between gap-3 shadow-lg ${
+    <div className={`p-3.5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg ${
       isCritical ? 'bg-gradient-to-r from-rose-950/40 via-slate-900 to-indigo-950/40 border-rose-800/40' :
       isHigh ? 'bg-gradient-to-r from-amber-950/40 via-slate-900 to-indigo-950/40 border-amber-800/40' :
       'bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 border-cyan-800/40'
     }`}>
-      <div className="flex items-center gap-2.5">
-        <div className={`p-2 rounded-lg ${
+      <div className="flex items-start sm:items-center gap-2.5 min-w-0">
+        <div className={`p-2 rounded-lg shrink-0 mt-0.5 sm:mt-0 ${
           isPlaying ? 'bg-rose-600 text-white animate-pulse' : 
           isCritical ? 'bg-slate-900 text-rose-400 border border-rose-900/50' :
           isHigh ? 'bg-slate-900 text-amber-400 border border-amber-900/50' :
@@ -111,12 +111,12 @@ export const AudioEmergencyBroadcast: React.FC<AudioBroadcastProps> = ({
         }`}>
           <Radio className="w-4 h-4" />
         </div>
-        <div>
-          <div className="flex items-center gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-bold text-white uppercase tracking-wide">
               {isCritical ? 'Emergency Radio Broadcast (TTS)' : 'Radio Bulletin Broadcast (TTS)'}
             </span>
-            <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold ${
+            <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ${
               isCritical ? 'bg-rose-950 text-rose-300 border border-rose-800' :
               isHigh ? 'bg-amber-950 text-amber-300 border border-amber-800' :
               'bg-cyan-950 text-cyan-300 border border-cyan-800'
@@ -124,13 +124,13 @@ export const AudioEmergencyBroadcast: React.FC<AudioBroadcastProps> = ({
               AI Judged: {normalizedSeverity}
             </span>
           </div>
-          <p className="text-[11px] text-slate-300 font-sans">
+          <p className="text-[11px] text-slate-300 font-sans mt-0.5">
             Synthesizes dynamic voice bulletins tailored to actual AI risk severity.
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end flex-wrap">
         <div className="flex items-center bg-slate-950 rounded-lg border border-slate-800 p-0.5 text-[11px]">
           <button
             onClick={() => setLanguage('hi')}

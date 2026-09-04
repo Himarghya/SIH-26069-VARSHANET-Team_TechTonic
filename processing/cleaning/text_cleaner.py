@@ -1,4 +1,4 @@
-﻿import re
+import re
 from typing import List, Tuple, Dict
 
 INDIAN_LANGUAGE_SCRIPTS = {
@@ -12,6 +12,13 @@ INDIAN_LANGUAGE_SCRIPTS = {
     "pa": (0x0A00, 0x0A7F), # Punjabi (Gurmukhi)
     "or": (0x0B00, 0x0B7F), # Odia
 }
+
+WEATHER_HASHTAGS = [
+    "#IMD", "#Weather", "#Rainfall", "#HeavyRain", "#Flood", "#Thunderstorm",
+    "#Lightning", "#Heatwave", "#ColdWave", "#Fog", "#DustStorm", "#StrongWinds",
+    "#Cyclone", "#Landslide", "#Cloudburst", "#Hailstorm", "#Monsoon", "#WeatherUpdate",
+    "#UrbanFlood", "#Waterlogging", "#DelhiRains", "#MumbaiRains", "#BhopalRains", "#ChennaiRains"
+]
 
 class TextCleaner:
     def __init__(self):
@@ -32,75 +39,30 @@ class TextCleaner:
         found = self.hashtag_pattern.findall(text)
         return list(set(found))
 
-    def generate_ai_hashtags(self, text: str, event_type: str = "Rainfall", city: str = "India", state: str = "") -> List[str]:
-        tags = ["#IMD", "#Monsoon2026"]
-        lower_text = (text or "").lower()
-        event_lower = (event_type or "").lower()
-        
-        # 1. Location-specific hashtag
-        if city and city.lower() not in ["india", "region", "district", "none"]:
-            clean_city = re.sub(r'[^A-Za-z0-9]', '', city.title())
-            if any(w in lower_text or w in event_lower for w in ["rain", "flood", "cloudburst", "waterlog", "downpour"]):
-                tags.append(f"#{clean_city}Rains")
-            elif "heat" in lower_text or "heat" in event_lower:
-                tags.append(f"#{clean_city}Heatwave")
-            else:
-                tags.append(f"#{clean_city}Weather")
-
-        # 2. Hazard-specific hashtags
-        if any(w in lower_text or w in event_lower for w in ["rain", "shower", "downpour", "precipitation"]):
-            tags.append("#HeavyRainfall")
-        if any(w in lower_text or w in event_lower for w in ["flood", "waterlog", "submerge", "inundat"]):
-            tags.append("#FloodAlert")
-            tags.append("#UrbanFlooding")
-        if any(w in lower_text or w in event_lower for w in ["cloudburst", "flash flood", "deluge"]):
-            tags.append("#Cloudburst")
-            tags.append("#FlashFlood")
-        if any(w in lower_text or w in event_lower for w in ["heat", "temperature", "loo", "hot"]):
-            tags.append("#HeatwaveWarning")
-        if any(w in lower_text or w in event_lower for w in ["cyclone", "storm", "squall", "depression"]):
-            tags.append("#CycloneAlert")
-        if any(w in lower_text or w in event_lower for w in ["thunder", "lightning", "strike"]):
-            tags.append("#Thunderstorm")
-        if any(w in lower_text or w in event_lower for w in ["fog", "visibility", "smog"]):
-            tags.append("#DenseFog")
-        if any(w in lower_text or w in event_lower for w in ["dust", "sandstorm", "andhi"]):
-            tags.append("#DustStorm")
-        if any(w in lower_text or w in event_lower for w in ["wind", "gust", "gale"]):
-            tags.append("#StrongWinds")
-
-        # 3. Include any existing hashtag found in text
-        raw_tags = self.extract_hashtags(text)
-        tags.extend(raw_tags)
-
-        # Deduplicate while preserving case
-        seen = set()
-        unique_tags = []
-        for t in tags:
-            clean_t = t if t.startswith("#") else f"#{t}"
-            if clean_t.lower() not in seen:
-                seen.add(clean_t.lower())
-                unique_tags.append(clean_t)
-
-        return unique_tags
-
     def clean_text(self, text: str) -> Tuple[str, List[str], str, bool]:
+        """
+        Returns: (normalized_text, hashtags, language, is_spam)
+        """
         if not text:
             return "", [], "en", False
             
+        # Spam check
         lower_text = text.lower()
         is_spam = any(spam in lower_text for spam in self.spam_keywords)
+        
+        # Extract hashtags
         hashtags = self.extract_hashtags(text)
+        
+        # Detect language
         language = self.detect_language(text)
         
+        # Remove URLs and mentions for analysis normalization
         cleaned = self.url_pattern.sub("", text)
         cleaned = self.mention_pattern.sub("", cleaned)
+        
+        # Normalize whitespace
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         
         return cleaned, hashtags, language, is_spam
-
-    def clean_and_normalize(self, text: str) -> Tuple[str, str, List[str]]:
-        cleaned, hashtags, language, is_spam = self.clean_text(text)
-        return cleaned, language, hashtags
 
 cleaner = TextCleaner()

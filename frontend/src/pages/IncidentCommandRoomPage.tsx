@@ -72,15 +72,36 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
   return (
     <div className="space-y-6">
       {/* Event Cluster Selector Bar */}
-      <div className="flex items-center justify-between gap-3 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl shadow-xl overflow-x-auto">
-        <div className="flex items-center gap-2 shrink-0">
-          <Activity className="w-4 h-4 text-cyan-400" />
-          <span className="text-xs font-bold text-slate-200">
-            {isCitizen ? 'Public Weather Incident Information:' : 'Incident Command Operations:'}
-          </span>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl shadow-xl">
+        <div className="flex items-center justify-between gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2 shrink-0">
+            <Activity className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs font-bold text-slate-200">
+              {isCitizen ? 'Public Weather Incident Information:' : 'Incident Command Operations:'}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 sm:hidden">
+            {!isCitizen && (
+              <button
+                onClick={() => setShowSitRepModal(true)}
+                disabled={!impactData}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white text-[11px] font-bold shadow-md cursor-pointer"
+              >
+                <FileText className="w-3 h-3" />
+                <span>SitRep</span>
+              </button>
+            )}
+            <button
+              onClick={() => currentEventId && loadImpactData(currentEventId)}
+              className="p-1.5 rounded-xl bg-slate-800 text-slate-300 cursor-pointer"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto py-1">
+        <div className="flex items-center gap-2 overflow-x-auto py-1 w-full sm:w-auto no-scrollbar">
           {events.map((evt) => {
             const isSelected = currentEventId === evt.id;
             return (
@@ -99,7 +120,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
           })}
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="hidden sm:flex items-center gap-2 shrink-0">
           {!isCitizen && (
             <button
               onClick={() => setShowSitRepModal(true)}
@@ -107,7 +128,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold shadow-md shadow-indigo-950/40 transition-all cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Official SitRep Dossier</span>
+              <span>Official SitRep Dossier</span>
             </button>
           )}
 
