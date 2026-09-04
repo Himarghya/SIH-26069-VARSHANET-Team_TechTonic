@@ -5,160 +5,712 @@
     "Cyclone",
     "Earthquake",
     "Wildfire",
-    "Non_Damage (Animals/Wildlife/Everyday)"
+    "Non_Damage (Fox, Elephant, Tiger, Wildlife, Everyday)"
   ],
-  "epochs_trained": 25,
+  "epochs_trained": 100,
+  "steps_per_epoch": 50,
+  "total_optimization_steps": 5000,
   "final_accuracy": 100.0,
   "final_f1": 100.0,
-  "final_loss": 0.0,
+  "final_loss": 0.00011,
   "history": [
     {
       "epoch": 1,
-      "loss": 0.42246,
+      "steps": 50,
+      "loss": 0.24203,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 2,
-      "loss": 0.00234,
+      "steps": 50,
+      "loss": 0.00307,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 3,
-      "loss": 8e-05,
+      "steps": 50,
+      "loss": 0.00072,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 4,
-      "loss": 2e-05,
+      "steps": 50,
+      "loss": 0.00018,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 5,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00013,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 6,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00013,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 7,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00013,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 8,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00013,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 9,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00013,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 10,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00013,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 11,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00013,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 12,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 13,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 14,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 15,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 16,
-      "loss": 1e-05,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 17,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 18,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 19,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 20,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 21,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 22,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 23,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 24,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
       "accuracy": 100.0,
       "f1_score": 100.0
     },
     {
       "epoch": 25,
-      "loss": 0.0,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 26,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 27,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 28,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 29,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 30,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 31,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 32,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 33,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 34,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 35,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 36,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 37,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 38,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 39,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 40,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 41,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 42,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 43,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 44,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 45,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 46,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 47,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 48,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 49,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 50,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 51,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 52,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 53,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 54,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 55,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 56,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 57,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 58,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 59,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 60,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 61,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 62,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 63,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 64,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 65,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 66,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 67,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 68,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 69,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 70,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 71,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 72,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 73,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 74,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 75,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 76,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 77,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 78,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 79,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 80,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 81,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 82,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 83,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 84,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 85,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 86,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 87,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 88,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 89,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 90,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 91,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 92,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 93,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 94,
+      "steps": 50,
+      "loss": 0.00012,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 95,
+      "steps": 50,
+      "loss": 0.00011,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 96,
+      "steps": 50,
+      "loss": 0.00011,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 97,
+      "steps": 50,
+      "loss": 0.00011,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 98,
+      "steps": 50,
+      "loss": 0.00011,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 99,
+      "steps": 50,
+      "loss": 0.00011,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 100,
+      "steps": 50,
+      "loss": 0.00011,
       "accuracy": 100.0,
       "f1_score": 100.0
     }

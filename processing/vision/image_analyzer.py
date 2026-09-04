@@ -395,4 +395,9 @@ class ImageWeatherAnalyzer:
             "weather_relevance_confidence": 92.0
         }
 
+    def analyze_image(self, image_source: str) -> Dict[str, Any]:
+        """Convenience alias for analyze_image_heuristics."""
+        return self.analyze_image_heuristics(image_source)
+
 image_analyzer = ImageWeatherAnalyzer()
+
