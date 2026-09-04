@@ -37,10 +37,14 @@ Thumbs.db
 # Temporary
 *.tmp
 *.temp
+backend/uploads/
+uploads/
 
 # Large Datasets & Model Artifacts
 data/
 *.keras
-*.pt
 *.pth
 *.h5
+*.pt
+!processing/vision/*.pt
+!processing/vision/*.onnx*
