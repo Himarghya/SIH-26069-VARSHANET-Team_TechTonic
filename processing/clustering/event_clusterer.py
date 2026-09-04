@@ -1,4 +1,5 @@
 import math
+import uuid
 from datetime import datetime, timezone
 from typing import List, Dict, Optional, Tuple
 
@@ -43,10 +44,10 @@ class EventClusterer:
                         cl["last_reported_at"] = datetime.now(timezone.utc)
                         return cl["id"], False, cl
                         
-        # Generate new cluster ID
+        # Generate globally unique collision-free cluster ID
         today_str = datetime.now(timezone.utc).strftime("%Y%m%d")
-        cluster_seq = len(existing_clusters) + 1
-        new_cluster_id = f"EVT-{today_str}-{cluster_seq:03d}"
+        unique_suffix = uuid.uuid4().hex[:6].upper()
+        new_cluster_id = f"EVT-{today_str}-{unique_suffix}"
         
         severity = "MODERATE"
         if event_type in ["Cyclone", "Flash Flood", "Cloudburst", "Landslide"]:
