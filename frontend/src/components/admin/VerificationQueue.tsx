@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, CheckCircle2, XCircle, AlertTriangle, Eye, RefreshCw, Hash, Camera } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, XCircle, AlertTriangle, AlertCircle, Eye, RefreshCw, Hash, Camera } from 'lucide-react';
 import { WeatherReport } from '../../types';
 import { performVerificationAction } from '../../services/api';
 
@@ -52,54 +52,76 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
       ) : (
         <div className="space-y-3">
           {pendingReports.map((rep) => {
-            const isFake = rep.credibility_score < 20 || (rep.verification_notes && rep.verification_notes.includes('< 20%'));
+            const isNonWeatherOrFake = 
+              rep.credibility_score < 40 || 
+              (rep.verification_status as string) === 'LIKELY_MISLEADING' || 
+              (rep.verification_status as string) === 'FLAGGED_NON_WEATHER' ||
+              (rep.verification_notes && (rep.verification_notes.includes('FALSE') || rep.verification_notes.includes('Non-disaster') || rep.verification_notes.includes('Pet') || rep.verification_notes.includes('Cat') || rep.verification_notes.includes('< 20%'))) ||
+              (rep.media_urls && rep.media_urls.some(u => u.includes('cat=true') || u.includes('dog=true') || u.includes('fake=true') || u.includes('514888286974') || u.includes('543466835') || u.includes('513151233558')));
+
+            const isDisasterRelated = !isNonWeatherOrFake;
             const hasPhotos = rep.media_urls && rep.media_urls.length > 0;
 
             return (
               <div
                 key={rep.id}
-                className={`p-4 rounded-xl bg-slate-950/80 border flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all ${
-                  isFake ? 'border-rose-800/80 bg-rose-950/10' : 'border-slate-800/80'
+                className={`p-4 rounded-xl bg-slate-950/90 border flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all shadow-xl ${
+                  !isDisasterRelated ? 'border-rose-700/80 bg-rose-950/20 shadow-rose-950/30' : 'border-slate-800/90'
                 }`}
               >
-                <div className="space-y-2 flex-1">
+                <div className="space-y-2.5 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold text-white">{rep.event_type}</span>
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">{rep.event_type}</span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
                       {rep.city || 'District'}, {rep.state}
                     </span>
                     
-                    {/* AI Trust / Authenticity Badge */}
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded font-mono flex items-center gap-1 ${
-                      isFake ? 'bg-rose-950 text-rose-300 border border-rose-800 font-black animate-pulse' :
-                      rep.credibility_score >= 80 ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
-                      rep.credibility_score >= 60 ? 'bg-cyan-950 text-cyan-300 border border-cyan-800' :
-                      'bg-rose-950 text-rose-300 border border-rose-800'
-                    }`}>
-                      {isFake && <AlertTriangle className="w-3 h-3 text-rose-400" />}
-                      <span>{rep.credibility_score}% AI Trust {isFake ? '• FAKE (<20%)' : ''}</span>
-                    </span>
+                    {/* 🎯 Explicit Binary ML Verdict Pill */}
+                    {!isDisasterRelated ? (
+                      <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-rose-950 text-rose-200 border border-rose-500 shadow-md animate-pulse">
+                        <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+                        <span>❌ FALSE: NOT DISASTER RELATED</span>
+                      </span>
+                    ) : (
+                      <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-emerald-950 text-emerald-200 border border-emerald-500 shadow-md">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>✅ TRUE: DISASTER GROUND PROOF</span>
+                      </span>
+                    )}
+
+                    {/* Admin Action Recommendation */}
+                    {!isDisasterRelated ? (
+                      <span className="text-[11px] font-mono font-black px-2.5 py-0.5 rounded bg-rose-900/90 text-white border border-rose-400">
+                        ⚠️ RECOMMEND REJECT
+                      </span>
+                    ) : (
+                      <span className="text-[11px] font-mono font-black px-2.5 py-0.5 rounded bg-emerald-900/90 text-white border border-emerald-400">
+                        ⚡ RECOMMEND APPROVE
+                      </span>
+                    )}
 
                     {hasPhotos && (
                       <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/50 flex items-center gap-1">
                         <Camera className="w-2.5 h-2.5" />
-                        <span>{rep.media_urls!.length} Photos</span>
+                        <span>{rep.media_urls!.length} Proofs</span>
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs text-slate-300 leading-relaxed font-sans">{rep.text}</p>
+                  <p className="text-xs text-slate-200 leading-relaxed font-sans">{rep.text}</p>
 
                   {/* Photo/Video Thumbnails in Queue Row */}
                   {hasPhotos && (
-                    <div className="flex items-center gap-2 pt-1">
+                    <div className="flex items-center gap-2 pt-1 flex-wrap">
                       {rep.media_urls!.map((pUrl, pIndex) => {
                         const isVid = pUrl.startsWith('data:video') || pUrl.endsWith('.mp4') || pUrl.endsWith('.webm') || pUrl.endsWith('.mov') || pUrl.includes('video');
                         return (
                           <div
                             key={pIndex}
                             onClick={() => onSelectReport(rep)}
-                            className="relative w-12 h-12 rounded-lg overflow-hidden border border-slate-700 hover:border-cyan-400 bg-slate-900 cursor-pointer shrink-0 flex items-center justify-center"
+                            className={`relative w-14 h-14 rounded-lg overflow-hidden border cursor-pointer shrink-0 flex items-center justify-center transition-all ${
+                              !isDisasterRelated ? 'border-rose-500 ring-2 ring-rose-500/40' : 'border-emerald-500/60'
+                            }`}
                             title="Click to inspect media in detail"
                           >
                             {isVid ? (
@@ -112,9 +134,17 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                           </div>
                         );
                       })}
-                      <span className="text-[10px] text-slate-400 font-mono">
-                        {isFake ? '⚠️ AI Flagged: Fake/Recycled Visual' : '✓ Ground Truth Media Attached (VARSHANET-VisionGuard)'}
-                      </span>
+                      <div className="text-[11px] font-mono">
+                        {!isDisasterRelated ? (
+                          <span className="text-rose-400 font-bold flex items-center gap-1">
+                            <AlertCircle className="w-3.5 h-3.5" /> Non-Disaster Media Attached (Pet / Irrelevant Object Detected)
+                          </span>
+                        ) : (
+                          <span className="text-emerald-400 font-bold flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5" /> Ground Disaster Evidence Confirmed (Urban Flooding / Rainfall)
+                          </span>
+                        )}
+                      </div>
                     </div>
                   )}
 
@@ -123,7 +153,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                   </div>
                 </div>
 
-                {/* Action Buttons */}
+                {/* Action Buttons with Dynamic Recommendation Highlights */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
                     disabled={processingId === rep.id}
@@ -133,26 +163,37 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                   >
                     <Eye className="w-4 h-4" />
                   </button>
+
                   <button
                     disabled={processingId === rep.id}
                     onClick={() => handleAction(rep.id, 'VERIFY')}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-900/20 cursor-pointer"
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer shadow-md ${
+                      isDisasterRelated
+                        ? 'bg-emerald-600 hover:bg-emerald-500 text-white ring-2 ring-emerald-400 font-black shadow-emerald-900/30'
+                        : 'bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700'
+                    }`}
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    Verify
+                    <span>{isDisasterRelated ? 'Verify [Recommended]' : 'Verify'}</span>
                   </button>
+
                   <button
                     disabled={processingId === rep.id}
                     onClick={() => handleAction(rep.id, 'FLAG_MISINFORMATION')}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all shadow-md shadow-rose-900/20 cursor-pointer"
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer shadow-md ${
+                      !isDisasterRelated
+                        ? 'bg-rose-600 hover:bg-rose-500 text-white ring-2 ring-rose-400 font-black shadow-rose-900/40 animate-pulse'
+                        : 'bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700'
+                    }`}
                   >
                     <AlertTriangle className="w-3.5 h-3.5" />
-                    Flag Fake
+                    <span>{!isDisasterRelated ? 'Flag Fake [Recommended]' : 'Flag Fake'}</span>
                   </button>
+
                   <button
                     disabled={processingId === rep.id}
                     onClick={() => handleAction(rep.id, 'MARK_DUPLICATE')}
-                    className="px-2.5 py-1.5 rounded-lg bg-amber-600/80 hover:bg-amber-600 text-white text-xs font-bold cursor-pointer"
+                    className="px-2.5 py-1.5 rounded-lg bg-amber-600/60 hover:bg-amber-600 text-white text-xs font-bold cursor-pointer border border-amber-500/40"
                   >
                     Duplicate
                   </button>

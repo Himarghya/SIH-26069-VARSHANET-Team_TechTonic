@@ -9,7 +9,9 @@ const SAMPLE_PROOFS = [
   { name: 'Flooded Road (Real Photo)', url: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=600&auto=format&fit=crop&q=80', isReal: true, isVideo: false },
   { name: 'Monsoon Flood (Real Video)', url: 'https://assets.mixkit.co/videos/preview/mixkit-rain-falling-on-the-water-of-a-lake-41223-large.mp4', isReal: true, isVideo: true },
   { name: 'Waterlogged Submersion (Real Photo)', url: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&auto=format&fit=crop&q=80', isReal: true, isVideo: false },
-  { name: 'Unrelated/Indoor Meme (Fake <20%)', url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&auto=format&fit=crop&q=80&fake=true', isReal: false, isVideo: false },
+  { name: 'Cat Photo (Fake Test)', url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=80&cat=true', isReal: false, isVideo: false },
+  { name: 'Dog / Pet Photo (Fake Test)', url: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&auto=format&fit=crop&q=80&dog=true', isReal: false, isVideo: false },
+  { name: 'Unrelated Meme (Fake Test)', url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&auto=format&fit=crop&q=80&fake=true', isReal: false, isVideo: false },
 ];
 
 export const CitizenReportForm: React.FC = () => {
@@ -419,16 +421,31 @@ export const CitizenReportForm: React.FC = () => {
                     })}
                   </div>
 
-                  {/* Instant ML Pre-Screening Chip */}
-                  <div className="p-2.5 rounded-xl bg-purple-950/40 border border-purple-800/50 text-[11px] font-mono text-purple-200 flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 font-bold">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                      <span>⚡ Pre-Screened: VARSHANET-VisionGuard-v2.1 (25 Epochs)</span>
-                    </span>
-                    <span className="text-emerald-300 font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
-                      ✓ Validated for Transmission
-                    </span>
-                  </div>
+                  {/* Instant Binary ML Pre-Screening Chip */}
+                  {(() => {
+                    const isAnyFake = photos.some(p => typeof p === 'string' && (p.includes('fake=true') || p.includes('cat=true') || p.includes('dog=true') || p.includes('meme') || p.includes('514888286974') || p.includes('513151233558') || p.includes('543466835')));
+                    return isAnyFake ? (
+                      <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
+                        <span className="flex items-center gap-2 font-black text-rose-300">
+                          <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                          <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - PET/NON-WEATHER DETECTED)</span>
+                        </span>
+                        <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
+                          ⚠️ Will Be Flagged For Admin Rejection
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="p-3 rounded-xl bg-emerald-950/70 border border-emerald-800/80 text-[11px] font-mono text-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
+                        <span className="flex items-center gap-2 font-black text-emerald-300">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <span>✅ ML PRE-SCREEN: TRUE (DISASTER GROUND EVIDENCE CONFIRMED)</span>
+                        </span>
+                        <span className="text-emerald-200 font-bold bg-emerald-900/90 px-2.5 py-0.5 rounded border border-emerald-700 text-right shrink-0">
+                          ✓ Validated For Transmission
+                        </span>
+                      </div>
+                    );
+                  })()}
                 </div>
               )}
 

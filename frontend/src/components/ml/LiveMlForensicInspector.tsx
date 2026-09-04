@@ -99,6 +99,38 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
       {/* Tab 1: Live Inference */}
       {activeTab === 'inference' && (
         <div className="space-y-4">
+          {/* 🎯 Explicit Binary TRUE / FALSE Verdict & Admin Recommendation Banner */}
+          <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg ${
+            isFake ? 'bg-rose-950/70 border-rose-600/80 text-rose-200' : 'bg-emerald-950/70 border-emerald-600/80 text-emerald-200'
+          }`}>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className={`text-xs font-black font-mono px-2.5 py-1 rounded uppercase tracking-wider ${
+                  isFake ? 'bg-rose-600 text-white shadow-lg shadow-rose-900/50' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/50'
+                }`}>
+                  {isFake ? '❌ FALSE: NOT DISASTER RELATED' : '✅ TRUE: DISASTER RELATED'}
+                </span>
+                <span className="text-xs font-mono font-bold">
+                  {isFake ? '(Non-Disaster / Pet / Irrelevant Media)' : '(Verified Disaster Ground Evidence)'}
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 font-sans">
+                {isFake 
+                  ? 'ML Vision Neural Guard detected an unrelated object (e.g. Domestic Pet, Food, or Meme) in attached proof.' 
+                  : 'ML Vision Neural Guard confirmed high-turbidity flood inundation and overcast storm signatures.'}
+              </p>
+            </div>
+
+            <div className="shrink-0 flex sm:flex-col items-end gap-1">
+              <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">Admin Action:</span>
+              <span className={`text-xs font-black font-mono px-3 py-1 rounded-lg ${
+                isFake ? 'bg-rose-900/90 text-rose-100 border border-rose-400 shadow-md' : 'bg-emerald-900/90 text-emerald-100 border border-emerald-400 shadow-md'
+              }`}>
+                {isFake ? '❌ RECOMMEND REJECT' : '✅ RECOMMEND APPROVE'}
+              </span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Weather Relevance Gauge */}
             <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">

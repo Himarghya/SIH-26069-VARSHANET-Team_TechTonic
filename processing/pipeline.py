@@ -69,7 +69,8 @@ class WeatherIntelligencePipeline:
             is_duplicate=is_dup,
             duplicate_count=len([r for r in existing_reports if r.get("duplicate_group_id") == dup_group_id]),
             has_media=len(media_urls) > 0,
-            weather_observation=weather_observation
+            weather_observation=weather_observation,
+            image_analysis=image_analysis
         )
         
         # Stage 7: Event Clustering (Cross-Source Correlation)

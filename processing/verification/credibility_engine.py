@@ -20,11 +20,20 @@ class CredibilityEngine:
         is_duplicate: bool,
         duplicate_count: int,
         has_media: bool,
-        weather_observation: Optional[Dict] = None
+        weather_observation: Optional[Dict] = None,
+        image_analysis: Optional[Dict] = None
     ) -> Tuple[float, str, str, str]:
         """
         Returns: (credibility_score 0-100, risk_level, verification_status, notes)
         """
+        notes = []
+
+        # 0. Severe Media Sanity Check via VisionGuard
+        if image_analysis and isinstance(image_analysis, dict) and image_analysis.get("is_weather_related") is False:
+            category = image_analysis.get("detected_category", "Non-Disaster Object")
+            notes.append(f"ML Vision: {image_analysis.get('admin_verdict', 'FALSE: NOT DISASTER')} ({category}). {image_analysis.get('admin_recommendation', 'RECOMMEND REJECT')}")
+            return 12.0, "CRITICAL", "LIKELY_MISLEADING", " | ".join(notes)
+
         base_weight = SOURCE_WEIGHTS.get(source_type, 0.60)
         score = base_weight * 70.0 # Start with up to 70 pts based on source
         
@@ -36,14 +45,17 @@ class CredibilityEngine:
         
         # 3. Media evidence bonus (up to 5 pts)
         if has_media:
-            score += 5.0
+            if image_analysis and image_analysis.get("is_authentic"):
+                score += 8.0
+                notes.append(f"ML Vision Confirmed: {image_analysis.get('detected_category', 'Disaster Ground Proof')}")
+            else:
+                score += 2.0
             
         # 4. Cross-report corroboration: multiple independent reports boost credibility
         if duplicate_count > 3:
             score += min(10.0, duplicate_count * 1.5)
             
         # 5. Official weather observation confirmation
-        notes = []
         if weather_observation:
             rain = weather_observation.get("rainfall_mm", 0.0)
             if ("Rain" in event_type or "Flood" in event_type) and rain > 5.0:
@@ -56,7 +68,6 @@ class CredibilityEngine:
         # 6. Misinformation penalty checks
         lower = text.lower()
         if "snow" in lower and any(c in lower for c in ["chennai", "mumbai", "bhopal", "kolkata"]):
-            # Impossible weather in plains
             score -= 50.0
             notes.append("Contradictory meteorological claim detected.")
             
