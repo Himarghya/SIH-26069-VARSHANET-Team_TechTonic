@@ -139,7 +139,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       .catch(err => console.warn('DWR Radar grid error', err));
   }, []);
 
-  // Radar Timeline Auto-Play Loop
+  // Radar Timeline Auto-Play Loop (1400ms interval for snappy temporal radar sweep)
   useEffect(() => {
     if (!isRadarPlaying) return;
     const frames: ('T-1h' | 'LIVE' | '+1h' | '+3h')[] = ['T-1h', 'LIVE', '+1h', '+3h'];
@@ -148,7 +148,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         const nextIdx = (frames.indexOf(prev) + 1) % frames.length;
         return frames[nextIdx];
       });
-    }, 1800);
+    }, 1400);
     return () => clearInterval(timer);
   }, [isRadarPlaying]);
 
@@ -422,6 +422,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   }, [showCycloneCone]);
 
   // Render DWR Doppler Radar Stations
+  // Render DWR Doppler Radar Stations with Dynamic Temporal Playback
   useEffect(() => {
     if (!mapInstanceRef.current || !radarEchoesLayerRef.current) return;
     radarEchoesLayerRef.current.clearLayers();
@@ -429,22 +430,117 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     if (showDwrRadarEchoes && dwrStations.length > 0) {
       dwrStations.forEach(st => {
         const radarColor = st.hydrometeor_classification.color || '#0284c7';
-        
-        // Animated Radar Beam Circle
-        const radarRadius = st.range_km * 1000;
-        const radarCircle = L.circle([st.latitude, st.longitude], {
-          radius: radarRadius,
-          color: radarColor,
-          fillColor: radarColor,
-          fillOpacity: radarTimeline === 'LIVE' ? 0.08 : 0.04,
-          weight: 1.5,
-          dashArray: '3, 6'
-        });
-        radarEchoesLayerRef.current?.addLayer(radarCircle);
 
+        // Compute temporal offsets & storm morphologies based on active timeline frame
+        let latOffset = 0;
+        let lonOffset = 0;
+        let outerRadiusScale = 1.0;
+        let coreRadiusScale = 1.0;
+        let outerOpacity = 0.14;
+        let coreOpacity = 0.55;
+        let timelineLabel = '';
+        let timelineSub = '';
+        let showVector = false;
+        let vectorEnd: [number, number] = [st.latitude, st.longitude];
+
+        if (radarTimeline === 'T-1h') {
+          // Historical convective footprint (-1 hr drift from SW)
+          latOffset = -0.09;
+          lonOffset = -0.07;
+          outerRadiusScale = 0.80;
+          coreRadiusScale = 0.70;
+          outerOpacity = 0.18;
+          coreOpacity = 0.42;
+          timelineLabel = 'T-1h RETROSPECTIVE RADAR';
+          timelineSub = 'Historical IMD Doppler Reflectivity Archive';
+        } else if (radarTimeline === 'LIVE') {
+          // Real-time Doppler Echoes
+          latOffset = 0;
+          lonOffset = 0;
+          outerRadiusScale = 1.0;
+          coreRadiusScale = 1.0;
+          outerOpacity = 0.22;
+          coreOpacity = 0.65;
+          timelineLabel = '🔴 LIVE IMD DOPPLER RADAR';
+          timelineSub = 'Real-time Synoptic Dual-Pol Echo Scan';
+        } else if (radarTimeline === '+1h') {
+          // Nowcast Optical Flow Vector (+1 hr projected storm core)
+          latOffset = 0.10;
+          lonOffset = 0.12;
+          outerRadiusScale = 1.22;
+          coreRadiusScale = 1.15;
+          outerOpacity = 0.25;
+          coreOpacity = 0.52;
+          timelineLabel = '+1h OPTICAL FLOW NOWCAST';
+          timelineSub = 'AI Extrapolated Storm Cell Advection';
+          showVector = true;
+          vectorEnd = [st.latitude + 0.16, st.longitude + 0.20];
+        } else if (radarTimeline === '+3h') {
+          // Regional Inundation Risk Forecast (+3 hr forecast envelope)
+          latOffset = 0.22;
+          lonOffset = 0.26;
+          outerRadiusScale = 1.48;
+          coreRadiusScale = 1.35;
+          outerOpacity = 0.20;
+          coreOpacity = 0.45;
+          timelineLabel = '+3h FLOOD RISK FORECAST CONE';
+          timelineSub = 'NWPM Regional Cloudburst & Inundation Envelopment';
+          showVector = true;
+          vectorEnd = [st.latitude + 0.32, st.longitude + 0.36];
+        }
+
+        const centerLat = st.latitude + latOffset;
+        const centerLon = st.longitude + lonOffset;
+
+        // 1. Outer Doppler Radar Coverage Perimeter (Station Beam Limit)
+        const outerBeamRadius = st.range_km * 1000 * outerRadiusScale;
+        const outerCircle = L.circle([centerLat, centerLon], {
+          radius: outerBeamRadius,
+          color: radarTimeline === '+1h' ? '#a855f7' : radarTimeline === '+3h' ? '#f43f5e' : radarColor,
+          fillColor: radarTimeline === '+1h' ? '#a855f7' : radarTimeline === '+3h' ? '#f43f5e' : radarColor,
+          fillOpacity: outerOpacity,
+          weight: 1.5,
+          dashArray: radarTimeline === 'LIVE' ? '3, 6' : '6, 6'
+        });
+        radarEchoesLayerRef.current?.addLayer(outerCircle);
+
+        // 2. Mid-level Stratiform / Heavy Rain Precipitation Band (35-45 dBZ)
+        const midRainRadius = (st.range_km * 450) * coreRadiusScale;
+        const midCircle = L.circle([centerLat, centerLon], {
+          radius: midRainRadius,
+          color: radarTimeline === '+1h' ? '#c084fc' : radarTimeline === '+3h' ? '#fb923c' : '#06b6d4',
+          fillColor: radarTimeline === '+1h' ? '#c084fc' : radarTimeline === '+3h' ? '#fb923c' : '#06b6d4',
+          fillOpacity: coreOpacity * 0.6,
+          weight: 1.2
+        });
+        radarEchoesLayerRef.current?.addLayer(midCircle);
+
+        // 3. Inner Convective Cloudburst / Storm Core (50-65+ dBZ)
+        const innerCoreRadius = (st.range_km * 180) * coreRadiusScale;
+        const innerCoreCircle = L.circle([centerLat, centerLon], {
+          radius: innerCoreRadius,
+          color: radarTimeline === '+3h' ? '#e11d48' : '#ef4444',
+          fillColor: radarTimeline === '+3h' ? '#e11d48' : '#ef4444',
+          fillOpacity: coreOpacity,
+          weight: 2
+        });
+        radarEchoesLayerRef.current?.addLayer(innerCoreCircle);
+
+        // 4. Nowcast Projection Vector Arrow (for +1h and +3h)
+        if (showVector) {
+          const arrowLine = L.polyline([[st.latitude, st.longitude], vectorEnd], {
+            color: radarTimeline === '+1h' ? '#e879f9' : '#fb7185',
+            weight: 2.5,
+            dashArray: '4, 4'
+          });
+          radarEchoesLayerRef.current?.addLayer(arrowLine);
+        }
+
+        // 5. Station Pulse Marker
         const dwrHtml = `
           <div class="relative flex items-center justify-center cursor-pointer group">
-            <div style="background-color: ${radarColor};" class="w-4 h-4 rounded-full flex items-center justify-center text-white text-[7px] font-black border border-white/90 shadow-md">
+            ${radarTimeline === 'LIVE' ? '<span class="absolute inline-flex h-8 w-8 rounded-full bg-cyan-400 opacity-40 animate-ping"></span>' : ''}
+            <div style="background-color: ${radarColor};" class="relative w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-black border-2 border-white shadow-xl transform transition-transform group-hover:scale-125">
               📡
             </div>
           </div>
@@ -453,23 +549,26 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         const dwrIcon = L.divIcon({
           html: dwrHtml,
           className: 'custom-dwr-marker',
-          iconSize: [16, 16],
-          iconAnchor: [8, 8]
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
         });
 
         const dwrMarker = L.marker([st.latitude, st.longitude], { icon: dwrIcon });
         
         const popupHtml = `
-          <div class="p-2.5 space-y-1.5 min-w-[200px] font-sans">
-            <div class="flex items-center justify-between border-b border-slate-700 pb-1">
-              <span class="text-xs font-bold text-white uppercase">${st.station_name} DWR</span>
-              <span style="color: ${radarColor};" class="text-[10px] font-mono font-bold">${st.peak_reflectivity_dbz} dBZ</span>
+          <div class="p-3 space-y-2 min-w-[220px] font-sans text-slate-200">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-1.5">
+              <span class="text-xs font-black text-white uppercase">${st.station_name} DWR</span>
+              <span style="color: ${radarColor};" class="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-950 border border-slate-800">${st.peak_reflectivity_dbz} dBZ</span>
             </div>
-            <p class="text-[11px] text-cyan-300 font-mono">${st.state} • ${st.range_km}km</p>
-            <div class="text-[10px] font-mono text-slate-300 py-1 bg-slate-950 px-2 rounded border border-slate-800">
-              <div>Rain Rate: <strong class="text-emerald-400">${st.estimated_rain_rate_mmh} mm/h</strong></div>
-              <div>Echo: <strong style="color: ${radarColor};">${st.hydrometeor_classification.label}</strong></div>
-              <div>Timeline Frame: <strong class="text-cyan-400">${radarTimeline}</strong></div>
+            <div class="text-[10px] font-mono text-cyan-400 font-bold bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
+              ${timelineLabel}
+            </div>
+            <p class="text-[11px] text-slate-300 font-mono">${st.state} • Range: ${st.range_km} km</p>
+            <div class="text-[10px] font-mono text-slate-300 py-1.5 bg-slate-950 px-2 rounded border border-slate-800 space-y-1">
+              <div class="flex justify-between"><span>Rain Rate:</span> <strong class="text-emerald-400">${st.estimated_rain_rate_mmh} mm/h</strong></div>
+              <div class="flex justify-between"><span>Echo Classification:</span> <strong style="color: ${radarColor};">${st.hydrometeor_classification.label}</strong></div>
+              <div class="flex justify-between text-slate-400 text-[9px]"><span>Mode:</span> <span>${timelineSub}</span></div>
             </div>
           </div>
         `;
@@ -582,13 +681,14 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       const pulseColor = isCritical ? 'bg-rose-500' : isHigh ? 'bg-amber-500' : 'bg-cyan-400';
 
       if (showInundationZones) {
+        const zoneRadius = radarTimeline === 'T-1h' ? 12000 : radarTimeline === 'LIVE' ? 15000 : radarTimeline === '+1h' ? 20000 : 26000;
         const circle = L.circle([evt.latitude, evt.longitude], {
-          radius: 15000,
+          radius: zoneRadius,
           color: color,
           fillColor: color,
-          fillOpacity: isSelected ? 0.28 : 0.14,
+          fillOpacity: isSelected ? 0.32 : radarTimeline === 'LIVE' ? 0.18 : 0.12,
           weight: isSelected ? 2.5 : 1.2,
-          dashArray: isSelected ? undefined : '4, 4',
+          dashArray: isSelected ? undefined : radarTimeline !== 'LIVE' ? '4, 4' : undefined,
         });
         zonesLayerRef.current?.addLayer(circle);
       }
@@ -659,7 +759,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
       markersLayerRef.current?.addLayer(marker);
     });
-  }, [events, selectedState, selectedEventId, showInundationZones, onSelectEvent]);
+  }, [events, selectedState, selectedEventId, showInundationZones, radarTimeline, onSelectEvent]);
 
   // Tactical City Quick Jump Handler
   const handleQuickJump = (city: typeof QUICK_JUMP_CITIES[0]) => {
@@ -815,24 +915,38 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       <div ref={mapContainerRef} className="w-full flex-1" style={{ minHeight: '500px' }} />
 
       {/* Radar Playback & Timeline Scrubber Bar */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[400] bg-slate-900/95 backdrop-blur-md px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl border border-slate-800 shadow-2xl flex items-center gap-2 sm:gap-3 max-w-[calc(100%-24px)] overflow-x-auto no-scrollbar">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[400] bg-slate-900/95 backdrop-blur-md px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl border border-slate-800 shadow-2xl flex items-center gap-1.5 sm:gap-2.5 max-w-[calc(100%-16px)] sm:max-w-max overflow-x-auto no-scrollbar pointer-events-auto shrink-0">
         <button
           onClick={() => setIsRadarPlaying(!isRadarPlaying)}
-          className="p-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white transition-colors cursor-pointer shrink-0"
-          title={isRadarPlaying ? 'Pause Radar Sweep' : 'Play Live Radar Sweep'}
+          className={`p-2 rounded-xl text-white transition-all cursor-pointer shrink-0 flex items-center justify-center ${
+            isRadarPlaying
+              ? 'bg-emerald-500 hover:bg-emerald-400 shadow-lg shadow-emerald-500/50 ring-2 ring-emerald-300 animate-pulse'
+              : 'bg-cyan-600 hover:bg-cyan-500 shadow-md shadow-cyan-600/40'
+          }`}
+          title={isRadarPlaying ? 'Pause Radar Loop' : 'Play Live Doppler Radar Sweep Loop'}
+          aria-label={isRadarPlaying ? 'Pause Radar' : 'Play Radar'}
         >
-          {isRadarPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+          {isRadarPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
         </button>
+
+        {isRadarPlaying && (
+          <span className="hidden sm:inline-flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-700/80 shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            SWEEPING
+          </span>
+        )}
 
         <div className="flex items-center gap-1 sm:gap-1.5 font-mono text-xs shrink-0">
           {(['T-1h', 'LIVE', '+1h', '+3h'] as const).map(frame => (
             <button
               key={frame}
-              onClick={() => setRadarTimeline(frame)}
-              className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold transition-all cursor-pointer ${
+              onClick={() => {
+                setRadarTimeline(frame);
+              }}
+              className={`px-2 sm:px-3 py-1.5 rounded-xl text-[10px] sm:text-[11px] font-bold transition-all cursor-pointer shrink-0 ${
                 radarTimeline === frame
-                  ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/40'
-                  : 'text-slate-400 hover:text-white bg-slate-950/80 border border-slate-800'
+                  ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/50 ring-1 ring-white/70 font-black'
+                  : 'text-slate-300 hover:text-white bg-slate-950/90 border border-slate-800 hover:border-slate-700'
               }`}
             >
               {frame === 'LIVE' ? '🔴 LIVE' : frame}
@@ -841,8 +955,8 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         </div>
       </div>
 
-      {/* DWR Radar Reflectivity dBZ Scale Legend (Cleanly stacked above playback on mobile) */}
-      <div className="absolute bottom-16 sm:bottom-3 right-3 z-[400] bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-800 text-[9px] space-y-1 shadow-2xl">
+      {/* DWR Radar Reflectivity dBZ Scale Legend (Placed top-right on mobile to prevent overlapping timeline) */}
+      <div className="absolute top-28 sm:top-auto sm:bottom-3 right-3 z-[400] bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-800 text-[9px] space-y-1 shadow-2xl pointer-events-auto">
         <span className="font-bold text-slate-300 block uppercase tracking-wider text-[8px]">DWR Radar (dBZ)</span>
         <div className="flex items-center gap-1 font-mono">
           <span className="px-1 py-0.2 rounded bg-emerald-700 text-white font-bold text-[8px] sm:text-[9px]">15-25</span>
