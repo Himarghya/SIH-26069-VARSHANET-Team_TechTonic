@@ -63,6 +63,7 @@ app.add_middleware(
 )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(api_router, prefix="/v1")
 
 @app.websocket("/ws/weather")
 async def websocket_weather_feed(websocket: WebSocket):
