@@ -1,5 +1,6 @@
-﻿import uuid
-from typing import List, Dict, Any
+from __future__ import annotations
+import uuid
+from typing import List, Dict, Any, Tuple
 
 class InformationGapEngine:
     """
@@ -16,7 +17,7 @@ class InformationGapEngine:
         citizen_reports_count: int,
         weather_api_confirmed: bool,
         roads_at_risk_count: int
-    ) -> Tuple_List:
+    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         gaps = []
         verification_requests = []
 
@@ -56,5 +57,4 @@ class InformationGapEngine:
 
         return gaps, verification_requests
 
-Tuple_List = tuple[List[Dict[str, Any]], List[Dict[str, Any]]]
 information_gap_engine = InformationGapEngine()
