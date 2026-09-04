@@ -29,7 +29,7 @@ _WEIGHTS_PATH = os.path.join(_MODEL_DIR, "disaster_binary_classifier.pt")
 _LABELS_PATH = os.path.join(_MODEL_DIR, "class_names.json")
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-DEFAULT_THRESHOLD = float(os.environ.get("DISASTER_THRESHOLD", "0.75"))
+DEFAULT_THRESHOLD = float(os.environ.get("DISASTER_THRESHOLD", "0.85"))
 
 _tf = transforms.Compose([
     transforms.Resize(256),
