@@ -5,20 +5,22 @@ import base64
 import urllib.request
 from typing import Dict, List, Optional, Any, Tuple
 from PIL import Image, ImageStat, ImageFilter
-import torch
-import torchvision.models as models
 
-# Initialize MobileNetV3 deep vision backbone
+# Initialize MobileNetV3 deep vision backbone safely
 try:
+    import torch
+    import torchvision.models as models
     _weights = models.MobileNet_V3_Small_Weights.DEFAULT
     _vision_model = models.mobilenet_v3_small(weights=_weights)
     _vision_model.eval()
     _categories = _weights.meta['categories']
     _preprocess = _weights.transforms()
+    HAS_TORCH = True
 except Exception as _e:
     _vision_model = None
     _categories = []
     _preprocess = None
+    HAS_TORCH = False
 
 # Semantic categories for non-disaster discrimination
 NON_WEATHER_PETS = {
