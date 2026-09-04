@@ -1,718 +1,218 @@
 {
-  "dataset": "https://www.kaggle.com/datasets/varpit94/disaster-images-dataset",
-  "categories": [
-    "Flood",
-    "Cyclone",
-    "Earthquake",
-    "Wildfire",
-    "Non_Damage (Fox, Elephant, Tiger, Wildlife, Everyday)"
-  ],
-  "epochs_trained": 100,
+  "model_name": "VARSHANET-DisasterGuard-v5.0",
+  "dataset": "Kaggle varpit94/disaster-images-dataset (13,557 total images)",
+  "epochs": 100,
   "steps_per_epoch": 50,
-  "total_optimization_steps": 5000,
-  "final_accuracy": 100.0,
-  "final_f1": 100.0,
-  "final_loss": 0.00011,
-  "history": [
-    {
-      "epoch": 1,
-      "steps": 50,
-      "loss": 0.24203,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 2,
-      "steps": 50,
-      "loss": 0.00307,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 3,
-      "steps": 50,
-      "loss": 0.00072,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 4,
-      "steps": 50,
-      "loss": 0.00018,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 5,
-      "steps": 50,
-      "loss": 0.00013,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 6,
-      "steps": 50,
-      "loss": 0.00013,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 7,
-      "steps": 50,
-      "loss": 0.00013,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 8,
-      "steps": 50,
-      "loss": 0.00013,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 9,
-      "steps": 50,
-      "loss": 0.00013,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 10,
-      "steps": 50,
-      "loss": 0.00013,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 11,
-      "steps": 50,
-      "loss": 0.00013,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 12,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 13,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 14,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 15,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 16,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 17,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 18,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 19,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 20,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 21,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 22,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 23,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 24,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 25,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 26,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 27,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 28,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 29,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 30,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 31,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 32,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 33,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 34,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 35,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 36,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 37,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 38,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 39,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 40,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 41,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 42,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 43,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 44,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 45,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 46,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 47,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 48,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 49,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 50,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 51,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 52,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 53,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 54,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 55,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 56,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 57,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 58,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 59,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 60,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 61,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 62,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 63,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 64,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 65,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 66,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 67,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 68,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 69,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 70,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 71,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 72,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 73,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 74,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 75,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 76,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 77,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 78,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 79,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 80,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 81,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 82,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 83,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 84,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 85,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 86,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 87,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 88,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 89,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 90,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 91,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 92,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 93,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 94,
-      "steps": 50,
-      "loss": 0.00012,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 95,
-      "steps": 50,
-      "loss": 0.00011,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 96,
-      "steps": 50,
-      "loss": 0.00011,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 97,
-      "steps": 50,
-      "loss": 0.00011,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 98,
-      "steps": 50,
-      "loss": 0.00011,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 99,
-      "steps": 50,
-      "loss": 0.00011,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    },
-    {
-      "epoch": 100,
-      "steps": 50,
-      "loss": 0.00011,
-      "accuracy": 100.0,
-      "f1_score": 100.0
-    }
-  ]
+  "total_steps": 5000,
+  "train_accuracy_pct": 78.66,
+  "test_accuracy_pct": 74.67,
+  "f1_score": 0.75,
+  "loss_history": [
+    0.602,
+    0.56374,
+    0.55159,
+    0.54135,
+    0.54299,
+    0.53826,
+    0.53592,
+    0.5361,
+    0.53497,
+    0.52811,
+    0.53172,
+    0.52678,
+    0.52165,
+    0.52658,
+    0.52161,
+    0.51714,
+    0.5276,
+    0.518,
+    0.51673,
+    0.51396,
+    0.51205,
+    0.51208,
+    0.51131,
+    0.50526,
+    0.51096,
+    0.51474,
+    0.50887,
+    0.50148,
+    0.50217,
+    0.49921,
+    0.50218,
+    0.50541,
+    0.4914,
+    0.50036,
+    0.4981,
+    0.4976,
+    0.49496,
+    0.488,
+    0.48657,
+    0.48978,
+    0.49169,
+    0.49296,
+    0.48516,
+    0.47928,
+    0.48622,
+    0.4901,
+    0.47452,
+    0.47242,
+    0.47937,
+    0.4763,
+    0.47146,
+    0.46738,
+    0.46852,
+    0.47618,
+    0.46151,
+    0.48272,
+    0.47176,
+    0.46357,
+    0.46107,
+    0.46979,
+    0.46904,
+    0.47017,
+    0.46264,
+    0.45731,
+    0.45623,
+    0.45382,
+    0.4593,
+    0.46207,
+    0.44161,
+    0.45771,
+    0.44811,
+    0.45927,
+    0.43915,
+    0.45297,
+    0.43988,
+    0.44935,
+    0.45854,
+    0.4498,
+    0.44709,
+    0.44573,
+    0.43763,
+    0.44368,
+    0.44168,
+    0.44463,
+    0.44266,
+    0.43994,
+    0.43428,
+    0.43584,
+    0.44231,
+    0.43712,
+    0.43643,
+    0.43771,
+    0.44144,
+    0.44372,
+    0.44501,
+    0.44136,
+    0.44571,
+    0.43855,
+    0.44248,
+    0.44674
+  ],
+  "accuracy_history": [
+    66.61,
+    70.86,
+    72.99,
+    73.57,
+    73.07,
+    73.7,
+    73.28,
+    73.82,
+    72.53,
+    73.95,
+    72.78,
+    73.7,
+    73.86,
+    73.86,
+    73.91,
+    74.28,
+    73.16,
+    73.74,
+    74.53,
+    74.2,
+    74.61,
+    74.16,
+    74.86,
+    75.45,
+    74.45,
+    74.11,
+    74.74,
+    74.86,
+    75.86,
+    74.61,
+    74.53,
+    75.2,
+    75.2,
+    75.41,
+    76.82,
+    75.7,
+    75.32,
+    76.49,
+    75.61,
+    75.78,
+    75.53,
+    76.03,
+    75.91,
+    76.53,
+    76.16,
+    75.49,
+    77.49,
+    77.53,
+    77.45,
+    76.45,
+    77.49,
+    77.45,
+    77.41,
+    76.2,
+    76.82,
+    76.32,
+    76.28,
+    77.32,
+    76.74,
+    76.78,
+    76.78,
+    76.7,
+    77.07,
+    77.12,
+    77.99,
+    77.2,
+    76.78,
+    77.74,
+    77.87,
+    77.2,
+    78.7,
+    77.16,
+    78.32,
+    78.78,
+    79.24,
+    77.82,
+    76.66,
+    78.24,
+    78.66,
+    78.24,
+    79.24,
+    77.91,
+    79.07,
+    77.91,
+    77.66,
+    78.74,
+    78.82,
+    78.74,
+    78.62,
+    78.95,
+    78.91,
+    77.95,
+    78.49,
+    79.03,
+    78.16,
+    78.16,
+    77.57,
+    78.45,
+    78.45,
+    78.66
+  ],
+  "class_mapping": {
+    "0": "FALSE: NOT DISASTER RELATED (Wildlife, Animals, Pets, Everyday Scenes)",
+    "1": "TRUE: DISASTER GROUND PROOF (Floods, Storm Damage, Inundation)"
+  }
 }
