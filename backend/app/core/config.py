@@ -28,6 +28,12 @@ class Settings(BaseSettings):
     RAW_DATA_DIR: str = os.getenv("RAW_DATA_DIR", "./data/raw")
     PARQUET_DIR: str = os.getenv("PARQUET_DIR", "./data/processed/parquet")
     
+    # Ingestion & Sync Configuration
+    AUTO_SYNC_INTERVAL_SECONDS: int = int(os.getenv("AUTO_SYNC_INTERVAL_SECONDS", "300"))
+    NEWS_RETENTION_HOURS: int = int(os.getenv("NEWS_RETENTION_HOURS", "6"))
+    NEWS_CHANNELS: str = os.getenv("NEWS_CHANNELS", "google_news,times_of_india,ndtv,india_today,downtoearth,newsapi")
+    ENABLE_LIVE_NEWS_API: bool = os.getenv("ENABLE_LIVE_NEWS_API", "true").lower() == "true"
+
     # External APIs (Configurable via .env)
     WEATHER_API_KEY: Optional[str] = os.getenv("WEATHER_API_KEY", "")
     NEWS_API_KEY: Optional[str] = os.getenv("NEWS_API_KEY", "")

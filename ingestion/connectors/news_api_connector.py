@@ -1,4 +1,4 @@
-﻿import asyncio
+import asyncio
 import httpx
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -16,8 +16,9 @@ class MultiChannelNewsConnector:
     - Down To Earth Climate & Extreme Weather
     """
     def __init__(self):
-        self.api_key = settings.NEWS_API_KEY
-        self.enabled_channels = [ch.strip().lower() for ch in settings.NEWS_CHANNELS.split(",")]
+        self.api_key = getattr(settings, "NEWS_API_KEY", "")
+        raw_channels = getattr(settings, "NEWS_CHANNELS", "google_news,times_of_india,ndtv,india_today,downtoearth,newsapi")
+        self.enabled_channels = [ch.strip().lower() for ch in raw_channels.split(",") if ch.strip()]
 
     async def fetch_rss_channel(self, url: str, channel_name: str, max_items: int = 8) -> List[Dict]:
         items = []

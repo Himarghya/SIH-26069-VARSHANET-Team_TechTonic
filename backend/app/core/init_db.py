@@ -84,10 +84,24 @@ def init_and_refresh_database():
             db.commit()
 
         # 2. Seed Infrastructure Assets
-        if db.query(InfrastructureAsset).count() == 0:
-            for item in SEED_INDIAN_INFRASTRUCTURE:
-                db.add(InfrastructureAsset(**item))
-            db.commit()
+        try:
+            if db.query(InfrastructureAsset).count() == 0:
+                for item in SEED_INDIAN_INFRASTRUCTURE:
+                    db.add(InfrastructureAsset(
+                        name=item.get("name", "Asset"),
+                        type=item.get("type", "INFRASTRUCTURE"),
+                        city=item.get("city", "Bhopal"),
+                        district=item.get("district", "Bhopal"),
+                        state=item.get("state", "Madhya Pradesh"),
+                        latitude=float(item.get("latitude", 23.25)),
+                        longitude=float(item.get("longitude", 77.41)),
+                        vulnerability_score=float(item.get("vulnerability_score", 0.5)),
+                        capacity=int(item.get("capacity", 1000))
+                    ))
+                db.commit()
+        except Exception as e_infra:
+            print(f"[VARSHANET INFRA SEED WARNING] {e_infra}")
+            db.rollback()
 
         # 3. Seed Demo Scenarios if empty
         if db.query(WeatherReport).count() == 0:
