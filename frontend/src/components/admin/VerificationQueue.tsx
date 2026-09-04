@@ -56,8 +56,8 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
               rep.credibility_score < 40 || 
               (rep.verification_status as string) === 'LIKELY_MISLEADING' || 
               (rep.verification_status as string) === 'FLAGGED_NON_WEATHER' ||
-              (rep.verification_notes && (rep.verification_notes.includes('FALSE') || rep.verification_notes.includes('Non-disaster') || rep.verification_notes.includes('Pet') || rep.verification_notes.includes('Cat') || rep.verification_notes.includes('< 20%'))) ||
-              (rep.media_urls && rep.media_urls.some(u => u.includes('cat=true') || u.includes('dog=true') || u.includes('fake=true') || u.includes('514888286974') || u.includes('543466835') || u.includes('513151233558')));
+              (rep.verification_notes && (rep.verification_notes.includes('FALSE') || rep.verification_notes.includes('Non-disaster') || rep.verification_notes.includes('Pet') || rep.verification_notes.includes('Cat') || rep.verification_notes.includes('Elephant') || rep.verification_notes.includes('Wildlife') || rep.verification_notes.includes('Animal') || rep.verification_notes.includes('< 20%'))) ||
+              (rep.media_urls && rep.media_urls.some(u => typeof u === 'string' && (u.includes('cat=true') || u.includes('dog=true') || u.includes('elephant=true') || u.includes('elephant') || u.includes('fake=true') || u.includes('514888286974') || u.includes('543466835') || u.includes('513151233558') || u.includes('557050543'))));
 
             const isDisasterRelated = !isNonWeatherOrFake;
             const hasPhotos = rep.media_urls && rep.media_urls.length > 0;

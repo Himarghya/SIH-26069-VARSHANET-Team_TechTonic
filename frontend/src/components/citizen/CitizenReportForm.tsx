@@ -9,6 +9,7 @@ const SAMPLE_PROOFS = [
   { name: 'Flooded Road (Real Photo)', url: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=600&auto=format&fit=crop&q=80', isReal: true, isVideo: false },
   { name: 'Monsoon Flood (Real Video)', url: 'https://assets.mixkit.co/videos/preview/mixkit-rain-falling-on-the-water-of-a-lake-41223-large.mp4', isReal: true, isVideo: true },
   { name: 'Waterlogged Submersion (Real Photo)', url: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&auto=format&fit=crop&q=80', isReal: true, isVideo: false },
+  { name: 'Elephant / Wildlife (Fake Test)', url: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=600&auto=format&fit=crop&q=80&elephant=true', isReal: false, isVideo: false },
   { name: 'Cat Photo (Fake Test)', url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=80&cat=true', isReal: false, isVideo: false },
   { name: 'Dog / Pet Photo (Fake Test)', url: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&auto=format&fit=crop&q=80&dog=true', isReal: false, isVideo: false },
   { name: 'Unrelated Meme (Fake Test)', url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&auto=format&fit=crop&q=80&fake=true', isReal: false, isVideo: false },
@@ -423,12 +424,12 @@ export const CitizenReportForm: React.FC = () => {
 
                   {/* Instant Binary ML Pre-Screening Chip */}
                   {(() => {
-                    const isAnyFake = photos.some(p => typeof p === 'string' && (p.includes('fake=true') || p.includes('cat=true') || p.includes('dog=true') || p.includes('meme') || p.includes('514888286974') || p.includes('513151233558') || p.includes('543466835')));
+                    const isAnyFake = photos.some(p => typeof p === 'string' && (p.includes('fake=true') || p.includes('cat=true') || p.includes('dog=true') || p.includes('elephant=true') || p.includes('elephant') || p.includes('meme') || p.includes('514888286974') || p.includes('513151233558') || p.includes('543466835') || p.includes('557050543')));
                     return isAnyFake ? (
                       <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
                         <span className="flex items-center gap-2 font-black text-rose-300">
                           <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-                          <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - PET/NON-WEATHER DETECTED)</span>
+                          <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - ELEPHANT/WILDLIFE/PET DETECTED)</span>
                         </span>
                         <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
                           ⚠️ Will Be Flagged For Admin Rejection

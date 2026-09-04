@@ -1,0 +1,166 @@
+{
+  "dataset": "https://www.kaggle.com/datasets/varpit94/disaster-images-dataset",
+  "categories": [
+    "Flood",
+    "Cyclone",
+    "Earthquake",
+    "Wildfire",
+    "Non_Damage (Animals/Wildlife/Everyday)"
+  ],
+  "epochs_trained": 25,
+  "final_accuracy": 100.0,
+  "final_f1": 100.0,
+  "final_loss": 0.0,
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.42246,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 2,
+      "loss": 0.00234,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 3,
+      "loss": 8e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 4,
+      "loss": 2e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 5,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 6,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 7,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 8,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 9,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 10,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 11,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 12,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 13,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 14,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 15,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 16,
+      "loss": 1e-05,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 17,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 18,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 19,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 20,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 21,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 22,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 23,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 24,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    },
+    {
+      "epoch": 25,
+      "loss": 0.0,
+      "accuracy": 100.0,
+      "f1_score": 100.0
+    }
+  ]
+}

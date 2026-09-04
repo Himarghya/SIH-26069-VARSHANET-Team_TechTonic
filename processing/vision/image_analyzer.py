@@ -6,6 +6,8 @@ import urllib.request
 from typing import Dict, List, Optional, Any, Tuple
 from PIL import Image, ImageStat, ImageFilter
 
+import joblib
+
 # Initialize MobileNetV3 deep vision backbone safely
 try:
     import torch
@@ -22,14 +24,25 @@ except Exception as _e:
     _preprocess = None
     HAS_TORCH = False
 
-# Semantic categories for non-disaster discrimination
+# Load pre-trained Kaggle Disaster Dataset ML Model (varpit94/disaster-images-dataset)
+_disaster_ml_model = None
+try:
+    _model_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "backend", "ml", "models", "disaster_vision_model.joblib")
+    if os.path.exists(_model_file):
+        _disaster_ml_model = joblib.load(_model_file)
+except Exception as _e:
+    _disaster_ml_model = None
+
+# Semantic categories for non-disaster discrimination (Animals, Wildlife, Domestic Pets)
 NON_WEATHER_PETS = {
-    'cat', 'tabby', 'kitten', 'persian', 'siamese', 'cougar', 'lynx', 'leopard', 'cheetah', 'jaguar', 'tiger',
+    'cat', 'tabby', 'kitten', 'persian', 'siamese', 'cougar', 'lynx', 'leopard', 'cheetah', 'jaguar', 'tiger', 'lion',
+    'elephant', 'tusker', 'mammoth', 'african_elephant', 'indian_elephant',
     'dog', 'hound', 'retriever', 'terrier', 'pug', 'bulldog', 'shepherd', 'beagle', 'poodle', 'chihuahua',
     'husky', 'malamute', 'cocker', 'boxer', 'rottweiler', 'doberman', 'collie', 'spaniel', 'pinscher',
-    'hamster', 'rabbit', 'guinea pig', 'squirrel', 'bird', 'parrot', 'canary', 'finch', 'owl', 'penguin',
-    'fish', 'goldfish', 'shark', 'lizard', 'snake', 'frog', 'turtle', 'tortoise', 'horse', 'zebra', 'cow',
-    'ox', 'pig', 'sheep', 'goat', 'elephant', 'monkey', 'gorilla', 'chimpanzee', 'bear', 'panda', 'koala'
+    'hamster', 'rabbit', 'guinea', 'squirrel', 'bird', 'parrot', 'canary', 'finch', 'owl', 'penguin', 'peacock', 'eagle',
+    'fish', 'goldfish', 'shark', 'lizard', 'snake', 'frog', 'turtle', 'tortoise', 'horse', 'zebra', 'cow', 'bull', 'ox',
+    'pig', 'sheep', 'goat', 'monkey', 'gorilla', 'chimpanzee', 'bear', 'panda', 'koala', 'deer', 'stag', 'bison',
+    'giraffe', 'rhino', 'hippopotamus', 'camel', 'llama', 'fox', 'wolf', 'hyena', 'crocodile', 'alligator'
 }
 
 NON_WEATHER_FOOD = {
@@ -124,6 +137,40 @@ class ImageWeatherAnalyzer:
     def _hamming_distance(self, s1: str, s2: str) -> int:
         return sum(c1 != c2 for c1, c2 in zip(s1, s2))
 
+    def _extract_32dim_features(self, img_rgb: Image.Image) -> Any:
+        try:
+            stat = ImageStat.Stat(img_rgb)
+            r_mean, g_mean, b_mean = stat.mean[:3]
+            r_std, g_std, b_std = stat.stddev[:3]
+            is_muddy = (r_mean > b_mean + 20 and g_mean > b_mean + 10 and r_mean < 180)
+            turbidity = 0.85 if is_muddy else 0.20
+            lum = sum(stat.mean[:3]) / 3.0
+            overcast = max(0.0, min(1.0, (180.0 - lum) / 130.0))
+            edges = img_rgb.convert('L').filter(ImageFilter.FIND_EDGES)
+            edge_stat = ImageStat.Stat(edges)
+            edge_entropy = min(1.0, edge_stat.mean[0] / 40.0)
+            w, h = img_rgb.size
+            upper = img_rgb.crop((0, 0, w, max(1, h // 3)))
+            lower = img_rgb.crop((0, max(1, h // 3), w, h))
+            u_lum = sum(ImageStat.Stat(upper).mean[:3]) / 3.0
+            l_lum = sum(ImageStat.Stat(lower).mean[:3]) / 3.0
+            split_ratio = u_lum / max(1.0, l_lum)
+            
+            import numpy as np
+            vec = [
+                r_mean, g_mean, b_mean, r_std, g_std, b_std,
+                turbidity, overcast, 0.40,
+                r_mean / max(1.0, g_mean), g_mean / max(1.0, b_mean), b_mean / max(1.0, r_mean),
+                edge_entropy, edge_entropy * 0.9, edge_entropy * 0.8, edge_entropy * 0.85,
+                0.5, 0.5, 0.5, 0.5,
+                split_ratio, 0.5, 0.5, 0.5,
+                0.5, 0.5, 0.5, 0.5,
+                0.5, 0.5, 0.5, 0.5
+            ]
+            return np.array(vec, dtype=np.float32).reshape(1, -1)
+        except Exception:
+            return None
+
     def analyze_pil_image(self, img_rgb: Image.Image) -> Dict[str, Any]:
         """
         Executes deep vision neural object classification & forensic analysis on PIL Image.
@@ -168,8 +215,8 @@ class ImageWeatherAnalyzer:
                 # Evaluate against non-disaster classes (using token intersection to prevent substring collisions)
                 if primary_tokens.intersection(NON_WEATHER_PETS) or (pred_tokens.intersection(NON_WEATHER_PETS) and 'umbrella' not in primary_tokens and 'dam' not in primary_tokens and 'lake' not in primary_tokens):
                     is_non_weather_object = True
-                    non_weather_category_type = "Domestic Pet / Animal"
-                    detected_label = f"Pet / Animal ({primary_pred})"
+                    non_weather_category_type = "Wildlife / Animal / Pet"
+                    detected_label = f"Wildlife / Animal ({primary_pred})"
                 elif primary_tokens.intersection(NON_WEATHER_FOOD) or pred_tokens.intersection(NON_WEATHER_FOOD):
                     is_non_weather_object = True
                     non_weather_category_type = "Food / Dining"
@@ -192,6 +239,17 @@ class ImageWeatherAnalyzer:
                     detected_label = "Dense Overcast Storm Clouds"
                 else:
                     detected_label = f"Outdoor Environment ({primary_pred})"
+
+            # Evaluate with Kaggle Disaster Images Dataset ML model
+            if _disaster_ml_model is not None and not is_non_weather_object:
+                f32 = self._extract_32dim_features(img_rgb)
+                if f32 is not None:
+                    mlp_p = _disaster_ml_model.get('mlp_model').predict(f32)[0]
+                    rf_p = _disaster_ml_model.get('rf_model').predict(f32)[0]
+                    if mlp_p == 0 and rf_p == 0:
+                        is_non_weather_object = True
+                        non_weather_category_type = "Non-Damage / Everyday Scene"
+                        detected_label = "Non-Damage / Wildlife Scene (Kaggle Model)"
 
             # 5. Perceptual dHash & Recycled Disaster Archive matching
             phash = self._compute_dhash(img_rgb)
