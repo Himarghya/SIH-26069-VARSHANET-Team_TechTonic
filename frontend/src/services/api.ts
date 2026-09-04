@@ -80,6 +80,16 @@ export const trackCitizenReport = async (ticketId: string): Promise<WeatherRepor
   return data;
 };
 
+export const analyzeMedia = async (mediaUrl: string) => {
+  try {
+    const { data } = await api.post('/media/analyze-json', { media_url: mediaUrl });
+    return data.analysis;
+  } catch (err) {
+    console.warn('API media analysis failed, falling back to local heuristic:', err);
+    return null;
+  }
+};
+
 export const fetchSystemHealth = async (): Promise<SystemHealth> => {
   const { data } = await api.get('/system/health');
   return data;

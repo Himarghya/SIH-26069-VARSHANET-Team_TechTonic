@@ -70,6 +70,30 @@ async def upload_and_analyze_media(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error analyzing media: {str(e)}")
 
+from pydantic import BaseModel
+class MediaAnalyzePayload(BaseModel):
+    media_url: str
+
+@router.post("/analyze-json")
+async def analyze_media_json(payload: MediaAnalyzePayload):
+    """
+    Instantly runs in-house ML model on the provided image URL or Base64 data URL.
+    Returns binary TRUE/FALSE decision and Admin Recommendation.
+    """
+    if not payload.media_url:
+        raise HTTPException(status_code=400, detail="Missing media_url")
+
+    is_vid = payload.media_url.startswith('data:video') or payload.media_url.endswith(('.mp4', '.webm', '.mov'))
+    if is_vid:
+        analysis = video_analyzer.analyze_video(payload.media_url)
+    else:
+        analysis = image_analyzer.analyze_image_heuristics(payload.media_url)
+
+    return {
+        "status": "SUCCESS",
+        "analysis": analysis
+    }
+
 @router.get("/model-report")
 def get_model_training_report():
     """

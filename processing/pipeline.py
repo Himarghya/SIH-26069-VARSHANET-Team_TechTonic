@@ -46,8 +46,14 @@ class WeatherIntelligencePipeline:
         media_urls = raw_data.get("media_urls", [])
         image_analysis = {}
         if media_urls:
-            # Evaluate first image
-            image_analysis = image_analyzer.analyze_image_heuristics(media_urls[0])
+            # Evaluate all images in report; if any image is fake/non-disaster, flag it immediately
+            for m_url in media_urls:
+                ana = image_analyzer.analyze_image_heuristics(m_url)
+                if ana.get("is_weather_related") is False:
+                    image_analysis = ana
+                    break
+            if not image_analysis:
+                image_analysis = image_analyzer.analyze_image_heuristics(media_urls[0])
             
         # Stage 5: Deduplication
         is_dup, dup_group_id, dup_sim = deduplicator.check_duplicate(
