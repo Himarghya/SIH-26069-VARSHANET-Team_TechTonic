@@ -12,7 +12,7 @@ router = APIRouter(prefix="/verification", tags=["Verification Queue"])
 @router.get("/pending", response_model=List[WeatherReportOut])
 def get_pending_verification(db: Session = Depends(get_db)):
     return db.query(WeatherReport).filter(
-        WeatherReport.verification_status.in_(["REQUIRES_REVIEW", "UNVERIFIED", "LIKELY_MISLEACING"])
+        WeatherReport.verification_status.in_(["REQUIRES_REVIEW", "UNVERIFIED", "LIKELY_MISLEADING"])
     ).order_by(desc(WeatherReport.timestamp)).limit(50).all()
 
 @router.post("/{report_id}/action", response_model=WeatherReportOut)
