@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CloudRain, MapPin, Send, CheckCircle2, AlertCircle, Shield, Eye, Camera, Upload, Trash2, ArrowDownCircle, Clock, CheckCircle } from 'lucide-react';
-import { submitCitizenReport, trackCitizenReport, analyzeMedia } from '../../services/api';
+import { submitCitizenReport, trackCitizenReport, analyzeMedia, analyzeObservationText, TextAnalysisResult } from '../../services/api';
 import { WeatherReport } from '../../types';
 import { LiveMlForensicInspector } from '../ml/LiveMlForensicInspector';
 
@@ -18,8 +18,6 @@ export interface MediaAnalysisResult {
   authenticity_score?: number;
 }
 
-
-
 export const CitizenReportForm: React.FC = () => {
   const [eventType, setEventType] = useState('Urban Flooding');
   const [description, setDescription] = useState('');
@@ -31,6 +29,35 @@ export const CitizenReportForm: React.FC = () => {
   const [isLocating, setIsLocating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedReport, setSubmittedReport] = useState<WeatherReport | null>(null);
+
+  // 📝 Real-Time NLP Text Threat Analysis
+  const [textAnalysis, setTextAnalysis] = useState<TextAnalysisResult | null>(null);
+  const [isAnalyzingText, setIsAnalyzingText] = useState(false);
+
+  useEffect(() => {
+    const trimmed = description.trim();
+    if (!trimmed || trimmed.length < 3) {
+      setTextAnalysis(null);
+      setIsAnalyzingText(false);
+      return;
+    }
+
+    setIsAnalyzingText(true);
+    const timer = setTimeout(async () => {
+      try {
+        const res = await analyzeObservationText(trimmed);
+        if (res && res.analysis) {
+          setTextAnalysis(res.analysis);
+        }
+      } catch (err) {
+        console.warn('Backend text analysis fallback:', err);
+      } finally {
+        setIsAnalyzingText(false);
+      }
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [description]);
 
   // 2-3 Photo/Video Proof State & Drag-and-Drop
   const [photos, setPhotos] = useState<string[]>([]);
@@ -421,15 +448,66 @@ export const CitizenReportForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">Observation Details (English, Hindi, or Hinglish)</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-bold text-slate-300 block">Observation Details (English, Hindi, or Hinglish)</label>
+                {isAnalyzingText && (
+                  <span className="text-[10px] font-mono text-cyan-400 flex items-center gap-1.5 animate-pulse">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    Scanning NLP Threat...
+                  </span>
+                )}
+              </div>
               <textarea
                 rows={3}
                 required
                 placeholder="Describe road water depth, traffic halts, river overflowing, power outage..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                className={`w-full bg-slate-950 border rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${
+                  textAnalysis && description.trim().length >= 3
+                    ? textAnalysis.is_disaster
+                      ? 'border-rose-500/80 focus:border-rose-400 shadow-sm shadow-rose-950/40'
+                      : 'border-emerald-500/70 focus:border-emerald-400'
+                    : 'border-slate-800 focus:border-cyan-500'
+                }`}
               />
+
+              {/* 🧠 Real-Time NLP Text Threat Feedback */}
+              {textAnalysis && description.trim().length >= 3 && (
+                <div className={`mt-2 p-2.5 rounded-xl border flex items-center justify-between gap-3 text-xs transition-all animate-fade-in ${
+                  textAnalysis.is_disaster
+                    ? 'bg-rose-950/60 border-rose-600/70 text-rose-100 shadow-md shadow-rose-950/40'
+                    : 'bg-emerald-950/40 border-emerald-600/50 text-emerald-200'
+                }`}>
+                  <div className="flex items-center gap-2.5">
+                    <span className={`text-base p-1 rounded-lg ${textAnalysis.is_disaster ? 'bg-rose-900/60' : 'bg-emerald-900/60'}`}>
+                      {textAnalysis.is_disaster ? '🚨' : '✅'}
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <strong className="text-xs font-mono font-bold uppercase tracking-wider">
+                          {textAnalysis.is_disaster ? 'Disaster Threat Detected' : 'Non-Disaster / Normal Text'}
+                        </strong>
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border ${
+                          textAnalysis.is_disaster
+                            ? 'bg-rose-900/80 text-rose-200 border-rose-700'
+                            : 'bg-emerald-900/80 text-emerald-200 border-emerald-700'
+                        }`}>
+                          {textAnalysis.disaster_score_pct ?? Math.round(textAnalysis.disaster_prob * 100)}% Threat Probability
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-slate-300 mt-0.5 font-sans">
+                        {textAnalysis.is_disaster
+                          ? 'This observation describes emergency/hazard conditions. Prioritized for disaster dispatch.'
+                          : 'Observation text does not indicate an active hazard or emergency condition.'}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[9px] font-mono text-slate-400 bg-black/50 px-2 py-1 rounded border border-slate-800 shrink-0 hidden sm:inline-block">
+                    TextGuard Multilingual NLP
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* 📸 2-3 PHOTO / VIDEO PROOF DRAG & DROP ZONE */}

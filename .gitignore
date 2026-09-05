@@ -46,6 +46,8 @@ data/
 *.pth
 *.h5
 *.pt
+*.safetensors
+text_disaster_transformer_model/
 !processing/vision/*.pt
 !ml_disaster_classifier/*.pt
 !backend/ml/classifier/*.pt

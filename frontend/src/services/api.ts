@@ -90,6 +90,29 @@ export const analyzeMedia = async (mediaUrl: string) => {
   }
 };
 
+export interface TextAnalysisResult {
+  text: string;
+  is_disaster: boolean;
+  verdict: string;
+  disaster_prob: number;
+  confidence_pct: number;
+  disaster_score_pct?: number;
+  label: string;
+  badge_color: string;
+  detected_keywords?: string[];
+  source?: string;
+}
+
+export const analyzeObservationText = async (text: string): Promise<{ status: string; analysis: TextAnalysisResult } | null> => {
+  try {
+    const { data } = await api.post('/media/analyze-text', { text });
+    return data;
+  } catch (err) {
+    console.warn('Backend text analysis failed, using fallback:', err);
+    return null;
+  }
+};
+
 export const fetchSystemHealth = async (): Promise<SystemHealth> => {
   const { data } = await api.get('/system/health');
   return data;
