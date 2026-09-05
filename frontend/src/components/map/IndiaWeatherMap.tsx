@@ -115,10 +115,12 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   const riverLayerRef = useRef<L.LayerGroup | null>(null);
   const lightningLayerRef = useRef<L.LayerGroup | null>(null);
   const cycloneLayerRef = useRef<L.LayerGroup | null>(null);
+  const verifiedReportsLayerRef = useRef<L.LayerGroup | null>(null);
   const baseTileLayerRef = useRef<L.LayerGroup | null>(null);
   
   // Layer states
   const [showInundationZones, setShowInundationZones] = useState(true);
+  const [showVerifiedReports, setShowVerifiedReports] = useState(true);
   const [showDwrRadarEchoes, setShowDwrRadarEchoes] = useState(true);
   const [showNewsPinpoints, setShowNewsPinpoints] = useState(true);
   const [showNdrfDepots, setShowNdrfDepots] = useState(true);
@@ -218,6 +220,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       riverLayerRef.current = L.layerGroup().addTo(map);
       lightningLayerRef.current = L.layerGroup().addTo(map);
       cycloneLayerRef.current = L.layerGroup().addTo(map);
+      verifiedReportsLayerRef.current = L.layerGroup().addTo(map);
 
       mapInstanceRef.current = map;
     } catch (e) {
@@ -661,6 +664,83 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     }
   }, [reports, showNewsPinpoints, onSelectReport]);
 
+  // Render Admin-Verified Citizen & User Incident Reports with AI Hashtags
+  useEffect(() => {
+    if (!mapInstanceRef.current || !verifiedReportsLayerRef.current) return;
+    verifiedReportsLayerRef.current.clearLayers();
+
+    if (showVerifiedReports && reports && reports.length > 0) {
+      const verifiedReps = reports.filter(
+        r => r.verification_status === 'VERIFIED' &&
+             r.latitude && r.longitude &&
+             r.source_type !== 'rss_news'
+      );
+
+      verifiedReps.forEach(rep => {
+        const customHtml = `
+          <div class="relative flex items-center justify-center cursor-pointer group">
+            <span class="absolute inline-flex h-8 w-8 rounded-full bg-emerald-400 opacity-40 animate-ping"></span>
+            <div class="relative w-7 h-7 rounded-xl bg-slate-950 border-2 border-emerald-400 text-emerald-300 flex items-center justify-center shadow-xl shadow-emerald-950/80 font-bold text-xs transform transition-transform group-hover:scale-125">
+              🛡️
+            </div>
+            <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rotate-45"></div>
+          </div>
+        `;
+
+        const icon = L.divIcon({
+          html: customHtml,
+          className: 'custom-verified-report-marker',
+          iconSize: [28, 28],
+          iconAnchor: [14, 28]
+        });
+
+        const marker = L.marker([rep.latitude, rep.longitude], { icon });
+        const streetViewUrl = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${rep.latitude},${rep.longitude}`;
+
+        const hashtagsHtml = (rep.hashtags || []).map(h => 
+          `<span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">${h.startsWith('#') ? h : `#${h}`}</span>`
+        ).join(' ');
+
+        const popupHtml = `
+          <div class="p-3 space-y-2 min-w-[250px] max-w-[280px] font-sans text-slate-200">
+            <div class="flex items-center justify-between border-b border-emerald-800/80 pb-1.5">
+              <span class="text-xs font-bold text-white uppercase flex items-center gap-1">
+                <span>🛡️</span> Verified Ground Report
+              </span>
+              <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700">
+                VERIFIED
+              </span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] font-mono">
+              <span class="text-white font-bold">${rep.event_type}</span>
+              <span class="text-emerald-400 font-bold">${Math.round(rep.credibility_score || 95)}% AI Trust</span>
+            </div>
+            <p class="text-xs text-slate-100 font-medium leading-snug line-clamp-3 bg-slate-950/80 p-2 rounded border border-slate-800">
+              "${rep.text}"
+            </p>
+            ${hashtagsHtml ? `<div class="flex flex-wrap gap-1 pt-1">${hashtagsHtml}</div>` : ''}
+            <div class="text-[10px] font-mono text-slate-400 flex items-center justify-between pt-1 border-t border-slate-800/80">
+              <span>By: ${rep.author || 'Citizen Observer'}</span>
+              <span>📍 ${rep.city || 'Local'}, ${rep.state}</span>
+            </div>
+            <div class="pt-1.5 flex flex-col gap-1">
+              <a href="${streetViewUrl}" target="_blank" rel="noopener noreferrer" class="w-full py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 text-emerald-200 border border-emerald-700/50 text-[10px] font-bold text-center flex items-center justify-center gap-1 transition-colors">
+                <span>👁 View Ground Street View</span>
+              </a>
+            </div>
+          </div>
+        `;
+
+        marker.bindPopup(popupHtml, { className: 'custom-leaflet-popup' });
+        marker.on('click', () => {
+          if (onSelectReport) onSelectReport(rep);
+        });
+
+        verifiedReportsLayerRef.current?.addLayer(marker);
+      });
+    }
+  }, [reports, showVerifiedReports, onSelectReport]);
+
   // Render Incident Clusters
   useEffect(() => {
     if (!mapInstanceRef.current || !markersLayerRef.current || !zonesLayerRef.current) return;
@@ -822,6 +902,20 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
               Satellite
             </button>
           </div>
+
+          {/* Verified Citizen Incident Reports Toggle */}
+          <button
+            onClick={() => setShowVerifiedReports(!showVerifiedReports)}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold backdrop-blur-md border transition-all cursor-pointer ${
+              showVerifiedReports
+                ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/50 shadow-md font-bold'
+                : 'bg-slate-900/90 text-slate-400 border-slate-800'
+            }`}
+            title="Toggle Admin-Verified Citizen Incident Reports on Map"
+          >
+            <Shield className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Verified Reports ({reports?.filter(r => r.verification_status === 'VERIFIED' && r.source_type !== 'rss_news').length || 0})</span>
+          </button>
 
           {/* NDRF Depots Toggle */}
           <button
