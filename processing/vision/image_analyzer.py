@@ -38,27 +38,69 @@ _tf = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
 ])
 
+try:
+    torch.set_num_threads(1)
+    torch.set_num_interop_threads(1)
+except Exception:
+    pass
+
+import threading
+
 _model = None
 _class_names = []
-HAS_DISASTER_MODEL = False
+_model_lock = threading.Lock()
+_model_attempted = False
+HAS_DISASTER_MODEL = os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH)
 
-try:
-    if os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH):
+if HAS_DISASTER_MODEL:
+    try:
         with open(_LABELS_PATH, "r") as f:
             _class_names = json.load(f)
-        _model = models.resnet18(weights=None)
-        _model.fc = nn.Linear(_model.fc.in_features, len(_class_names))
-        _model.load_state_dict(torch.load(_WEIGHTS_PATH, map_location=DEVICE))
-        _model.to(DEVICE)
-        _model.eval()
-        HAS_DISASTER_MODEL = True
-        print(f"[VisionGuard] Loaded trained ResNet18 ({_WEIGHTS_PATH}) on {DEVICE}")
-    else:
-        print(f"[VisionGuard] Model weights not found at {_WEIGHTS_PATH}")
-except Exception as e:
-    print(f"[VisionGuard] Error loading disaster model: {e}")
+    except Exception:
+        _class_names = ["disaster", "normal"]
+else:
+    print(f"[VisionGuard] Model weights not found at {_WEIGHTS_PATH}")
 
-print(f"[DEBUG] image_analyzer.py loaded from: {__file__} | HAS_DISASTER_MODEL={HAS_DISASTER_MODEL}")
+print(f"[DEBUG] image_analyzer.py loaded from: {__file__} | HAS_DISASTER_MODEL={HAS_DISASTER_MODEL} (lazy-load mode enabled)")
+
+
+def ensure_disaster_model() -> bool:
+    """
+    Lazily loads the fine-tuned ResNet18 model into memory when an image is first evaluated.
+    Keeps startup memory ~90MB so Render passes port binding and health checks instantly.
+    """
+    global _model, _class_names, _model_attempted, HAS_DISASTER_MODEL
+    if _model is not None:
+        return True
+    if _model_attempted and _model is None:
+        return False
+
+    with _model_lock:
+        if _model is not None:
+            return True
+        _model_attempted = True
+        try:
+            if os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH):
+                with open(_LABELS_PATH, "r") as f:
+                    _class_names = json.load(f)
+                model = models.resnet18(weights=None)
+                model.fc = nn.Linear(model.fc.in_features, len(_class_names))
+                state_dict = torch.load(_WEIGHTS_PATH, map_location=DEVICE)
+                model.load_state_dict(state_dict)
+                model.to(DEVICE)
+                model.eval()
+                _model = model
+                HAS_DISASTER_MODEL = True
+                print(f"[VisionGuard] Loaded trained ResNet18 ({_WEIGHTS_PATH}) on {DEVICE}", flush=True)
+                return True
+            else:
+                print(f"[VisionGuard] Model weights not found at {_WEIGHTS_PATH}", flush=True)
+                HAS_DISASTER_MODEL = False
+                return False
+        except Exception as e:
+            print(f"[VisionGuard] Error loading disaster model: {e}", flush=True)
+            HAS_DISASTER_MODEL = False
+            return False
 
 
 def load_image_from_source(source: str) -> Optional[Image.Image]:
@@ -103,6 +145,7 @@ class ImageWeatherAnalyzer:
         Runs binary disaster classification on a PIL Image.
         Returns whether the image contains genuine disaster ground proof or a normal everyday scene.
         """
+        ensure_disaster_model()
         thresh = threshold if threshold is not None else self.threshold
         if not HAS_DISASTER_MODEL or _model is None:
             return {

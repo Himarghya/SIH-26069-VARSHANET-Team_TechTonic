@@ -34,21 +34,31 @@ try:
 except Exception as e:
     print(f"[TextGuard] Error loading joblib model: {e}", flush=True)
 
-# Optional transformer pipeline if loaded and available
+# Optional transformer pipeline if loaded and available (lazy loaded)
 _transformer_pipeline = None
-_TRANSFORMER_DIR = os.path.join(str(_PROJECT_ROOT), "text_disaster_transformer_model", "final_model")
-if os.path.exists(_TRANSFORMER_DIR):
-    try:
-        from transformers import pipeline
-        _transformer_pipeline = pipeline(
-            "text-classification",
-            model=_TRANSFORMER_DIR,
-            tokenizer=_TRANSFORMER_DIR,
-            device=-1  # Keep on CPU for serverless/web requests
-        )
-        print("[TextGuard] Loaded fine-tuned DistilBERT transformer pipeline", flush=True)
-    except Exception as e:
-        _transformer_pipeline = None
+_transformer_attempted = False
+
+def get_transformer_pipeline():
+    global _transformer_pipeline, _transformer_attempted
+    if _transformer_pipeline is not None:
+        return _transformer_pipeline
+    if _transformer_attempted:
+        return None
+    _transformer_attempted = True
+    _TRANSFORMER_DIR = os.path.join(str(_PROJECT_ROOT), "text_disaster_transformer_model", "final_model")
+    if os.path.exists(_TRANSFORMER_DIR):
+        try:
+            from transformers import pipeline
+            _transformer_pipeline = pipeline(
+                "text-classification",
+                model=_TRANSFORMER_DIR,
+                tokenizer=_TRANSFORMER_DIR,
+                device=-1  # Keep on CPU for serverless/web requests
+            )
+            print("[TextGuard] Loaded fine-tuned DistilBERT transformer pipeline", flush=True)
+        except Exception as e:
+            _transformer_pipeline = None
+    return _transformer_pipeline
 
 DEFAULT_THRESHOLD = float(os.environ.get("TEXT_DISASTER_THRESHOLD", "0.65"))
 
@@ -95,9 +105,10 @@ class TextAnalyzer:
         prob = 0.0
 
         # 1. Try transformer pipeline if active
-        if _transformer_pipeline is not None:
+        t_pipe = get_transformer_pipeline()
+        if t_pipe is not None:
             try:
-                res = _transformer_pipeline(cleaned, truncation=True, max_length=128)[0]
+                res = t_pipe(cleaned, truncation=True, max_length=128)[0]
                 lbl = res.get("label", "LABEL_0")
                 score = res.get("score", 0.5)
                 prob = score if lbl.endswith("1") else (1.0 - score)

@@ -2,10 +2,22 @@ services:
   - type: web
     name: varshanet-backend
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT --workers 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.8
       - key: DATABASE_URL
         value: sqlite:///./varshanet.db
+      - key: MALLOC_ARENA_MAX
+        value: 2
+      - key: OMP_NUM_THREADS
+        value: 1
+      - key: MKL_NUM_THREADS
+        value: 1
+      - key: OPENBLAS_NUM_THREADS
+        value: 1
+      - key: TORCH_NUM_THREADS
+        value: 1
+      - key: WEB_CONCURRENCY
+        value: 1
