@@ -351,3 +351,21 @@ export const fetchModelReport = async (): Promise<any> => {
   const { data } = await api.get('/media/model-report');
   return data;
 };
+
+export interface TextAnalysisResult {
+  text: string;
+  is_disaster: boolean;
+  verdict: string;
+  disaster_prob: number;
+  confidence_pct: number;
+  disaster_score_pct?: number;
+  label: string;
+  badge_color: string;
+  threshold?: number;
+  source?: string;
+}
+
+export const analyzeObservationText = async (text: string, threshold?: number): Promise<{ status: string; analysis: TextAnalysisResult }> => {
+  const { data } = await api.post('/media/analyze-text', { text, threshold });
+  return data;
+};

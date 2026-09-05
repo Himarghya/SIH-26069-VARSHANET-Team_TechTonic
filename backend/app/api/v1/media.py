@@ -6,6 +6,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from fastapi.responses import JSONResponse
 from processing.vision.image_analyzer import image_analyzer
 from processing.vision.video_analyzer import video_analyzer
+from processing.nlp.text_analyzer import text_analyzer
 
 router = APIRouter(prefix="/media", tags=["Media & ML Video Forensics"])
 
@@ -89,6 +90,22 @@ async def analyze_media_json(payload: MediaAnalyzePayload):
     else:
         analysis = image_analyzer.analyze_image_heuristics(payload.media_url)
 
+    return {
+        "status": "SUCCESS",
+        "analysis": analysis
+    }
+
+class TextAnalyzePayload(BaseModel):
+    text: str
+    threshold: Optional[float] = None
+
+@router.post("/analyze-text")
+async def analyze_text_endpoint(payload: TextAnalyzePayload):
+    """
+    Analyzes observation text using the trained multilingual disaster response NLP classifier.
+    Returns whether text indicates a disaster-related threat along with probability and labels.
+    """
+    analysis = text_analyzer.analyze_text(payload.text, threshold=payload.threshold)
     return {
         "status": "SUCCESS",
         "analysis": analysis
