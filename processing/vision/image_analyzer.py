@@ -29,7 +29,7 @@ _WEIGHTS_PATH = os.path.join(_MODEL_DIR, "disaster_binary_classifier.pt")
 _LABELS_PATH = os.path.join(_MODEL_DIR, "class_names.json")
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-DEFAULT_THRESHOLD = float(os.environ.get("DISASTER_THRESHOLD", "0.50"))
+DEFAULT_THRESHOLD = float(os.environ.get("DISASTER_THRESHOLD", "0.85"))
 
 _tf = transforms.Compose([
     transforms.Resize(256),
@@ -38,117 +38,27 @@ _tf = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
 ])
 
-import gc
-
-# Keep PyTorch CPU thread count to 1 to avoid thread pool allocation bloat
-if DEVICE.type == "cpu":
-    try:
-        torch.set_num_threads(1)
-        torch.set_num_interop_threads(1)
-    except Exception:
-        pass
-
-
-def _resolve_model_weights_path() -> Optional[str]:
-    """Finds the disaster_binary_classifier.pt across local and container paths."""
-    candidates = [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "disaster_binary_classifier.pt"),
-        os.path.join(os.getcwd(), "processing", "vision", "disaster_binary_classifier.pt"),
-        os.path.join(os.getcwd(), "backend", "ml", "classifier", "disaster_binary_classifier.pt"),
-        os.path.join(os.getcwd(), "ml_disaster_classifier", "disaster_binary_classifier.pt"),
-        "/app/processing/vision/disaster_binary_classifier.pt",
-        "/app/backend/ml/classifier/disaster_binary_classifier.pt",
-        "/app/ml_disaster_classifier/disaster_binary_classifier.pt",
-    ]
-    custom_dir = os.environ.get("DISASTER_MODEL_DIR")
-    if custom_dir:
-        candidates.insert(0, os.path.join(custom_dir, "disaster_binary_classifier.pt"))
-
-    for path in candidates:
-        if path and os.path.exists(path):
-            return path
-    return None
-
-
-def _resolve_labels_path() -> Optional[str]:
-    """Finds class_names.json across local and container paths."""
-    candidates = [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "class_names.json"),
-        os.path.join(os.getcwd(), "processing", "vision", "class_names.json"),
-        os.path.join(os.getcwd(), "backend", "ml", "classifier", "class_names.json"),
-        os.path.join(os.getcwd(), "ml_disaster_classifier", "class_names.json"),
-        "/app/processing/vision/class_names.json",
-        "/app/backend/ml/classifier/class_names.json",
-        "/app/ml_disaster_classifier/class_names.json",
-    ]
-    for path in candidates:
-        if path and os.path.exists(path):
-            return path
-    return None
-
-
-_WEIGHTS_PATH = _resolve_model_weights_path()
-_LABELS_PATH = _resolve_labels_path()
-
 _model = None
-_class_names = ["disaster", "normal"]
-HAS_DISASTER_MODEL = _WEIGHTS_PATH is not None
+_class_names = []
+HAS_DISASTER_MODEL = False
 
-
-def ensure_disaster_model():
-    """Lazily loads the ResNet18 model into memory on demand to keep boot memory minimal (<120MB)."""
-    global _model, _class_names, HAS_DISASTER_MODEL, _WEIGHTS_PATH
-    if _model is not None:
-        return _model, _class_names
-
-    weights_path = _resolve_model_weights_path()
-    if not weights_path:
-        HAS_DISASTER_MODEL = False
-        return None, []
-
-    _WEIGHTS_PATH = weights_path
-
-    # Try loading class labels, fallback to standard binary labels if not found
-    labels_path = _resolve_labels_path()
-    if labels_path:
-        try:
-            with open(labels_path, "r") as f:
-                _class_names = json.load(f)
-        except Exception:
-            _class_names = ["disaster", "normal"]
-    else:
-        _class_names = ["disaster", "normal"]
-
-    try:
-        torch.set_grad_enabled(False)
-        if DEVICE.type == "cpu":
-            torch.set_num_threads(1)
-            torch.set_num_interop_threads(1)
-
-        m = models.resnet18(weights=None)
-        m.fc = nn.Linear(m.fc.in_features, len(_class_names))
-
-        # Safely unpickle weights across PyTorch versions
-        try:
-            state = torch.load(weights_path, map_location=DEVICE)
-        except Exception:
-            state = torch.load(weights_path, map_location=DEVICE, weights_only=False)
-
-        m.load_state_dict(state)
-        del state
-        m.to(DEVICE)
-        m.eval()
-        _model = m
+try:
+    if os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH):
+        with open(_LABELS_PATH, "r") as f:
+            _class_names = json.load(f)
+        _model = models.resnet18(weights=None)
+        _model.fc = nn.Linear(_model.fc.in_features, len(_class_names))
+        _model.load_state_dict(torch.load(_WEIGHTS_PATH, map_location=DEVICE))
+        _model.to(DEVICE)
+        _model.eval()
         HAS_DISASTER_MODEL = True
-        gc.collect()
-        print(f"[VisionGuard] Successfully loaded trained ResNet18 ({weights_path}) on {DEVICE}", flush=True)
-        return _model, _class_names
-    except Exception as e:
-        print(f"[VisionGuard] Error loading disaster model: {e}", flush=True)
-        HAS_DISASTER_MODEL = False
-        return None, []
+        print(f"[VisionGuard] Loaded trained ResNet18 ({_WEIGHTS_PATH}) on {DEVICE}")
+    else:
+        print(f"[VisionGuard] Model weights not found at {_WEIGHTS_PATH}")
+except Exception as e:
+    print(f"[VisionGuard] Error loading disaster model: {e}")
 
-print(f"[DEBUG] image_analyzer.py registered | weights_found={HAS_DISASTER_MODEL} path={_WEIGHTS_PATH}")
+print(f"[DEBUG] image_analyzer.py loaded from: {__file__} | HAS_DISASTER_MODEL={HAS_DISASTER_MODEL}")
 
 
 def load_image_from_source(source: str) -> Optional[Image.Image]:
@@ -188,55 +98,43 @@ class ImageWeatherAnalyzer:
         self.model_version = "VARSHANET-VisionGuard (Fine-Tuned ResNet18 Binary Classifier)"
         self.threshold = DEFAULT_THRESHOLD
 
-    def _analyze_with_visionguard_engine(self, pil_img: Image.Image, threshold: float = 0.50) -> Dict[str, Any]:
+    def analyze_pil_image(self, pil_img: Image.Image, threshold: Optional[float] = None) -> Dict[str, Any]:
         """
-        Ultra-fast, fault-tolerant VisionGuard Multi-Feature Classifier.
-        Analyzes edge gradient entropy, devastation texture, muddy turbidity, and color dynamics.
-        Uses <2MB RAM, zero PyTorch overhead, and guarantees 100% server uptime.
+        Runs binary disaster classification on a PIL Image.
+        Returns whether the image contains genuine disaster ground proof or a normal everyday scene.
         """
-        from PIL import ImageStat, ImageFilter
+        thresh = threshold if threshold is not None else self.threshold
+        if not HAS_DISASTER_MODEL or _model is None:
+            return {
+                "media_type": "image",
+                "verdict": "ERROR",
+                "is_weather_related": False,
+                "is_disaster": False,
+                "is_authentic": False,
+                "model_verdict": "ERROR: MODEL NOT LOADED",
+                "admin_verdict": "UNVERIFIED: ML MODEL UNAVAILABLE",
+                "admin_recommendation": "⚠️ MANUAL REVIEW REQUIRED",
+                "verdict_reason": "Trained disaster_binary_classifier.pt was not found on this server.",
+                "detected_category": "Model Unavailable",
+                "top_predictions": [],
+                "authenticity_score": 0.0,
+                "weather_relevance_confidence": 0.0,
+                "fake_probability": 100.0,
+                "disaster_prob": 0.0,
+                "class_probs": {},
+            }
+
         img_rgb = pil_img.convert("RGB")
-        stat = ImageStat.Stat(img_rgb)
-        r_mean, g_mean, b_mean = stat.mean[:3]
-        r_std, g_std, b_std = stat.stddev[:3]
+        tensor = _tf(img_rgb).unsqueeze(0).to(DEVICE)
+        with torch.no_grad():
+            logits = _model(tensor)
+            probs = F.softmax(logits, dim=1).squeeze(0).cpu()
 
-        # 1. Edge gradient entropy (measures rubble, destruction, debris, cracked concrete vs smooth normal scenes)
-        edges = img_rgb.convert("L").filter(ImageFilter.FIND_EDGES)
-        edge_mean = ImageStat.Stat(edges).mean[0]
+        class_probs = {_class_names[i]: float(probs[i].item()) for i in range(len(_class_names))}
+        disaster_prob = class_probs.get("disaster", 0.0)
+        normal_prob = class_probs.get("normal", 0.0)
 
-        # 2. Turbidity / flood water signature
-        is_muddy_water = (r_mean > b_mean + 8 and g_mean > b_mean + 4 and r_mean < 185)
-        turbidity = 0.88 if is_muddy_water else 0.45 if (b_mean > r_mean + 8) else 0.20
-
-        # 3. Structural collapse / high frequency devastation index
-        detail = img_rgb.convert("L").filter(ImageFilter.EDGE_ENHANCE_MORE)
-        detail_std = ImageStat.Stat(detail).stddev[0]
-
-        # 4. Color variance and natural disaster palette
-        color_var = (r_std + g_std + b_std) / 3.0
-
-        score = 0.0
-        if edge_mean > 20.0:
-            score += 0.45
-        elif edge_mean > 14.0:
-            score += 0.30
-
-        if detail_std > 50.0:
-            score += 0.35
-        elif detail_std > 35.0:
-            score += 0.20
-
-        if turbidity > 0.60:
-            score += 0.25
-
-        if color_var > 40.0:
-            score += 0.15
-
-        disaster_prob = min(0.98, max(0.05, score))
-        normal_prob = 1.0 - disaster_prob
-        is_disaster = disaster_prob >= threshold
-
-        class_probs = {"disaster": round(disaster_prob, 4), "normal": round(normal_prob, 4)}
+        is_disaster = disaster_prob >= thresh
         verdict = "DISASTER" if is_disaster else "NOT_DISASTER"
 
         if is_disaster:
@@ -249,7 +147,7 @@ class ImageWeatherAnalyzer:
             model_verdict = "FALSE: NOT DISASTER RELATED"
             admin_verdict = "FALSE: NOT DISASTER RELATED"
             admin_recommendation = "❌ RECOMMEND REJECT"
-            verdict_reason = f"Normal scene detected (normal confidence: {normal_prob * 100:.1f}%)."
+            verdict_reason = f"Normal scene detected: non-disaster confidence is {normal_prob * 100:.1f}%."
             detected_category = f"Normal Everyday Scene ({normal_prob * 100:.1f}%)"
 
         return {
@@ -272,72 +170,7 @@ class ImageWeatherAnalyzer:
                 f"{name.capitalize()}: {round(score, 4)}"
                 for name, score in sorted(class_probs.items(), key=lambda x: x[1], reverse=True)
             ],
-            "engine": "VisionGuard-Feature-Engine",
         }
-
-    def analyze_pil_image(self, pil_img: Image.Image, threshold: Optional[float] = None) -> Dict[str, Any]:
-        """
-        Runs binary disaster classification on a PIL Image.
-        Returns whether the image contains genuine disaster ground proof or a normal everyday scene.
-        """
-        thresh = threshold if threshold is not None else self.threshold
-        try:
-            model, class_names = ensure_disaster_model()
-            if model is not None:
-                img_rgb = pil_img.convert("RGB")
-                tensor = _tf(img_rgb).unsqueeze(0).to(DEVICE)
-                with torch.no_grad():
-                    logits = model(tensor)
-                    probs = F.softmax(logits, dim=1).squeeze(0).cpu()
-
-                class_probs = {class_names[i]: float(probs[i].item()) for i in range(len(class_names))}
-                disaster_prob = class_probs.get("disaster", 0.0)
-                normal_prob = class_probs.get("normal", 0.0)
-
-                # A scene is classified as disaster if disaster_prob meets threshold (default 0.50) OR disaster_prob > normal_prob
-                is_disaster = (disaster_prob >= thresh) or (disaster_prob > normal_prob)
-                verdict = "DISASTER" if is_disaster else "NOT_DISASTER"
-
-                if is_disaster:
-                    model_verdict = "TRUE: DISASTER GROUND PROOF"
-                    admin_verdict = "TRUE: DISASTER GROUND PROOF"
-                    admin_recommendation = "✅ RECOMMEND VERIFY"
-                    verdict_reason = f"Verified disaster ground proof (disaster confidence: {disaster_prob * 100:.1f}%)."
-                    detected_category = f"Disaster Ground Proof ({disaster_prob * 100:.1f}%)"
-                else:
-                    model_verdict = "FALSE: NOT DISASTER RELATED"
-                    admin_verdict = "FALSE: NOT DISASTER RELATED"
-                    admin_recommendation = "❌ RECOMMEND REJECT"
-                    verdict_reason = f"Normal scene detected (normal confidence: {normal_prob * 100:.1f}%)."
-                    detected_category = f"Normal Everyday Scene ({normal_prob * 100:.1f}%)"
-
-                return {
-                    "media_type": "image",
-                    "verdict": verdict,
-                    "disaster_prob": round(disaster_prob, 4),
-                    "class_probs": class_probs,
-                    "is_weather_related": is_disaster,
-                    "is_disaster": is_disaster,
-                    "is_authentic": is_disaster,
-                    "model_verdict": model_verdict,
-                    "admin_verdict": admin_verdict,
-                    "admin_recommendation": admin_recommendation,
-                    "verdict_reason": verdict_reason,
-                    "detected_category": detected_category,
-                    "authenticity_score": round(disaster_prob, 4),
-                    "weather_relevance_confidence": round(disaster_prob * 100, 1),
-                    "fake_probability": round(normal_prob * 100, 1),
-                    "top_predictions": [
-                        f"{name.capitalize()}: {round(score, 4)}"
-                        for name, score in sorted(class_probs.items(), key=lambda x: x[1], reverse=True)
-                    ],
-                    "engine": "ResNet18-Neural-Classifier",
-                }
-        except Exception as e:
-            print(f"[VisionGuard] Neural inference fallback to feature engine: {e}", flush=True)
-
-        # Fault-tolerant VisionGuard feature engine fallback
-        return self._analyze_with_visionguard_engine(pil_img, threshold=thresh)
 
     def analyze_image_heuristics(self, image_source: str) -> Dict[str, Any]:
         img = load_image_from_source(image_source)

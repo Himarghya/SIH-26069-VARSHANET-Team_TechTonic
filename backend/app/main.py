@@ -1,13 +1,5 @@
 import sys
 import os
-import gc
-
-# Keep CPU thread counts to 1 to stay well under 512MB RAM on Render free tier
-os.environ["OMP_NUM_THREADS"] = "1"
-os.environ["OPENBLAS_NUM_THREADS"] = "1"
-os.environ["MKL_NUM_THREADS"] = "1"
-os.environ["TORCH_NUM_THREADS"] = "1"
-os.environ["MALLOC_ARENA_MAX"] = "2"
 
 # Universal path resolution for local dev, Docker, and Vercel serverless
 _current_dir = os.path.dirname(os.path.abspath(__file__)) # backend/app
@@ -32,24 +24,20 @@ Base.metadata.create_all(bind=engine)
 
 from backend.app.core.init_db import init_and_refresh_database
 
-is_serverless = bool(os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"))
+# Ensure database tables and initial demo scenarios are created immediately upon module load (essential for Serverless)
+try:
+    init_and_refresh_database()
+except Exception as e:
+    print(f"[VARSHANET DB INIT] {e}")
 
-# Ensure database tables and initial demo scenarios are created immediately upon module load only for Serverless
-if is_serverless:
-    try:
-        init_and_refresh_database()
-        gc.collect()
-    except Exception as e:
-        print(f"[VARSHANET DB INIT] {e}")
+is_serverless = bool(os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    if not is_serverless:
-        try:
-            init_and_refresh_database()
-            gc.collect()
-        except Exception as e:
-            print(f"[VARSHANET LIFESPAN WARNING] {e}")
+    try:
+        init_and_refresh_database()
+    except Exception as e:
+        print(f"[VARSHANET LIFESPAN WARNING] {e}")
 
         
     # Start live weather & news ingestion automation service only in long-running environments
@@ -93,19 +81,8 @@ async def websocket_weather_feed(websocket: WebSocket):
     except WebSocketDisconnect:
         ws_manager.disconnect(websocket)
 
-import mimetypes
-mimetypes.init()
-mimetypes.add_type("text/css", ".css")
-mimetypes.add_type("application/javascript", ".js")
-mimetypes.add_type("text/javascript", ".js")
-mimetypes.add_type("image/svg+xml", ".svg")
-mimetypes.add_type("image/png", ".png")
-mimetypes.add_type("image/jpeg", ".jpg")
-mimetypes.add_type("image/jpeg", ".jpeg")
-mimetypes.add_type("application/json", ".json")
-
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse
 
 uploads_dir = os.path.join(_project_root, "uploads")
 os.makedirs(uploads_dir, exist_ok=True)
@@ -121,29 +98,10 @@ if os.path.exists(frontend_dist):
     async def serve_frontend(full_path: str):
         if full_path.startswith("api") or full_path.startswith("ws"):
             return {"error": "Not found"}
-        
         file_path = os.path.join(frontend_dist, full_path)
         if full_path and os.path.exists(file_path) and os.path.isfile(file_path):
-            media_type, _ = mimetypes.guess_type(file_path)
-            if file_path.endswith(".css"):
-                media_type = "text/css"
-            elif file_path.endswith(".js"):
-                media_type = "application/javascript"
-            headers = {}
-            if full_path.startswith("assets/"):
-                headers["Cache-Control"] = "public, max-age=31536000, immutable"
-            return FileResponse(file_path, media_type=media_type, headers=headers)
-
-        # Do NOT return index.html for missing asset or static file requests
-        if full_path.startswith("assets/") or "." in os.path.basename(full_path):
-            return Response(status_code=404, content="Asset not found")
-
-        # Return index.html for SPA page navigation routes with no-cache so clients never keep stale hashes
-        return FileResponse(
-            os.path.join(frontend_dist, "index.html"),
-            media_type="text/html",
-            headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
-        )
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
 else:
     @app.get("/")
     def root():
