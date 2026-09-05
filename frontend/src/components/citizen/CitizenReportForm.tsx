@@ -38,12 +38,39 @@ export const CitizenReportForm: React.FC = () => {
 
   useEffect(() => {
     const trimmed = description.trim();
-    if (!trimmed || trimmed.length < 4) {
+    if (!trimmed || trimmed.length < 2) {
       setTextAnalysis(null);
       setIsAnalyzingText(false);
       return;
     }
 
+    // 1. Instant local NLP heuristic so the user immediately sees the flag with zero delay:
+    const lower = trimmed.toLowerCase();
+    const hazardKeywords = [
+      'flood', 'waterlogging', 'waterlogged', 'submerged', 'underpass', 'overflow',
+      'drown', 'drowning', 'heavy rain', 'storm', 'cyclone', 'cloudburst', 'landslide',
+      'inundation', 'rescue', 'evacuate', 'evacuation', 'disaster', 'stranded',
+      'casualty', 'electrocution', 'lightning', 'river rising', 'dam', 'collapse',
+      'paani', 'pani', 'baadh', 'badh', 'jalbharao', 'toofan', 'tufan', 'aag', 'bhookamp',
+      'fas gaye', 'madad'
+    ];
+    const hasHazardWord = hazardKeywords.some(k => lower.includes(k));
+    const initialProb = hasHazardWord ? 0.85 : 0.08;
+    const initialIsDisaster = hasHazardWord;
+
+    setTextAnalysis({
+      text: trimmed,
+      is_disaster: initialIsDisaster,
+      verdict: initialIsDisaster ? 'DISASTER_RELATED_THREAT' : 'NOT_DISASTER_RELATED',
+      disaster_prob: initialProb,
+      confidence_pct: Math.round(initialProb * 100),
+      disaster_score_pct: Math.round(initialProb * 100),
+      label: initialIsDisaster ? 'Disaster Threat Detected' : 'Non-Disaster / Normal Text',
+      badge_color: initialIsDisaster ? 'rose' : 'emerald',
+      source: 'instant_guard'
+    });
+
+    // 2. Asynchronously call backend ML model to refine with trained TF-IDF + Logistic Regression
     setIsAnalyzingText(true);
     const timer = setTimeout(async () => {
       try {
@@ -52,11 +79,12 @@ export const CitizenReportForm: React.FC = () => {
           setTextAnalysis(res.analysis);
         }
       } catch (err) {
-        console.error('Error analyzing observation text:', err);
+        // Keep the instant assessment if backend call fails (e.g. cold start)
+        console.warn('Backend text analysis fallback:', err);
       } finally {
         setIsAnalyzingText(false);
       }
-    }, 400);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [description]);
@@ -466,7 +494,7 @@ export const CitizenReportForm: React.FC = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className={`w-full bg-slate-950 border rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${
-                  textAnalysis && description.trim().length >= 4
+                  textAnalysis && description.trim().length >= 2
                     ? textAnalysis.is_disaster
                       ? 'border-rose-500/80 focus:border-rose-400 shadow-sm shadow-rose-950/40'
                       : 'border-emerald-500/70 focus:border-emerald-400'
@@ -475,7 +503,7 @@ export const CitizenReportForm: React.FC = () => {
               />
 
               {/* 🧠 Real-Time NLP Text Threat Feedback */}
-              {textAnalysis && description.trim().length >= 4 && (
+              {textAnalysis && description.trim().length >= 2 && (
                 <div className={`mt-2 p-2.5 rounded-xl border flex items-center justify-between gap-3 text-xs transition-all animate-fade-in ${
                   textAnalysis.is_disaster
                     ? 'bg-rose-950/60 border-rose-600/70 text-rose-100 shadow-md shadow-rose-950/40'
