@@ -93,8 +93,19 @@ async def websocket_weather_feed(websocket: WebSocket):
     except WebSocketDisconnect:
         ws_manager.disconnect(websocket)
 
+import mimetypes
+mimetypes.init()
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/javascript", ".js")
+mimetypes.add_type("image/svg+xml", ".svg")
+mimetypes.add_type("image/png", ".png")
+mimetypes.add_type("image/jpeg", ".jpg")
+mimetypes.add_type("image/jpeg", ".jpeg")
+mimetypes.add_type("application/json", ".json")
+
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 
 uploads_dir = os.path.join(_project_root, "uploads")
 os.makedirs(uploads_dir, exist_ok=True)
@@ -110,10 +121,29 @@ if os.path.exists(frontend_dist):
     async def serve_frontend(full_path: str):
         if full_path.startswith("api") or full_path.startswith("ws"):
             return {"error": "Not found"}
+        
         file_path = os.path.join(frontend_dist, full_path)
         if full_path and os.path.exists(file_path) and os.path.isfile(file_path):
-            return FileResponse(file_path)
-        return FileResponse(os.path.join(frontend_dist, "index.html"))
+            media_type, _ = mimetypes.guess_type(file_path)
+            if file_path.endswith(".css"):
+                media_type = "text/css"
+            elif file_path.endswith(".js"):
+                media_type = "application/javascript"
+            headers = {}
+            if full_path.startswith("assets/"):
+                headers["Cache-Control"] = "public, max-age=31536000, immutable"
+            return FileResponse(file_path, media_type=media_type, headers=headers)
+
+        # Do NOT return index.html for missing asset or static file requests
+        if full_path.startswith("assets/") or "." in os.path.basename(full_path):
+            return Response(status_code=404, content="Asset not found")
+
+        # Return index.html for SPA page navigation routes with no-cache so clients never keep stale hashes
+        return FileResponse(
+            os.path.join(frontend_dist, "index.html"),
+            media_type="text/html",
+            headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+        )
 else:
     @app.get("/")
     def root():
