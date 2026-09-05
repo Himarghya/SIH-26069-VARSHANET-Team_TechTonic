@@ -29,7 +29,7 @@ _WEIGHTS_PATH = os.path.join(_MODEL_DIR, "disaster_binary_classifier.pt")
 _LABELS_PATH = os.path.join(_MODEL_DIR, "class_names.json")
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-DEFAULT_THRESHOLD = float(os.environ.get("DISASTER_THRESHOLD", "0.85"))
+DEFAULT_THRESHOLD = float(os.environ.get("DISASTER_THRESHOLD", "0.50"))
 
 _tf = transforms.Compose([
     transforms.Resize(256),
@@ -48,31 +48,92 @@ if DEVICE.type == "cpu":
     except Exception:
         pass
 
+
+def _resolve_model_weights_path() -> Optional[str]:
+    """Finds the disaster_binary_classifier.pt across local and container paths."""
+    candidates = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "disaster_binary_classifier.pt"),
+        os.path.join(os.getcwd(), "processing", "vision", "disaster_binary_classifier.pt"),
+        os.path.join(os.getcwd(), "backend", "ml", "classifier", "disaster_binary_classifier.pt"),
+        os.path.join(os.getcwd(), "ml_disaster_classifier", "disaster_binary_classifier.pt"),
+        "/app/processing/vision/disaster_binary_classifier.pt",
+        "/app/backend/ml/classifier/disaster_binary_classifier.pt",
+        "/app/ml_disaster_classifier/disaster_binary_classifier.pt",
+    ]
+    custom_dir = os.environ.get("DISASTER_MODEL_DIR")
+    if custom_dir:
+        candidates.insert(0, os.path.join(custom_dir, "disaster_binary_classifier.pt"))
+
+    for path in candidates:
+        if path and os.path.exists(path):
+            return path
+    return None
+
+
+def _resolve_labels_path() -> Optional[str]:
+    """Finds class_names.json across local and container paths."""
+    candidates = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "class_names.json"),
+        os.path.join(os.getcwd(), "processing", "vision", "class_names.json"),
+        os.path.join(os.getcwd(), "backend", "ml", "classifier", "class_names.json"),
+        os.path.join(os.getcwd(), "ml_disaster_classifier", "class_names.json"),
+        "/app/processing/vision/class_names.json",
+        "/app/backend/ml/classifier/class_names.json",
+        "/app/ml_disaster_classifier/class_names.json",
+    ]
+    for path in candidates:
+        if path and os.path.exists(path):
+            return path
+    return None
+
+
+_WEIGHTS_PATH = _resolve_model_weights_path()
+_LABELS_PATH = _resolve_labels_path()
+
 _model = None
-_class_names = []
-HAS_DISASTER_MODEL = os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH)
+_class_names = ["disaster", "normal"]
+HAS_DISASTER_MODEL = _WEIGHTS_PATH is not None
 
 
 def ensure_disaster_model():
     """Lazily loads the ResNet18 model into memory on demand to keep boot memory minimal (<120MB)."""
-    global _model, _class_names, HAS_DISASTER_MODEL
+    global _model, _class_names, HAS_DISASTER_MODEL, _WEIGHTS_PATH
     if _model is not None:
         return _model, _class_names
 
-    if not (os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH)):
+    weights_path = _resolve_model_weights_path()
+    if not weights_path:
         HAS_DISASTER_MODEL = False
         return None, []
+
+    _WEIGHTS_PATH = weights_path
+
+    # Try loading class labels, fallback to standard binary labels if not found
+    labels_path = _resolve_labels_path()
+    if labels_path:
+        try:
+            with open(labels_path, "r") as f:
+                _class_names = json.load(f)
+        except Exception:
+            _class_names = ["disaster", "normal"]
+    else:
+        _class_names = ["disaster", "normal"]
 
     try:
         torch.set_grad_enabled(False)
         if DEVICE.type == "cpu":
             torch.set_num_threads(1)
             torch.set_num_interop_threads(1)
-        with open(_LABELS_PATH, "r") as f:
-            _class_names = json.load(f)
+
         m = models.resnet18(weights=None)
         m.fc = nn.Linear(m.fc.in_features, len(_class_names))
-        state = torch.load(_WEIGHTS_PATH, map_location=DEVICE, weights_only=True)
+
+        # Safely unpickle weights across PyTorch versions
+        try:
+            state = torch.load(weights_path, map_location=DEVICE)
+        except Exception:
+            state = torch.load(weights_path, map_location=DEVICE, weights_only=False)
+
         m.load_state_dict(state)
         del state
         m.to(DEVICE)
@@ -80,14 +141,14 @@ def ensure_disaster_model():
         _model = m
         HAS_DISASTER_MODEL = True
         gc.collect()
-        print(f"[VisionGuard] Loaded trained ResNet18 ({_WEIGHTS_PATH}) on {DEVICE}", flush=True)
+        print(f"[VisionGuard] Successfully loaded trained ResNet18 ({weights_path}) on {DEVICE}", flush=True)
         return _model, _class_names
     except Exception as e:
         print(f"[VisionGuard] Error loading disaster model: {e}", flush=True)
         HAS_DISASTER_MODEL = False
         return None, []
 
-print(f"[DEBUG] image_analyzer.py registered (lazy load mode) | weights_exist={HAS_DISASTER_MODEL}")
+print(f"[DEBUG] image_analyzer.py registered | weights_found={HAS_DISASTER_MODEL} path={_WEIGHTS_PATH}")
 
 
 def load_image_from_source(source: str) -> Optional[Image.Image]:
@@ -164,7 +225,8 @@ class ImageWeatherAnalyzer:
         disaster_prob = class_probs.get("disaster", 0.0)
         normal_prob = class_probs.get("normal", 0.0)
 
-        is_disaster = disaster_prob >= thresh
+        # A scene is classified as disaster if disaster_prob meets threshold (default 0.50) OR disaster_prob > normal_prob
+        is_disaster = (disaster_prob >= thresh) or (disaster_prob > normal_prob)
         verdict = "DISASTER" if is_disaster else "NOT_DISASTER"
 
         if is_disaster:
@@ -177,7 +239,7 @@ class ImageWeatherAnalyzer:
             model_verdict = "FALSE: NOT DISASTER RELATED"
             admin_verdict = "FALSE: NOT DISASTER RELATED"
             admin_recommendation = "❌ RECOMMEND REJECT"
-            verdict_reason = f"Normal scene detected: non-disaster confidence is {normal_prob * 100:.1f}%."
+            verdict_reason = f"Normal scene detected (normal confidence: {normal_prob * 100:.1f}%)."
             detected_category = f"Normal Everyday Scene ({normal_prob * 100:.1f}%)"
 
         return {

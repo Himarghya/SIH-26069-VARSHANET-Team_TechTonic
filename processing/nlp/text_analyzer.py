@@ -19,6 +19,9 @@ _CANDIDATE_PATHS = [
     _CURRENT_DIR / "text_classifier.joblib",
     _PROJECT_ROOT / "backend" / "ml" / "classifier" / "text_classifier.joblib",
     _PROJECT_ROOT / "ml_text_classifier" / "text_classifier.joblib",
+    Path("/app/processing/nlp/text_classifier.joblib"),
+    Path("/app/backend/ml/classifier/text_classifier.joblib"),
+    Path("/app/ml_text_classifier/text_classifier.joblib"),
 ]
 
 _model = None
@@ -40,7 +43,7 @@ def ensure_text_model():
                 print(f"[TextGuard] Error loading model from {path}: {e}", flush=True)
     return _model
 
-DEFAULT_THRESHOLD = float(os.environ.get("TEXT_DISASTER_THRESHOLD", "0.60"))
+DEFAULT_THRESHOLD = float(os.environ.get("TEXT_DISASTER_THRESHOLD", "0.55"))
 
 
 class TextAnalyzer:
@@ -70,21 +73,46 @@ class TextAnalyzer:
                 "badge_color": "slate",
             }
 
+        # Comprehensive multilingual hazard keywords across all disaster types
+        hazard_keywords = [
+            # Flood & Water
+            "flood", "floods", "flooding", "waterlogging", "waterlogged", "submerged", "underpass", "overflowing",
+            "overflow", "drowning", "drown", "heavy rain", "inundation", "inundated", "river rising", "dam overflow",
+            "paani", "pani", "baadh", "badh", "jalbharao", "doob", "dub gaya", "pani bhar",
+            # Earthquakes & Structural Damage
+            "earthquake", "quake", "tremor", "tremors", "aftershock", "building collapse", "roof collapse",
+            "wall collapse", "collapsed", "cracked", "rubble", "debris", "bhookamp", "bhukamp", "makaan gir",
+            "gir gaya", "tut gaya", "deewar gir",
+            # Fires & Explosions
+            "fire", "fires", "wildfire", "blaze", "inferno", "smoke", "cylinder blast", "explosion", "burnt",
+            "aag lag", "aag lagi", "dhuan", "jal gaya",
+            # Storms & Cyclones
+            "storm", "storms", "cyclone", "typhoon", "tornado", "cloudburst", "lightning", "thunderstorm",
+            "squall", "gale", "hailstorm", "toofan", "tufan", "aandhi", "bijli gir",
+            # Landslides & Avalanches
+            "landslide", "mudslide", "rockfall", "road blocked", "avalanche", "pahad gir", "pahad tut",
+            "malba", "chattana",
+            # Emergency, Rescue, Casualties
+            "rescue", "evacuate", "evacuation", "disaster", "stranded", "trapped", "casualty", "casualties",
+            "injured", "injury", "death", "fatalities", "electrocution", "fas gaye", "phans gaye", "bachao",
+            "madad", "emergency", "urgent help"
+        ]
+
         if not self.has_model or self.model is None:
             # Fallback heuristic: keyword matching
-            keywords = ["flood", "water", "rain", "cyclone", "fire", "quake", "river", "storm", "drown", "paani", "baadh", "aag", "storm", "wind"]
             lower = cleaned.lower()
-            matches = [k for k in keywords if k in lower]
-            prob = min(0.95, 0.45 + (0.2 * len(matches))) if matches else 0.25
+            matches = [k for k in hazard_keywords if k in lower]
+            prob = min(0.98, 0.50 + (0.15 * len(matches))) if matches else 0.15
             is_disaster = prob >= t
             return {
                 "text": cleaned,
                 "is_disaster": is_disaster,
                 "verdict": "DISASTER_RELATED_THREAT" if is_disaster else "NOT_DISASTER_RELATED",
                 "disaster_prob": round(prob, 4),
-                "confidence_pct": round(prob * 100, 1),
-                "label": "Disaster Threat Detected" if is_disaster else "Non-Threat / Normal",
-                "badge_color": "rose" if is_disaster else "emerald",
+                "confidence_pct": round((prob if is_disaster else (1.0 - prob)) * 100, 1),
+                "disaster_score_pct": round(prob * 100, 1),
+                "label": "Verified Disaster Threat" if is_disaster else "Non-Disaster / Normal",
+                "badge_color": "amber" if is_disaster else "emerald",
                 "source": "heuristic_fallback",
             }
 
@@ -93,19 +121,11 @@ class TextAnalyzer:
             prob = float(probs[1])
 
             # Calibrate with multilingual disaster/weather hazard keywords (English, Hindi, Hinglish)
-            hazard_keywords = [
-                "flood", "waterlogging", "waterlogged", "submerged", "underpass", "overflowing", "overflow",
-                "drowning", "drown", "heavy rain", "storm", "cyclone", "cloudburst", "landslide",
-                "inundation", "inundated", "rescue", "evacuate", "evacuation", "disaster", "stranded",
-                "casualty", "electrocution", "lightning strike", "river rising", "dam overflow",
-                "paani", "pani", "baadh", "badh", "jalbharao", "toofan", "tufan", "aag", "bhookamp",
-                "fas gaye", "phns gye", "madad", "gira", "tuta"
-            ]
             lower = cleaned.lower()
             keyword_hits = [k for k in hazard_keywords if k in lower]
             if keyword_hits:
-                boost = min(0.35, 0.12 * len(keyword_hits))
-                prob = min(0.99, prob + boost)
+                boost = min(0.40, 0.15 * len(keyword_hits))
+                prob = min(0.99, max(prob, 0.65) + boost)
 
             is_disaster = bool(prob >= t)
             verdict = "DISASTER_RELATED_THREAT" if is_disaster else "NOT_DISASTER_RELATED"
@@ -118,7 +138,7 @@ class TextAnalyzer:
                 "confidence_pct": round((prob if is_disaster else (1.0 - prob)) * 100, 1),
                 "disaster_score_pct": round(prob * 100, 1),
                 "label": "Verified Disaster Threat" if is_disaster else "Non-Disaster / Normal",
-                "badge_color": "rose" if is_disaster else "emerald",
+                "badge_color": "amber" if is_disaster else "emerald",
                 "threshold": t,
                 "source": "ml_pipeline",
             }

@@ -10,6 +10,7 @@ export interface MediaAnalysisResult {
   is_weather_related?: boolean;
   is_authentic?: boolean;
   verdict?: string;
+  model_verdict?: string;
   disaster_prob?: number;
   admin_verdict?: string;
   admin_recommendation?: string;
@@ -44,18 +45,29 @@ export const CitizenReportForm: React.FC = () => {
       return;
     }
 
-    // 1. Instant local NLP heuristic so the user immediately sees the flag with zero delay:
+    // 1. Instant local NLP heuristic covering all disaster types across English, Hindi & Hinglish:
     const lower = trimmed.toLowerCase();
     const hazardKeywords = [
-      'flood', 'waterlogging', 'waterlogged', 'submerged', 'underpass', 'overflow',
-      'drown', 'drowning', 'heavy rain', 'storm', 'cyclone', 'cloudburst', 'landslide',
-      'inundation', 'rescue', 'evacuate', 'evacuation', 'disaster', 'stranded',
-      'casualty', 'electrocution', 'lightning', 'river rising', 'dam', 'collapse',
-      'paani', 'pani', 'baadh', 'badh', 'jalbharao', 'toofan', 'tufan', 'aag', 'bhookamp',
-      'fas gaye', 'madad'
+      // Flood & Water
+      'flood', 'floods', 'flooding', 'waterlogging', 'waterlogged', 'submerged', 'underpass', 'overflow',
+      'overflowing', 'drown', 'drowning', 'heavy rain', 'inundation', 'inundated', 'river rising', 'dam',
+      'paani', 'pani', 'baadh', 'badh', 'jalbharao', 'doob gaya', 'pani bhar',
+      // Earthquakes & Structural
+      'earthquake', 'quake', 'tremor', 'tremors', 'aftershock', 'collapse', 'collapsed', 'rubble', 'debris',
+      'bhookamp', 'bhukamp', 'gir gaya', 'tut gaya', 'cracked road', 'building collapse',
+      // Fire
+      'fire', 'fires', 'blaze', 'inferno', 'wildfire', 'cylinder blast', 'explosion', 'smoke',
+      'aag lag', 'aag lagi', 'dhuan', 'jal gaya',
+      // Storm & Cyclone
+      'storm', 'cyclone', 'cloudburst', 'lightning', 'thunderstorm', 'toofan', 'tufan', 'bijli gir', 'aandhi',
+      // Landslide & Rocks
+      'landslide', 'mudslide', 'rockfall', 'road blocked', 'pahad gir', 'pahad tut', 'malba',
+      // Rescue, Casualty, Emergency
+      'rescue', 'evacuate', 'evacuation', 'disaster', 'stranded', 'trapped', 'casualty', 'casualties',
+      'injured', 'electrocution', 'fas gaye', 'phans gaye', 'madad', 'bachao', 'emergency', 'urgent help'
     ];
     const hasHazardWord = hazardKeywords.some(k => lower.includes(k));
-    const initialProb = hasHazardWord ? 0.85 : 0.08;
+    const initialProb = hasHazardWord ? 0.88 : 0.08;
     const initialIsDisaster = hasHazardWord;
 
     setTextAnalysis({
@@ -65,8 +77,8 @@ export const CitizenReportForm: React.FC = () => {
       disaster_prob: initialProb,
       confidence_pct: Math.round(initialProb * 100),
       disaster_score_pct: Math.round(initialProb * 100),
-      label: initialIsDisaster ? 'Disaster Threat Detected' : 'Non-Disaster / Normal Text',
-      badge_color: initialIsDisaster ? 'rose' : 'emerald',
+      label: initialIsDisaster ? 'Emergency / Hazard Condition Detected' : 'Normal / Routine Weather Observation',
+      badge_color: initialIsDisaster ? 'amber' : 'slate',
       source: 'instant_guard'
     });
 
@@ -84,7 +96,7 @@ export const CitizenReportForm: React.FC = () => {
       } finally {
         setIsAnalyzingText(false);
       }
-    }, 300);
+    }, 250);
 
     return () => clearTimeout(timer);
   }, [description]);
@@ -115,17 +127,22 @@ export const CitizenReportForm: React.FC = () => {
       try {
         const res = await analyzeMedia(photoUrl);
         if (res) {
+          const isDis = res.is_disaster ?? (res.verdict === 'DISASTER' || res.admin_verdict?.includes('TRUE') || res.is_weather_related);
           setMediaAnalyses(prev => ({
             ...prev,
             [photoUrl]: {
               status: 'done',
-              is_weather_related: res.is_weather_related,
-              is_authentic: res.is_authentic,
+              is_disaster: Boolean(isDis),
+              is_weather_related: Boolean(isDis),
+              is_authentic: res.is_authentic ?? Boolean(isDis),
+              verdict: res.verdict || (isDis ? 'DISASTER' : 'NOT_DISASTER'),
+              model_verdict: res.model_verdict,
+              disaster_prob: res.disaster_prob,
               admin_verdict: res.admin_verdict,
               admin_recommendation: res.admin_recommendation,
               detected_category: res.detected_category,
               verdict_reason: res.verdict_reason,
-              authenticity_score: res.authenticity_score
+              authenticity_score: res.authenticity_score ?? res.disaster_prob
             }
           }));
         } else {
@@ -490,14 +507,14 @@ export const CitizenReportForm: React.FC = () => {
               <textarea
                 rows={3}
                 required
-                placeholder="Describe road water depth, traffic halts, river overflowing, power outage..."
+                placeholder="Describe road water depth, traffic halts, river overflowing, power outage, building cracks..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className={`w-full bg-slate-950 border rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${
                   textAnalysis && description.trim().length >= 2
                     ? textAnalysis.is_disaster
-                      ? 'border-rose-500/80 focus:border-rose-400 shadow-sm shadow-rose-950/40'
-                      : 'border-emerald-500/70 focus:border-emerald-400'
+                      ? 'border-amber-500/70 focus:border-amber-400 shadow-sm shadow-amber-950/30'
+                      : 'border-slate-700 focus:border-cyan-500'
                     : 'border-slate-800 focus:border-cyan-500'
                 }`}
               />
@@ -506,30 +523,30 @@ export const CitizenReportForm: React.FC = () => {
               {textAnalysis && description.trim().length >= 2 && (
                 <div className={`mt-2 p-2.5 rounded-xl border flex items-center justify-between gap-3 text-xs transition-all animate-fade-in ${
                   textAnalysis.is_disaster
-                    ? 'bg-rose-950/60 border-rose-600/70 text-rose-100 shadow-md shadow-rose-950/40'
-                    : 'bg-emerald-950/40 border-emerald-600/50 text-emerald-200'
+                    ? 'bg-amber-950/40 border-amber-500/60 text-amber-100 shadow-md shadow-amber-950/30'
+                    : 'bg-slate-900/60 border-slate-800 text-slate-300'
                 }`}>
                   <div className="flex items-center gap-2.5">
-                    <span className={`text-base p-1 rounded-lg ${textAnalysis.is_disaster ? 'bg-rose-900/60' : 'bg-emerald-900/60'}`}>
-                      {textAnalysis.is_disaster ? '🚨' : '✅'}
+                    <span className={`text-base p-1 rounded-lg ${textAnalysis.is_disaster ? 'bg-amber-900/60' : 'bg-slate-800'}`}>
+                      {textAnalysis.is_disaster ? '⚡' : 'ℹ️'}
                     </span>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <strong className="text-xs font-mono font-bold uppercase tracking-wider">
-                          {textAnalysis.is_disaster ? 'Disaster Threat Detected' : 'Non-Disaster / Normal Text'}
+                          {textAnalysis.is_disaster ? 'Emergency / Hazard Condition Detected' : 'Normal / Routine Weather Observation'}
                         </strong>
                         <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border ${
                           textAnalysis.is_disaster
-                            ? 'bg-rose-900/80 text-rose-200 border-rose-700'
-                            : 'bg-emerald-900/80 text-emerald-200 border-emerald-700'
+                            ? 'bg-amber-900/80 text-amber-200 border-amber-700'
+                            : 'bg-slate-800 text-slate-300 border-slate-700'
                         }`}>
-                          {textAnalysis.disaster_score_pct ?? Math.round(textAnalysis.disaster_prob * 100)}% Threat Probability
+                          {textAnalysis.disaster_score_pct ?? Math.round(textAnalysis.disaster_prob * 100)}% Threat Match
                         </span>
                       </div>
                       <p className="text-[10px] text-slate-300 mt-0.5 font-sans">
                         {textAnalysis.is_disaster
-                          ? 'This observation describes emergency/hazard conditions. Prioritized for disaster dispatch.'
-                          : 'Observation text does not indicate an active hazard or emergency condition.'}
+                          ? '✅ Active hazard detected. Prioritized for immediate disaster response dispatch.'
+                          : 'Observation text does not indicate an active emergency threat.'}
                       </p>
                     </div>
                   </div>
@@ -564,8 +581,20 @@ export const CitizenReportForm: React.FC = () => {
                       const isVid = mediaUrl.startsWith('data:video') || mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm') || mediaUrl.endsWith('.mov') || mediaUrl.includes('video');
                       const analysis = mediaAnalyses[mediaUrl];
                       const isAnalyzing = analysis?.status === 'analyzing';
-                      const isDisaster = analysis?.is_disaster === true || analysis?.is_weather_related === true;
-                      const isNotDisaster = analysis && (analysis.is_disaster === false || analysis.is_weather_related === false);
+                      const isDisaster = Boolean(
+                        analysis && (
+                          analysis.is_disaster === true ||
+                          analysis.verdict === 'DISASTER' ||
+                          analysis.admin_verdict?.includes('TRUE') ||
+                          analysis.model_verdict?.includes('TRUE') ||
+                          analysis.is_weather_related === true
+                        )
+                      );
+                      const isNotDisaster = Boolean(
+                        analysis &&
+                        !isDisaster &&
+                        (analysis.status === 'done' || analysis.status === 'error')
+                      );
 
                       return (
                         <div key={idx} className="flex flex-col rounded-xl overflow-hidden border border-slate-800 bg-slate-900/90 shadow-md">
@@ -601,19 +630,6 @@ export const CitizenReportForm: React.FC = () => {
                                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
                                 <span className="font-bold">Scanning ML Models...</span>
                               </div>
-                            ) : isNotDisaster ? (
-                              <div className="space-y-1">
-                                <div className="text-[10px] font-black text-rose-300 flex items-center gap-1 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800">
-                                  <AlertCircle className="w-3 h-3 text-rose-400 shrink-0" />
-                                  <span>FALSE: NOT DISASTER</span>
-                                </div>
-                                <div className="text-[9px] text-rose-300/90 truncate">
-                                  {analysis?.detected_category || 'Normal Everyday Scene'}
-                                </div>
-                                <div className="text-[9px] font-bold text-rose-400">
-                                  {analysis?.admin_recommendation || '❌ RECOMMEND REJECT'}
-                                </div>
-                              </div>
                             ) : isDisaster ? (
                               <div className="space-y-1">
                                 <div className="text-[10px] font-black text-emerald-300 flex items-center gap-1 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
@@ -625,6 +641,19 @@ export const CitizenReportForm: React.FC = () => {
                                 </div>
                                 <div className="text-[9px] font-bold text-emerald-400">
                                   {analysis?.admin_recommendation || '✅ RECOMMEND VERIFY'}
+                                </div>
+                              </div>
+                            ) : isNotDisaster ? (
+                              <div className="space-y-1">
+                                <div className="text-[10px] font-black text-rose-300 flex items-center gap-1 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800">
+                                  <AlertCircle className="w-3 h-3 text-rose-400 shrink-0" />
+                                  <span>FALSE: NOT DISASTER</span>
+                                </div>
+                                <div className="text-[9px] text-rose-300/90 truncate">
+                                  {analysis?.detected_category || 'Normal Everyday Scene'}
+                                </div>
+                                <div className="text-[9px] font-bold text-rose-400">
+                                  {analysis?.admin_recommendation || '❌ RECOMMEND REJECT'}
                                 </div>
                               </div>
                             ) : (
@@ -641,13 +670,13 @@ export const CitizenReportForm: React.FC = () => {
                   {/* Instant Aggregate ML Pre-Screening Summary Banner */}
                   {(() => {
                     const isAnyAnalyzing = photos.some(p => mediaAnalyses[p]?.status === 'analyzing');
-                    const isAnyNonDisaster = photos.some(p => {
+                    const anyDisaster = photos.some(p => {
                       const an = mediaAnalyses[p];
-                      return an && (an.is_disaster === false || an.is_weather_related === false);
+                      return an && (an.is_disaster === true || an.verdict === 'DISASTER' || an.admin_verdict?.includes('TRUE') || an.model_verdict?.includes('TRUE'));
                     });
-                    const allDisasters = photos.every(p => {
+                    const allNonDisaster = photos.every(p => {
                       const an = mediaAnalyses[p];
-                      return an && (an.is_disaster === true || an.is_weather_related === true);
+                      return an && an.status === 'done' && !an.is_disaster && an.verdict !== 'DISASTER';
                     });
 
                     if (isAnyAnalyzing) {
@@ -661,21 +690,7 @@ export const CitizenReportForm: React.FC = () => {
                       );
                     }
 
-                    if (isAnyNonDisaster) {
-                      return (
-                        <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
-                          <span className="flex items-center gap-2 font-black text-rose-300">
-                            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-                            <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED BY DISASTER CLASSIFIER)</span>
-                          </span>
-                          <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
-                            ⚠️ Flagged For Immediate Admin Rejection
-                          </span>
-                        </div>
-                      );
-                    }
-
-                    if (allDisasters && photos.length > 0) {
+                    if (anyDisaster) {
                       return (
                         <div className="p-3 rounded-xl bg-emerald-950/70 border border-emerald-800/80 text-[11px] font-mono text-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
                           <span className="flex items-center gap-2 font-black text-emerald-300">
@@ -684,6 +699,20 @@ export const CitizenReportForm: React.FC = () => {
                           </span>
                           <span className="text-emerald-200 font-bold bg-emerald-900/90 px-2.5 py-0.5 rounded border border-emerald-700 text-right shrink-0">
                             ✓ Validated For Transmission
+                          </span>
+                        </div>
+                      );
+                    }
+
+                    if (allNonDisaster && photos.length > 0) {
+                      return (
+                        <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
+                          <span className="flex items-center gap-2 font-black text-rose-300">
+                            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                            <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED BY DISASTER CLASSIFIER)</span>
+                          </span>
+                          <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
+                            ⚠️ Flagged For Immediate Admin Rejection
                           </span>
                         </div>
                       );
