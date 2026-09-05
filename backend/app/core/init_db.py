@@ -8,6 +8,7 @@ from backend.app.models.models import User, WeatherReport, EventCluster, Alert, 
 from backend.app.core.security import hash_password
 from processing.impact.infrastructure_risk import SEED_INDIAN_INFRASTRUCTURE
 from processing.geolocation.indian_geo_resolver import PROMINENT_CITY_COORDS
+from processing.nlp.hashtag_categorizer import hashtag_categorizer
 
 logger = logging.getLogger("varshanet.init_db")
 
@@ -169,7 +170,15 @@ def init_and_refresh_database():
                         credibility_score=random.uniform(85.0, 96.0),
                         risk_level=s["severity"],
                         verification_status="VERIFIED",
-                        event_cluster_id=cl_id
+                        event_cluster_id=cl_id,
+                        hashtags=hashtag_categorizer.categorize(
+                            text=txt,
+                            event_type=s["event_type"],
+                            city=s["city"],
+                            state=s["state"],
+                            source_name="VARSHANET Live Ingestion",
+                            source_type=s["sources"][idx]
+                        )
                     ))
 
                 # Add Alert

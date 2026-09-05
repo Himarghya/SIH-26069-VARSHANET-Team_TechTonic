@@ -7,6 +7,7 @@ from processing.deduplication.deduplicator import deduplicator
 from processing.verification.credibility_engine import credibility_engine
 from processing.vision.image_analyzer import image_analyzer
 from processing.clustering.event_clusterer import event_clusterer
+from processing.nlp.hashtag_categorizer import hashtag_categorizer
 
 class WeatherIntelligencePipeline:
     def process_raw_report(
@@ -91,6 +92,18 @@ class WeatherIntelligencePipeline:
             existing_clusters=existing_clusters
         )
         
+        # Stage 7.5: Automated AI Weather Hashtag Categorization
+        ai_hashtags = hashtag_categorizer.categorize(
+            text=cleaned_text,
+            event_type=event_type,
+            city=loc.get("city", "") or raw_data.get("city", ""),
+            state=loc.get("state", "") or raw_data.get("state", ""),
+            source_name=raw_data.get("source_name", ""),
+            source_type=source_type,
+            raw_payload=raw_data.get("raw_payload", {})
+        )
+        final_hashtags = list(dict.fromkeys(ai_hashtags))
+
         # Assemble Enriched Record
         enriched_record = {
             "source_id": raw_data.get("source_id"),
@@ -120,7 +133,7 @@ class WeatherIntelligencePipeline:
             "duplicate_count": 1 if is_dup else 0,
             "event_cluster_id": cluster_id,
             "media_urls": media_urls,
-            "hashtags": all_hashtags,
+            "hashtags": final_hashtags,
             "image_analysis_results": image_analysis,
             "raw_payload": raw_data.get("raw_payload", {}),
             "_is_new_cluster": is_new_cluster,

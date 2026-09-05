@@ -2,7 +2,7 @@ services:
   - type: web
     name: varshanet-backend
     env: python
-    buildCommand: pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+    buildCommand: (command -v npm >/dev/null 2>&1 && cd frontend && npm install && npm run build && cd .. || true) ; pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
     startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT --workers 1
     envVars:
       - key: PYTHON_VERSION

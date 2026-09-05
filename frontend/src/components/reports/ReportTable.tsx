@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Search, Filter, ArrowUpDown, Eye, ShieldCheck, AlertTriangle, MapPin, Hash, Calendar, Image as ImageIcon, Video, Tag, Globe, Newspaper, Radio, UserCheck } from 'lucide-react';
 import { WeatherReport } from '../../types';
 
@@ -15,11 +15,15 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
   const [filterDate, setFilterDate] = useState<'ALL' | 'TODAY' | '24H' | '7D'>('ALL');
   const [selectedHashtag, setSelectedHashtag] = useState('All');
 
-  // Collect all unique hashtags dynamically + standard trending tags
+  const PRIMARY_HASHTAGS = [
+    '#IMD', '#Monsoon2026', '#MumbaiRains', '#DelhiWeather', '#Cloudburst', '#FloodAlert', '#HeatwaveWarning', '#CycloneAlert'
+  ];
+
+  // Collect all unique hashtags dynamically, prioritizing standard trending tags and ignoring numerical junk
   const dynamicHashtags = Array.from(
     new Set([
-      '#IMD', '#Monsoon2026', '#MumbaiRains', '#DelhiWeather', '#Cloudburst', '#FloodAlert', '#HeatwaveWarning', '#CycloneAlert',
-      ...reports.flatMap(r => r.hashtags || [])
+      ...PRIMARY_HASHTAGS,
+      ...reports.flatMap(r => r.hashtags || []).filter(h => h && h.startsWith('#') && !h.match(/^#\d+$/))
     ])
   ).slice(0, 10);
 
@@ -40,9 +44,18 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
     // 4. Source Channel Filter
     const matchesSource = filterSource === 'All' || r.source_type === filterSource;
 
-    // 5. Hashtag Filter
-    const matchesHashtag = selectedHashtag === 'All' || 
-      (r.hashtags && r.hashtags.some(h => h.toLowerCase() === selectedHashtag.toLowerCase())) ||
+    // 5. Hashtag Filter - Accurate cross-attribute matching for all trending tags
+    const targetTag = selectedHashtag.replace('#', '').toLowerCase();
+    const matchesHashtag = selectedHashtag === 'All' || selectedHashtag === '#All' ||
+      (r.hashtags && r.hashtags.some(h => h.replace('#', '').toLowerCase() === targetTag)) ||
+      (targetTag === 'mumbairains' && (r.city?.toLowerCase() === 'mumbai' || r.text.toLowerCase().includes('mumbai'))) ||
+      (targetTag === 'delhiweather' && (r.city?.toLowerCase() === 'delhi' || r.state?.toLowerCase() === 'delhi' || r.text.toLowerCase().includes('delhi'))) ||
+      (targetTag === 'cloudburst' && (r.event_type.toLowerCase().includes('cloudburst') || r.text.toLowerCase().includes('cloudburst'))) ||
+      (targetTag === 'floodalert' && (['flood', 'urban flooding', 'flash flood'].some(f => r.event_type.toLowerCase().includes(f)) || r.text.toLowerCase().includes('flood') || r.text.toLowerCase().includes('waterlog'))) ||
+      (targetTag === 'heatwavewarning' && (r.event_type.toLowerCase().includes('heatwave') || r.text.toLowerCase().includes('heatwave') || r.text.toLowerCase().includes('loo'))) ||
+      (targetTag === 'cyclonealert' && (r.event_type.toLowerCase().includes('cyclone') || r.text.toLowerCase().includes('cyclone') || r.text.toLowerCase().includes('depression'))) ||
+      (targetTag === 'monsoon2026' && (r.text.toLowerCase().includes('monsoon') || r.event_type.toLowerCase().includes('rain'))) ||
+      (targetTag === 'imd' && (r.source_name?.toLowerCase().includes('imd') || r.source_type === 'weather_api' || r.text.toLowerCase().includes('imd'))) ||
       r.text.toLowerCase().includes(selectedHashtag.toLowerCase());
 
     // 6. Date-wise Filter
@@ -83,7 +96,7 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
         <button
           onClick={() => setSelectedHashtag('All')}
           className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shrink-0 transition-all cursor-pointer border ${
-            selectedHashtag === 'All'
+            selectedHashtag === 'All' || selectedHashtag === '#All'
               ? 'bg-cyan-600 text-white border-cyan-500 shadow-sm'
               : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
           }`}
@@ -91,11 +104,12 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
           #All
         </button>
         {dynamicHashtags.map((tag) => {
-          const isSelected = selectedHashtag.toLowerCase() === tag.toLowerCase();
+          const isSelected = selectedHashtag.toLowerCase() === tag.toLowerCase() ||
+                             selectedHashtag.replace('#', '').toLowerCase() === tag.replace('#', '').toLowerCase();
           return (
             <button
               key={tag}
-              onClick={() => setSelectedHashtag(tag)}
+              onClick={() => setSelectedHashtag(isSelected ? 'All' : tag)}
               className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shrink-0 transition-all cursor-pointer border ${
                 isSelected
                   ? 'bg-cyan-600 text-white border-cyan-500 shadow-sm'
@@ -187,9 +201,16 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
       {/* Filter Info Badge */}
       <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
         <span>Showing <strong className="text-white">{filtered.length}</strong> real-time observations across India</span>
-        {selectedHashtag !== 'All' && (
-          <span className="text-cyan-400 font-bold bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
-            Active Hashtag: {selectedHashtag}
+        {selectedHashtag !== 'All' && selectedHashtag !== '#All' && (
+          <span className="text-cyan-400 font-bold bg-slate-950 px-2.5 py-1 rounded border border-cyan-800/60 flex items-center gap-2">
+            <span>Active Hashtag: {selectedHashtag.startsWith('#') ? selectedHashtag : `#${selectedHashtag}`}</span>
+            <button
+              onClick={() => setSelectedHashtag('All')}
+              className="text-slate-400 hover:text-white text-xs px-1 rounded hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Clear hashtag filter"
+            >
+              ✕
+            </button>
           </span>
         )}
       </div>
