@@ -38,27 +38,56 @@ _tf = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
 ])
 
+import gc
+
+# Keep PyTorch CPU thread count to 1 to avoid thread pool allocation bloat
+if DEVICE.type == "cpu":
+    try:
+        torch.set_num_threads(1)
+        torch.set_num_interop_threads(1)
+    except Exception:
+        pass
+
 _model = None
 _class_names = []
-HAS_DISASTER_MODEL = False
+HAS_DISASTER_MODEL = os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH)
 
-try:
-    if os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH):
+
+def ensure_disaster_model():
+    """Lazily loads the ResNet18 model into memory on demand to keep boot memory minimal (<120MB)."""
+    global _model, _class_names, HAS_DISASTER_MODEL
+    if _model is not None:
+        return _model, _class_names
+
+    if not (os.path.exists(_WEIGHTS_PATH) and os.path.exists(_LABELS_PATH)):
+        HAS_DISASTER_MODEL = False
+        return None, []
+
+    try:
+        torch.set_grad_enabled(False)
+        if DEVICE.type == "cpu":
+            torch.set_num_threads(1)
+            torch.set_num_interop_threads(1)
         with open(_LABELS_PATH, "r") as f:
             _class_names = json.load(f)
-        _model = models.resnet18(weights=None)
-        _model.fc = nn.Linear(_model.fc.in_features, len(_class_names))
-        _model.load_state_dict(torch.load(_WEIGHTS_PATH, map_location=DEVICE))
-        _model.to(DEVICE)
-        _model.eval()
+        m = models.resnet18(weights=None)
+        m.fc = nn.Linear(m.fc.in_features, len(_class_names))
+        state = torch.load(_WEIGHTS_PATH, map_location=DEVICE, weights_only=True)
+        m.load_state_dict(state)
+        del state
+        m.to(DEVICE)
+        m.eval()
+        _model = m
         HAS_DISASTER_MODEL = True
-        print(f"[VisionGuard] Loaded trained ResNet18 ({_WEIGHTS_PATH}) on {DEVICE}")
-    else:
-        print(f"[VisionGuard] Model weights not found at {_WEIGHTS_PATH}")
-except Exception as e:
-    print(f"[VisionGuard] Error loading disaster model: {e}")
+        gc.collect()
+        print(f"[VisionGuard] Loaded trained ResNet18 ({_WEIGHTS_PATH}) on {DEVICE}", flush=True)
+        return _model, _class_names
+    except Exception as e:
+        print(f"[VisionGuard] Error loading disaster model: {e}", flush=True)
+        HAS_DISASTER_MODEL = False
+        return None, []
 
-print(f"[DEBUG] image_analyzer.py loaded from: {__file__} | HAS_DISASTER_MODEL={HAS_DISASTER_MODEL}")
+print(f"[DEBUG] image_analyzer.py registered (lazy load mode) | weights_exist={HAS_DISASTER_MODEL}")
 
 
 def load_image_from_source(source: str) -> Optional[Image.Image]:
@@ -104,7 +133,8 @@ class ImageWeatherAnalyzer:
         Returns whether the image contains genuine disaster ground proof or a normal everyday scene.
         """
         thresh = threshold if threshold is not None else self.threshold
-        if not HAS_DISASTER_MODEL or _model is None:
+        model, class_names = ensure_disaster_model()
+        if not HAS_DISASTER_MODEL or model is None:
             return {
                 "media_type": "image",
                 "verdict": "ERROR",
@@ -127,10 +157,10 @@ class ImageWeatherAnalyzer:
         img_rgb = pil_img.convert("RGB")
         tensor = _tf(img_rgb).unsqueeze(0).to(DEVICE)
         with torch.no_grad():
-            logits = _model(tensor)
+            logits = model(tensor)
             probs = F.softmax(logits, dim=1).squeeze(0).cpu()
 
-        class_probs = {_class_names[i]: float(probs[i].item()) for i in range(len(_class_names))}
+        class_probs = {class_names[i]: float(probs[i].item()) for i in range(len(class_names))}
         disaster_prob = class_probs.get("disaster", 0.0)
         normal_prob = class_probs.get("normal", 0.0)
 

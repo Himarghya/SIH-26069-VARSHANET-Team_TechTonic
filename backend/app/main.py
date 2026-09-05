@@ -1,5 +1,13 @@
 import sys
 import os
+import gc
+
+# Keep CPU thread counts to 1 to stay well under 512MB RAM on Render free tier
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["TORCH_NUM_THREADS"] = "1"
+os.environ["MALLOC_ARENA_MAX"] = "2"
 
 # Universal path resolution for local dev, Docker, and Vercel serverless
 _current_dir = os.path.dirname(os.path.abspath(__file__)) # backend/app
@@ -24,20 +32,24 @@ Base.metadata.create_all(bind=engine)
 
 from backend.app.core.init_db import init_and_refresh_database
 
-# Ensure database tables and initial demo scenarios are created immediately upon module load (essential for Serverless)
-try:
-    init_and_refresh_database()
-except Exception as e:
-    print(f"[VARSHANET DB INIT] {e}")
-
 is_serverless = bool(os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"))
+
+# Ensure database tables and initial demo scenarios are created immediately upon module load only for Serverless
+if is_serverless:
+    try:
+        init_and_refresh_database()
+        gc.collect()
+    except Exception as e:
+        print(f"[VARSHANET DB INIT] {e}")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    try:
-        init_and_refresh_database()
-    except Exception as e:
-        print(f"[VARSHANET LIFESPAN WARNING] {e}")
+    if not is_serverless:
+        try:
+            init_and_refresh_database()
+            gc.collect()
+        except Exception as e:
+            print(f"[VARSHANET LIFESPAN WARNING] {e}")
 
         
     # Start live weather & news ingestion automation service only in long-running environments

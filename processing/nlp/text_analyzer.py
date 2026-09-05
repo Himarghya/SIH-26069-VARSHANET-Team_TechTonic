@@ -22,25 +22,38 @@ _CANDIDATE_PATHS = [
 ]
 
 _model = None
-HAS_TEXT_MODEL = False
+HAS_TEXT_MODEL = any(p.exists() for p in _CANDIDATE_PATHS)
 
-for path in _CANDIDATE_PATHS:
-    if path.exists():
-        try:
-            _model = joblib.load(str(path))
-            HAS_TEXT_MODEL = True
-            print(f"[TextGuard] Loaded trained Text Classifier from {path}")
-            break
-        except Exception as e:
-            print(f"[TextGuard] Error loading model from {path}: {e}")
+
+def ensure_text_model():
+    global _model, HAS_TEXT_MODEL
+    if _model is not None:
+        return _model
+    for path in _CANDIDATE_PATHS:
+        if path.exists():
+            try:
+                _model = joblib.load(str(path))
+                HAS_TEXT_MODEL = True
+                print(f"[TextGuard] Loaded trained Text Classifier from {path}", flush=True)
+                break
+            except Exception as e:
+                print(f"[TextGuard] Error loading model from {path}: {e}", flush=True)
+    return _model
 
 DEFAULT_THRESHOLD = float(os.environ.get("TEXT_DISASTER_THRESHOLD", "0.60"))
 
 
 class TextAnalyzer:
     def __init__(self):
-        self.model = _model
-        self.has_model = HAS_TEXT_MODEL
+        pass
+
+    @property
+    def model(self):
+        return ensure_text_model()
+
+    @property
+    def has_model(self):
+        return ensure_text_model() is not None
 
     def analyze_text(self, text: str, threshold: Optional[float] = None) -> Dict[str, Any]:
         t = threshold if threshold is not None else DEFAULT_THRESHOLD
