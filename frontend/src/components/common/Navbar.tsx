@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CloudRain, Shield, Activity, Map, FileText, BarChart3, Radio, RefreshCw, Command, UserCheck, Menu, X } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
 
@@ -77,14 +77,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   // Role-filtered navigation items (clean core operational suite)
   const allNavItems = [
     { id: 'dashboard', label: 'Overview', icon: Activity, roles: ['citizen', 'analyst', 'admin'] },
-    { id: 'incident', label: 'Incident Room', icon: Command, roles: ['analyst', 'admin'] },
-    { id: 'map', label: 'Map', icon: Map, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'reports', label: 'Reports', icon: FileText, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'map', label: 'Map', icon: Map, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'incident', label: 'Incident Room', icon: Command, roles: ['analyst', 'admin'] },
     { id: 'events', label: 'Events', icon: Radio, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'analytics', label: 'Analytics', icon: BarChart3, roles: ['analyst', 'admin'] },
     { id: 'citizen', label: 'Citizen Portal', icon: CloudRain, roles: ['citizen'] },
     { id: 'admin', label: 'Admin Ops', icon: Shield, badge: alertCount > 0 ? alertCount : undefined, roles: ['admin'] },
   ];
+
 
   const visibleNavItems = allNavItems.filter(item => item.roles.includes(userRole));
 
