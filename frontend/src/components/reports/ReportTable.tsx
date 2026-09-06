@@ -5,15 +5,34 @@ import { WeatherReport } from '../../types';
 interface ReportTableProps {
   reports: WeatherReport[];
   onSelectReport: (report: WeatherReport) => void;
+  initialStatusFilter?: string;
+  initialSearchTerm?: string;
 }
 
-export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectReport }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+export const ReportTable: React.FC<ReportTableProps> = ({
+  reports,
+  onSelectReport,
+  initialStatusFilter = 'All',
+  initialSearchTerm = ''
+}) => {
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [filterEvent, setFilterEvent] = useState('All');
-  const [filterStatus, setFilterStatus] = useState('All');
+  const [filterStatus, setFilterStatus] = useState(initialStatusFilter);
   const [filterSource, setFilterSource] = useState('All');
   const [filterDate, setFilterDate] = useState<'ALL' | 'TODAY' | '24H' | '7D'>('ALL');
   const [selectedHashtag, setSelectedHashtag] = useState('All');
+
+  React.useEffect(() => {
+    if (initialStatusFilter) {
+      setFilterStatus(initialStatusFilter);
+    }
+  }, [initialStatusFilter]);
+
+  React.useEffect(() => {
+    if (initialSearchTerm !== undefined) {
+      setSearchTerm(initialSearchTerm);
+    }
+  }, [initialSearchTerm]);
 
   const PRIMARY_HASHTAGS = [
     '#IMD', '#Monsoon2026', '#MumbaiRains', '#DelhiWeather', '#Cloudburst', '#FloodAlert', '#HeatwaveWarning', '#CycloneAlert'

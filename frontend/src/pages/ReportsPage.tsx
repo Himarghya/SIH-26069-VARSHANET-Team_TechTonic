@@ -1,13 +1,20 @@
-﻿import React from 'react';
+import React from 'react';
 import { ReportTable } from '../components/reports/ReportTable';
 import { WeatherReport } from '../types';
 
 interface ReportsPageProps {
   reports: WeatherReport[];
   onSelectReport: (report: WeatherReport) => void;
+  initialStatusFilter?: string;
+  initialSearchTerm?: string;
 }
 
-export const ReportsPage: React.FC<ReportsPageProps> = ({ reports, onSelectReport }) => {
+export const ReportsPage: React.FC<ReportsPageProps> = ({
+  reports,
+  onSelectReport,
+  initialStatusFilter = 'All',
+  initialSearchTerm = ''
+}) => {
   return (
     <div className="space-y-4">
       <div>
@@ -16,7 +23,12 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ reports, onSelectRepor
           Comprehensive search, inspection, and NLP intelligence query portal across millions of real-time Indian weather observations.
         </p>
       </div>
-      <ReportTable reports={reports} onSelectReport={onSelectReport} />
+      <ReportTable
+        reports={reports}
+        onSelectReport={onSelectReport}
+        initialStatusFilter={initialStatusFilter}
+        initialSearchTerm={initialSearchTerm}
+      />
     </div>
   );
 };

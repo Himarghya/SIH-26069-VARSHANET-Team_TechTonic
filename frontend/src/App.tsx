@@ -25,6 +25,8 @@ export function App() {
   const [systemHealth, setSystemHealth] = useState<SystemHealth | null>(null);
   const [selectedReport, setSelectedReport] = useState<WeatherReport | null>(null);
   const [selectedEventId, setSelectedEventId] = useState<string | undefined>(undefined);
+  const [reportFilterStatus, setReportFilterStatus] = useState<string>('All');
+  const [reportSearchTerm, setReportSearchTerm] = useState<string>('');
 
   // WebSocket Live Stream Listener
   const { isConnected } = useWeatherWebSocket((message) => {
@@ -76,6 +78,33 @@ export function App() {
     setActiveTab('incident');
   };
 
+  // Dedicated Metric Card Click Handler with tab navigation and pre-filtering
+  const handleNavigateFromMetricCard = (
+    tab: string,
+    filter?: { status?: string; eventId?: string; search?: string }
+  ) => {
+    if (filter?.status) {
+      setReportFilterStatus(filter.status);
+    } else if (tab === 'reports') {
+      setReportFilterStatus('All');
+    }
+
+    if (filter?.search !== undefined) {
+      setReportSearchTerm(filter.search);
+    } else if (tab === 'reports') {
+      setReportSearchTerm('');
+    }
+
+    if (filter?.eventId) {
+      setSelectedEventId(filter.eventId);
+    } else if (tab === 'incident' && events.length > 0 && !selectedEventId) {
+      setSelectedEventId(events[0].id);
+    }
+
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
       {/* Top Navbar */}
@@ -117,6 +146,7 @@ export function App() {
             overview={overview}
             onSelectReport={setSelectedReport}
             onSelectEvent={handleSelectEvent}
+            onNavigateTab={handleNavigateFromMetricCard}
           />
         )}
 
@@ -142,6 +172,8 @@ export function App() {
           <ReportsPage
             reports={reports}
             onSelectReport={setSelectedReport}
+            initialStatusFilter={reportFilterStatus}
+            initialSearchTerm={reportSearchTerm}
           />
         )}
 
