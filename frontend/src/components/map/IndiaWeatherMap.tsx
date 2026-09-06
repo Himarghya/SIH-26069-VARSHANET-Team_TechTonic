@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, Play, Pause, FastForward, Anchor, LifeBuoy, Wind } from 'lucide-react';
-import { EventCluster, WeatherReport, DwrStation } from '../../types';
+import { EventCluster, WeatherReport, DwrStation, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../../types';
 import { fetchDwrRadarGrid } from '../../services/api';
 
 interface IndiaWeatherMapProps {
@@ -673,7 +673,8 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       const verifiedReps = reports.filter(
         r => r.verification_status === 'VERIFIED' &&
              r.latitude && r.longitude &&
-             r.source_type !== 'rss_news'
+             r.source_type !== 'rss_news' &&
+             (selectedState === 'All' || (r.state && r.state.toLowerCase() === selectedState.toLowerCase()))
       );
 
       verifiedReps.forEach(rep => {
@@ -739,7 +740,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         verifiedReportsLayerRef.current?.addLayer(marker);
       });
     }
-  }, [reports, showVerifiedReports, onSelectReport]);
+  }, [reports, showVerifiedReports, selectedState, onSelectReport]);
 
   // Render Incident Clusters
   useEffect(() => {
@@ -986,23 +987,29 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           {/* State Filter */}
           <select
             value={selectedState}
-            onChange={(e) => setSelectedState(e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value;
+              setSelectedState(val);
+              if (mapInstanceRef.current) {
+                if (val === 'All') {
+                  mapInstanceRef.current.flyTo([22.0, 82.5], 5, { duration: 1.2 });
+                } else if (INDIAN_STATE_COORDINATES[val]) {
+                  const target = INDIAN_STATE_COORDINATES[val];
+                  mapInstanceRef.current.flyTo([target.lat, target.lon], target.zoom, { duration: 1.2 });
+                }
+              }
+            }}
             className="bg-slate-900/95 backdrop-blur-md text-xs text-slate-200 font-medium px-3 py-1.5 rounded-xl border border-slate-800 focus:outline-none cursor-pointer shadow-2xl"
           >
-            <option value="All">All Indian States</option>
-            <option value="Madhya Pradesh">Madhya Pradesh</option>
-            <option value="Assam">Assam</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Delhi">Delhi NCR</option>
-            <option value="Uttarakhand">Uttarakhand</option>
-            <option value="Rajasthan">Rajasthan</option>
-            <option value="Odisha">Odisha</option>
-            <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Kerala">Kerala</option>
-            <option value="West Bengal">West Bengal</option>
+            <option value="All">All Indian States & UTs (36)</option>
+            {ALL_INDIAN_STATES_UTS.map((st) => (
+              <option key={st} value={st}>
+                {st}
+              </option>
+            ))}
           </select>
         </div>
+
       </div>
 
       {/* Leaflet Container */}

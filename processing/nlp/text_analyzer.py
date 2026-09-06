@@ -125,13 +125,14 @@ class TextAnalyzer:
 
         # 3. Keyword grounding & calibration
         if keyword_hits:
-            keyword_weight = min(0.40, 0.15 * len(keyword_hits))
-            prob = max(prob, 0.60 + keyword_weight)
-        elif prob == 0.0:
-            # Safe default for non-matching sentences
-            prob = 0.20
+            keyword_weight = min(0.35, 0.12 * len(keyword_hits))
+            prob = max(prob, 0.70 + keyword_weight)
+        else:
+            # Without any disaster / hazard keywords, attenuate prior bias
+            prob = min(prob * 0.40, 0.25)
 
         prob = min(0.99, max(0.01, prob))
+
         is_disaster = bool(prob >= t)
         verdict = "DISASTER_RELATED_THREAT" if is_disaster else "NOT_DISASTER_RELATED"
         conf_pct = round((prob if is_disaster else (1.0 - prob)) * 100, 1)
@@ -144,7 +145,7 @@ class TextAnalyzer:
             "confidence_pct": conf_pct,
             "disaster_score_pct": round(prob * 100, 1),
             "label": "Disaster Threat Detected" if is_disaster else "Non-Disaster / Normal Text",
-            "badge_color": "rose" if is_disaster else "emerald",
+            "badge_color": "emerald" if is_disaster else "rose",
             "detected_keywords": keyword_hits[:5],
             "threshold": t,
             "source": "TextGuard-NLP",

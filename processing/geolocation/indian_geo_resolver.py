@@ -31,8 +31,15 @@ INDIAN_STATES_DATA = {
     "Nagaland": {"lat": 25.6751, "lon": 94.1086, "cities": ["Kohima", "Dimapur", "Mokokchung"]},
     "Arunachal Pradesh": {"lat": 27.0844, "lon": 93.6053, "cities": ["Itanagar", "Tawang", "Pasighat", "Ziro"]},
     "Mizoram": {"lat": 23.7271, "lon": 92.7176, "cities": ["Aizawl", "Lunglei", "Champhai"]},
-    "Sikkim": {"lat": 27.3389, "lon": 88.6065, "cities": ["Gangtok", "Namchi", "Pelling", "Mangan"]}
+    "Sikkim": {"lat": 27.3389, "lon": 88.6065, "cities": ["Gangtok", "Namchi", "Pelling", "Mangan"]},
+    "Andaman and Nicobar Islands": {"lat": 11.6234, "lon": 92.7265, "cities": ["Port Blair", "Diglipur", "Mayabunder", "Havelock"]},
+    "Chandigarh": {"lat": 30.7333, "lon": 76.7794, "cities": ["Chandigarh", "Sector 17", "Manimajra"]},
+    "Dadra and Nagar Haveli and Daman and Diu": {"lat": 20.4283, "lon": 72.8397, "cities": ["Daman", "Diu", "Silvassa"]},
+    "Ladakh": {"lat": 34.1526, "lon": 77.5771, "cities": ["Leh", "Kargil", "Nubra", "Diskit", "Drass"]},
+    "Lakshadweep": {"lat": 10.5667, "lon": 72.6417, "cities": ["Kavaratti", "Agatti", "Andrott", "Minicoy"]},
+    "Puducherry": {"lat": 11.9416, "lon": 79.8083, "cities": ["Puducherry", "Pondicherry", "Karaikal", "Mahe", "Yanam"]}
 }
+
 
 CITY_TO_STATE_MAP = {}
 CITY_COORDINATES = {}
@@ -79,8 +86,17 @@ PROMINENT_CITY_COORDS = {
     "amritsar": (31.6340, 74.8723),
     "indore": (22.7196, 75.8577),
     "visakhapatnam": (17.6868, 83.2185),
-    "surat": (21.1702, 72.8311)
+    "surat": (21.1702, 72.8311),
+    "port blair": (11.6234, 92.7265),
+    "leh": (34.1526, 77.5771),
+    "kargil": (34.5539, 76.1349),
+    "puducherry": (11.9416, 79.8083),
+    "pondicherry": (11.9416, 79.8083),
+    "daman": (20.4283, 72.8397),
+    "silvassa": (20.2763, 73.0083),
+    "kavaratti": (10.5667, 72.6417)
 }
+
 
 class IndianGeoResolver:
     @staticmethod

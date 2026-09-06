@@ -121,8 +121,9 @@ async def analyze_text_endpoint(payload: TextAnalyzePayload):
             "disaster_prob": 0.85 if is_disaster else 0.20,
             "confidence_pct": 85.0 if is_disaster else 80.0,
             "label": "Disaster Threat Detected" if is_disaster else "Non-Disaster / Normal Text",
-            "badge_color": "rose" if is_disaster else "emerald",
+            "badge_color": "emerald" if is_disaster else "rose",
         }
+
     return {
         "status": "SUCCESS",
         "analysis": analysis

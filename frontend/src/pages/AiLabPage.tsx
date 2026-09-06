@@ -1,6 +1,7 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Cpu, Sparkles, Shield, MapPin, CheckCircle2, AlertTriangle, Play, Flame, CloudLightning, Waves, Zap, Terminal, Clock } from 'lucide-react';
 import { api } from '../services/api';
+import { ALL_INDIAN_STATES_UTS } from '../types';
 
 export const AiLabPage: React.FC = () => {
   const [inputText, setInputText] = useState(
@@ -151,12 +152,19 @@ export const AiLabPage: React.FC = () => {
                   <label className="text-[11px] font-bold text-slate-400 block mb-1">State / UT</label>
                   <input
                     type="text"
+                    list="ailab-states-list"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 font-sans"
                   />
+                  <datalist id="ailab-states-list">
+                    {ALL_INDIAN_STATES_UTS.map(st => (
+                      <option key={st} value={st} />
+                    ))}
+                  </datalist>
                 </div>
               </div>
+
 
               <button
                 onClick={() => handleRunAnalysis()}

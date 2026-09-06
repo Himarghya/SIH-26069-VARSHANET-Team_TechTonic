@@ -1,7 +1,7 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { ShieldAlert, Send, MapPin, Camera, Upload, Trash2, ArrowDownCircle, CheckCircle2, AlertTriangle, Radio, Sparkles, Navigation, Globe } from 'lucide-react';
 import { publishAdminVerifiedReport } from '../../services/api';
-import { WeatherReport } from '../../types';
+import { WeatherReport, ALL_INDIAN_STATES_UTS } from '../../types';
 
 // Preset prominent city coordinates for instantaneous auto-fill
 const PRESET_CITY_COORDS: Record<string, { lat: number; lon: number; state: string }> = {
@@ -289,11 +289,18 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
                 <label className="text-[11px] font-bold text-slate-400 block mb-1">State / UT</label>
                 <input
                   type="text"
+                  list="admin-states-list"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
                   className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
                 />
+                <datalist id="admin-states-list">
+                  {ALL_INDIAN_STATES_UTS.map(st => (
+                    <option key={st} value={st} />
+                  ))}
+                </datalist>
               </div>
+
 
               <div>
                 <label className="text-[11px] font-bold text-slate-400 block mb-1">Latitude (°N)</label>
