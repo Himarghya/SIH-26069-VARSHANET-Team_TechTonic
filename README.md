@@ -7,143 +7,221 @@
   <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/Frontend-React%2018%20%2B%20TS-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
   <img src="https://img.shields.io/badge/Build-Vite%208-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=flat-square&logo=google&logoColor=white" alt="Gemini" />
+  <img src="https://img.shields.io/badge/AI-PyTorch%20%2B%20Transformers-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
+  <img src="https://img.shields.io/badge/GenAI-Google%20Gemini-4285F4?style=flat-square&logo=google&logoColor=white" alt="Gemini" />
   <img src="https://img.shields.io/badge/GIS-Leaflet%20%2B%20ESRI-199900?style=flat-square&logo=leaflet&logoColor=white" alt="Leaflet" />
   <img src="https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
   <img src="https://img.shields.io/badge/Streaming-Native%20WebSockets-010101?style=flat-square&logo=socketdotio&logoColor=white" alt="WebSockets" />
+  <img src="https://img.shields.io/badge/Coverage-36%20States%20%26%20UTs-FF9933?style=flat-square" alt="Pan-India Coverage" />
+  <img src="https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white" alt="Render" />
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="MIT License" />
 </p>
 
 <p align="center">
-  <b>An open-standard disaster intelligence grid uniting 33 IMD Doppler Radars, INSAT-3DR Satellites, CWC Flood Telemetry, and VayuScore™ Multi-Modal Citizen Verification into automated NDRF Convoy Routing & CAP 1.2 Alerting.</b>
+  <b>A unified disaster intelligence grid uniting 33 IMD Doppler Weather Radars, INSAT-3DR Satellites, CWC Flood Telemetry, and VayuScore™ Multi-Modal AI Ground Verification across all 36 Indian States and Union Territories into automated NDRF Convoy Routing & OASIS CAP 1.2 Cell Alerting.</b>
 </p>
 
 <p align="center">
-  <a href="#-local-setup--installation-guide">🚀 <b>Quickstart</b></a> •
-  <a href="#-key-highlights--operational-capabilities">⚡ <b>Features</b></a> •
+  <a href="#-prototype-at-a-glance">⚡ <b>Highlights</b></a> •
+  <a href="#-key-highlights--operational-capabilities">✨ <b>Features</b></a> •
+  <a href="#-multimodal-ai-pipelines-architecture">🧠 <b>AI Architecture</b></a> •
   <a href="#-technology-stack">🛠️ <b>Tech Stack</b></a> •
-  <a href="#-git-workflow-how-to-fork-clone-branch-pull--push">🌿 <b>Git Workflow</b></a> •
+  <a href="#-local-setup--installation-guide">🚀 <b>Quickstart</b></a> •
   <a href="#-rest-api--websocket-documentation">📖 <b>API Docs</b></a>
 </p>
+
+</div>
 
 ---
 
 ### ⚡ Prototype at a Glance
 
-| 🛰️ **33** IMD Radar Feeds | 🌊 **16** NDRF Battalions | 🏆 **VayuScore™ (0-100)** | ⚡ **<50ms** Live Streaming |
+| 🛰️ **33** IMD Radar Feeds | 🇮🇳 **All 36** Indian States & UTs | 🏆 **VayuScore™ (0-100)** | ⚡ **<50ms** WebSocket Streaming |
 | :---: | :---: | :---: | :---: |
-| ⏱️ **6-Hour** Active Lifecycle | 🔄 **5-Min** News Auto-Sync | 🚨 **1-Click** CAP 1.2 XML | 📄 **1-Click** NDMA SitRep PDF |
-
-</div>
+| 🛡️ **16** NDRF Battalions | 🧠 **Dual ML** (Vision + NLP) | 🚨 **1-Click** CAP 1.2 XML | 📄 **1-Click** NDMA SitRep PDF |
+| 🏷️ **AI Hashtags** (#IMD Fallback) | ⏱️ **6-Hour** Data Freshness | 🔄 **5-Min** News Auto-Sync | 🗺️ **Google Street View** Ground Pin |
 
 ---
 
 ## 📌 Table of Contents
 1. [Platform Overview](#-platform-overview)
 2. [Key Highlights & Operational Capabilities](#-key-highlights--operational-capabilities)
-3. [Technology Stack](#-technology-stack)
-4. [Architecture & Closed-Loop Intelligence Workflow](#-architecture--closed-loop-intelligence-workflow)
-5. [Repository & Directory Structure](#-repository--directory-structure)
-6. [Git Workflow: How to Fork, Clone, Branch, Pull & Push](#-git-workflow-how-to-fork-clone-branch-pull--push)
+3. [Multi-Modal AI Pipelines Architecture](#-multimodal-ai-pipelines-architecture)
+4. [Interactive Navigation & Operational Suite](#-interactive-navigation--operational-suite)
+5. [Technology Stack](#-technology-stack)
+6. [Repository & Directory Structure](#-repository--directory-structure)
 7. [Local Setup & Installation Guide](#-local-setup--installation-guide)
-8. [Configuration & Environment Variables (`.env`)](#-configuration--environment-variables-env)
-9. [Role-Based Access Control (RBAC)](#-role-based-access-control-rbac)
-10. [REST API & WebSocket Documentation](#-rest-api--websocket-documentation)
-11. [Contributing Guidelines](#-contributing-guidelines)
-12. [License](#-license)
+8. [Configuration & Environment Variables (.env)](#-configuration--environment-variables-env)
+9. [REST API & WebSocket Documentation](#-rest-api--websocket-documentation)
+10. [Deployment (Render & Cloud Platforms)](#-deployment-render--cloud-platforms)
+11. [License](#-license)
 
 ---
 
 ## 🌧️ Platform Overview
 
-**VARSHANET 2.0** is an enterprise-grade National Weather Big Data Analytics and AI Disaster Impact Nowcasting Grid built specifically for India. 
+**VARSHANET 2.0** is an enterprise-grade National Weather Big Data Analytics, Real-Time AI Verification, and Disaster Nowcasting Grid engineered specifically for India.
 
-It continuously ingests real-time observations across **IMD Doppler Weather Radars (DWR)**, **INSAT-3DR/3DS Satellite Imagers**, **Multi-Channel Indian News Streams** (*TOI, NDTV, India Today, Down To Earth, Google News*), **Social Media Firehose Streams** (*#IMD, #MumbaiRains, #ChennaiFloods*), **Central Water Commission (CWC) River Flood Gauges**, and **Citizen Geotagged Ground Proofs**.
+It continuously ingests real-time observations across **IMD Doppler Weather Radars (DWR)**, **INSAT-3DR/3DS Satellite Multi-Spectral Imagers**, **Multi-Channel Indian News Streams** (*Times of India, NDTV, India Today, Down To Earth, Google News*), **Social Media Firehose Streams** (*#IMD, #MumbaiRains, #DelhiWeather, #FloodAlert*), **Central Water Commission (CWC) River Flood Gauges**, and **Citizen Geotagged Ground Proofs**.
 
-VARSHANET transforms raw data into actionable life-safety intelligence:
+VARSHANET transforms raw multispectral and citizen telemetry into life-safety intelligence:
 * **VayuScore™ (0–100)**: Multi-modal composite confidence metric fusing 5 independent verification vectors.
-* **Impact Risk Index (0–100%)**: Dynamic population exposure and critical infrastructure vulnerability.
-* **Response Priority (P1–P4)**: Instant tactical triage for State Disaster Management Authorities (SDMA) & National Disaster Response Force (NDRF).
+* **TextGuard Multilingual NLP**: Real-time disaster threat detection with instant visual feedback across English, Hindi, and Hinglish.
+* **VisionGuard Forensics**: Dual-stage binary PyTorch disaster classification + Perceptual DHash deduplication + HSV turbidity checks.
+* **Automated AI Hashtags**: Live categorization under #Monsoon2026, #MumbaiRains, #DelhiWeather, #Cloudburst, #FloodAlert, #HeatwaveWarning, #CycloneAlert, and fallback #IMD.
+* **Pan-India Coverage**: Seamless tactical navigation and nowcasting across all **36 Indian States and Union Territories**.
+* **NDRF Tactical Routing**: Dynamic .22\times$ flood-aware convoy rerouting avoiding inundated highways and submerged bridges.
 
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  1. DETECT   │ ──► │  2. VERIFY   │ ──► │ 3. CORRELATE │ ──► │ 4. NOWCAST   │
-│ Radar/News/  │     │ VayuScore™ & │     │ Space & Time │     │ Optical-Flow │
-│ Social Feeds │     │ DHash Forens │     │ Clustering   │     │ 3-Hr Traject │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-                                                                       │
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐             │
-│  7. SITREP   │ ◄── │  6. DISPATCH │ ◄── │ 5. RECOMMEND │ ◄───────────┘
-│ PDF & CAP1.2 │     │ 16 NDRF Bat. │     │ Gemini GenAI │
-└──────────────┘     └──────────────┘     └──────────────┘
-```
+`
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 VARSHANET CLOSED LOOP                                   │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+   [IMD Radar / INSAT Sat]     [News / Social Streams]     [Citizen 3-Media Proofs]
+              │                           │                           │
+              ▼                           ▼                           ▼
+┌─────────────────────────┐ ┌─────────────────────────┐ ┌─────────────────────────┐
+│ 33 Doppler Radar Sweeps │ │ Automated AI Hashtags   │ │ VisionGuard Forensics   │
+│ & 3-Hr Optical Flow     │ │ (#FloodAlert, #IMD...)  │ │ + TextGuard NLP Engine  │
+└─────────────────────────┘ └─────────────────────────┘ └─────────────────────────┘
+              │                           │                           │
+              └───────────────────────────┼───────────────────────────┘
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │ Spatiotemporal Clustering & VayuScore │
+                      │  (0-100 Composite Confidence Metric)  │
+                      └───────────────────────────────────────┘
+                                          │
+                                          ▼
+                      ┌───────────────────────────────────────┐
+                      │ Leaflet National GIS & Admin Verify   │
+                      │  (🛡️ Verified Pins + Street View)     │
+                      └───────────────────────────────────────┘
+                                          │
+                   ┌──────────────────────┴──────────────────────┐
+                   ▼                                             ▼
+┌──────────────────────────────────────┐     ┌──────────────────────────────────────┐
+│  16 NDRF Battalions Convoy Routing   │     │  OASIS CAP 1.2 XML & NDMA SitRep     │
+│  (Graph Detour Avoiding Inundation)  │     │  (Cell Siren Broadcast & PDF Export) │
+└──────────────────────────────────────┘     └──────────────────────────────────────┘
+`
 
 ---
 
 ## ⚡ Key Highlights & Operational Capabilities
 
-### 1. 🚒 Flood-Aware 16 NDRF Battalion Tactical Routing & Requisition
-* Complete directory of **all 16 official National Disaster Response Force (NDRF) Battalions** across India (*Guwahati, Kolkata, Cuttack, Arakkonam, Pune, Vadodara, Bhatinda, Ghaziabad, Patna, Vijayawada, Varanasi, Itanagar, Ludhiana, Jasur, Srinagar, Bhopal*).
-* **Graph-Based Detour Routing (`pgRouting` / `OSRM`)**: Dynamically computes realistic road transit paths instead of static Euclidean straight lines.
-* **CWC River Flood Gauge Integration**: Automatically applies a **$1.22\times$ flood detour factor** during high/critical alerts to actively detour convoys around submerged highways, waterlogged underpasses, and vulnerable river bridges.
-* **1-Click Official Requisition Order Generator**: Formats and drafts official NDRF Requisition Orders addressed to primary battalion commandants with road transit ETAs ($0.5\text{h} + \text{detour distance} / 48\text{km/h}$).
+### 1. 🇮🇳 Complete Coverage of All 36 Indian States & Union Territories
+* Full interactive support for **all 28 States and 8 Union Territories**:
+  * **28 States**: *Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand, West Bengal.*
+  * **8 UTs**: *Andaman and Nicobar Islands, Chandigarh, Dadra and Nagar Haveli and Daman and Diu, Delhi (NCR), Jammu and Kashmir, Ladakh, Lakshadweep, Puducherry.*
+* **Tactical Camera Jump (lyTo)**: Selecting any State/UT in the National Weather Map smoothly re-centers and zooms the viewport directly onto that territory while dynamically filtering incident clusters and verified ground pins.
+* **Backend Geo-Resolver**: indian_geo_resolver.py resolves city landmarks, union territories, and districts into verified GPS coordinates.
 
-### 2. 🏆 Proprietary VayuScore™ Multi-Modal Confidence Metric (0–100)
-* A composite, multi-vector confidence score deconstructed across 5 weighted dimensions:
-  1. **Source Historical Reliability** ($94\%$)
-  2. **Cross-Platform Corroboration** ($88\%$)
-  3. **Image / Video Optical Authenticity (Perceptual DHash)** ($91\%$)
-  4. **Spatio-Temporal Physics Consistency** ($96\%$)
-  5. **Community Peer Validation & Triangulation** ($85\%$)
+### 2. 🧠 Real-Time NLP Threat Color Feedback (Green: Disaster | Red: Normal)
+* **TextGuard Multilingual NLP Engine** analyzes incoming observations in real-time as the citizen or reporter types:
+  * **Disaster Threat Detected $\rightarrow$ Green (emerald)**:
+    * Textarea outline: order-emerald-500/80 with emerald focus ring.
+    * Real-time threat card: g-emerald-950/60 border-emerald-600/70 text-emerald-100.
+    * Badge: g-emerald-900/80 text-emerald-200 border-emerald-700 (🚨 Disaster Threat Detected).
+  * **Non-Disaster / Normal Text $\rightarrow$ Red (ose)**:
+    * Textarea outline: order-rose-500/80 with rose focus ring.
+    * Real-time card: g-rose-950/60 border-rose-600/70 text-rose-100.
+    * Badge: g-rose-900/80 text-rose-200 border-rose-700 (❌ Non-Disaster / Normal Text).
+* Grounded with hybrid NLP: Fine-tuned DistilBERT / Scikit-Learn TF-IDF classifier calibrated with English, Hindi, and Hinglish emergency lexicons.
 
-### 3. 💻 Interactive Big Data SQL Query Explorer Console
-* **In-Console SQL Runner**: Empowers operational analysts to run read-only analytical SQL queries directly against the database with sub-$10\text{ms}$ execution latency.
-* **Pre-Loaded Query Chips**: Top affected states (24h), hazard category breakdowns, emergency cluster densities, and SimHash deduplication audits.
-* **CSV Export**: 1-click tabular CSV download for official reporting.
-* **Security Guardrails**: Read-only sandbox blocking destructive operations (`DROP`, `DELETE`, `UPDATE`, `INSERT`, `ALTER`).
+### 3. 🏷️ Automated AI Hashtag Categorizer with #IMD Fallback
+* Every ingested observation is automatically classified into trending meteorological categories:
+  * **#Monsoon2026**: Monsoon surge, seasonal rainfall, southwest/northeast monsoon currents.
+  * **#MumbaiRains**: Mumbai, MMR, Thane, Navi Mumbai, Santacruz rainfall and local inundation.
+  * **#DelhiWeather**: Delhi NCR, Safdarjung, Palam, Yamuna flood levels, dense smog/fog.
+  * **#Cloudburst**: Localized extreme deluges, flash runoffs, and mountain slope failures.
+  * **#FloodAlert**: Urban waterlogging, river flood basins, dam discharges, rising waters.
+  * **#HeatwaveWarning**: Severe heatwaves, loo winds, extreme temperatures ($\ge 40^\circ\text{C}$).
+  * **#CycloneAlert**: Depressions, cyclonic storms, gale warnings, coastal landfall cones.
+  * **#IMD (Official Meteorological Fallback)**: Any observation outside the 7 specific categories automatically defaults to #IMD.
+* **Interactive Hashtags Filter Bar**: 1-click filtering by any trending tag with active toggle and #All reset button.
 
-### 4. 💬 Real-Time Social Sentiment & Public Panic Index
-* **Public Panic Index ($42.5 / 100$)**: Evaluates real-time community stress and anxiety levels across social channels during severe downpours.
-* **Emergency SOS Intensity ($18.2\%$)**: Identifies the proportion of chatter actively requesting rescue or reporting trapped vehicles.
-* **Trending Disaster Hashtags**: Live tracking of `#MumbaiRains`, `#IMDRedAlert`, `#Waterlogging`, `#BhopalWeather`, and `#NDRF`.
+### 4. 🛡️ Admin Verification & Live Map Pinning with Google Street View
+* Reports verified by emergency command admins immediately transform into interactive verified pins on the National Weather Map.
+* **Animated Pulsing Emerald Shield Marker (🛡️)** renders at the verified GPS location.
+* **Interactive Ground Popup**: Displays the AI-assigned incident category, credibility trust percentage ($\ge 95\%$), observation text, author attribution, and direct **Google Street View** integration for instant visual ground verification.
 
-### 5. 🌊 Optical-Flow 3-Hour Impact Nowcasting Trajectory
-* **Radar Optical Flow Extrapolation**: Uses vector extrapolation on **33 IMD Doppler Radar reflectivity matrices ($\text{dBZ}$)** across $+30\text{m}, +60\text{m}, +120\text{m}, +180\text{m}$.
-* **Demographic & Infrastructure Buffers**: Computes concentric exposure zones ($5\text{km} \to 15\text{km}$) for vulnerable populations (*infants, elderly, informal settlements*) and critical infrastructure (*hospitals, schools, bridges*).
-* **Validated Calibration**: Field-tested with a calibrated **$\pm 6.38\%$ error margin**.
+### 5. 📅 Fully Functional Date & Status Filters
+* **Date Filter**:
+  * **Today**: Real-time matching for today's calendar date and current 24-hour cycle.
+  * **Past 24 Hours**: Instant filtering of reports from the preceding 24 hours.
+  * **Past 7 Days**: Comprehensive weekly review.
+  * **All Dates**: Access to all historical and real-time records.
+  * Handled via cross-platform ISO-8601 parsing resilient to SQLite datetimes and timezone skews.
+* **Clean Operational Status Filtering**:
+  * Removed unverified noise (UNVERIFIED), pending reviews (REQUIRES_REVIEW), and misleading flags (LIKELY_MISLEADING) from the operational reports view.
+  * Clean filtering between:
+    * **All Verification States**
+    * **Verified Official**
+    * **Likely Authentic**
 
-### 6. 🚨 Live Emergency Red Alert Ticker Banner
-* Auto-rotating banner cycling every 5 seconds through all active national warnings with `< Prev` and `Next >` navigation controls.
-* Live flashing `⚡ JUST IN: NEW RED ALERT` badge upon receiving real-time WebSocket alerts with 1-click jump to the Incident Command Room.
+### 6. 🚒 Flood-Aware 16 NDRF Battalion Tactical Routing
+* Direct integration of all **16 official NDRF Battalions** (*Guwahati, Kolkata, Cuttack, Arakkonam, Pune, Vadodara, Bhatinda, Ghaziabad, Patna, Vijayawada, Varanasi, Itanagar, Ludhiana, Jasur, Srinagar, Bhopal*).
+* Dynamic graph routing applies a **.22\times$ detour factor** during flood events, automatically routing convoys away from submerged bridges and waterlogged underpasses.
+* 1-click **Official Requisition Order Generator** formatted for immediate administrative dispatch.
 
-### 7. ⏱️ Strict 6-Hour Persistent Freshness Rule & 5-Min Auto-Sync
-* Grounded observation freshness to real clock time (`Date.now() - timestamp <= 6 * 3600 * 1000`). Observations $\le 6\text{h}$ show `🔥 LATEST (Xh Ym left)`; older ones automatically transition to archived status.
-* Live `5:00` countdown timer in the navbar with an on-demand **`Sync Live`** button for instant multi-channel Indian news & weather fetching.
+---
 
-### 8. 📸 Citizen 2–3 Photo Proofs with AI Optical Forensics (<20% Fake Filter)
-* Citizen Portal with **Drag & Drop** dropzone, **`Ctrl+V`** clipboard paste, and photo preview gallery (up to 3 photos).
-* **AI Visual Authenticity Engine** ($0–100\%$):
-  * Analyzes perceptual hash, HSV color distribution (flood turbid water / storm overcast), contrast, and optical entropy.
-  * **Strict `< 20%` Fake Detection Rule**: If score is $< 20\%$, the visual is flagged as `🔴 FAKE / UNRELATED VISUAL` and quarantined.
-* **Clean Citizen Receipt**: Citizens receive an official transmission ticket without exposing internal AI weights.
+## 🧠 Multi-Modal AI Pipelines Architecture
 
-### 9. 📢 Admin Pre-Verified Incident Dispatch & Automatic Map Pinning
-* Located inside the **Admin Panel** (`Admin Ops` tab).
-* **100% Pre-Verified (Zero Moderation Delay)**: Admin posts are marked `VERIFIED` with `99.8% Credibility Score`.
-* **Automatic Geographic Coordinate Resolution**: Selecting or entering cities automatically resolves GPS coordinates and creates/updates the active cluster on the **National Weather Map** immediately.
+VARSHANET employs two distinct, specialized machine learning pipelines that operate in parallel to verify every piece of multi-modal ground evidence without altering pre-trained weights:
 
-### 10. 🖼️ Streamlined 2-Photo Verified Evidence Gallery
-* Dedicated **`📸 Verified Ground Truth & Citizen Photo Evidence Gallery`** inside the Incident Command Room.
-* Displays the top 2 verified, deduplicated photo proofs side-by-side with trust badges and 1-click **Fullscreen Lightbox Inspection**.
+`
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      VARSHANET DUAL MULTI-MODAL ML PIPELINES                    │
+└─────────────────────────────────────────────────────────────────────────────────┘
 
-### 11. 🛰️ MoES Big Data: 33 Doppler Weather Radars & INSAT-3DR/3DS Satellites
-* **33 IMD Doppler Weather Radar (DWR) Stations** with peak reflectivity ($\text{dBZ}$), rain rates ($\text{mm/h}$), and hydrometeor classifications.
-* **INSAT-3DR/3DS Multi-Spectral Imager Feeds**: Monitored sectors across Northern Himalayas, Bay of Bengal, Arabian Sea, Western Ghats, and Gangetic Plains with Cloud Top Temperature (CTT), TIR Kelvin, and cloud motion vectors.
-* **Live Interactive Reload**: All radar sweeps, satellite scans, Cloudburst CPI, and WBGT Heatwave models feature active on-demand reload buttons with live recalculations.
+[ PIPELINE A: IMAGE VISIONGUARD ]              [ PIPELINE B: TEXTGUARD NLP ]
+      Uploaded Photo / Video                        Observation Description
+                │                                              │
+                ▼                                              ▼
+    Image Normalization (224x224)                  Multilingual Text Cleaner
+  RGB Normalization (ImageNet stats)             (English / Hindi / Hinglish)
+                │                                              │
+                ▼                                              ▼
+┌───────────────────────────────┐              ┌───────────────────────────────┐
+│ 1. PyTorch CNN Classifier     │              │ 1. Fine-Tuned DistilBERT /    │
+│    (Custom ResNet-based       │              │    TF-IDF Scikit-Learn Model  │
+│    disaster binary classifier)│              │    (Trained on disaster msgs) │
+└───────────────────────────────┘              └───────────────────────────────┘
+                │                                              │
+                ▼                                              ▼
+┌───────────────────────────────┐              ┌───────────────────────────────┐
+│ 2. Optical Forensics Layer    │              │ 2. Keyword Grounding & Prior  │
+│    - 64-bit Perceptual DHash  │              │    Calibration Layer          │
+│    - HSV Color Turbidity Check│              │    - Disaster keywords boost  │
+│    - Duplicate Quarantining   │              │    - Non-hazard attenuation   │
+└───────────────────────────────┘              └───────────────────────────────┘
+                │                                              │
+                ▼                                              ▼
+     Visual Verdict Output                          Real-Time NLP Threat Verdict
+  • Authenticity Score (0-100%)                  • Threat Probability (0-100%)
+  • Disaster Signature Verified                  • Green: Disaster Threat
+  • Fake / Meme Rejection (<20%)                 • Red: Non-Disaster / Normal
+`
 
-### 12. 📋 Standard-Compliant SitRep Dossier & OASIS CAP 1.2 XML
-* 1-Click **NDMA Situation Report (SitRep) PDF & Markdown Dossier Exporter**.
-* Direct download of **OASIS Common Alerting Protocol (CAP 1.2 XML)** payloads for cell-broadcast siren gateways.
+---
+
+## 🧭 Interactive Navigation & Operational Suite
+
+The platform's operational tabs are ordered logically for emergency triage:
+
+`
+Overview ➔ Reports ➔ Map ➔ Incident Room ➔ Events ➔ Analytics
+`
+
+1. **Overview** (DashboardPage.tsx): High-level operational metrics, live observation cards, and active weather summaries.
+2. **Reports** (ReportsPage.tsx / ReportTable.tsx): Real-time observation tabular feed, dynamic AI hashtag bar, date-wise filter, and verified status selectors.
+3. **Map** (MapPage.tsx / IndiaWeatherMap.tsx): Leaflet/ESRI interactive GIS with 33 Doppler radars, NDRF battalions, CWC river flood polylines, cyclone cones, and 🛡️ verified reports.
+4. **Incident Room** (IncidentCommandRoomPage.tsx): Incident deep-dive, 16 NDRF battalion convoy requisition, 2-photo evidence lightbox, and NDMA SitRep generator.
+5. **Events** (EventsPage.tsx): Active spatiotemporal event clusters grouped by geographic proximity.
+6. **Analytics** (AnalyticsPage.tsx): Interactive Big Data SQL query runner, VayuScore™ composite scorecard, and public sentiment panic index.
+7. **Citizen Portal** (CitizenPage.tsx): Citizen hazard reporting with drag-and-drop 3-photo proof, real-time Green/Red NLP threat feedback, and ticket tracking.
+8. **Admin Ops** (AdminPage.tsx): 100% pre-verified official incident publisher, verification queue, and distributed system health diagnostics.
 
 ---
 
@@ -152,83 +230,69 @@ VARSHANET transforms raw data into actionable life-safety intelligence:
 | Domain | Technologies & Libraries |
 | :--- | :--- |
 | **Frontend UI** | **React 18**, **TypeScript**, **Vite 8**, **TailwindCSS 3.4**, **Lucide React Icons**, **Axios** |
-| **GIS & Mapping** | **Leaflet 1.9**, **React-Leaflet**, **ESRI World Imagery TileLayer**, **OpenStreetMap GeoJSON** |
-| **Backend & Real-Time** | **FastAPI (Python 3.10+)**, **Uvicorn ASGI**, **WebSockets**, **Pydantic v2** |
-| **Database & Spatial** | **SQLAlchemy 2.0**, **PostGIS / SQLite**, **R-Tree Spatial Indexing**, **Custom SQL Explorer** |
-| **Routing & GIS Engine** | **pgRouting / OSRM Graph Routing Mesh**, **Central Water Commission (CWC) Gauges** |
-| **AI / GenAI & Vision** | **Google Gemini 2.5 Flash**, **Perceptual DHash (ImageHash)**, **Scikit-Learn**, **Pillow** |
-| **NLP & Deduplication** | **Indic Multilingual Cleaner**, **64-bit SimHash Algorithm**, **Social Sentiment NLP** |
-| **Standards Compliance** | **OASIS CAP 1.2 XML**, **NDMA Standard Operating Procedures (SOPs)** |
+| **GIS & Mapping** | **Leaflet 1.9**, **React-Leaflet**, **ESRI World Imagery**, **OpenStreetMap GeoJSON** |
+| **Backend & APIs** | **FastAPI (Python 3.10+)**, **Uvicorn ASGI**, **Native WebSockets**, **Pydantic v2** |
+| **Database & Spatial** | **SQLAlchemy 2.0**, **SQLite / PostgreSQL**, **R-Tree Spatial Indexing**, **In-Console SQL Runner** |
+| **Routing Engine** | **Graph Detour Engine (pgRouting / OSRM)**, **CWC Gauge Detour Modeler** |
+| **ML & Vision** | **PyTorch 2.9**, **HuggingFace Transformers (DistilBERT)**, **Scikit-Learn**, **ImageHash (DHash)** |
+| **GenAI & Reasoning** | **Google Gemini 2.5 Flash**, **Firebase AI Logic SDK** |
+| **Standards Compliance** | **OASIS Common Alerting Protocol (CAP 1.2 XML)**, **NDMA SitRep SOPs** |
 
 ---
 
 ## 📁 Repository & Directory Structure
 
-```
+`
 varshanet/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py                     # FastAPI entrypoint, CORS & WebSocket routing
+│   │   ├── main.py                     # FastAPI server entrypoint & WebSocket routes
 │   │   ├── api/v1/
-│   │   │   ├── reports.py              # Weather reports, citizen & admin-publish
+│   │   │   ├── reports.py              # Ingested reports & admin-publish
 │   │   │   ├── events.py               # Spatiotemporal event clustering
-│   │   │   ├── impact.py               # AI Nowcasting, exposure buffers & verified photos
-│   │   │   ├── alerts.py               # Red alert generation & CAP broadcast
-│   │   │   ├── meteorology.py          # 33 DWR Radars, INSAT-3D, CPI, WBGT
-│   │   │   ├── analytics.py            # Overview, SQL runner, VayuScore, Sentiment
-│   │   │   ├── citizen.py              # Citizen multi-photo submit & ticket tracking
+│   │   │   ├── impact.py               # AI nowcasting, exposure buffers & verified photos
+│   │   │   ├── alerts.py               # Emergency warnings & CAP 1.2 broadcasting
+│   │   │   ├── meteorology.py          # 33 DWR Radars, INSAT-3DR, CPI, WBGT
+│   │   │   ├── analytics.py            # Big Data SQL Runner, VayuScore, Sentiment Panic
+│   │   │   ├── verification.py         # Admin verification action & AI auto-categorization
+│   │   │   ├── media.py                # Media forensics & real-time text analysis
 │   │   │   └── system.py               # Distributed pipeline health & telemetry
 │   │   ├── models/models.py            # SQLAlchemy database models
-│   │   └── core/database.py            # Database engine & session management
+│   │   └── core/
+│   │       ├── database.py             # Database engine & session management
+│   │       └── init_db.py              # Database seeding & timestamp roll-forward
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── admin/                  # Admin dispatch form, verification & health
+│   │   │   ├── admin/                  # Admin dispatch form & verification queue
 │   │   │   ├── analytics/              # SQL Console, VayuScore Card, Public Sentiment
-│   │   │   ├── citizen/                # Citizen multi-photo upload with drag-and-drop
-│   │   │   ├── common/                 # Navbar with 5-min sync countdown, Red Alert Ticker
-│   │   │   ├── incident/               # 16 NDRF Routing, Verified 2-Photo Gallery, SitRep
-│   │   │   ├── map/                    # Leaflet/ESRI National Weather Map
-│   │   │   └── meteorology/            # Radar DWR, INSAT-3D, Extreme ML, 30-Yr Anomaly
-│   │   ├── pages/                      # Dashboard, Incident Room, Analytics, Admin, etc.
-│   │   ├── services/api.ts             # Axios API client
-│   │   └── types/index.ts              # TypeScript interface definitions
+│   │   │   ├── citizen/                # Citizen form with Green/Red NLP & 3-photo upload
+│   │   │   ├── common/                 # Navbar (Overview -> Reports -> Map...), Alert Ticker
+│   │   │   ├── incident/               # 16 NDRF Routing, Verified Ground Evidence Gallery
+│   │   │   ├── map/                    # IndiaWeatherMap with 36 States/UTs, DWR, Verified pins
+│   │   │   ├── reports/                # ReportTable with date & status filter, hashtags bar
+│   │   │   └── ml/                     # ML Architecture Diagrams & Forensics Inspector
+│   │   ├── pages/                      # Dashboard, Incident Room, Map, Reports, Analytics...
+│   │   ├── services/api.ts             # Axios API client & endpoints
+│   │   └── types/
+│   │       ├── index.ts                # TypeScript interface definitions
+│   │       └── states.ts               # All 36 Indian States & UTs with coordinates
 ├── processing/
-│   ├── meteorology/                    # Radar DWR, INSAT-3DR, Extreme ML engines
-│   ├── geolocation/                    # Indian GeoResolver
-│   ├── deduplication/                  # 64-bit SimHash engine
+│   ├── nlp/
+│   │   ├── hashtag_categorizer.py      # AI trending weather hashtag categorizer (#IMD)
+│   │   ├── text_analyzer.py            # Multilingual disaster text threat classifier
+│   │   └── text_classifier.joblib      # Trained ML text model
 │   ├── vision/                         # Perceptual DHash & HSV color forensics
-│   └── verification/                   # Google Gemini analyzer & Edge ML fallback
-├── README.md                           # System documentation
-└── .env                                # Configuration & API keys
-```
-
----
-
-## 🌿 Git Workflow: How to Fork, Clone, Branch, Pull & Push
-
-### 1. Fork & Clone
-```bash
-# Clone your fork
-git clone https://github.com/<YOUR_USERNAME>/SIH-26069-VARSHANET-Team_TechTonic.git
-cd SIH-26069-VARSHANET-Team_TechTonic
-
-# Add official upstream remote
-git remote add upstream https://github.com/Himarghya/SIH-26069-VARSHANET-Team_TechTonic.git
-```
-
-### 2. Create Feature Branch & Commit
-```bash
-# Create and switch to your feature branch
-git checkout -b feature/your-feature-name
-
-# Stage and commit your changes
-git add .
-git commit -m "feat: add your feature description"
-
-# Push to your fork
-git push -u origin feature/your-feature-name
-```
+│   ├── geolocation/
+│   │   └── indian_geo_resolver.py      # Indian geographic resolver for all 36 States/UTs
+│   └── pipeline.py                     # Processing pipeline with automated categorization
+├── ingestion/
+│   └── automation/
+│       └── live_ingestion_service.py   # Multi-channel auto-ingestion service
+├── render.yaml                         # Production Render deployment configuration
+├── requirements.txt                    # Backend Python dependencies
+└── README.md                           # System documentation
+`
 
 ---
 
@@ -239,54 +303,62 @@ git push -u origin feature/your-feature-name
 * **Node.js 18+ & npm**
 * **Git**
 
-### 1. Backend Setup
-```bash
-# Create and activate Python virtual environment
+### 1. Clone Repository
+`ash
+git clone https://github.com/Himarghya/SIH-26069-VARSHANET-Team_TechTonic.git
+cd SIH-26069-VARSHANET-Team_TechTonic
+`
+
+### 2. Backend Setup
+`ash
+# Create and activate virtual environment
 python -m venv venv
+
 # Windows:
 .\venv\Scripts\Activate.ps1
-# Linux/macOS:
+# Linux / macOS:
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Start FastAPI backend server
-python -m uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
-```
-Backend API will be running at `http://localhost:8000` (Docs: `http://localhost:8000/docs`).
+python -m uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+`
+API runs at http://localhost:8000 (Interactive Docs: http://localhost:8000/docs).
 
-### 2. Frontend Setup
-```bash
-# In a new terminal, navigate to frontend
+### 3. Frontend Setup
+`ash
+# In a new terminal window:
 cd frontend
 
-# Install npm packages
+# Install npm dependencies
 npm install
 
 # Start Vite development server
 npm run dev
-```
-Frontend web application will be live at `http://localhost:5173`.
+`
+Frontend runs at http://localhost:5173.
 
 ---
 
-## 🔒 Configuration & Environment Variables (`.env`)
+## 🔒 Configuration & Environment Variables (.env)
 
-Create a `.env` file in the root directory:
-```env
-# Gemini API Key (Optional for live LLM reasoning)
+Create a .env file in the root directory:
+`env
+# Google Gemini API Key (for LLM reasoning & SitRep analysis)
 GEMINI_API_KEY=your_gemini_api_key_here
 
-# Ingestion Settings
+# Automation & Lifecycles
 AUTO_SYNC_INTERVAL_SECONDS=300
 OBSERVATION_LIFECYCLE_HOURS=6
 ENABLE_MULTI_CHANNEL_NEWS=true
+TEXT_DISASTER_THRESHOLD=0.65
 
-# Server Settings
+# Server Ports
 BACKEND_PORT=8000
 FRONTEND_PORT=5173
-```
+`
 
 ---
 
@@ -294,17 +366,33 @@ FRONTEND_PORT=5173
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/api/v1/events` | List all active spatiotemporal disaster clusters |
-| `GET` | `/api/v1/impact/{event_id}` | Complete impact nowcast, exposure buffers & 2 verified photos |
-| `POST` | `/api/v1/reports/admin-publish` | 100% Pre-verified instant admin post with auto-map pinning |
-| `POST` | `/api/v1/citizen/submit` | Submit citizen report with multi-photo proof |
-| `GET` | `/api/v1/meteorology/dwr-radar` | 33 IMD Doppler radar station sweeps & reflectivity ($\text{dBZ}$) |
-| `GET` | `/api/v1/meteorology/insat-satellite` | INSAT-3DR multi-spectral thermal CTT cloud telemetry |
-| `GET` | `/api/v1/meteorology/extreme-ml` | Cloudburst CPI ($0–100$) and WBGT Heatwave ML predictions |
-| `POST` | `/api/v1/analytics/sql-query` | Live read-only SQL query runner with execution telemetry |
-| `GET` | `/api/v1/analytics/data-quality` | VayuScore™ breakdown, SimHash rate & model precision |
-| `GET` | `/api/v1/analytics/sentiment-panic`| Public Panic Index ($0–100$) & trending emergency hashtags |
-| `WS` | `/ws/weather` | Real-time WebSocket streaming (<50ms event push) |
+| GET | /api/v1/reports | Get observations (supports limit=500, event types, dates, verification status) |
+| POST | /api/v1/reports/admin-publish | Publish 100% pre-verified official incident with automatic map placement |
+| POST | /api/v1/media/analyze-text | Real-time multilingual NLP threat inference (returns is_disaster and adge_color) |
+| POST | /api/v1/verification/{report_id}/action| Admin verify action; auto-assigns AI hashtags and creates/links EventCluster |
+| GET | /api/v1/events | List active spatiotemporal disaster clusters |
+| GET | /api/v1/impact/{event_id} | Impact nowcasting, demographic buffers, and verified photo proofs |
+| GET | /api/v1/meteorology/dwr-radar | 33 IMD Doppler radar station sweeps, reflectivity ($\text{dBZ}$), and rain rates |
+| GET | /api/v1/meteorology/insat-satellite | INSAT-3DR multi-spectral thermal CTT cloud telemetry |
+| GET | /api/v1/meteorology/extreme-ml | Cloudburst CPI (–100$) and WBGT Heatwave ML predictions |
+| POST | /api/v1/analytics/sql-query | Live read-only Big Data SQL query runner with telemetry |
+| GET | /api/v1/analytics/sentiment-panic| Public Panic Index (–100$) and trending disaster hashtags |
+| WS | /ws/weather | Real-time WebSocket streaming (<50ms event broadcasting) |
+
+---
+
+## ☁️ Deployment (Render & Cloud Platforms)
+
+VARSHANET 2.0 includes a production-ready ender.yaml blueprint for one-click deployment:
+* Automatically builds the React 18 production bundle (
+pm run build in rontend/).
+* Mounts FastAPI ASGI server via uvicorn on Python 3.10+.
+* Connects continuous deployment webhooks from the GitHub repository main branch.
+
+To deploy on Render:
+1. Connect the repository in your [Render Dashboard](https://dashboard.render.com).
+2. Choose **Blueprint** and select ender.yaml.
+3. Add GEMINI_API_KEY in the environment settings and click **Apply**.
 
 ---
 
