@@ -27,6 +27,26 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
     ])
   ).slice(0, 10);
 
+  // Robust timestamp parser supporting ISO, UTC, SQLite format, and numeric epoch
+  const parseReportTime = (ts: any): number => {
+    if (!ts) return 0;
+    if (typeof ts === 'number') return ts;
+    if (ts instanceof Date) return ts.getTime();
+    const str = String(ts).trim();
+    let parsed = new Date(str).getTime();
+    if (!isNaN(parsed)) return parsed;
+    parsed = new Date(str.replace(' ', 'T')).getTime();
+    if (!isNaN(parsed)) return parsed;
+    parsed = new Date(str.replace(' ', 'T') + 'Z').getTime();
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
+  // Find latest report timestamp for relative fallback if client clock differs from data
+  const latestReportTimestamp = reports.reduce((max, r) => {
+    const t = parseReportTime(r.timestamp);
+    return t > max ? t : max;
+  }, 0);
+
   const filtered = reports.filter(r => {
     // 1. Search Query
     const matchesSearch = searchTerm === '' || 
@@ -38,7 +58,12 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
     // 2. Event Type Filter
     const matchesEvent = filterEvent === 'All' || r.event_type.toLowerCase().includes(filterEvent.toLowerCase());
     
-    // 3. Verification Status Filter
+    // 3. Verification Status Filter - Clean verified operational feed (removes misleading, unverified, and requires-review)
+    const isExcludedStatus = r.verification_status === 'LIKELY_MISLEADING' || 
+                             r.verification_status === 'UNVERIFIED' || 
+                             r.verification_status === 'REQUIRES_REVIEW';
+    if (isExcludedStatus) return false;
+
     const matchesStatus = filterStatus === 'All' || r.verification_status === filterStatus;
     
     // 4. Source Channel Filter
@@ -58,23 +83,39 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
       (targetTag === 'imd' && (r.source_name?.toLowerCase().includes('imd') || r.source_type === 'weather_api' || r.text.toLowerCase().includes('imd'))) ||
       r.text.toLowerCase().includes(selectedHashtag.toLowerCase());
 
-    // 6. Date-wise Filter
+    // 6. Date-wise Filter - Fully functional across timezones, formats, and intervals
     let matchesDate = true;
     if (filterDate !== 'ALL') {
-      const repDate = new Date(r.timestamp).getTime();
-      const now = new Date().getTime();
-      if (filterDate === 'TODAY') {
-        const todayStart = new Date().setHours(0, 0, 0, 0);
-        matchesDate = repDate >= todayStart;
-      } else if (filterDate === '24H') {
-        matchesDate = now - repDate <= 24 * 3600 * 1000;
-      } else if (filterDate === '7D') {
-        matchesDate = now - repDate <= 7 * 24 * 3600 * 1000;
+      const repTime = parseReportTime(r.timestamp);
+      if (repTime > 0) {
+        const now = Date.now();
+        const refTime = (latestReportTimestamp > 0 && Math.abs(now - latestReportTimestamp) > 30 * 24 * 3600 * 1000)
+          ? latestReportTimestamp
+          : now;
+        const diffMs = refTime - repTime;
+
+        if (filterDate === 'TODAY') {
+          const repDateObj = new Date(repTime);
+          const refDateObj = new Date(refTime);
+          const isSameCalendarDay =
+            repDateObj.getFullYear() === refDateObj.getFullYear() &&
+            repDateObj.getMonth() === refDateObj.getMonth() &&
+            repDateObj.getDate() === refDateObj.getDate();
+          const isWithin24Hours = diffMs >= -3600000 && diffMs <= 24 * 3600 * 1000;
+          matchesDate = isSameCalendarDay || isWithin24Hours;
+        } else if (filterDate === '24H') {
+          // Within past 24 hours (with 1-hour future clock skew tolerance)
+          matchesDate = diffMs >= -3600000 && diffMs <= 24 * 3600 * 1000;
+        } else if (filterDate === '7D') {
+          // Within past 7 days
+          matchesDate = diffMs >= -3600000 && diffMs <= 7 * 24 * 3600 * 1000;
+        }
       }
     }
 
     return matchesSearch && matchesEvent && matchesStatus && matchesSource && matchesHashtag && matchesDate;
   });
+
 
   const getSourceIcon = (type: string) => {
     switch (type) {
@@ -178,10 +219,8 @@ export const ReportTable: React.FC<ReportTableProps> = ({ reports, onSelectRepor
           <option value="All">All Verification States</option>
           <option value="VERIFIED">Verified Official</option>
           <option value="LIKELY_AUTHENTIC">Likely Authentic</option>
-          <option value="REQUIRES_REVIEW">Requires Review</option>
-          <option value="LIKELY_MISLEADING">Likely Misleading</option>
-          <option value="UNVERIFIED">Unverified</option>
         </select>
+
 
         {/* Source Channel Filter */}
         <select

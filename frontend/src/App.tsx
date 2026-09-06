@@ -41,7 +41,7 @@ export function App() {
   const loadAllData = async () => {
     try {
       const results = await Promise.allSettled([
-        fetchReports(),
+        fetchReports({ limit: 500 }),
         fetchEvents(),
         fetchAlerts(),
         fetchAnalyticsOverview(),

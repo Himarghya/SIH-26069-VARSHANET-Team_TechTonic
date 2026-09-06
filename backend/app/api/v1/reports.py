@@ -15,7 +15,7 @@ router = APIRouter(prefix="/reports", tags=["Weather Reports"])
 def get_reports(
     db: Session = Depends(get_db),
     skip: int = 0,
-    limit: int = 100,
+    limit: int = 500,
     date_from: Optional[datetime] = None,
     date_to: Optional[datetime] = None,
     event_type: Optional[str] = None,
