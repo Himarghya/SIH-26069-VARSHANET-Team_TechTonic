@@ -21,6 +21,19 @@
   <b>An open-standard disaster intelligence grid uniting 33 IMD Doppler Radars, INSAT-3DR Satellites, CWC Flood Telemetry, and VayuScore™ Multi-Modal AI Ground Verification across all 36 Indian States and Union Territories into automated NDRF Convoy Routing & OASIS CAP 1.2 Cell Siren Alerting.</b>
 </p>
 
+---
+
+## 🚀 Live Platform & Workflow Links
+
+| 🌐 **LIVE DEPLOYED WEBSITE** | 📊 **INTERACTIVE SYSTEM WORKFLOW** |
+| :---: | :---: |
+| [![Live Website](https://img.shields.io/badge/🌐_LIVE_WEBSITE-VISIT_NOW-00C49F?style=for-the-badge&logo=googlechrome&logoColor=white)](https://varshanet-backend.onrender.com) | [![Workflow Diagram](https://img.shields.io/badge/📊_WORKFLOW_DIAGRAM-DIAGRAMS.NET-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white)](https://app.diagrams.net/) |
+| <h1><a href="https://varshanet-backend.onrender.com">👉 Open Live Website ↗</a></h1> | <h1><a href="https://app.diagrams.net/">👉 Open diagrams.net Workflow ↗</a></h1> |
+| 🔗 **[`https://varshanet-backend.onrender.com`](https://varshanet-backend.onrender.com)** | 🔗 **[`https://app.diagrams.net/`](https://app.diagrams.net/)** |
+| *Live Deployment on Render • Interactive GIS Map • Real-Time AI Verification* | *Full Interactive Closed-Loop System & Multi-Modal ML Flowchart* |
+
+---
+
 <p align="center">
   <a href="#-system-architecture--closed-loop-diagram">🏗️ <b>Architecture</b></a> •
   <a href="#-multimodal-ai-pipelines-architecture">🧠 <b>AI Pipelines</b></a> •
@@ -88,7 +101,17 @@ The following diagram illustrates the closed-loop architecture of VARSHANET 2.0,
 
 <div align="center">
   <img src="docs/images/varshanet_closed_loop_architecture.jpg" alt="VARSHANET Closed Loop Architecture" width="100%" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); margin: 16px 0;" />
+  
+  <p align="center">
+    <a href="https://app.diagrams.net/" target="_blank">
+      <img src="https://img.shields.io/badge/📊_INTERACTIVE_WORKFLOW-OPEN_ON_DIAGRAMS.NET-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white" height="40" alt="Open on diagrams.net" />
+    </a>
+  </p>
 </div>
+
+> [!TIP]
+> ### 📊 [Click Here to View the Interactive Full Workflow Diagram on diagrams.net ↗](https://app.diagrams.net/)
+> **Interactive Workflow Link:** [https://app.diagrams.net/](https://app.diagrams.net/)
 
 ### Operational Workflow Stages:
 1. **Multi-Source Ingestion**: Ingests feeds from 33 IMD Doppler radars, INSAT-3DR thermal satellites, CWC flood gauges, automated RSS news media, and citizen observation reports.
@@ -438,6 +461,10 @@ FRONTEND_PORT=5173
 ---
 
 ## ☁️ Deployment (Render & Cloud Platforms)
+
+> [!IMPORTANT]
+> ### 🌐 [Click Here to Open the Live Deployed Platform on Render ↗](https://varshanet-backend.onrender.com)
+> **Live Production Website:** [https://varshanet-backend.onrender.com](https://varshanet-backend.onrender.com)
 
 VARSHANET 2.0 includes a production-ready `render.yaml` blueprint for one-click deployment:
 * Automatically builds the React 18 production bundle (`npm run build` in `frontend/`).
