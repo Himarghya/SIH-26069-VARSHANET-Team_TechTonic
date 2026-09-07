@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   CloudRain,
   Shield,
@@ -10,6 +10,9 @@ import {
   RefreshCw,
   Command,
   UserCheck,
+  Users,
+  ChevronDown,
+  Check,
   Menu,
   X,
   Zap,
@@ -29,6 +32,33 @@ interface NavbarProps {
   onLiveSyncDone?: () => void;
 }
 
+export const ROLES_CONFIG = [
+  {
+    id: 'citizen',
+    label: 'Citizen',
+    tagline: 'Citizen Portal & Ground Reports',
+    icon: Users,
+    dotColor: 'bg-emerald-400 shadow-emerald-400/50',
+    iconBg: 'bg-emerald-950/80 border-emerald-500/40 text-emerald-400',
+  },
+  {
+    id: 'analyst',
+    label: 'Analyst',
+    tagline: 'Disaster GIS Command & Forecaster',
+    icon: Activity,
+    dotColor: 'bg-cyan-400 shadow-cyan-400/50',
+    iconBg: 'bg-cyan-950/80 border-cyan-500/40 text-cyan-400',
+  },
+  {
+    id: 'admin',
+    label: 'Admin',
+    tagline: 'NDMA Verification & System Ops',
+    icon: Shield,
+    dotColor: 'bg-purple-400 shadow-purple-400/50',
+    iconBg: 'bg-purple-950/80 border-purple-500/40 text-purple-400',
+  },
+] as const;
+
 export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
@@ -42,6 +72,31 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [countdownSeconds, setCountdownSeconds] = useState(300);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+  const roleDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  // Close role dropdown on outside click or Escape key
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (roleDropdownRef.current && !roleDropdownRef.current.contains(event.target as Node)) {
+        setIsRoleDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsRoleDropdownOpen(false);
+    };
+
+    if (isRoleDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isRoleDropdownOpen]);
 
   const {
     networkStatus,
@@ -113,6 +168,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   const visibleNavItems = allNavItems.filter(item => item.roles.includes(userRole));
+  const currentRoleConfig = ROLES_CONFIG.find(r => r.id === userRole) || ROLES_CONFIG[0];
+  const CurrentRoleIcon = currentRoleConfig.icon;
 
   return (
     <header className="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-3 py-2 w-full font-sans">
@@ -128,27 +185,27 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-md shadow-cyan-500/20 text-white font-bold shrink-0">
             <CloudRain className="w-4 h-4 animate-pulse" />
             <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isLiveConnected ? 'bg-emerald-400 opacity-75' : 'bg-amber-400 opacity-75'}`}></span>
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${isLiveConnected ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
             </span>
           </div>
           <div>
-            <div className="flex items-center gap-1.5 leading-none">
-              <span className="text-sm font-black tracking-wider bg-gradient-to-r from-white via-cyan-200 to-cyan-400 bg-clip-text text-transparent">
-                VARSHANET 2.0
+            <div className="flex items-center gap-1.5">
+              <span className="font-extrabold text-sm tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 font-sans">
+                VARSHANET
               </span>
-              <span className="text-[8px] font-bold px-1 py-0.2 rounded bg-cyan-950 border border-cyan-700/50 text-cyan-300 uppercase hidden sm:inline">
-                Nowcasting
+              <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 font-mono font-bold">
+                SIH'24
               </span>
             </div>
-            <p className="text-[9px] text-slate-400 font-mono leading-tight mt-0.5 hidden xs:block">
-              National Disaster Support
-            </p>
+            <div className="text-[9px] text-slate-400 font-mono -mt-0.5 hidden xs:block">
+              AI Monsoon Hazard & GIS Radar
+            </div>
           </div>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800/80">
+        {/* Center / Primary Nav Items (Desktop) */}
+        <nav className="hidden lg:flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800 text-xs shadow-inner">
           {visibleNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -156,16 +213,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all relative cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30 font-bold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-900/40 font-bold'
+                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                 <span>{item.label}</span>
                 {item.badge !== undefined && (
-                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white">
+                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white animate-pulse">
                     {item.badge}
                   </span>
                 )}
@@ -174,14 +231,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Right Tools: 2G/3G Lite Mode, Outbox Sync, Countdown, Role Switcher, Hamburger */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* ⚡ 2G/3G Lite Mode (Data Saver) Toggle */}
+        {/* Right Toolbar Controls */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* 2G/3G Lite Mode Toggle Pill */}
           <button
             onClick={toggleLiteMode}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-[11px] font-mono transition-all cursor-pointer shrink-0 shadow-sm ${
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-xs font-mono transition-all cursor-pointer shrink-0 ${
               liteMode
-                ? 'bg-amber-950/80 border-amber-500/60 text-amber-300 hover:bg-amber-900/80 ring-1 ring-amber-500/30'
+                ? 'bg-amber-950/90 border-amber-500 text-amber-300 shadow-md shadow-amber-950/40'
                 : 'bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200'
             }`}
             title={`Click to toggle 2G/3G Data Saver Mode. Current: ${liteMode ? 'LITE ON' : 'FULL SPEED'} (${networkStatus.effectiveType.toUpperCase()})`}
@@ -226,18 +283,88 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
-          {/* User Role Switcher Dropdown */}
-          <div className="flex items-center bg-slate-950 rounded-lg border border-slate-800 p-0.5 text-xs">
-            <UserCheck className="w-3.5 h-3.5 text-slate-400 ml-1.5 mr-1 hidden xs:inline" />
-            <select
-              value={userRole}
-              onChange={(e) => handleRoleChange(e.target.value)}
-              className="bg-transparent text-[11px] font-mono font-semibold text-cyan-300 focus:outline-none cursor-pointer pr-1 py-1"
+          {/* Sleek Custom User Role Switcher Dropdown */}
+          <div className="relative" ref={roleDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsRoleDropdownOpen(prev => !prev)}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-950 border transition-all shadow-sm cursor-pointer group ${
+                isRoleDropdownOpen
+                  ? 'border-cyan-500/80 ring-1 ring-cyan-500/40 bg-slate-900 shadow-cyan-950/40'
+                  : 'border-slate-800 hover:border-slate-700 hover:bg-slate-900/80'
+              }`}
+              aria-haspopup="true"
+              aria-expanded={isRoleDropdownOpen}
+              title="Switch platform operational role / persona"
             >
-              <option value="analyst" className="bg-slate-900 text-white">Analyst</option>
-              <option value="admin" className="bg-slate-900 text-white">Admin</option>
-              <option value="citizen" className="bg-slate-900 text-white">Citizen</option>
-            </select>
+              <div className="flex items-center gap-1.5">
+                <span className={`w-2 h-2 rounded-full ${currentRoleConfig.dotColor} shadow-sm animate-pulse`}></span>
+                <CurrentRoleIcon className="w-3.5 h-3.5 text-slate-300 group-hover:text-cyan-300 transition-colors" />
+                <span className="font-mono text-xs font-bold text-slate-100 group-hover:text-white">
+                  {currentRoleConfig.label}
+                </span>
+              </div>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
+                isRoleDropdownOpen ? 'rotate-180 text-cyan-400' : 'group-hover:text-slate-200'
+              }`} />
+            </button>
+
+            {/* Glassmorphic Dropdown Popover */}
+            {isRoleDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-950/98 backdrop-blur-2xl border border-slate-800/90 p-1.5 shadow-2xl shadow-black/80 z-50 animate-in fade-in zoom-in-95 duration-150 font-sans divide-y divide-slate-800/60">
+                <div className="px-2.5 py-1.5 flex items-center justify-between text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider">
+                  <span>Operational Persona</span>
+                  <span className="text-[9px] text-cyan-400 lowercase font-mono">3 roles</span>
+                </div>
+
+                <div className="pt-1 space-y-1">
+                  {ROLES_CONFIG.map((role) => {
+                    const Icon = role.icon;
+                    const isSelected = userRole === role.id;
+                    return (
+                      <button
+                        key={role.id}
+                        type="button"
+                        onClick={() => {
+                          handleRoleChange(role.id);
+                          setIsRoleDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-all cursor-pointer group ${
+                          isSelected
+                            ? 'bg-slate-900 border border-slate-700/80 text-white shadow-inner'
+                            : 'hover:bg-slate-900/60 text-slate-300 hover:text-white border border-transparent'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center border shrink-0 transition-transform group-hover:scale-105 ${role.iconBg}`}>
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-xs font-bold leading-tight flex items-center gap-1.5">
+                              <span>{role.label}</span>
+                              {isSelected && (
+                                <span className="text-[9px] font-mono font-extrabold px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                                  ACTIVE
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[10px] text-slate-400 truncate leading-snug mt-0.5 font-sans">
+                              {role.tagline}
+                            </div>
+                          </div>
+                        </div>
+
+                        {isSelected && (
+                          <div className="w-5 h-5 rounded-full bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center shrink-0 ml-2">
+                            <Check className="w-3 h-3 text-cyan-400" />
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Hamburger Toggle */}
@@ -254,6 +381,36 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Dropdown Menu Drawer */}
       {isMobileMenuOpen && (
         <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+          {/* Mobile Role Switcher */}
+          <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs space-y-1.5">
+            <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">
+              Select Operational Role
+            </div>
+            <div className="grid grid-cols-3 gap-1.5">
+              {ROLES_CONFIG.map((role) => {
+                const Icon = role.icon;
+                const isSelected = userRole === role.id;
+                return (
+                  <button
+                    key={role.id}
+                    onClick={() => {
+                      handleRoleChange(role.id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg text-center font-mono text-[11px] font-bold transition-all border cursor-pointer ${
+                      isSelected
+                        ? 'bg-cyan-600/30 border-cyan-500 text-white shadow-sm'
+                        : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
+                    <span>{role.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Mobile 2G/3G Data Saver & PWA Status Card */}
           <div className="flex items-center justify-between p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs font-mono">
             <div className="flex items-center gap-2">

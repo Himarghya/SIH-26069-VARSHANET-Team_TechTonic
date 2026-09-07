@@ -16,7 +16,7 @@ import { WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth } f
 
 export function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [userRole, setUserRole] = useState('analyst');
+  const [userRole, setUserRole] = useState('citizen');
   const [reports, setReports] = useState<WeatherReport[]>([]);
   const [events, setEvents] = useState<EventCluster[]>([]);
   const [alerts, setAlerts] = useState<Alert[]>([]);
