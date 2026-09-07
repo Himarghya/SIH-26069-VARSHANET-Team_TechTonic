@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, Play, Pause, FastForward, Anchor, LifeBuoy, Wind } from 'lucide-react';
 import { EventCluster, WeatherReport, DwrStation, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../../types';
 import { fetchDwrRadarGrid } from '../../services/api';
+import { useNetwork } from '../../context/NetworkContext';
 
 interface IndiaWeatherMapProps {
   events: EventCluster[];
@@ -105,6 +106,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   onSelectEvent,
   onSelectReport,
 }) => {
+  const { liteMode } = useNetwork();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
@@ -881,6 +883,12 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           <Layers className="w-4 h-4 text-cyan-400" />
           <span className="font-bold text-slate-200">National Weather Radar</span>
           <span className="text-[11px] text-cyan-400 font-mono font-semibold">({events.length} Clusters)</span>
+          {liteMode && (
+            <span className="ml-1 px-1.5 py-0.5 rounded bg-amber-950/90 border border-amber-600/60 text-amber-300 text-[10px] font-mono font-bold flex items-center gap-1">
+              <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+              2G Lite Mode
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-1.5 flex-wrap pointer-events-auto">
