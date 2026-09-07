@@ -336,9 +336,33 @@ export const CitizenReportForm: React.FC = () => {
     }
   };
 
+  // 🟢 Real-Time "All Green" Validation Checks
+  const isTextGreen = Boolean(
+    description.trim().length >= 3 &&
+    textAnalysis &&
+    textAnalysis.is_disaster === true &&
+    !isAnalyzingText
+  );
+
+  const hasPhotos = photos.length > 0;
+  const isAnyPhotoAnalyzing = photos.some(p => mediaAnalyses[p]?.status === 'analyzing');
+  const isAnyPhotoNonDisaster = photos.some(p => {
+    const an = mediaAnalyses[p];
+    return an && (an.is_disaster === false || an.is_weather_related === false);
+  });
+  const allPhotosDisasters = hasPhotos && photos.every(p => {
+    const an = mediaAnalyses[p];
+    return an && an.status === 'done' && (an.is_disaster === true || an.is_weather_related === true);
+  });
+
+  const isMediaGreen = hasPhotos && allPhotosDisasters && !isAnyPhotoAnalyzing && !isAnyPhotoNonDisaster && !isCompressing;
+
+  // 🔒 STRICT: Submit is enabled ONLY when both Text and Media checks are confirmed GREEN
+  const isAllGreen = isTextGreen && isMediaGreen;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!description) return;
+    if (!description || !isAllGreen || isSubmitting) return;
     setIsSubmitting(true);
     setOfflineQueuedTicket(null);
 
@@ -881,13 +905,112 @@ export const CitizenReportForm: React.FC = () => {
               </button>
             </div>
 
+            {/* 🟢 All-Green Validation Live Status Indicator */}
+            <div className={`p-3 rounded-xl border text-xs font-mono transition-all ${
+              isAllGreen
+                ? 'bg-emerald-950/60 border-emerald-500/60 text-emerald-200'
+                : 'bg-slate-950/90 border-slate-800 text-slate-400'
+            }`}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold flex items-center gap-1.5">
+                  {isAllGreen ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span className="text-emerald-300">ALL PRE-SCREENS VERIFIED (GREEN) &bull; READY TO TRANSMIT</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                      <span className="text-amber-300">SUBMISSION LOCKED &bull; REQUIRES ALL GREEN PRE-SCREENS</span>
+                    </>
+                  )}
+                </span>
+                <span className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded border ${
+                  isAllGreen
+                    ? 'bg-emerald-900/90 text-emerald-200 border-emerald-700'
+                    : 'bg-slate-900 text-slate-400 border-slate-800'
+                }`}>
+                  {isAllGreen ? 'ENABLED' : 'DISABLED'}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                {/* Text Threat Verification Indicator */}
+                <div className={`flex items-center gap-1.5 p-2 rounded-lg border ${
+                  isTextGreen
+                    ? 'bg-emerald-950/80 border-emerald-700/60 text-emerald-200 font-semibold'
+                    : isAnalyzingText
+                    ? 'bg-purple-950/60 border-purple-700/50 text-purple-300 animate-pulse'
+                    : textAnalysis && !textAnalysis.is_disaster
+                    ? 'bg-rose-950/80 border-rose-800/80 text-rose-300'
+                    : 'bg-slate-900 border-slate-800 text-slate-400'
+                }`}>
+                  {isTextGreen ? (
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  ) : textAnalysis && !textAnalysis.is_disaster ? (
+                    <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                  ) : (
+                    <span className="w-2 h-2 rounded-full bg-slate-500 shrink-0"></span>
+                  )}
+                  <span className="truncate">
+                    {isTextGreen
+                      ? 'Text: Disaster Threat (Green)'
+                      : isAnalyzingText
+                      ? 'Text: Analyzing NLP Threat...'
+                      : textAnalysis && !textAnalysis.is_disaster
+                      ? 'Text: Non-Disaster (Red)'
+                      : 'Text: Enter Disaster Details'}
+                  </span>
+                </div>
+
+                {/* Media Proof Verification Indicator */}
+                <div className={`flex items-center gap-1.5 p-2 rounded-lg border ${
+                  isMediaGreen
+                    ? 'bg-emerald-950/80 border-emerald-700/60 text-emerald-200 font-semibold'
+                    : isAnyPhotoAnalyzing || isCompressing
+                    ? 'bg-purple-950/60 border-purple-700/50 text-purple-300 animate-pulse'
+                    : isAnyPhotoNonDisaster
+                    ? 'bg-rose-950/80 border-rose-800/80 text-rose-300'
+                    : 'bg-slate-900 border-slate-800 text-slate-400'
+                }`}>
+                  {isMediaGreen ? (
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  ) : isAnyPhotoNonDisaster ? (
+                    <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                  ) : (
+                    <span className="w-2 h-2 rounded-full bg-slate-500 shrink-0"></span>
+                  )}
+                  <span className="truncate">
+                    {isMediaGreen
+                      ? `Media: ${photos.length} Proof(s) Confirmed (Green)`
+                      : isAnyPhotoAnalyzing || isCompressing
+                      ? 'Media: Scanning Forensics...'
+                      : isAnyPhotoNonDisaster
+                      ? 'Media: Flagged Non-Disaster (Red)'
+                      : hasPhotos
+                      ? 'Media: Verification Pending'
+                      : 'Media: Attach Disaster Photo Proof'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button (Enabled ONLY when isAllGreen is true) */}
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-xs tracking-wide shadow-lg shadow-cyan-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              disabled={!isAllGreen || isSubmitting}
+              className={`w-full py-3.5 rounded-xl font-bold text-xs tracking-wide transition-all flex items-center justify-center gap-2 ${
+                isAllGreen && !isSubmitting
+                  ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white shadow-lg shadow-cyan-900/30 cursor-pointer'
+                  : 'bg-slate-800/80 border border-slate-700/60 text-slate-500 cursor-not-allowed shadow-inner'
+              }`}
             >
-              <Send className="w-4 h-4" />
-              {isSubmitting ? 'Transmitting to State Disaster Command...' : 'Submit Ground Observation & Photos'}
+              <Send className={`w-4 h-4 ${isAllGreen ? 'text-white' : 'text-slate-500'} ${isSubmitting ? 'animate-spin' : ''}`} />
+              {isSubmitting
+                ? 'Transmitting to State Disaster Command...'
+                : isAllGreen
+                ? 'Submit Ground Observation & Photos'
+                : 'Submit Ground Observation & Photos (Disabled — Awaiting All Green)'}
             </button>
           </form>
         )}
