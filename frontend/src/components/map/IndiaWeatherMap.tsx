@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, Play, Pause, FastForward, Anchor, LifeBuoy, Wind } from 'lucide-react';
+import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, ShieldCheck, AlertTriangle, Play, Pause, FastForward, Anchor, LifeBuoy, Wind } from 'lucide-react';
 import { EventCluster, WeatherReport, DwrStation, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../../types';
 import { fetchDwrRadarGrid } from '../../services/api';
 import { useNetwork } from '../../context/NetworkContext';
@@ -12,6 +12,8 @@ interface IndiaWeatherMapProps {
   selectedEventId?: string;
   onSelectEvent?: (event: EventCluster) => void;
   onSelectReport?: (report: WeatherReport) => void;
+  dashboardFilter?: 'ALL' | 'VERIFIED' | 'CRITICAL' | '24H';
+  onClearDashboardFilter?: () => void;
 }
 
 // NDRF Strategic Quick-Response Rescue Battalions across India
@@ -105,6 +107,8 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   selectedEventId,
   onSelectEvent,
   onSelectReport,
+  dashboardFilter = 'ALL',
+  onClearDashboardFilter,
 }) => {
   const { liteMode } = useNetwork();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -853,6 +857,38 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     }
   };
 
+  // Camera auto-focus when dashboardFilter or events change
+  useEffect(() => {
+    if (!mapInstanceRef.current) return;
+
+    if (dashboardFilter === 'ALL' || !dashboardFilter) {
+      mapInstanceRef.current.flyTo([22.0, 82.5], 5, { duration: 0.9 });
+      return;
+    }
+
+    if (events && events.length > 0) {
+      const validPoints = events
+        .filter(e => typeof e.latitude === 'number' && typeof e.longitude === 'number' && !isNaN(e.latitude) && !isNaN(e.longitude))
+        .map(e => [e.latitude, e.longitude] as [number, number]);
+
+      if (validPoints.length === 1) {
+        mapInstanceRef.current.flyTo(validPoints[0], 8, { duration: 0.9 });
+      } else if (validPoints.length > 1) {
+        const bounds = L.latLngBounds(validPoints);
+        mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 8, animate: true, duration: 0.9 });
+      }
+    } else if (reports && reports.length > 0) {
+      const validPoints = reports
+        .filter(r => typeof r.latitude === 'number' && typeof r.longitude === 'number' && !isNaN(r.latitude) && !isNaN(r.longitude))
+        .map(r => [r.latitude, r.longitude] as [number, number]);
+
+      if (validPoints.length > 0) {
+        const bounds = L.latLngBounds(validPoints);
+        mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 8, animate: true, duration: 0.9 });
+      }
+    }
+  }, [dashboardFilter, events]);
+
   return (
     <div className="relative w-full h-full min-h-[580px] rounded-2xl overflow-hidden border border-slate-800/80 shadow-2xl bg-slate-950 flex flex-col font-sans">
       {/* Tactical Quick-Jump City Bar */}
@@ -883,6 +919,26 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           <Layers className="w-4 h-4 text-cyan-400" />
           <span className="font-bold text-slate-200">National Weather Radar</span>
           <span className="text-[11px] text-cyan-400 font-mono font-semibold">({events.length} Clusters)</span>
+          {dashboardFilter && dashboardFilter !== 'ALL' && (
+            <span className={`px-2 py-0.5 rounded-lg border font-mono text-[10px] font-bold flex items-center gap-1 shadow-sm ${
+              dashboardFilter === 'VERIFIED' ? 'bg-emerald-950/90 border-emerald-500/60 text-emerald-300' :
+              dashboardFilter === 'CRITICAL' ? 'bg-rose-950/90 border-rose-500/60 text-rose-300' :
+              'bg-blue-950/90 border-blue-500/60 text-blue-300'
+            }`}>
+              {dashboardFilter === 'VERIFIED' && <><ShieldCheck className="w-3 h-3 text-emerald-400" /> Verified</>}
+              {dashboardFilter === 'CRITICAL' && <><AlertTriangle className="w-3 h-3 text-rose-400" /> Critical</>}
+              {dashboardFilter === '24H' && <><span>⏱️</span> Past 24h</>}
+              {onClearDashboardFilter && (
+                <button
+                  onClick={onClearDashboardFilter}
+                  className="ml-1 text-slate-400 hover:text-white cursor-pointer"
+                  title="Clear Filter"
+                >
+                  ✕
+                </button>
+              )}
+            </span>
+          )}
           {liteMode && (
             <span className="ml-1 px-1.5 py-0.5 rounded bg-amber-950/90 border border-amber-600/60 text-amber-300 text-[10px] font-mono font-bold flex items-center gap-1">
               <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />

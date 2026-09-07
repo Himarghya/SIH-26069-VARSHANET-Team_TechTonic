@@ -5,9 +5,30 @@ import { WeatherReport } from '../../types';
 interface LiveFeedProps {
   reports: WeatherReport[];
   onSelectReport: (report: WeatherReport) => void;
+  dashboardFilter?: 'ALL' | 'VERIFIED' | 'CRITICAL' | '24H';
+  onClearDashboardFilter?: () => void;
 }
 
-export const LiveFeed: React.FC<LiveFeedProps> = ({ reports = [], onSelectReport }) => {
+// Robust timestamp parser supporting ISO, UTC, SQLite format, and numeric epoch
+const parseReportTime = (ts: any): number => {
+  if (!ts) return 0;
+  if (typeof ts === 'number') return ts;
+  if (ts instanceof Date) return ts.getTime();
+  const str = String(ts).trim();
+  let parsed = new Date(str).getTime();
+  if (!isNaN(parsed)) return parsed;
+  parsed = new Date(str.replace(' ', 'T')).getTime();
+  if (!isNaN(parsed)) return parsed;
+  parsed = new Date(str.replace(' ', 'T') + 'Z').getTime();
+  return isNaN(parsed) ? 0 : parsed;
+};
+
+export const LiveFeed: React.FC<LiveFeedProps> = ({ 
+  reports = [], 
+  onSelectReport,
+  dashboardFilter = 'ALL',
+  onClearDashboardFilter,
+}) => {
   const [filterMode, setFilterMode] = useState<'all' | 'verified' | 'citizen' | 'recent'>('all');
   const [currentTime, setCurrentTime] = useState(Date.now());
 
@@ -21,7 +42,8 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({ reports = [], onSelectReport
 
   // Filter reports according to strict 6-hour rule
   const isReportRecent = (timestampStr: string) => {
-    const repTime = new Date(timestampStr).getTime();
+    const repTime = parseReportTime(timestampStr);
+    if (repTime === 0) return false;
     const diff = currentTime - repTime;
     return diff >= 0 && diff <= SIX_HOURS_MS;
   };
@@ -61,6 +83,30 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({ reports = [], onSelectReport
             </span>
           )}
         </div>
+
+        {/* Synced Dashboard GIS Filter Indicator */}
+        {dashboardFilter && dashboardFilter !== 'ALL' && (
+          <div className="flex items-center justify-between px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-800/60 text-[10px] font-mono text-cyan-300">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>
+                GIS Synced: <strong className="text-white">
+                  {dashboardFilter === 'VERIFIED' && 'Verified Incidents'}
+                  {dashboardFilter === 'CRITICAL' && 'Critical Alerts'}
+                  {dashboardFilter === '24H' && 'Past 24h'}
+                </strong> ({reports.length} in stream)
+              </span>
+            </span>
+            {onClearDashboardFilter && (
+              <button
+                onClick={onClearDashboardFilter}
+                className="text-slate-400 hover:text-white underline cursor-pointer text-[9px]"
+              >
+                Reset
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Stream Filter Pills */}
         <div className="flex items-center gap-1 overflow-x-auto pb-0.5 font-mono text-[10px]">
@@ -125,7 +171,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({ reports = [], onSelectReport
           </div>
         ) : (
           displayReports.map((rep) => {
-            const repTime = new Date(rep.timestamp).getTime();
+            const repTime = parseReportTime(rep.timestamp);
             const ageMs = currentTime - repTime;
             const isWithin6Hours = ageMs >= 0 && ageMs <= SIX_HOURS_MS;
             
