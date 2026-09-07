@@ -7,6 +7,8 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.8
+      - key: NODE_VERSION
+        value: 22.12.0
       - key: DATABASE_URL
         value: sqlite:///./varshanet.db
       - key: MALLOC_ARENA_MAX
