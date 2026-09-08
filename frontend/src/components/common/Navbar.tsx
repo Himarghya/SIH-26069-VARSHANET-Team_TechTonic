@@ -14,13 +14,9 @@ import {
   ChevronDown,
   Check,
   Menu,
-  X,
-  Zap,
-  Wifi,
-  WifiOff
+  X
 } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
-import { useNetwork } from '../../context/NetworkContext';
 
 interface NavbarProps {
   activeTab: string;
@@ -97,15 +93,6 @@ export const Navbar: React.FC<NavbarProps> = ({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isRoleDropdownOpen]);
-
-  const {
-    networkStatus,
-    liteMode,
-    toggleLiteMode,
-    outboxCount,
-    isSyncingOutbox,
-    syncOutbox
-  } = useNetwork();
 
   // 5-Minute Auto-Sync Countdown Timer
   useEffect(() => {
@@ -233,43 +220,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Toolbar Controls */}
         <div className="flex items-center gap-1.5 shrink-0">
-          {/* 2G/3G Lite Mode Toggle Pill */}
-          <button
-            onClick={toggleLiteMode}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-xs font-mono transition-all cursor-pointer shrink-0 ${
-              liteMode
-                ? 'bg-amber-950/90 border-amber-500 text-amber-300 shadow-md shadow-amber-950/40'
-                : 'bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200'
-            }`}
-            title={`Click to toggle 2G/3G Data Saver Mode. Current: ${liteMode ? 'LITE ON' : 'FULL SPEED'} (${networkStatus.effectiveType.toUpperCase()})`}
-          >
-            <Zap className={`w-3 h-3 ${liteMode ? 'text-amber-400 fill-amber-400 animate-pulse' : 'text-slate-500'}`} />
-            <span className="font-bold text-[10px]">
-              {liteMode ? '2G Lite' : '2G/3G'}
-            </span>
-          </button>
-
-          {/* Offline Outbox Queue Status Pill */}
-          {outboxCount > 0 && (
-            <button
-              onClick={() => syncOutbox()}
-              disabled={isSyncingOutbox || !networkStatus.isOnline}
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-orange-950/90 border border-orange-500/60 text-orange-300 text-[10px] font-mono font-bold animate-pulse cursor-pointer shrink-0"
-              title="Reports queued locally offline. Click to sync now"
-            >
-              <RefreshCw className={`w-3 h-3 text-orange-400 ${isSyncingOutbox ? 'animate-spin' : ''}`} />
-              <span>Outbox: {outboxCount}</span>
-            </button>
-          )}
-
-          {/* Network Connection Pill (if offline or 2G) */}
-          {!networkStatus.isOnline && (
-            <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-300 text-[10px] font-mono shrink-0">
-              <WifiOff className="w-3 h-3 text-rose-400" />
-              <span className="hidden sm:inline">Offline (PWA)</span>
-            </div>
-          )}
-
           {/* Live Sync Trigger & Countdown Badge */}
           <button
             onClick={handleSync}
@@ -410,42 +360,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               })}
             </div>
           </div>
-
-          {/* Mobile 2G/3G Data Saver & PWA Status Card */}
-          <div className="flex items-center justify-between p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs font-mono">
-            <div className="flex items-center gap-2">
-              <Zap className={`w-4 h-4 ${liteMode ? 'text-amber-400' : 'text-slate-500'}`} />
-              <div>
-                <div className="text-slate-200 font-bold">2G/3G Lite Mode</div>
-                <div className="text-[10px] text-slate-400">
-                  {networkStatus.isOnline ? `Net: ${networkStatus.effectiveType.toUpperCase()}` : 'Offline Cached PWA'}
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={toggleLiteMode}
-              className={`px-3 py-1 rounded-md text-[11px] font-bold transition ${
-                liteMode
-                  ? 'bg-amber-500 text-slate-950 shadow-sm'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-              }`}
-            >
-              {liteMode ? 'ON' : 'OFF'}
-            </button>
-          </div>
-
-          {outboxCount > 0 && (
-            <div className="flex items-center justify-between p-2 rounded-lg bg-orange-950/60 border border-orange-700/60 text-xs font-mono text-orange-200">
-              <span>{outboxCount} offline report(s) pending sync</span>
-              <button
-                onClick={() => syncOutbox()}
-                disabled={isSyncingOutbox}
-                className="px-2 py-0.5 bg-orange-600 hover:bg-orange-500 text-white rounded font-bold text-[10px]"
-              >
-                {isSyncingOutbox ? 'Syncing...' : 'Sync Now'}
-              </button>
-            </div>
-          )}
 
           <div className="grid grid-cols-2 gap-1">
             {visibleNavItems.map((item) => {

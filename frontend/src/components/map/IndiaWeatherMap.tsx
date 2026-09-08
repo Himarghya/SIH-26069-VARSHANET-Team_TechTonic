@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css';
 import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, ShieldCheck, AlertTriangle, Play, Pause, FastForward, Anchor, LifeBuoy, Wind } from 'lucide-react';
 import { EventCluster, WeatherReport, DwrStation, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../../types';
 import { fetchDwrRadarGrid } from '../../services/api';
-import { useNetwork } from '../../context/NetworkContext';
 
 interface IndiaWeatherMapProps {
   events: EventCluster[];
@@ -110,7 +109,6 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   dashboardFilter = 'ALL',
   onClearDashboardFilter,
 }) => {
-  const { liteMode } = useNetwork();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
@@ -937,12 +935,6 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
                   ✕
                 </button>
               )}
-            </span>
-          )}
-          {liteMode && (
-            <span className="ml-1 px-1.5 py-0.5 rounded bg-amber-950/90 border border-amber-600/60 text-amber-300 text-[10px] font-mono font-bold flex items-center gap-1">
-              <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
-              2G Lite Mode
             </span>
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   CloudRain,
   MapPin,
@@ -12,18 +12,11 @@ import {
   Trash2,
   ArrowDownCircle,
   Clock,
-  CheckCircle,
-  Zap,
-  Wifi,
-  WifiOff,
-  Smartphone,
-  RefreshCw
+  CheckCircle
 } from 'lucide-react';
 import { submitCitizenReport, trackCitizenReport, analyzeMedia, analyzeObservationText, TextAnalysisResult } from '../../services/api';
 import { WeatherReport, ALL_INDIAN_STATES_UTS } from '../../types';
 import { LiveMlForensicInspector } from '../ml/LiveMlForensicInspector';
-import { compressImageFor2G, saveReportToOfflineOutbox } from '../../utils/networkOptimizer';
-import { useNetwork } from '../../context/NetworkContext';
 
 export interface MediaAnalysisResult {
   status: 'analyzing' | 'done' | 'error';
@@ -40,10 +33,7 @@ export interface MediaAnalysisResult {
 }
 
 export const CitizenReportForm: React.FC = () => {
-  const { networkStatus, liteMode, outbox, outboxCount, isSyncingOutbox, syncOutbox, refreshOutbox } = useNetwork();
-  const [offlineQueuedTicket, setOfflineQueuedTicket] = useState<string | null>(null);
-  const [compressionStats, setCompressionStats] = useState<{ [url: string]: { origKb: number; compKb: number; savings: number } }>({});
-  const [isCompressing, setIsCompressing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [eventType, setEventType] = useState('Urban Flooding');
   const [description, setDescription] = useState('');
@@ -137,6 +127,9 @@ export const CitizenReportForm: React.FC = () => {
             ...prev,
             [photoUrl]: {
               status: 'done',
+              is_disaster: res.is_disaster,
+              verdict: res.verdict,
+              disaster_prob: res.disaster_prob,
               is_weather_related: res.is_weather_related,
               is_authentic: res.is_authentic,
               admin_verdict: res.admin_verdict,
@@ -150,12 +143,14 @@ export const CitizenReportForm: React.FC = () => {
           // Client-side heuristic fallback for offline or network glitch
           const isFakeSample = typeof photoUrl === 'string' && (
             photoUrl.includes('fox') || photoUrl.includes('cat') || photoUrl.includes('dog') ||
-            photoUrl.includes('elephant') || photoUrl.includes('meme') || photoUrl.includes('fake=true')
+            photoUrl.includes('elephant') || photoUrl.includes('tusker') || photoUrl.includes('meme') || photoUrl.includes('fake=true')
           );
           setMediaAnalyses(prev => ({
             ...prev,
             [photoUrl]: {
               status: 'done',
+              is_disaster: !isFakeSample,
+              verdict: isFakeSample ? "NOT_DISASTER" : "DISASTER",
               is_weather_related: !isFakeSample,
               is_authentic: !isFakeSample,
               admin_verdict: isFakeSample ? "FALSE: NOT DISASTER RELATED" : "TRUE: DISASTER RELATED",
@@ -171,6 +166,8 @@ export const CitizenReportForm: React.FC = () => {
           ...prev,
           [photoUrl]: {
             status: 'error',
+            is_disaster: false,
+            verdict: "NOT_DISASTER",
             is_weather_related: false,
             admin_verdict: "FALSE: NOT DISASTER RELATED",
             admin_recommendation: "❌ RECOMMEND REJECT",
@@ -182,7 +179,7 @@ export const CitizenReportForm: React.FC = () => {
     });
   }, [photos]);
 
-  // Process files from file input, drag & drop, or clipboard paste (Supports Photo & Video with 2G/3G Auto-Compression)
+  // Process files from file input, drag & drop, or clipboard paste (Supports Photo & Video)
   const processFiles = (files: FileList | File[]) => {
     setPhotoError(null);
     if (!files || files.length === 0) return;
@@ -195,7 +192,7 @@ export const CitizenReportForm: React.FC = () => {
 
     const filesToProcess = Array.from(files).slice(0, remainingSlots);
 
-    filesToProcess.forEach(async (file) => {
+    filesToProcess.forEach(file => {
       const isImg = file.type.startsWith('image/');
       const isVid = file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.webm') || file.name.endsWith('.mov');
       
@@ -204,50 +201,16 @@ export const CitizenReportForm: React.FC = () => {
         return;
       }
 
-      if (isImg) {
-        setIsCompressing(true);
-        try {
-          // ⚡ HTML5 Canvas Compression: Resizes to max 960px & compresses to ~60-90KB for 2G/3G efficiency
-          const result = await compressImageFor2G(file, liteMode ? 800 : 960, liteMode ? 0.55 : 0.65);
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        if (loadEvent.target?.result) {
           setPhotos(prev => {
             if (prev.length >= 3) return prev;
-            return [...prev, result.dataUrl];
+            return [...prev, loadEvent.target!.result as string];
           });
-          setCompressionStats(prev => ({
-            ...prev,
-            [result.dataUrl]: {
-              origKb: result.originalSizeKb,
-              compKb: result.compressedSizeKb,
-              savings: result.savingsPct
-            }
-          }));
-        } catch (err) {
-          console.warn('Canvas compression fallback to standard reader:', err);
-          const reader = new FileReader();
-          reader.onload = (loadEvent) => {
-            if (loadEvent.target?.result) {
-              setPhotos(prev => {
-                if (prev.length >= 3) return prev;
-                return [...prev, loadEvent.target!.result as string];
-              });
-            }
-          };
-          reader.readAsDataURL(file);
-        } finally {
-          setIsCompressing(false);
         }
-      } else {
-        const reader = new FileReader();
-        reader.onload = (loadEvent) => {
-          if (loadEvent.target?.result) {
-            setPhotos(prev => {
-              if (prev.length >= 3) return prev;
-              return [...prev, loadEvent.target!.result as string];
-            });
-          }
-        };
-        reader.readAsDataURL(file);
-      }
+      };
+      reader.readAsDataURL(file);
     });
 
     if (files.length > remainingSlots) {
@@ -256,9 +219,10 @@ export const CitizenReportForm: React.FC = () => {
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files.length > 0) {
       processFiles(e.target.files);
     }
+    e.target.value = '';
   };
 
   // Drag and Drop Event Handlers
@@ -355,7 +319,7 @@ export const CitizenReportForm: React.FC = () => {
     return an && an.status === 'done' && (an.is_disaster === true || an.is_weather_related === true);
   });
 
-  const isMediaGreen = hasPhotos && allPhotosDisasters && !isAnyPhotoAnalyzing && !isAnyPhotoNonDisaster && !isCompressing;
+  const isMediaGreen = hasPhotos && allPhotosDisasters && !isAnyPhotoAnalyzing && !isAnyPhotoNonDisaster;
 
   // 🔒 STRICT: Submit is enabled ONLY when both Text and Media checks are confirmed GREEN
   const isAllGreen = isTextGreen && isMediaGreen;
@@ -364,7 +328,6 @@ export const CitizenReportForm: React.FC = () => {
     e.preventDefault();
     if (!description || !isAllGreen || isSubmitting) return;
     setIsSubmitting(true);
-    setOfflineQueuedTicket(null);
 
     const repCity = city || 'Bhopal';
     const repLat = latitude || 23.2599;
@@ -381,29 +344,14 @@ export const CitizenReportForm: React.FC = () => {
       author_contact: contact || 'citizen_reporter'
     };
 
-    // If device is currently offline (0 bars or disconnected)
-    if (!navigator.onLine) {
-      const queued = saveReportToOfflineOutbox(payload);
-      setOfflineQueuedTicket(queued.id);
-      refreshOutbox();
-      setDescription('');
-      setPhotos([]);
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
       const res = await submitCitizenReport(payload);
       setSubmittedReport(res);
       setDescription('');
       setPhotos([]);
-    } catch (err) {
-      console.warn('Network transmission error; auto-caching to offline outbox:', err);
-      const queued = saveReportToOfflineOutbox(payload);
-      setOfflineQueuedTicket(queued.id);
-      refreshOutbox();
-      setDescription('');
-      setPhotos([]);
+    } catch (err: any) {
+      console.error('Citizen report submission failed:', err);
+      alert(err.response?.data?.detail || 'Failed to submit report. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -454,46 +402,6 @@ export const CitizenReportForm: React.FC = () => {
             <span>Inspect 100-Epoch ML Model &amp; Loss Curves</span>
           </button>
         </div>
-
-        {/* ⚡ 2G/3G Smartphone Readiness Banner */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-cyan-950/40 border border-cyan-800/40 mb-4 gap-2 text-xs font-mono text-cyan-200">
-          <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>
-              <strong>2G/3G Smartphone Ready:</strong> Lightweight PWA &bull; No App Store Required &bull; Auto-Compress &amp; Offline Sync
-            </span>
-          </div>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-300 font-bold shrink-0">
-            {networkStatus.isOnline ? `Net: ${networkStatus.effectiveType.toUpperCase()}` : '📶 Offline PWA Active'}
-          </span>
-        </div>
-
-        {/* 📶 Offline Outbox Saved Notice */}
-        {offlineQueuedTicket && (
-          <div className="p-4 rounded-xl bg-amber-950/80 border border-amber-500 text-left space-y-2 font-mono mb-4 animate-fade-in">
-            <div className="flex items-center gap-2 text-amber-300 font-bold text-sm">
-              <CheckCircle2 className="w-5 h-5 text-amber-400 shrink-0" />
-              <span>Report Saved to Offline Phone Outbox!</span>
-            </div>
-            <p className="text-xs text-amber-200/90 font-sans">
-              You are currently in a zero-signal or flaky 2G/3G zone. Your observation has been securely saved locally to device storage. VARSHANET will automatically submit it to state command as soon as cell signal returns.
-            </p>
-            <div className="flex items-center justify-between pt-2 border-t border-amber-800/60 text-xs text-amber-300">
-              <span>Local Ticket: <strong>{offlineQueuedTicket}</strong></span>
-              <button
-                type="button"
-                onClick={async () => {
-                  await syncOutbox();
-                  setOfflineQueuedTicket(null);
-                }}
-                disabled={isSyncingOutbox}
-                className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded text-[11px] cursor-pointer"
-              >
-                {isSyncingOutbox ? 'Syncing...' : 'Sync Outbox Now'}
-              </button>
-            </div>
-          </div>
-        )}
 
         {submittedReport ? (
           <div className="p-6 rounded-2xl bg-slate-950/90 border border-slate-800 text-center space-y-4 animate-fade-in">
@@ -723,19 +631,6 @@ export const CitizenReportForm: React.FC = () => {
                               {isVid ? '🎥 Field Video' : `Photo #${idx + 1}`}
                             </span>
                           </div>
-
-                          {/* ⚡ 2G Compression Savings Badge */}
-                          {compressionStats[mediaUrl] && (
-                            <div className="px-2.5 py-1 bg-emerald-950/80 border-t border-emerald-800/60 flex items-center justify-between text-[9px] font-mono text-emerald-300">
-                              <span className="flex items-center gap-1">
-                                <Zap className="w-2.5 h-2.5 text-amber-400" />
-                                <span>2G Ready</span>
-                              </span>
-                              <span>
-                                {compressionStats[mediaUrl].origKb}KB &rarr; {compressionStats[mediaUrl].compKb}KB (-{compressionStats[mediaUrl].savings}%)
-                              </span>
-                            </div>
-                          )}
 
                           {/* 🔬 Per-Photo Automatic In-App ML Verdict Card */}
                           <div className="p-2.5 space-y-1 font-mono text-left bg-slate-950/60 border-t border-slate-800/80">
@@ -967,7 +862,7 @@ export const CitizenReportForm: React.FC = () => {
                 <div className={`flex items-center gap-1.5 p-2 rounded-lg border ${
                   isMediaGreen
                     ? 'bg-emerald-950/80 border-emerald-700/60 text-emerald-200 font-semibold'
-                    : isAnyPhotoAnalyzing || isCompressing
+                    : isAnyPhotoAnalyzing
                     ? 'bg-purple-950/60 border-purple-700/50 text-purple-300 animate-pulse'
                     : isAnyPhotoNonDisaster
                     ? 'bg-rose-950/80 border-rose-800/80 text-rose-300'
@@ -983,7 +878,7 @@ export const CitizenReportForm: React.FC = () => {
                   <span className="truncate">
                     {isMediaGreen
                       ? `Media: ${photos.length} Proof(s) Confirmed (Green)`
-                      : isAnyPhotoAnalyzing || isCompressing
+                      : isAnyPhotoAnalyzing
                       ? 'Media: Scanning Forensics...'
                       : isAnyPhotoNonDisaster
                       ? 'Media: Flagged Non-Disaster (Red)'
@@ -1076,70 +971,6 @@ export const CitizenReportForm: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
-
-        {/* 📱 2G/3G Smartphone & Offline Outbox Center */}
-        <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 font-mono text-xs">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-white font-bold">
-              <Smartphone className="w-4 h-4 text-cyan-400" />
-              <span>Smartphone &amp; Signal Center</span>
-            </div>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-              networkStatus.isOnline
-                ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
-                : 'bg-rose-950 text-rose-300 border border-rose-800 animate-pulse'
-            }`}>
-              {networkStatus.isOnline ? `${networkStatus.effectiveType.toUpperCase()} CELL ACTIVE` : 'OFFLINE / 0 BARS'}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300">
-            <div className="p-2 rounded-lg bg-slate-900 border border-slate-800">
-              <span className="text-slate-400 text-[10px] block">App Delivery</span>
-              <strong className="text-cyan-300 font-sans">No Store Download</strong>
-            </div>
-            <div className="p-2 rounded-lg bg-slate-900 border border-slate-800">
-              <span className="text-slate-400 text-[10px] block">Photo Compression</span>
-              <strong className="text-emerald-400 font-sans">&lt;90KB Canvas</strong>
-            </div>
-          </div>
-
-          {/* Pending Offline Reports Outbox */}
-          <div className="pt-2 border-t border-slate-800">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-slate-400 text-[10px] uppercase font-bold">Offline Outbox Queue</span>
-              <span className={`font-bold ${outboxCount > 0 ? 'text-amber-400 animate-pulse' : 'text-slate-500'}`}>
-                {outboxCount} Pending
-              </span>
-            </div>
-
-            {outboxCount > 0 ? (
-              <div className="space-y-2">
-                <div className="p-2.5 rounded-lg bg-amber-950/40 border border-amber-800/60 text-amber-200 text-[11px] space-y-1">
-                  <p className="font-sans">Reports are saved safely on device memory.</p>
-                  <div className="text-[10px] text-amber-300/80 font-mono">
-                    Latest: {outbox[0]?.payload?.event_type} &bull; {outbox[0]?.payload?.city}
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    await syncOutbox();
-                  }}
-                  disabled={isSyncingOutbox || !networkStatus.isOnline}
-                  className="w-full py-2 rounded-lg bg-amber-600 hover:bg-amber-500 disabled:bg-slate-800 disabled:text-slate-500 text-slate-950 font-bold text-xs transition cursor-pointer flex items-center justify-center gap-1.5 shadow"
-                >
-                  <RefreshCw className={`w-3.5 h-3.5 ${isSyncingOutbox ? 'animate-spin' : ''}`} />
-                  <span>{isSyncingOutbox ? 'Transmitting to Grid...' : 'Sync Pending Outbox Now'}</span>
-                </button>
-              </div>
-            ) : (
-              <p className="text-[11px] text-slate-400 font-sans leading-relaxed">
-                Outbox is clear. Photos and reports transmit instantly or auto-queue here if signal drops.
-              </p>
-            )}
-          </div>
         </div>
 
         {/* Public Service Notice */}

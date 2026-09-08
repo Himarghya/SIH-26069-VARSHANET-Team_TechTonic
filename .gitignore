@@ -17,6 +17,7 @@ node_modules/
 frontend/node_modules/
 frontend/dist/
 frontend/build/
+*.tsbuildinfo
 
 # Databases
 *.db
@@ -49,5 +50,6 @@ data/
 *.safetensors
 text_disaster_transformer_model/
 !processing/vision/*.pt
+!processing/vision/*.pth
 !ml_disaster_classifier/*.pt
 !backend/ml/classifier/*.pt
