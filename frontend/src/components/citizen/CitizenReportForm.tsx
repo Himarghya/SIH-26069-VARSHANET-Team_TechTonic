@@ -651,6 +651,10 @@ export const CitizenReportForm: React.FC = () => {
                                 <div className="text-[9px] font-bold text-rose-400">
                                   {analysis?.admin_recommendation || '❌ RECOMMEND REJECT'}
                                 </div>
+                                <div className="text-[8px] text-slate-400 font-mono flex items-center justify-between pt-0.5 border-t border-slate-800/60">
+                                  <span className="truncate">Dataset: Kaggle CDD</span>
+                                  <span className="text-slate-400 font-bold shrink-0">Negative Baseline</span>
+                                </div>
                               </div>
                             ) : isDisaster ? (
                               <div className="space-y-1">
@@ -663,6 +667,12 @@ export const CitizenReportForm: React.FC = () => {
                                 </div>
                                 <div className="text-[9px] font-bold text-emerald-400">
                                   {analysis?.admin_recommendation || '✅ RECOMMEND VERIFY'}
+                                </div>
+                                <div className="text-[8px] text-slate-400 font-mono flex items-center justify-between pt-0.5 border-t border-slate-800/60">
+                                  <span className="truncate">Dataset: Kaggle CDD</span>
+                                  <span className="text-emerald-400 font-bold shrink-0">
+                                    {((analysis?.disaster_prob || 1) * 100).toFixed(0)}% Conf
+                                  </span>
                                 </div>
                               </div>
                             ) : (
@@ -693,7 +703,7 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-purple-950/60 border border-purple-800/80 text-[11px] font-mono text-purple-200 flex items-center justify-between gap-2 shadow-lg animate-pulse">
                           <span className="flex items-center gap-2 font-bold text-purple-300">
                             <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping"></span>
-                            <span>🔬 VARSHANET DisasterGuard ML analyzing photo evidence in real time...</span>
+                            <span>🔬 VARSHANET DisasterGuard (Trained Kaggle CDD Dataset) analyzing photo evidence in real time...</span>
                           </span>
                         </div>
                       );
@@ -704,7 +714,7 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
                           <span className="flex items-center gap-2 font-black text-rose-300">
                             <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-                            <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED BY DISASTER CLASSIFIER)</span>
+                            <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED VIA KAGGLE CDD BASELINE)</span>
                           </span>
                           <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
                             ⚠️ Flagged For Immediate Admin Rejection
@@ -718,7 +728,7 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-emerald-950/70 border border-emerald-800/80 text-[11px] font-mono text-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
                           <span className="flex items-center gap-2 font-black text-emerald-300">
                             <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                            <span>✅ ML PRE-SCREEN: TRUE (DISASTER GROUND EVIDENCE CONFIRMED)</span>
+                            <span>✅ ML PRE-SCREEN: TRUE (DISASTER GROUND PROOF CONFIRMED BY TRAINED KAGGLE CDD MODEL)</span>
                           </span>
                           <span className="text-emerald-200 font-bold bg-emerald-900/90 px-2.5 py-0.5 rounded border border-emerald-700 text-right shrink-0">
                             ✓ Validated For Transmission

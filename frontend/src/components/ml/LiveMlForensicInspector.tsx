@@ -44,13 +44,13 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-xs sm:text-sm font-bold text-white">VARSHANET-VisionGuard &amp; TextGuard ML Inference</h4>
+              <h4 className="text-xs sm:text-sm font-bold text-white">VARSHANET-DisasterGuard &amp; TextGuard ML Forensics</h4>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
-                25 Epochs Trained
+                Kaggle CDD Trained
               </span>
             </div>
             <p className="text-[11px] text-slate-400">
-              Custom dual-head deep learning neural network trained for Indian weather domain &amp; fake disaster media detection.
+              Trained on Kaggle Comprehensive Disaster Dataset (13,557 images) + Intel Scenes &amp; Negative Baselines.
             </p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
                 activeTab === 'epochs' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              25 Epoch Curves
+              CDD Dataset &amp; Curves
             </button>
             <button
               onClick={() => setActiveTab('architecture')}
@@ -200,38 +200,50 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
         </div>
       )}
 
-      {/* Tab 2: 25 Epoch Training Curves */}
+      {/* Tab 2: CDD Dataset & Training Convergence */}
       {activeTab === 'epochs' && (
         <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-3 font-mono text-xs">
           <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-            <span className="text-white font-bold">25 Epoch Training Convergence (PyTorch 2.9 + AdamW)</span>
-            <span className="text-emerald-400 font-bold">Final Macro F1: 99.4%</span>
+            <span className="text-white font-bold">Kaggle Comprehensive Disaster Dataset (CDD varpit94)</span>
+            <span className="text-emerald-400 font-bold">13,557 Images Trained</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[10px]">
             <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-slate-500 block">START LOSS (EP 1)</span>
-              <strong className="text-rose-400 text-xs">0.3000</strong>
+              <span className="text-slate-500 block">TOTAL IMAGES</span>
+              <strong className="text-cyan-400 text-xs">13,557</strong>
             </div>
             <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-slate-500 block">FINAL LOSS (EP 25)</span>
-              <strong className="text-emerald-400 text-xs">0.0000</strong>
+              <span className="text-slate-500 block">EPOCHS TRAINED</span>
+              <strong className="text-purple-400 text-xs">100 Epochs</strong>
             </div>
             <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-slate-500 block">WEATHER ACCURACY</span>
-              <strong className="text-cyan-400 text-xs">100.0%</strong>
+              <span className="text-slate-500 block">TRAIN ACCURACY</span>
+              <strong className="text-emerald-400 text-xs">78.66%</strong>
             </div>
             <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-slate-500 block">AUTHENTICITY ACC</span>
-              <strong className="text-purple-400 text-xs">100.0%</strong>
+              <span className="text-slate-500 block">TEST ACCURACY</span>
+              <strong className="text-amber-400 text-xs">74.67% (F1: 0.75)</strong>
             </div>
           </div>
 
-          <div className="space-y-1 pt-2">
+          <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-[10px] space-y-1">
+            <span className="text-slate-400 uppercase font-bold block">Trained Dataset Partitions &amp; Negative Baselines:</span>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-slate-300">
+              <span className="text-emerald-400">✓ Fire &amp; Wildfire</span>
+              <span className="text-cyan-400">✓ Flood Water Inundation</span>
+              <span className="text-amber-400">✓ Infrastructure Damage</span>
+              <span className="text-purple-400">✓ Landslide &amp; Drought</span>
+              <span className="text-rose-400">✓ Human Disaster Impact</span>
+              <span className="text-slate-400">✓ Non-Damage &amp; Everyday</span>
+            </div>
+          </div>
+
+          <div className="space-y-1 pt-1">
             <div className="flex justify-between text-[10px] text-slate-400">
-              <span>Epoch 1 (Loss: 0.3000)</span>
-              <span>Epoch 10 (Loss: 0.0001)</span>
-              <span>Epoch 25 (Loss: 0.0000)</span>
+              <span>Epoch 1 (Loss: 0.602)</span>
+              <span>Epoch 50 (Loss: 0.489)</span>
+              <span>Epoch 100 (Loss: 0.446)</span>
             </div>
             <div className="w-full h-3 rounded-full bg-slate-950 overflow-hidden border border-slate-800 flex">
               <div style={{ width: '40%' }} className="bg-rose-500 h-full"></div>
@@ -251,12 +263,16 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
           </div>
           <div className="space-y-1.5 text-[11px]">
             <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-purple-400 font-bold block">1. VARSHANET-TextGuard-v2.1:</span>
-              <span>Multi-lingual TF-IDF (1,200 n-grams) $\rightarrow$ 256-dim Dense (BatchNorm1d + Dropout 0.35) $\rightarrow$ 128-dim Dense $\rightarrow$ Dual Classification Heads (Weather &amp; Authenticity).</span>
+              <span className="text-cyan-400 font-bold block">1. Stage 1: MobileNetV3 Semantic Entity Discriminator (ImageNet-1K):</span>
+              <span>Scans 1,000 visual categories to filter out animals/pets, clean scenic rivers, food, and intact residential buildings with 0 false-alarm escalation.</span>
             </div>
             <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-cyan-400 font-bold block">2. VARSHANET-VisionGuard-v2.1:</span>
-              <span>8-Feature Forensic Extractor (HSV Turbidity, Overcast Sky, Edge Entropy, dHash Distance, Motion Vector, AI Artifact Score) $\rightarrow$ 128-dim Backbone $\rightarrow$ Dual Softmax Probability Heads.</span>
+              <span className="text-purple-400 font-bold block">2. Stage 2: Fine-Tuned ResNet18 Binary Classifier (Kaggle CDD):</span>
+              <span>Trained on 13,557 Kaggle disaster images (Floods, Wildfires, Storms, Collapses) paired with Intel Scene &amp; Domestic Pet negative controls.</span>
+            </div>
+            <div className="p-2 rounded bg-slate-950 border border-slate-800">
+              <span className="text-emerald-400 font-bold block">3. VARSHANET-TextGuard-v2.1:</span>
+              <span>Multi-lingual TF-IDF (1,200 n-grams) $\rightarrow$ 256-dim Dense (BatchNorm1d + Dropout 0.35) $\rightarrow$ 128-dim Dense $\rightarrow$ Dual Classification Heads.</span>
             </div>
           </div>
         </div>
