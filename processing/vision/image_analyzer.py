@@ -4,10 +4,15 @@ image_analyzer.py
 Disaster vs. Not-Disaster Image Analyzer for VARSHANET VisionGuard.
 Two-Stage Forensic Architecture:
   Stage 1: MobileNetV3 Semantic Entity Discriminator (ImageNet-1K).
-           Detects non-disaster entities (wildlife/animals, food, domestic electronics/gadgets)
-           with high precision and immediate short-circuiting to prevent false alarms.
+           Detects non-disaster entities with high precision:
+           - Wildlife & Animals (elephants, dogs, foxes, birds, etc.)
+           - Food & Produce (dishes, fruits, vegetables)
+           - Domestic Indoor Electronics & Everyday Items
+           - Normal Residential Houses & Buildings (intact architecture without fire/collapse)
+           - Normal Scenic Rivers, Lakes & Landscapes (clean water without muddy flood sediment)
   Stage 2: Fine-Tuned ResNet18 Binary Classifier.
-           Evaluates disaster ground proof vs. normal outdoor scenes.
+           Evaluates genuine disaster ground proof (floods, wildfires, structural destruction)
+           against unclassified scenes.
 """
 from __future__ import annotations
 
@@ -20,7 +25,7 @@ import threading
 from pathlib import Path
 from typing import Dict, Any, Optional, Tuple, List
 
-from PIL import Image, ImageFile
+from PIL import Image, ImageFile, ImageStat
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -79,6 +84,19 @@ EVERYDAY_INDOOR_NAMES = {
     "sweatshirt", "running shoe", "backpack", "umbrella", "toilet seat",
     "refrigerator", "microwave", "toaster", "electric guitar", "acoustic guitar",
     "television", "computer keyboard", "mouse", "ipod", "remote control"
+}
+
+# Normal architecture, residential structures and buildings
+HOUSE_BUILDING_CATS = {
+    "thatch", "barn", "boathouse", "patio", "tile roof", "mobile home", "church", "palace",
+    "monastery", "castle", "greenhouse", "cinema", "library", "restaurant", "cliff dwelling",
+    "birdhouse", "dock", "pier", "beacon", "lighthouse", "water tower", "bell cote", "dome",
+    "picket fence", "worm fence", "mailbox"
+}
+
+# Normal inland river, lake and natural landscape categories
+RIVER_WATER_CATS = {
+    "lakeside", "sandbar", "valley", "alp", "cliff", "geyser", "fountain"
 }
 
 
@@ -175,8 +193,13 @@ class ImageWeatherAnalyzer:
     def analyze_pil_image(self, pil_img: Image.Image, threshold: Optional[float] = None) -> Dict[str, Any]:
         """
         Runs two-stage disaster classification on a PIL Image:
-        Stage 1: MobileNetV3 semantic entity discrimination (wildlife, pets, food, indoor items).
-        Stage 2: Fine-tuned ResNet18 binary disaster classifier.
+        Stage 1: MobileNetV3 semantic entity discrimination:
+                 - Animals, wildlife, and domestic pets
+                 - Food, dining, and produce
+                 - Everyday indoor items and personal gadgets
+                 - Normal residential houses & intact architecture
+                 - Normal calm rivers, lakes, and scenic water bodies
+        Stage 2: Fine-tuned ResNet18 binary disaster classifier for environmental proof.
         """
         ensure_models()
         thresh = threshold if threshold is not None else self.threshold
@@ -202,6 +225,14 @@ class ImageWeatherAnalyzer:
 
         img_rgb = pil_img.convert("RGB")
 
+        # Color & turbidity forensics
+        stat = ImageStat.Stat(img_rgb)
+        r_mean, g_mean, b_mean = stat.mean[:3]
+        # Muddy/silt water index (flood inundation characterized by high brown/tan sediment)
+        is_muddy_water = (r_mean > b_mean + 12 and g_mean > b_mean + 5 and r_mean < 185)
+        # Intense flame/fire signature
+        is_fire = (r_mean > 165 and r_mean > g_mean * 1.35 and r_mean > b_mean * 1.9)
+
         # Stage 1: MobileNetV3 Semantic Entity Discrimination
         top1_idx = -1
         top1_prob = 0.0
@@ -215,11 +246,16 @@ class ImageWeatherAnalyzer:
             top1_idx = int(top5.indices[0].item())
             top1_name = _mobilenet_categories[top1_idx]
             top1_prob = float(top5.values[0].item())
+            top_entity = top1_name.replace("_", " ").title()
+
+            top_preds_formatted = [
+                f"{_mobilenet_categories[int(idx.item())].title()}: {round(float(prob.item()), 4)}"
+                for idx, prob in zip(top5.indices, top5.values)
+            ]
 
             # 1. Animal & Wildlife Detection Filter
             total_animal_prob = float(sum(m_probs[i].item() for i in range(ANIMAL_CLASS_MAX_IDX + 1)))
             if top1_idx <= ANIMAL_CLASS_MAX_IDX and (top1_prob >= 0.15 or total_animal_prob >= 0.35):
-                top_entity = top1_name.replace("_", " ").title()
                 return {
                     "media_type": "image",
                     "verdict": "NOT_DISASTER",
@@ -236,16 +272,12 @@ class ImageWeatherAnalyzer:
                     "authenticity_score": 0.01,
                     "weather_relevance_confidence": 1.0,
                     "fake_probability": 99.0,
-                    "top_predictions": [
-                        f"{_mobilenet_categories[int(idx.item())].title()}: {round(float(prob.item()), 4)}"
-                        for idx, prob in zip(top5.indices, top5.values)
-                    ],
+                    "top_predictions": top_preds_formatted,
                 }
 
             # 2. Food & Produce Filter
             total_food_prob = float(sum(m_probs[i].item() for i in range(FOOD_CLASS_MIN_IDX, FOOD_CLASS_MAX_IDX + 1)))
             if (FOOD_CLASS_MIN_IDX <= top1_idx <= FOOD_CLASS_MAX_IDX) and (top1_prob >= 0.15 or total_food_prob >= 0.35):
-                top_entity = top1_name.replace("_", " ").title()
                 return {
                     "media_type": "image",
                     "verdict": "NOT_DISASTER",
@@ -262,15 +294,11 @@ class ImageWeatherAnalyzer:
                     "authenticity_score": 0.01,
                     "weather_relevance_confidence": 1.0,
                     "fake_probability": 99.0,
-                    "top_predictions": [
-                        f"{_mobilenet_categories[int(idx.item())].title()}: {round(float(prob.item()), 4)}"
-                        for idx, prob in zip(top5.indices, top5.values)
-                    ],
+                    "top_predictions": top_preds_formatted,
                 }
 
-            # 3. Domestic / Indoor Gadgets Filter
+            # 3. Domestic / Indoor Everyday Objects Filter
             if top1_name in EVERYDAY_INDOOR_NAMES and top1_prob >= 0.20:
-                top_entity = top1_name.replace("_", " ").title()
                 return {
                     "media_type": "image",
                     "verdict": "NOT_DISASTER",
@@ -287,10 +315,54 @@ class ImageWeatherAnalyzer:
                     "authenticity_score": 0.01,
                     "weather_relevance_confidence": 1.0,
                     "fake_probability": 99.0,
-                    "top_predictions": [
-                        f"{_mobilenet_categories[int(idx.item())].title()}: {round(float(prob.item()), 4)}"
-                        for idx, prob in zip(top5.indices, top5.values)
-                    ],
+                    "top_predictions": top_preds_formatted,
+                }
+
+            # 4. Normal Residential House & Intact Architecture Filter
+            # If the primary detected entity is a house/building and no fire
+            is_house_entity = (top1_name in HOUSE_BUILDING_CATS and top1_prob >= 0.16) or (
+                len(top5.indices) > 1 and _mobilenet_categories[int(top5.indices[1].item())] in HOUSE_BUILDING_CATS and float(top5.values[1].item()) >= 0.20
+            )
+            if is_house_entity and not is_fire:
+                return {
+                    "media_type": "image",
+                    "verdict": "NOT_DISASTER",
+                    "disaster_prob": 0.01,
+                    "class_probs": {"disaster": 0.01, "normal": 0.99},
+                    "is_weather_related": False,
+                    "is_disaster": False,
+                    "is_authentic": True,
+                    "model_verdict": "FALSE: NOT DISASTER RELATED",
+                    "admin_verdict": "NON_DISASTER_REJECT",
+                    "admin_recommendation": "❌ RECOMMEND REJECT",
+                    "verdict_reason": f"Normal intact building/residential architecture detected ({top_entity}). No collapse, fire, or floodwater damage.",
+                    "detected_category": f"Normal Architecture / House ({top_entity})",
+                    "authenticity_score": 0.01,
+                    "weather_relevance_confidence": 1.0,
+                    "fake_probability": 99.0,
+                    "top_predictions": top_preds_formatted,
+                }
+
+            # 5. Normal Scenic River, Lake & Water Body Filter
+            # If the primary detected entity is an inland river/lake landscape and water is clean (not brown muddy flood)
+            if top1_name in RIVER_WATER_CATS and top1_prob >= 0.18 and not is_muddy_water and not is_fire:
+                return {
+                    "media_type": "image",
+                    "verdict": "NOT_DISASTER",
+                    "disaster_prob": 0.01,
+                    "class_probs": {"disaster": 0.01, "normal": 0.99},
+                    "is_weather_related": False,
+                    "is_disaster": False,
+                    "is_authentic": True,
+                    "model_verdict": "FALSE: NOT DISASTER RELATED",
+                    "admin_verdict": "NON_DISASTER_REJECT",
+                    "admin_recommendation": "❌ RECOMMEND REJECT",
+                    "verdict_reason": f"Normal calm river/water body detected ({top_entity}). No flood inundation, storm surge, or waterlogging.",
+                    "detected_category": f"Normal Scenic River / Water Body ({top_entity})",
+                    "authenticity_score": 0.01,
+                    "weather_relevance_confidence": 1.0,
+                    "fake_probability": 99.0,
+                    "top_predictions": top_preds_formatted,
                 }
 
         # Stage 2: Fine-Tuned ResNet18 Binary Disaster Classifier
