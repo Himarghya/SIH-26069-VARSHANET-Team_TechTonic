@@ -331,6 +331,7 @@ export const fetchVayuScoreShap = async (payload: {
   source_reliability_score?: number;
   geographic_consistency_km?: number;
   temporal_window_minutes?: number;
+  target_credibility?: number;
 }): Promise<any> => {
   const { data } = await api.post('/ml/vayuscore-shap', payload);
   return data;

@@ -1,4 +1,4 @@
-﻿from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional
 from fastapi import APIRouter, Body, Depends, Query
 from processing.ml.multimodal_verification import multimodal_verifier
 from processing.ml.severity_forecaster import severity_forecaster
@@ -114,6 +114,12 @@ def explain_vayuscore_shap(payload: Dict[str, Any] = Body(...)):
     source_reliability = float(payload.get("source_reliability_score", 94.0))
     geo_km = float(payload.get("geographic_consistency_km", 0.4))
     temporal_min = int(payload.get("temporal_window_minutes", 18))
+    target_credibility = payload.get("target_credibility")
+    if target_credibility is not None:
+        try:
+            target_credibility = float(target_credibility)
+        except (ValueError, TypeError):
+            target_credibility = None
 
     return explainable_vayuscore_engine.calculate_shap_attributions(
         report_text=report_text,
@@ -122,7 +128,8 @@ def explain_vayuscore_shap(payload: Dict[str, Any] = Body(...)):
         image_authenticity_score=image_auth,
         source_reliability_score=source_reliability,
         geographic_consistency_km=geo_km,
-        temporal_window_minutes=temporal_min
+        temporal_window_minutes=temporal_min,
+        target_credibility=target_credibility
     )
 
 # 7. Active Learning Feedback & Retraining Telemetry API

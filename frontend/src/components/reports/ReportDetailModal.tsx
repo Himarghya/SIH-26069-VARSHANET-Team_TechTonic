@@ -198,7 +198,17 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
           />
 
           {/* Explainable ML for VayuScore TreeSHAP Waterfall (Embedded) */}
-          <ShapWaterfallInspector />
+          <ShapWaterfallInspector
+            reportId={report.id}
+            reportText={report.text}
+            credibilityScore={report.credibility_score}
+            isFake={isFakeVisual}
+            corroboratingCount={report.duplicate_count ? Math.max(1, report.duplicate_count) : (report.credibility_score > 75 ? 4 : (isFakeVisual ? 1 : 2))}
+            rainfallRate={isFakeVisual ? 1.5 : (report.credibility_score > 70 ? 46.0 : 18.0)}
+            imageAuth={isFakeVisual ? 16.0 : (report.credibility_score > 70 ? 92.0 : 62.0)}
+            sourceReliability={isFakeVisual ? 24.0 : (report.source_type === 'weather_api' ? 98.0 : report.source_type === 'rss_news' ? 92.0 : 86.0)}
+            isEmbeddedInModal={true}
+          />
 
           {/* Geolocation with Google Street View Pinpoint */}
           <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
