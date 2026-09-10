@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, HelpCircle, BarChart3, CheckCircle2, AlertTriangle, ArrowUpRight, ArrowDownRight, RefreshCw, Sparkles, Sliders, Layers } from 'lucide-react';
 import { fetchVayuScoreShap } from '../../services/api';
-
+/**
+ * ShapWaterfallInspector Component
+ * 
+ * Renders an interactive Explainable AI (XAI) TreeSHAP feature attribution waterfall chart
+ * decomposing VayuScore™ credibility into 5 granular meteorological and optical proof vectors.
+ */
 export interface ShapWaterfallInspectorProps {
   reportText?: string;
   credibilityScore?: number;
