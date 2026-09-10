@@ -99,6 +99,10 @@ PROMINENT_CITY_COORDS = {
 
 
 class IndianGeoResolver:
+    """
+    Pan-India Geographical Entity & Coordinate Resolver.
+    Maps Indian cities, districts, states, and union territories to verified GPS coordinates.
+    """
     @staticmethod
     def is_within_india_bounds(lat: float, lon: float) -> bool:
         # India geographic bounding box roughly: 6.0 N to 37.5 N, 68.0 E to 97.5 E
