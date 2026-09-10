@@ -84,6 +84,10 @@ class TextAnalyzer:
         self.has_model = HAS_TEXT_MODEL
 
     def analyze_text(self, text: str, threshold: Optional[float] = None) -> Dict[str, Any]:
+        """
+        Evaluates disaster semantic threat probability on text in English, Hindi, or Hinglish.
+        Combines DistilBERT/Scikit-learn inference with keyword prior grounding.
+        """
         t = threshold if threshold is not None else DEFAULT_THRESHOLD
         cleaned = (text or "").strip()
 
