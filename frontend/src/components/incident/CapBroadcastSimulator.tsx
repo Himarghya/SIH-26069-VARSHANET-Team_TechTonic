@@ -1,6 +1,6 @@
-﻿import React, { useState } from 'react';
-import { Smartphone, Send, BellRing, CheckCircle2, ShieldAlert, Sparkles, MessageSquare, Info, AlertTriangle, Radio, Share2, Mail, ExternalLink } from 'lucide-react';
-import { broadcastAlertToX } from '../../services/api';
+import React, { useState, useEffect } from 'react';
+import { Smartphone, Send, BellRing, CheckCircle2, ShieldAlert, Sparkles, MessageSquare, Info, AlertTriangle, Radio, Share2, Mail, ExternalLink, Code2, Download } from 'lucide-react';
+import { broadcastAlertToX, generateCapXml } from '../../services/api';
 
 interface CapBroadcastProps {
   city: string;
@@ -19,9 +19,11 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
 }) => {
   const [broadcastSent, setBroadcastSent] = useState(false);
   const [language, setLanguage] = useState<'hi' | 'en'>('en');
-  const [activeTab, setActiveTab] = useState<'cell_broadcast' | 'x_twitter'>('cell_broadcast');
+  const [activeTab, setActiveTab] = useState<'cell_broadcast' | 'x_twitter' | 'cap_xml'>('cell_broadcast');
   const [isPostingX, setIsPostingX] = useState(false);
   const [xPostSuccess, setXPostSuccess] = useState(false);
+  const [capXmlContent, setCapXmlContent] = useState<string>('');
+  const [isGeneratingXml, setIsGeneratingXml] = useState(false);
 
   const normalizedSeverity = (severity || 'MODERATE').toUpperCase();
   const isCritical = normalizedSeverity === 'CRITICAL';
@@ -61,6 +63,45 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
   const handleSendCellBroadcast = () => {
     setBroadcastSent(true);
     setTimeout(() => setBroadcastSent(false), 8000);
+  };
+
+  const handleGenerateCapXml = async () => {
+    setIsGeneratingXml(true);
+    try {
+      const res = await generateCapXml({
+        event_type: eventType,
+        city,
+        state,
+        severity: normalizedSeverity,
+        directive: englishDirective
+      });
+      if (res && res.cap_xml) {
+        setCapXmlContent(res.cap_xml);
+      }
+    } catch (err) {
+      console.error('CAP XML Generation error', err);
+    } finally {
+      setIsGeneratingXml(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'cap_xml' && !capXmlContent) {
+      handleGenerateCapXml();
+    }
+  }, [activeTab, city, state, eventType]);
+
+  const handleDownloadXml = () => {
+    if (!capXmlContent) return;
+    const blob = new Blob([capXmlContent], { type: 'application/xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `OASIS_CAP12_Alert_${city}_${new Date().toISOString().slice(0, 10)}.xml`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const handleBroadcastToX = async () => {
@@ -123,6 +164,15 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
           >
             <span className="font-black text-sm leading-none">𝕏</span>
             <span>Twitter / 𝕏 Gateway</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('cap_xml')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+              activeTab === 'cap_xml' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Code2 className="w-3.5 h-3.5" />
+            <span>OASIS CAP 1.2 XML</span>
           </button>
         </div>
       </div>
@@ -245,6 +295,47 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
                 </button>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* VIEW 3: OASIS CAP 1.2 XML Generator */}
+      {activeTab === 'cap_xml' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700 font-bold">
+                ✓ OASIS CAP v1.2 / ITU-T X.1303 COMPLIANT
+              </span>
+              <span className="text-xs text-slate-400 font-mono">Bilingual (en-IN + hi-IN)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleGenerateCapXml}
+                disabled={isGeneratingXml}
+                className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+              >
+                <span>{isGeneratingXml ? 'Generating...' : '⚡ Refresh XML'}</span>
+              </button>
+              {capXmlContent && (
+                <button
+                  onClick={handleDownloadXml}
+                  className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <span>💾 Download .xml</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-slate-950 rounded-2xl p-4 border border-slate-800 shadow-inner">
+            <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono pb-2 border-b border-slate-900 mb-3">
+              <span>XML PAYLOAD (NDMA CELL BROADCAST GATEWAY)</span>
+              <span>{capXmlContent ? `${capXmlContent.length} bytes` : 'Ready to generate'}</span>
+            </div>
+            <pre className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-[11px] text-emerald-300 font-mono leading-relaxed overflow-x-auto max-h-[220px] whitespace-pre">
+              {capXmlContent || 'Click "⚡ Refresh XML" or switch tabs to generate standard OASIS CAP 1.2 XML.'}
+            </pre>
           </div>
         </div>
       )}

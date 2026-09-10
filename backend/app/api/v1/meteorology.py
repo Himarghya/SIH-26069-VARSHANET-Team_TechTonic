@@ -1,4 +1,4 @@
-﻿from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
@@ -52,3 +52,37 @@ def get_extreme_weather_predictions(
 @router.get("/stream-telemetry")
 def get_streaming_telemetry():
     return stream_telemetry.get_stream_metrics()
+
+@router.get("/extreme-advisories")
+def get_extreme_weather_advisories(
+    hazard_type: str = "CLOUDBURST",
+    city: str = "Dehradun",
+    state: str = "Uttarakhand",
+    radar_dbz: float = 56.5,
+    cloud_top_temp_c: float = -72.0,
+    rainfall_rate_mmh: float = 75.0,
+    temp_c: float = 44.5,
+    humidity_pct: float = 48.0,
+    is_himalayan: bool = True
+):
+    """
+    Generates actionable emergency administrative directives and bilingual bulletins
+    for cloudbursts, severe heatwaves, and extreme hydro-meteorological threats.
+    """
+    from processing.meteorology.extreme_advisory_engine import extreme_advisory_engine
+    if hazard_type.upper() == "HEATWAVE":
+        return extreme_advisory_engine.generate_heatwave_advisory(
+            city=city,
+            state=state,
+            temp_c=temp_c,
+            humidity_pct=humidity_pct
+        )
+    else:
+        return extreme_advisory_engine.generate_cloudburst_advisory(
+            city=city,
+            state=state,
+            radar_dbz=radar_dbz,
+            cloud_top_temp_c=cloud_top_temp_c,
+            rainfall_rate_mmh=rainfall_rate_mmh,
+            is_himalayan=is_himalayan
+        )

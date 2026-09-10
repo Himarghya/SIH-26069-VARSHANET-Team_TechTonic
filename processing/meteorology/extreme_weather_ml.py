@@ -1,4 +1,5 @@
-﻿from typing import Dict, Any, List
+import math
+from typing import Dict, Any, List
 
 class ExtremeWeatherMlPredictor:
     """
