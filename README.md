@@ -129,13 +129,26 @@ VARSHANET employs two distinct, specialized machine learning pipelines that oper
 
 ### Pipeline Breakdown:
 
-#### Pipeline A: VisionGuard Forensics (Images & Videos)
-1. **Input Normalization**: Resizes images to 224 × 224 with ImageNet RGB mean/std tensor normalization.
-2. **PyTorch Binary CNN Classifier**: Custom CNN model trained specifically on disaster imagery (`disaster_binary_classifier.pt`) evaluating ground hazard features.
-3. **Optical Forensics & Anti-Spoofing**:
-   * **64-bit Perceptual DHash**: Detects near-identical duplicates and past photo re-use.
-   * **HSV Turbidity Color Distribution**: Analyzes flood water turbidity and storm cloud overcast signatures.
+#### Pipeline A: VisionGuard Two-Stage Forensics (Images & Videos)
+1. **Input Normalization**: Resizes images to 224 × 224 with ImageNet RGB mean/std tensor normalization (`[0.485, 0.456, 0.406]`, `[0.229, 0.224, 0.225]`).
+2. **Stage 1: MobileNetV3 Semantic Entity Discriminator (ImageNet-1K)**:
+   * Classifies 1,000 ImageNet categories with low latency on CPU.
+   * Discriminates non-disaster entities with high precision:
+     * **Wildlife & Animals** (classes `0..397`: elephants, dogs, foxes, birds, reptiles).
+     * **Domestic Indoor Electronics & Everyday Items** (screens, home appliances).
+     * **Food & Agricultural Produce** (classes `923..965`: dishes, fruits, vegetables).
+     * **Normal Residential Houses & Buildings** (intact architecture without structural collapse or fire).
+     * **Calm Scenic Rivers, Lakes & Landscapes** (clean water bodies without muddy flood sediment).
+3. **Stage 2: Fine-Tuned PyTorch Disaster Classifier (Kaggle CDD)**:
+   * Custom ResNet18 model fine-tuned on the benchmark **Kaggle Comprehensive Disaster Dataset (CDD - 13,557 images)** (`varpit94/disaster-images-dataset`).
+   * Evaluates across 6 disaster & non-disaster classes (*Fire/Wildfire, Flood/Water Disaster, Human Impact, Infrastructure Damage, Landslide/Drought, Non-Damage Everyday*).
+   * Benchmark metrics: **78.66% Train Accuracy**, **74.67% Test Accuracy**, and **0.75 F1-Score** over 100 epochs.
+4. **Optical Forensics & Anti-Spoofing Suite**:
+   * **64-bit Perceptual DHash**: Detects near-identical duplicates and past photo re-use across reports.
+   * **HSV Turbidity Color Distribution**: Analyzes flood water sediment turbidity and storm cloud overcast signatures.
    * **Strict < 20% Quarantine Rule**: Flags wildlife, domestic pets, memes, or unrelated visuals with an automatic rejection recommendation.
+5. **Live ML Forensic Inspector**:
+   * In-browser live radar scanning animation with dataset citations, classification probability breakdown, and forensic telemetry.
 
 #### Pipeline B: TextGuard Multilingual NLP (Text & Hinglish)
 1. **Multilingual Text Preprocessing**: Normalizes English, Hindi, and Hinglish observations.
@@ -153,14 +166,31 @@ VARSHANET employs two distinct, specialized machine learning pipelines that oper
 
 ## ⚡ Key Highlights & Operational Capabilities
 
-### 1. 🇮🇳 Complete Coverage of All 36 Indian States & Union Territories
+### 1. 🔍 Explainable AI (XAI) & TreeSHAP Waterfall Decomposition for VayuScore™
+* Replaces black-box scoring with an interpretable **Gradient Boosted Tree Ensemble + TreeSHAP Explainer**.
+* Breaks down the composite **VayuScore™ (0–100)** into 5 mathematically rigorous feature attribution deltas relative to base prior probability ($E[f(x)] = 25.0$):
+  1. **Independent Cross-Report Corroboration** ($-14.0$ to $+17.5$ SHAP): Density of corroborating citizen reports & sensor feeds within 500m radius.
+  2. **Radar & Synoptic Correlation Rate** ($-12.0$ to $+16.5$ SHAP): Precipitation rate agreement from 33 IMD Doppler radars and automated rain gauges.
+  3. **Vision Authenticity & Kaggle CDD Forensic CNN** ($-20.0$ to $+15.0$ SHAP): Optical credibility, HSV flood turbidity, and Stage 1/Stage 2 classifier certainty.
+  4. **Source Trust & Historical Credibility** ($-12.0$ to $+12.5$ SHAP): Historical verification accuracy and penalty score of the submitting entity.
+  5. **Spatiotemporal & Geographic Consistency** ($-10.0$ to $+7.5$ SHAP): Proximity alignment with active flood basins and meteorological hazard perimeters.
+* **Interactive Waterfall Inspector UI**: Color-coded feature contribution bars (**Emerald +** / **Rose -**) giving disaster commanders full explainability for every single report.
+
+### 2. 🇮🇳 Complete Coverage of All 36 Indian States & Union Territories
 * Full interactive support across **all 28 States and 8 Union Territories**:
   * **28 States**: *Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand, West Bengal.*
   * **8 UTs**: *Andaman and Nicobar Islands, Chandigarh, Dadra and Nagar Haveli and Daman and Diu, Delhi (NCR), Jammu and Kashmir, Ladakh, Lakshadweep, Puducherry.*
 * **Tactical Camera Jump (flyTo)**: Selecting any State/UT in the National Weather Map smoothly re-centers and zooms the viewport directly onto that territory while dynamically filtering incident clusters and verified ground pins.
 * **Backend Geo-Resolver**: `indian_geo_resolver.py` resolves city landmarks, union territories, and districts into verified GPS coordinates.
 
-### 2. 🏷️ Automated AI Trending Hashtags with #IMD Fallback
+### 3. 🛡️ Strict All-Green Citizen Verification Gate
+* Citizen hazard reporting includes real-time pre-flight verification gating.
+* Submission button is strictly locked until **all 3 verification indicators turn green**:
+  1. 📍 **GPS Geolocation**: Valid latitude/longitude pinned or auto-detected.
+  2. 📝 **TextGuard NLP**: Confirmed disaster threat signature (Green badge).
+  3. 📷 **VisionGuard Optical AI**: Verified genuine disaster proof passing Stage 1 & Stage 2 classifiers (Green badge).
+
+### 4. 🏷️ Automated AI Trending Hashtags with #IMD Fallback
 * Every ingested observation is automatically classified into trending meteorological categories:
   * **#Monsoon2026**: Monsoon surge, seasonal rainfall, southwest/northeast monsoon currents.
   * **#MumbaiRains**: Mumbai, MMR, Thane, Navi Mumbai, Santacruz rainfall and local inundation.
@@ -171,12 +201,12 @@ VARSHANET employs two distinct, specialized machine learning pipelines that oper
   * **#CycloneAlert**: Depressions, cyclonic storms, gale warnings, coastal landfall cones.
   * **#IMD (Official Meteorological Fallback)**: Any observation outside the 7 specific categories automatically defaults to #IMD.
 
-### 3. 🛡️ Admin Verification & Live Map Pinning with Google Street View
+### 5. 🛡️ Admin Verification & Live Map Pinning with Google Street View
 * Reports verified by emergency command admins immediately transform into interactive verified pins on the National Weather Map.
 * **Animated Pulsing Emerald Shield Marker (🛡️)** renders at the verified GPS location.
 * **Interactive Ground Popup**: Displays the AI-assigned incident category, credibility trust percentage (≥ 95%), observation text, author attribution, and direct **Google Street View** integration for instant visual ground verification.
 
-### 4. 📅 Functional Date & Clean Operational Status Filters
+### 6. 📅 Functional Date & Clean Operational Status Filters
 * **Date Filter**:
   * **Today**: Real-time matching for today's calendar date and current 24-hour cycle.
   * **Past 24 Hours**: Instant filtering of reports from the preceding 24 hours.
@@ -187,10 +217,18 @@ VARSHANET employs two distinct, specialized machine learning pipelines that oper
   * Removed unverified noise (UNVERIFIED), pending reviews (REQUIRES_REVIEW), and misleading flags (LIKELY_MISLEADING) from the operational reports view.
   * Clean filtering between: **All Verification States**, **Verified Official**, and **Likely Authentic**.
 
-### 5. 🚒 Flood-Aware 16 NDRF Battalion Tactical Routing
+### 7. 🚒 Flood-Aware 16 NDRF Battalion Tactical Routing
 * Direct integration of all **16 official NDRF Battalions** (*Guwahati, Kolkata, Cuttack, Arakkonam, Pune, Vadodara, Bhatinda, Ghaziabad, Patna, Vijayawada, Varanasi, Itanagar, Ludhiana, Jasur, Srinagar, Bhopal*).
 * Dynamic graph routing applies a **1.22× detour factor** during flood events, automatically routing convoys away from submerged bridges and waterlogged underpasses.
 * 1-click **Official Requisition Order Generator** formatted for immediate administrative dispatch.
+
+### 8. 🎭 Glassmorphic Role Switcher & Bidirectional GIS Sync
+* Custom glassmorphic navbar role selector with active state persistence:
+  * **Citizen (Default)**: Clean reporting flow, live weather feed, and ticket tracking.
+  * **NDRF Tactical Commander**: Tactical routing, battalion dispatch, and convoy requisition.
+  * **SDMA Regional Official**: State-level event clustering and demographic impact buffers.
+  * **Central Meteorology Admin**: 100% pre-verified incident publishing and radar health monitoring.
+* **Bidirectional Sync**: Overview metric cards dynamically link and filter both the GIS map and tabular observation feeds with auto-focus.
 
 ---
 
@@ -210,6 +248,21 @@ Overview ➔ Reports ➔ Map ➔ Incident Room ➔ Events ➔ Analytics
 6. **Analytics** (`AnalyticsPage.tsx`): Interactive Big Data SQL query runner, VayuScore™ composite scorecard, and public sentiment panic index.
 7. **Citizen Portal** (`CitizenPage.tsx`): Citizen hazard reporting with drag-and-drop 3-photo proof, real-time Green/Red NLP threat feedback, and ticket tracking.
 8. **Admin Ops** (`AdminPage.tsx`): 100% pre-verified official incident publisher, verification queue, and distributed system health diagnostics.
+
+---
+
+## 🛠️ Technology Stack
+
+| Domain | Technologies & Libraries |
+| :--- | :--- |
+| **Backend Framework** | **FastAPI** (Python 3.10+), **Uvicorn** ASGI server, **Pydantic v2**, Native **WebSockets** |
+| **Machine Learning & AI** | **PyTorch** (ResNet-18, MobileNetV3), **Hugging Face Transformers** (DistilBERT), **Scikit-Learn**, **TreeSHAP (SHapley Additive exPlanations)** |
+| **Vision & Forensics** | **MobileNetV3** Semantic Entity Discriminator (ImageNet-1K), **Kaggle Comprehensive Disaster Dataset (CDD)** fine-tuned CNN, **64-bit Perceptual DHash**, HSV Turbidity Profiler |
+| **GenAI & LLM** | **Google Gemini API** (`gemini-1.5-flash` / `gemini-pro`) for multi-modal reasoning & NDMA SitRep generation |
+| **Frontend Framework** | **React 18**, **TypeScript**, **Vite 8** (Rolldown / ESBuild), **TailwindCSS**, **Lucide React Icons** |
+| **GIS & Mapping** | **Leaflet**, **React-Leaflet**, **ESRI World Imagery**, **OpenStreetMap**, **Google Street View Ground Integration** |
+| **Database & ORM** | **SQLite / PostgreSQL**, **SQLAlchemy ORM**, Automatic timestamp sync & schema migration |
+| **DevOps & Deployment** | **Docker**, **Docker Compose**, **Render Cloud Blueprint** (`render.yaml`), **Vercel** (`vercel.json`), **GitHub Actions CI/CD** |
 
 ---
 
@@ -440,6 +493,8 @@ FRONTEND_PORT=5173
 | `GET` | `/api/v1/reports` | Get observations (supports `limit=500`, event types, dates, verification status) |
 | `POST` | `/api/v1/reports/admin-publish` | Publish 100% pre-verified official incident with automatic map placement |
 | `POST` | `/api/v1/media/analyze-text` | Real-time multilingual NLP threat inference (returns `is_disaster` and `badge_color`) |
+| `POST` | `/api/v1/media/analyze-photo` | Two-Stage VisionGuard forensics (MobileNetV3 + Kaggle CDD ResNet18 + DHash + HSV) |
+| `GET` | `/api/v1/ml/explain-vayuscore` | TreeSHAP waterfall feature attribution breakdown & XAI diagnostics for VayuScore™ |
 | `POST` | `/api/v1/verification/{report_id}/action` | Admin verify action; auto-assigns AI hashtags and creates/links EventCluster |
 | `GET` | `/api/v1/events` | List active spatiotemporal disaster clusters |
 | `GET` | `/api/v1/impact/{event_id}` | Impact nowcasting, demographic buffers, and verified photo proofs |
