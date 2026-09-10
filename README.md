@@ -2,7 +2,7 @@
 
 # 🌧️ VARSHANET 2.0
 ### National Weather Big Data Analytics, Multi-Modal AI Verification & Disaster Impact Grid
-
+ 
 <p align="center">
   <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/Frontend-React%2018%20%2B%20TS-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
