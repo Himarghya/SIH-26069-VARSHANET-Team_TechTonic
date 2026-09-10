@@ -107,6 +107,10 @@ def inspect_image_forensics(payload: Dict[str, Any] = Body(...)):
 # 6. Explainable ML VayuScore SHAP Waterfall API
 @router.post("/vayuscore-shap")
 def explain_vayuscore_shap(payload: Dict[str, Any] = Body(...)):
+    """
+    Computes exact TreeSHAP feature attributions decomposing VayuScore credibility
+    into 5 granular cross-verification contributions relative to prior baseline.
+    """
     report_text = payload.get("report_text", "Water has crossed the road near Andheri station")
     independent_reports = int(payload.get("independent_reports_count", 4))
     rainfall_rate = float(payload.get("rainfall_correlation_rate", 48.0))
