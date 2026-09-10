@@ -45,6 +45,28 @@ export const fetchAlerts = async (): Promise<Alert[]> => {
   return data;
 };
 
+export const generateCapXml = async (payload: {
+  event_type: string;
+  city: string;
+  state: string;
+  severity?: string;
+  latitude?: number;
+  longitude?: number;
+  radius_km?: number;
+  headline?: string;
+  description?: string;
+  directive?: string;
+  event_id?: string;
+}) => {
+  const { data } = await api.post('/alerts/generate-cap-xml', payload);
+  return data;
+};
+
+export const validateCapXml = async (xml: string) => {
+  const { data } = await api.post('/alerts/validate-cap-xml', { xml });
+  return data;
+};
+
 export const fetchAnalyticsOverview = async (): Promise<AnalyticsOverview> => {
   const { data } = await api.get('/analytics/overview');
   return data;

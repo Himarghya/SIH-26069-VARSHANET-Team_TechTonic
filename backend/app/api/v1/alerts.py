@@ -1,4 +1,4 @@
-﻿from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, Depends, Body, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
@@ -60,3 +60,40 @@ def get_x_dispatcher_status():
         "recent_broadcasts_count": len(x_broadcaster.recent_broadcasts),
         "recent_broadcasts": x_broadcaster.recent_broadcasts[:5]
     }
+
+@router.post("/generate-cap-xml")
+def generate_cap_12_xml(payload: Dict[str, Any] = Body(...)):
+    """
+    Generates an official OASIS CAP 1.2 XML multi-lingual alert payload
+    conforming to NDMA / ITU-T X.1303 national siren standards.
+    """
+    from processing.broadcasting.cap_serializer import cap_serializer
+    xml_content = cap_serializer.generate_cap_xml(
+        event_type=payload.get("event_type", "FLOOD"),
+        city=payload.get("city", "Mumbai"),
+        state=payload.get("state", "Maharashtra"),
+        severity=payload.get("severity", "CRITICAL"),
+        latitude=float(payload.get("latitude", 19.0760)),
+        longitude=float(payload.get("longitude", 72.8777)),
+        radius_km=float(payload.get("radius_km", 25.0)),
+        headline=payload.get("headline"),
+        description=payload.get("description"),
+        directive=payload.get("directive"),
+        event_id=payload.get("event_id")
+    )
+    validation = cap_serializer.validate_cap_xml(xml_content)
+    return {
+        "status": "SUCCESS",
+        "standard": "OASIS CAP v1.2",
+        "validation": validation,
+        "cap_xml": xml_content
+    }
+
+@router.post("/validate-cap-xml")
+def validate_cap_12_xml(payload: Dict[str, Any] = Body(...)):
+    """
+    Validates a raw CAP 1.2 XML string against OASIS schema constraints.
+    """
+    from processing.broadcasting.cap_serializer import cap_serializer
+    xml_content = payload.get("xml", "")
+    return cap_serializer.validate_cap_xml(xml_content)
