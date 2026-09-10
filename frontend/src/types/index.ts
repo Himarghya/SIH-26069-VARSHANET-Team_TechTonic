@@ -312,4 +312,58 @@ export interface StreamTelemetryResponse {
   data_sources_connected: number;
 }
 
+export interface GeoJsonExportResponse {
+  type: 'FeatureCollection';
+  metadata: {
+    generated_by: string;
+    generated_at_utc: string;
+    layer_filter: string;
+    total_features: number;
+    crs: Record<string, any>;
+  };
+  features: Array<{
+    type: 'Feature';
+    geometry: {
+      type: string;
+      coordinates: number[] | number[][];
+    };
+    properties: Record<string, any>;
+  }>;
+}
+
+export interface CapXmlGenerationResponse {
+  status: string;
+  standard: string;
+  validation: {
+    is_valid: boolean;
+    standard: string;
+    identifier?: string;
+    sender?: string;
+    status?: string;
+    info_blocks_count: number;
+    languages_included: string[];
+    validation_message: string;
+  };
+  cap_xml: string;
+}
+
+export interface ExtremeAdvisoryResponse {
+  hazard_type: string;
+  city: string;
+  state: string;
+  cpi_score?: number;
+  alert_level?: string;
+  estimated_lead_time_min?: number;
+  operational_status: string;
+  priority_code: string;
+  badge_color: string;
+  administrative_directives: string[];
+  public_bulletin: {
+    en: string;
+    hi: string;
+  };
+  sensor_telemetry?: Record<string, any>;
+  timestamp_utc: string;
+}
+
 export * from './states';
