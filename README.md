@@ -501,6 +501,9 @@ FRONTEND_PORT=5173
 | `GET` | `/api/v1/meteorology/dwr-radar` | 33 IMD Doppler radar station sweeps, reflectivity (dBZ), and rain rates |
 | `GET` | `/api/v1/meteorology/insat-satellite` | INSAT-3DR multi-spectral thermal CTT cloud telemetry |
 | `GET` | `/api/v1/meteorology/extreme-ml` | Cloudburst CPI (0–100) and WBGT Heatwave ML predictions |
+| `GET` | `/api/v1/meteorology/extreme-advisories` | Actionable emergency directives & bilingual bulletins for cloudbursts & heatwaves |
+| `GET` | `/api/v1/map/export-geojson` | Export 33 DWR radars, 16 NDRF bases, and flood layers as RFC 7946 GeoJSON |
+| `POST` | `/api/v1/alerts/generate-cap-xml` | Generate OASIS CAP 1.2 / ITU-T X.1303 multi-lingual XML siren alert |
 | `POST` | `/api/v1/analytics/sql-query` | Live read-only Big Data SQL query runner with telemetry |
 | `GET` | `/api/v1/analytics/sentiment-panic` | Public Panic Index (0–100) and trending disaster hashtags |
 | `WS` | `/ws/weather` | Real-time WebSocket streaming (<50ms event broadcasting) |
