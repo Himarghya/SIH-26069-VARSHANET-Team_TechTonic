@@ -60,6 +60,11 @@ export const fetchHeatmap = async () => {
   return data;
 };
 
+export const fetchTacticalGeoJson = async (layer: string = 'all') => {
+  const { data } = await api.get('/map/export-geojson', { params: { layer } });
+  return data;
+};
+
 export const fetchPendingVerification = async (): Promise<WeatherReport[]> => {
   const { data } = await api.get('/verification/pending');
   return data;

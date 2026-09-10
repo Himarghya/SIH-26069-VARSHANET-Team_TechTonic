@@ -46,3 +46,22 @@ def get_heatmap_points(db: Session = Depends(get_db)):
         {"lat": r.latitude, "lon": r.longitude, "intensity": round(r.credibility_score / 100.0, 2)}
         for r in reports
     ]
+
+@router.get("/export-geojson")
+def export_tactical_layers_geojson(
+    layer: Optional[str] = "all",
+    db: Session = Depends(get_db)
+):
+    """
+    Exports national disaster layers into RFC 7946 GeoJSON FeatureCollection
+    for QGIS, ArcGIS, and Google Earth integration.
+    """
+    from processing.geolocation.geojson_exporter import geojson_exporter
+    clusters = db.query(EventCluster).all()
+    reports = db.query(WeatherReport).filter(WeatherReport.verification_status == "VERIFIED").limit(300).all()
+    return geojson_exporter.export_all_layers(
+        event_clusters=clusters,
+        verified_reports=reports,
+        layer_filter=layer or "all"
+    )
+
