@@ -215,12 +215,19 @@ class ImageWeatherAnalyzer:
         """
         Runs two-stage disaster classification on a PIL Image:
         Stage 1: MobileNetV3 semantic entity discrimination:
-                 - Animals, wildlife, and domestic pets
-                 - Food, dining, and produce
+                 - Animals, wildlife, and domestic pets (ImageNet-1K 0..397)
+                 - Food, dining, and produce (ImageNet-1K 923..965)
                  - Everyday indoor items and personal gadgets
                  - Normal residential houses & intact architecture
                  - Normal calm rivers, lakes, and scenic water bodies
         Stage 2: Fine-tuned ResNet18 binary disaster classifier for environmental proof.
+        
+        Args:
+            pil_img (Image.Image): The input PIL image to analyze.
+            threshold (Optional[float]): Optional custom decision boundary (defaults to 0.85).
+
+        Returns:
+            Dict[str, Any]: Comprehensive verification payload with disaster probability and forensics.
         """
         ensure_models()
         thresh = threshold if threshold is not None else self.threshold
