@@ -2,6 +2,8 @@
 
 ### National Meteorological Intelligence, AI Verification, and Disaster Response Grid
 
+**Live Deployed Platform:** [https://sih-26069-varshanet-team-techtonic.onrender.com](https://sih-26069-varshanet-team-techtonic.onrender.com/)
+
 VARSHANET integrates data from 33 IMD Doppler Radars, INSAT-3DR satellite imagery, Central Water Commission flood gauges, and verified citizen field reports across 36 Indian states and union territories. It generates automated convoy route planning for NDRF emergency response teams and OASIS CAP 1.2 emergency alert bulletins.
 
 ---
@@ -498,15 +500,14 @@ FRONTEND_PORT=5173
 
 ---
 
-## ☁️ Deployment (Render & Cloud Platforms)
+## Deployment (Render & Cloud Platforms)
 
 > [!IMPORTANT]
-> ### 🌐 [Click Here to Open the Live Deployed Platform on Render ↗](https://varshanet-backend.onrender.com)
-> **Live Production Website:** [https://varshanet-backend.onrender.com](https://varshanet-backend.onrender.com)
+> **Live Production Website:** [https://sih-26069-varshanet-team-techtonic.onrender.com](https://sih-26069-varshanet-team-techtonic.onrender.com/)
 
-VARSHANET 2.0 includes a production-ready `render.yaml` blueprint for one-click deployment:
+VARSHANET includes a production-ready `render.yaml` blueprint for one-click deployment:
 * Automatically builds the React 18 production bundle (`npm run build` in `frontend/`).
-* Mounts FastAPI ASGI server via `uvicorn` on Python 3.10+.
+* Mounts FastAPI ASGI server via `uvicorn` on Python 3.11+.
 * Connects continuous deployment webhooks from the GitHub repository `main` branch.
 
 To deploy on Render:
@@ -516,5 +517,5 @@ To deploy on Render:
 
 ---
 
-## 📄 License
+## License
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
