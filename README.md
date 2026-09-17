@@ -1,102 +1,90 @@
-<div align="center">
+# VARSHANET
 
-# 🌧️ VARSHANET 2.0
-### National Weather Big Data Analytics, Multi-Modal AI Verification & Disaster Impact Grid
+### National Meteorological Intelligence, AI Verification, and Disaster Response Grid
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/Frontend-React%2018%20%2B%20TS-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
-  <img src="https://img.shields.io/badge/Build-Vite%208-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/AI-PyTorch%20%2B%20Transformers-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
-  <img src="https://img.shields.io/badge/GenAI-Google%20Gemini-4285F4?style=flat-square&logo=google&logoColor=white" alt="Gemini" />
-  <img src="https://img.shields.io/badge/GIS-Leaflet%20%2B%20ESRI-199900?style=flat-square&logo=leaflet&logoColor=white" alt="Leaflet" />
-  <img src="https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
-  <img src="https://img.shields.io/badge/Streaming-Native%20WebSockets-010101?style=flat-square&logo=socketdotio&logoColor=white" alt="WebSockets" />
-  <img src="https://img.shields.io/badge/Coverage-36%20States%20%26%20UTs-FF9933?style=flat-square" alt="Pan-India Coverage" />
-  <img src="https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white" alt="Render" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="MIT License" />
-</p>
-
-<p align="center">
-  <b>An open-standard disaster intelligence grid uniting 33 IMD Doppler Radars, INSAT-3DR Satellites, CWC Flood Telemetry, and VayuScore™ Multi-Modal AI Ground Verification across all 36 Indian States and Union Territories into automated NDRF Convoy Routing & OASIS CAP 1.2 Cell Siren Alerting.</b>
-</p>
+VARSHANET integrates data from 33 IMD Doppler Radars, INSAT-3DR satellite imagery, Central Water Commission flood gauges, and verified citizen field reports across 36 Indian states and union territories. It generates automated convoy route planning for NDRF emergency response teams and OASIS CAP 1.2 emergency alert bulletins.
 
 ---
 
-## 🚀 Live Platform & Workflow Links
+## Key Capabilities
 
-| 🌐 **LIVE DEPLOYED WEBSITE** | 📊 **INTERACTIVE SYSTEM WORKFLOW** |
-| :---: | :---: |
-| [![Live Website](https://img.shields.io/badge/🌐_LIVE_WEBSITE-VISIT_NOW-00C49F?style=for-the-badge&logo=googlechrome&logoColor=white)](https://varshanet-backend.onrender.com) | [![Workflow Diagram](https://img.shields.io/badge/📊_WORKFLOW_DIAGRAM-DIAGRAMS.NET-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white)](https://app.diagrams.net/) |
-| <h1><a href="https://varshanet-backend.onrender.com">👉 Open Live Website ↗</a></h1> | <h1><a href="https://app.diagrams.net/">👉 Open diagrams.net Workflow ↗</a></h1> |
-| 🔗 **[`https://varshanet-backend.onrender.com`](https://varshanet-backend.onrender.com)** | 🔗 **[`https://app.diagrams.net/`](https://app.diagrams.net/)** |
-| *Live Deployment on Render • Interactive GIS Map • Real-Time AI Verification* | *Full Interactive Closed-Loop System & Multi-Modal ML Flowchart* |
-
----
-
-<p align="center">
-  <a href="#-system-architecture--closed-loop-diagram">🏗️ <b>Architecture</b></a> •
-  <a href="#-multimodal-ai-pipelines-architecture">🧠 <b>AI Pipelines</b></a> •
-  <a href="#-key-highlights--operational-capabilities">⚡ <b>Features</b></a> •
-  <a href="#-system-requirements--prerequisites">💻 <b>Requirements</b></a> •
-  <a href="#-step-by-step-setup--installation-guide">🚀 <b>Setup Guide</b></a> •
-  <a href="#-rest-api--websocket-documentation">📖 <b>API Docs</b></a>
-</p>
-
-</div>
+- **33 IMD Radar Streams**: Doppler radar data measuring reflectivity (dBZ) and localized precipitation.
+- **Multimodal AI Verification**: Dual neural models combining computer vision (ResNet18 trained on 13,557 Kaggle disaster images) and natural language processing for ground observation verification.
+- **VayuScore Metric**: A 0-100 composite confidence score combining source reliability, optical authenticity, spatio-temporal physics, and peer corroboration.
+- **Flood-Aware Convoy Routing**: Route calculations for 16 NDRF battalions that steer around flooded roads and impassable terrain.
+- **OASIS CAP 1.2 Integration**: Standardized XML and cell broadcast alerts with 1-click social broadcasting.
+- **Security & Upload Safety**: Magic byte inspection on image uploads, 10MB file size limits, isolated UUID file storage outside web roots, and strict Pydantic input schemas.
 
 ---
 
-### ⚡ Prototype at a Glance
+## System Architecture
 
-| 🛰️ **33** IMD Radar Feeds | 🇮🇳 **All 36** Indian States & UTs | 🏆 **VayuScore™ (0-100)** | ⚡ **<50ms** WebSocket Streaming |
-| :---: | :---: | :---: | :---: |
-| 🛡️ **16** NDRF Battalions | 🧠 **Dual ML** (Vision + NLP) | 🚨 **1-Click** CAP 1.2 XML | 📄 **1-Click** NDMA SitRep PDF |
-| 🏷️ **AI Hashtags** (#IMD Fallback) | ⏱️ **6-Hour** Data Freshness | 🔄 **5-Min** News Auto-Sync | 🗺️ **Google Street View** Ground Pin |
-
----
-
-## 📌 Table of Contents
-1. [Platform Overview](#-platform-overview)
-2. [System Architecture & Closed-Loop Diagram](#-system-architecture--closed-loop-diagram)
-3. [Multi-Modal AI Pipelines Architecture](#-multimodal-ai-pipelines-architecture)
-4. [Key Highlights & Operational Capabilities](#-key-highlights--operational-capabilities)
-5. [Operational Navigation & UI Suite](#-operational-navigation--ui-suite)
-6. [Technology Stack](#-technology-stack)
-7. [System Requirements & Prerequisites](#-system-requirements--prerequisites)
-8. [Step-by-Step Setup & Installation Guide](#-step-by-step-setup--installation-guide)
-9. [Pre-Flight Health Checks & Verification](#-pre-flight-health-checks--verification)
-10. [Configuration & Environment Variables (.env)](#-configuration--environment-variables-env)
-11. [Troubleshooting & FAQ](#-troubleshooting--faq)
-12. [REST API & WebSocket Documentation](#-rest-api--websocket-documentation)
-13. [Deployment (Render & Cloud Platforms)](#-deployment-render--cloud-platforms)
-14. [License](#-license)
-
----
-
-## 🌧️ Platform Overview
-
-**VARSHANET 2.0** is an enterprise-grade National Weather Big Data Analytics, Real-Time AI Verification, and Disaster Nowcasting Grid engineered specifically for India.
-
-It continuously ingests real-time observations across:
-* **33 IMD Doppler Weather Radars (DWR)** with reflectivity (dBZ), rain rates, and hydrometeor classifications.
-* **INSAT-3DR/3DS Satellite Imagers** measuring Cloud Top Temperatures (CTT) and convective divergence.
-* **Central Water Commission (CWC)** river gauge levels and discharge telemetry.
-* **Multi-Channel News Feed Ingestion** (*Times of India, NDTV, India Today, Down To Earth, Google News*).
-* **Social Media Firehose** with automated categorization into trending disaster hashtags.
-* **Citizen Ground Intelligence** featuring 3-photo/video geotagged evidence with optical forensics.
-
-VARSHANET translates raw telemetry into life-safety decision support:
-* **VayuScore™ (0–100)**: Composite multi-modal credibility metric fusing 5 independent verification vectors.
-* **TextGuard Multilingual NLP**: Real-time disaster threat detection with instant visual feedback across English, Hindi, and Hinglish.
-* **VisionGuard Forensics**: Dual-stage binary PyTorch disaster classification + 64-bit Perceptual DHash deduplication + HSV turbidity checks.
-* **Flood-Aware Convoy Routing**: Graph detour routing for **16 official NDRF Battalions** that automatically avoids submerged bridges and inundated underpasses.
+```
+[Satellite & Radar]    [News & Feeds]    [Citizen Ground Reports]
+        │                    │                      │
+        ▼                    ▼                      ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   VARSHANET Ingestion Pipeline              │
+│       • Schema Validation & Rate Limiting                   │
+│       • Magic Byte & Content Verification                   │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 Multimodal AI Engine                        │
+│       • ResNet18 CDD Visual Classifier                      │
+│       • Multilingual Threat NLP Classifier                  │
+│       • VayuScore Composite Scoring (0 - 100)               │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 Operational Dispatch                        │
+│       • NDRF Battalion Convoy Routing                       │
+│       • OASIS CAP 1.2 XML Bulletins                         │
+│       • Live WebSocket Command Room                         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🏗️ System Architecture & Closed-Loop Diagram
+## Tech Stack
 
-The following diagram illustrates the closed-loop architecture of VARSHANET 2.0, from multi-source data ingestion through the AI core engine to operational emergency action:
+- **Backend**: FastAPI (Python 3.11+), SQLAlchemy, SQLite / PostgreSQL, SlowAPI rate limiting, Pydantic schemas
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS (flat dark theme `#0b0f17`, single cyan accent `#0284c7`, Inter font)
+- **Machine Learning**: PyTorch, Torchvision, Scikit-Learn, Pillow
+- **Geospatial & Maps**: Leaflet, ESRI Satellite Layers, OpenStreetMap
+
+---
+
+## Quickstart
+
+### Backend Setup
+
+```bash
+# 1. Navigate to repository root and install dependencies
+pip install -r requirements.txt
+
+# 2. Start FastAPI server
+uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### Frontend Setup
+
+```bash
+# 1. Navigate to frontend directory
+cd frontend
+
+# 2. Install dependencies
+npm install
+
+# 3. Start local development server
+npm run dev
+
+# 4. Build for production
+npm run build
+```
+
 
 <div align="center">
   <img src="docs/images/varshanet_closed_loop_architecture.jpg" alt="VARSHANET Closed Loop Architecture" width="100%" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); margin: 16px 0;" />

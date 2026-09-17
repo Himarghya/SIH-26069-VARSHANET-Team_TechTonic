@@ -31,20 +31,37 @@ async def upload_and_analyze_media(
     if not file:
         raise HTTPException(status_code=400, detail="No file provided")
 
-    filename = file.filename or "media_upload.bin"
-    ext = os.path.splitext(filename)[1].lower()
+    # 1. Enforce strict max upload size limit (10 MB)
+    MAX_FILE_SIZE = int(os.getenv("MAX_UPLOAD_SIZE_BYTES", 10 * 1024 * 1024))
+    content = await file.read()
+    if len(content) > MAX_FILE_SIZE:
+        raise HTTPException(status_code=413, detail=f"File exceeds maximum allowed size of {MAX_FILE_SIZE // (1024 * 1024)}MB.")
+
+    # 2. Inspect magic bytes for content validation (not just file extension)
+    def validate_magic_bytes(buf: bytes) -> str:
+        if buf.startswith(b"\xff\xd8\xff"):
+            return ".jpg"
+        elif buf.startswith(b"\x89PNG\r\n\x1a\n"):
+            return ".png"
+        elif buf.startswith(b"RIFF") and buf[8:12] == b"WEBP":
+            return ".webp"
+        elif len(buf) > 8 and buf[4:8] in [b"ftyp", b"moov"]:
+            return ".mp4"
+        elif buf.startswith(b"\x1a\x45\xdf\xa3"):
+            return ".webm"
+        return ""
+
+    detected_ext = validate_magic_bytes(content)
+    if not detected_ext:
+        raise HTTPException(status_code=400, detail="Invalid file payload. File content does not match allowed media formats (JPG, PNG, WEBP, MP4, WEBM).")
+
+    is_video = detected_ext in [".mp4", ".webm"]
     
-    is_video = ext in [".mp4", ".webm", ".mov", ".avi", ".mkv"]
-    is_image = ext in [".jpg", ".jpeg", ".png", ".webp", ".bmp"]
-
-    if not is_video and not is_image:
-        raise HTTPException(status_code=400, detail=f"Unsupported media extension: {ext}. Upload MP4, WebM, MOV, JPG, or PNG.")
-
-    unique_filename = f"{'fake_' if simulate_fake else ''}{uuid.uuid4().hex[:10]}{ext}"
+    # 3. Store in isolated storage outside web execution with sanitized random UUID
+    unique_filename = f"{'fake_' if simulate_fake else ''}{uuid.uuid4().hex}{detected_ext}"
     saved_path = os.path.join(UPLOADS_DIR, unique_filename)
 
     try:
-        content = await file.read()
         with open(saved_path, "wb") as f:
             f.write(content)
 
@@ -53,27 +70,27 @@ async def upload_and_analyze_media(
         if is_video:
             analysis = video_analyzer.analyze_video(saved_path)
             analysis["file_url"] = media_url
-            analysis["original_filename"] = filename
+            analysis["original_filename"] = file.filename or "video.mp4"
             return {
                 "status": "SUCCESS",
                 "media_type": "video",
                 "media_url": media_url,
-                "filename": filename,
                 "analysis": analysis
             }
         else:
             analysis = image_analyzer.analyze_image_heuristics(saved_path)
             analysis["file_url"] = media_url
-            analysis["original_filename"] = filename
+            analysis["original_filename"] = file.filename or "image.png"
             return {
                 "status": "SUCCESS",
                 "media_type": "image",
                 "media_url": media_url,
-                "filename": filename,
                 "analysis": analysis
             }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error analyzing media: {str(e)}")
+        # Log error details server-side while returning generic safe message to client
+        print(f"[MEDIA UPLOAD ERROR] {e}")
+        raise HTTPException(status_code=500, detail="Failed to analyze uploaded media. Please try again.")
 
 from pydantic import BaseModel
 class MediaAnalyzePayload(BaseModel):
