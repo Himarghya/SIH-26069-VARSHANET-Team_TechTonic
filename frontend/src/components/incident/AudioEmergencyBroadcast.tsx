@@ -98,9 +98,9 @@ export const AudioEmergencyBroadcast: React.FC<AudioBroadcastProps> = ({
 
   return (
     <div className={`p-3.5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg ${
-      isCritical ? 'bg-gradient-to-r from-rose-950/40 via-slate-900 to-indigo-950/40 border-rose-800/40' :
-      isHigh ? 'bg-gradient-to-r from-amber-950/40 via-slate-900 to-indigo-950/40 border-amber-800/40' :
-      'bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 border-cyan-800/40'
+      isCritical ? 'bg-slate-900    border-rose-800/40' :
+      isHigh ? 'bg-slate-900    border-amber-800/40' :
+      'bg-slate-900    border-cyan-800/40'
     }`}>
       <div className="flex items-start sm:items-center gap-2.5 min-w-0">
         <div className={`p-2 rounded-lg shrink-0 mt-0.5 sm:mt-0 ${
@@ -158,9 +158,9 @@ export const AudioEmergencyBroadcast: React.FC<AudioBroadcastProps> = ({
           <button
             onClick={playSirenAndSpeech}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-white text-xs font-bold transition-all shadow-md cursor-pointer ${
-              isCritical ? 'bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-rose-950/40' :
-              isHigh ? 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 shadow-amber-950/40' :
-              'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-cyan-950/40'
+              isCritical ? 'bg-slate-900   hover: hover: shadow-rose-950/40' :
+              isHigh ? 'bg-slate-900   hover: hover: shadow-amber-950/40' :
+              'bg-slate-900   hover: hover: shadow-cyan-950/40'
             }`}
           >
             <Play className="w-3.5 h-3.5 fill-current" />

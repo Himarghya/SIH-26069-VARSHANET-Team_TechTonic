@@ -7,7 +7,7 @@ export const MlArchitectureDiagram: React.FC = () => {
       {/* Title & Badge */}
       <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-800">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 text-white shadow-lg">
+          <div className="p-2.5 rounded-xl bg-slate-900   text-white shadow-lg">
             <Cpu className="w-5 h-5" />
           </div>
           <div>
@@ -98,7 +98,7 @@ export const MlArchitectureDiagram: React.FC = () => {
       {/* Layer 2: Multimodal Fusion & Unsupervised Anomaly Detection */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Multimodal Fusion */}
-        <div className="bg-gradient-to-br from-slate-950 via-indigo-950/40 to-slate-950 border border-indigo-500/40 rounded-xl p-4 space-y-2 shadow-lg">
+        <div className="bg-slate-900    border border-indigo-500/40 rounded-xl p-4 space-y-2 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
               <Network className="w-3.5 h-3.5 text-indigo-400" />
@@ -115,7 +115,7 @@ export const MlArchitectureDiagram: React.FC = () => {
         </div>
 
         {/* Unsupervised Anomaly Detection */}
-        <div className="bg-gradient-to-br from-slate-950 via-rose-950/40 to-slate-950 border border-rose-500/40 rounded-xl p-4 space-y-2 shadow-lg">
+        <div className="bg-slate-900    border border-rose-500/40 rounded-xl p-4 space-y-2 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono font-bold text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
               <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
@@ -173,7 +173,7 @@ export const MlArchitectureDiagram: React.FC = () => {
       </div>
 
       {/* Layer 4: Explainable VayuScore & Active Learning Loop */}
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-cyan-500/30 rounded-xl p-4 space-y-3">
+      <div className="bg-slate-900    border border-cyan-500/30 rounded-xl p-4 space-y-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-cyan-400" />

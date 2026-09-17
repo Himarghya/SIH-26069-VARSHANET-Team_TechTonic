@@ -46,7 +46,7 @@ export const CitizenReportForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedReport, setSubmittedReport] = useState<WeatherReport | null>(null);
 
-  // 📝 Real-Time NLP Text Threat Analysis
+  //  Real-Time NLP Text Threat Analysis
   const [textAnalysis, setTextAnalysis] = useState<TextAnalysisResult | null>(null);
   const [isAnalyzingText, setIsAnalyzingText] = useState(false);
 
@@ -109,7 +109,7 @@ export const CitizenReportForm: React.FC = () => {
   const [trackError, setTrackError] = useState('');
   const [showMlModal, setShowMlModal] = useState(false);
 
-  // 🧠 Automatic ML inference whenever any photo enters (uploaded, dropped, pasted, or clicked)
+  //  Automatic ML inference whenever any photo enters (uploaded, dropped, pasted, or clicked)
   useEffect(() => {
     photos.forEach(async (photoUrl) => {
       if (mediaAnalyses[photoUrl]) return;
@@ -154,7 +154,7 @@ export const CitizenReportForm: React.FC = () => {
               is_weather_related: !isFakeSample,
               is_authentic: !isFakeSample,
               admin_verdict: isFakeSample ? "FALSE: NOT DISASTER RELATED" : "TRUE: DISASTER RELATED",
-              admin_recommendation: isFakeSample ? "❌ RECOMMEND REJECT" : "✅ RECOMMEND VERIFY",
+              admin_recommendation: isFakeSample ? " RECOMMEND REJECT" : " RECOMMEND VERIFY",
               detected_category: isFakeSample ? "Wildlife / Animal / Pet" : "Flood / Inundation Hazard",
               verdict_reason: isFakeSample ? "Non-disaster animal / pet detected." : "Authentic disaster ground proof verified."
             }
@@ -170,7 +170,7 @@ export const CitizenReportForm: React.FC = () => {
             verdict: "NOT_DISASTER",
             is_weather_related: false,
             admin_verdict: "FALSE: NOT DISASTER RELATED",
-            admin_recommendation: "❌ RECOMMEND REJECT",
+            admin_recommendation: " RECOMMEND REJECT",
             detected_category: "Unclassified Non-Hazard Media",
             verdict_reason: "ML could not detect verified disaster signatures."
           }
@@ -300,7 +300,7 @@ export const CitizenReportForm: React.FC = () => {
     }
   };
 
-  // 🟢 Real-Time "All Green" Validation Checks
+  //  Real-Time "All Green" Validation Checks
   const isTextGreen = Boolean(
     description.trim().length >= 3 &&
     textAnalysis &&
@@ -321,7 +321,7 @@ export const CitizenReportForm: React.FC = () => {
 
   const isMediaGreen = hasPhotos && allPhotosDisasters && !isAnyPhotoAnalyzing && !isAnyPhotoNonDisaster;
 
-  // 🔒 STRICT: Submit is enabled ONLY when both Text and Media checks are confirmed GREEN
+  //  STRICT: Submit is enabled ONLY when both Text and Media checks are confirmed GREEN
   const isAllGreen = isTextGreen && isMediaGreen;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -372,7 +372,7 @@ export const CitizenReportForm: React.FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" onPaste={handlePaste}>
       {/* Submission Form */}
-      <div className="lg:col-span-7 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl font-sans">
+      <div className="lg:col-span-7 bg-slate-900/90  border border-slate-800 rounded-2xl p-6 shadow-2xl font-sans">
         <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-800">
           <div className="p-3 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
             <CloudRain className="w-6 h-6" />
@@ -385,7 +385,7 @@ export const CitizenReportForm: React.FC = () => {
           </div>
         </div>
 
-        {/* 🧠 Interactive In-House ML Model Status Bar */}
+        {/*  Interactive In-House ML Model Status Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 mb-5 gap-2">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -398,7 +398,7 @@ export const CitizenReportForm: React.FC = () => {
             onClick={() => setShowMlModal(true)}
             className="px-2.5 py-1 rounded-lg bg-purple-900/80 hover:bg-purple-800 text-purple-200 text-xs font-mono font-bold border border-purple-600/50 transition cursor-pointer flex items-center gap-1.5"
           >
-            <span>🔬</span>
+            <span></span>
             <span>Inspect 100-Epoch ML Model &amp; Loss Curves</span>
           </button>
         </div>
@@ -540,7 +540,7 @@ export const CitizenReportForm: React.FC = () => {
                 }`}
               />
 
-              {/* 🧠 Real-Time NLP Text Threat Feedback (Green: Disaster Related | Red: Non-Disaster) */}
+              {/*  Real-Time NLP Text Threat Feedback (Green: Disaster Related | Red: Non-Disaster) */}
               {textAnalysis && description.trim().length >= 3 && (
                 <div className={`mt-2 p-2.5 rounded-xl border flex items-center justify-between gap-3 text-xs transition-all animate-fade-in ${
                   textAnalysis.is_disaster
@@ -549,7 +549,7 @@ export const CitizenReportForm: React.FC = () => {
                 }`}>
                   <div className="flex items-center gap-2.5">
                     <span className={`text-base p-1 rounded-lg ${textAnalysis.is_disaster ? 'bg-emerald-900/60' : 'bg-rose-900/60'}`}>
-                      {textAnalysis.is_disaster ? '🚨' : '❌'}
+                      {textAnalysis.is_disaster ? '' : ''}
                     </span>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -578,7 +578,7 @@ export const CitizenReportForm: React.FC = () => {
               )}
             </div>
 
-            {/* 📸 2-3 PHOTO / VIDEO PROOF DRAG & DROP ZONE */}
+            {/*  2-3 PHOTO / VIDEO PROOF DRAG & DROP ZONE */}
             <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-white flex items-center gap-1.5 font-mono uppercase">
@@ -628,11 +628,11 @@ export const CitizenReportForm: React.FC = () => {
                             </button>
                             
                             <span className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/80 text-[9px] font-mono text-cyan-300 pointer-events-none">
-                              {isVid ? '🎥 Field Video' : `Photo #${idx + 1}`}
+                              {isVid ? ' Field Video' : `Photo #${idx + 1}`}
                             </span>
                           </div>
 
-                          {/* 🔬 Per-Photo Automatic In-App ML Verdict Card */}
+                          {/*  Per-Photo Automatic In-App ML Verdict Card */}
                           <div className="p-2.5 space-y-1 font-mono text-left bg-slate-950/60 border-t border-slate-800/80">
                             {isAnalyzing ? (
                               <div className="flex items-center gap-1.5 text-cyan-300 text-[10px] animate-pulse">
@@ -649,7 +649,7 @@ export const CitizenReportForm: React.FC = () => {
                                   {analysis?.detected_category || 'Normal Everyday Scene'}
                                 </div>
                                 <div className="text-[9px] font-bold text-rose-400">
-                                  {analysis?.admin_recommendation || '❌ RECOMMEND REJECT'}
+                                  {analysis?.admin_recommendation || ' RECOMMEND REJECT'}
                                 </div>
                                 <div className="text-[8px] text-slate-400 font-mono flex items-center justify-between pt-0.5 border-t border-slate-800/60">
                                   <span className="truncate">Dataset: Kaggle CDD</span>
@@ -666,7 +666,7 @@ export const CitizenReportForm: React.FC = () => {
                                   {analysis?.detected_category || 'Disaster Ground Evidence'}
                                 </div>
                                 <div className="text-[9px] font-bold text-emerald-400">
-                                  {analysis?.admin_recommendation || '✅ RECOMMEND VERIFY'}
+                                  {analysis?.admin_recommendation || ' RECOMMEND VERIFY'}
                                 </div>
                                 <div className="text-[8px] text-slate-400 font-mono flex items-center justify-between pt-0.5 border-t border-slate-800/60">
                                   <span className="truncate">Dataset: Kaggle CDD</span>
@@ -703,7 +703,7 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-purple-950/60 border border-purple-800/80 text-[11px] font-mono text-purple-200 flex items-center justify-between gap-2 shadow-lg animate-pulse">
                           <span className="flex items-center gap-2 font-bold text-purple-300">
                             <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping"></span>
-                            <span>🔬 VARSHANET DisasterGuard (Trained Kaggle CDD Dataset) analyzing photo evidence in real time...</span>
+                            <span> VARSHANET DisasterGuard (Trained Kaggle CDD Dataset) analyzing photo evidence in real time...</span>
                           </span>
                         </div>
                       );
@@ -714,10 +714,10 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-[11px] font-mono text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
                           <span className="flex items-center gap-2 font-black text-rose-300">
                             <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-                            <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED VIA KAGGLE CDD BASELINE)</span>
+                            <span> ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED VIA KAGGLE CDD BASELINE)</span>
                           </span>
                           <span className="text-rose-200 font-bold bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-700 text-right shrink-0">
-                            ⚠️ Flagged For Immediate Admin Rejection
+                            ️ Flagged For Immediate Admin Rejection
                           </span>
                         </div>
                       );
@@ -728,10 +728,10 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-emerald-950/70 border border-emerald-800/80 text-[11px] font-mono text-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-lg">
                           <span className="flex items-center gap-2 font-black text-emerald-300">
                             <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                            <span>✅ ML PRE-SCREEN: TRUE (DISASTER GROUND PROOF CONFIRMED BY TRAINED KAGGLE CDD MODEL)</span>
+                            <span> ML PRE-SCREEN: TRUE (DISASTER GROUND PROOF CONFIRMED BY TRAINED KAGGLE CDD MODEL)</span>
                           </span>
                           <span className="text-emerald-200 font-bold bg-emerald-900/90 px-2.5 py-0.5 rounded border border-emerald-700 text-right shrink-0">
-                            ✓ Validated For Transmission
+                             Validated For Transmission
                           </span>
                         </div>
                       );
@@ -810,7 +810,7 @@ export const CitizenReportForm: React.FC = () => {
               </button>
             </div>
 
-            {/* 🟢 All-Green Validation Live Status Indicator */}
+            {/*  All-Green Validation Live Status Indicator */}
             <div className={`p-3 rounded-xl border text-xs font-mono transition-all ${
               isAllGreen
                 ? 'bg-emerald-950/60 border-emerald-500/60 text-emerald-200'
@@ -906,7 +906,7 @@ export const CitizenReportForm: React.FC = () => {
               disabled={!isAllGreen || isSubmitting}
               className={`w-full py-3.5 rounded-xl font-bold text-xs tracking-wide transition-all flex items-center justify-center gap-2 ${
                 isAllGreen && !isSubmitting
-                  ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white shadow-lg shadow-cyan-900/30 cursor-pointer'
+                  ? 'bg-slate-900    hover: hover: text-white shadow-lg shadow-cyan-900/30 cursor-pointer'
                   : 'bg-slate-800/80 border border-slate-700/60 text-slate-500 cursor-not-allowed shadow-inner'
               }`}
             >
@@ -922,7 +922,7 @@ export const CitizenReportForm: React.FC = () => {
       </div>
 
       {/* Tracking Portal */}
-      <div className="lg:col-span-5 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 flex flex-col justify-between font-sans">
+      <div className="lg:col-span-5 bg-slate-900/90  border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 flex flex-col justify-between font-sans">
         <div>
           <h3 className="text-base font-bold text-white mb-1">Track Citizen Submission</h3>
           <p className="text-xs text-slate-400 mb-4">
@@ -992,7 +992,7 @@ export const CitizenReportForm: React.FC = () => {
         </div>
       </div>
 
-      {/* 🔬 Live ML Model & Training Curves Modal */}
+      {/*  Live ML Model & Training Curves Modal */}
       {showMlModal && (
         <LiveMlForensicInspector onClose={() => setShowMlModal(false)} />
       )}

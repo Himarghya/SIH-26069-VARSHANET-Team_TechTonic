@@ -74,7 +74,7 @@ export const AiLabPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 p-6 rounded-2xl border border-slate-800 shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-900    p-6 rounded-2xl border border-slate-800 shadow-2xl">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="p-2 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/50">
@@ -169,7 +169,7 @@ export const AiLabPage: React.FC = () => {
               <button
                 onClick={() => handleRunAnalysis()}
                 disabled={isLoading || !inputText}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-xs tracking-wider shadow-lg shadow-cyan-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 rounded-xl bg-slate-900    hover: hover: text-white font-bold text-xs tracking-wider shadow-lg shadow-cyan-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Play className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
                 {isLoading ? 'Executing Multi-Model AI Inference...' : 'Execute Live AI & Gemini Analysis'}
@@ -183,7 +183,7 @@ export const AiLabPage: React.FC = () => {
           {result ? (
             <div className="space-y-4">
               {/* Google Gemini Card */}
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-950/60 via-slate-900 to-slate-950 border border-indigo-500/40 shadow-2xl space-y-3">
+              <div className="p-5 rounded-2xl bg-slate-900    border border-indigo-500/40 shadow-2xl space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-300">

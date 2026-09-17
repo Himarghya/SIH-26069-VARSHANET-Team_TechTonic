@@ -14,7 +14,7 @@ export const MlIntelligencePage: React.FC = () => {
       {/* Top Banner & Sub-Navigation Tabs */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 text-white shadow-lg">
+          <div className="p-2.5 rounded-xl bg-slate-900   text-white shadow-lg">
             <Cpu className="w-5 h-5" />
           </div>
           <div>

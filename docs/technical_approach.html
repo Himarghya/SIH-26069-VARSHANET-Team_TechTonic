@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VARSHANET 2.0 — Technical Approach Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #f1f5f9;
+      --card-bg: #ffffff;
+      --border-color: #0f172a;
+      --border-width: 2.2px;
+      --accent-blue: #0284c7;
+      --accent-sky: #e0f2fe;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-purple: #8b5cf6;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #cbd5e1;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Control Bar */
+    .top-toolbar {
+      width: 100%;
+      max-width: 1560px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 10px 20px;
+      background: white;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .top-toolbar h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      border: 2px solid var(--border-color);
+      cursor: pointer;
+      background: white;
+      transition: all 0.15s ease;
+    }
+    .action-btn:hover {
+      background: #f1f5f9;
+      transform: translateY(-1px);
+    }
+    .action-btn.btn-dark {
+      background: #0f172a;
+      color: white;
+    }
+
+    /* Main Poster Canvas */
+    .poster-canvas {
+      width: 1540px;
+      min-height: 890px;
+      background: #ffffff;
+      border: 3px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.22);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Header Bar */
+    .header-bar {
+      display: grid;
+      grid-template-columns: 200px 1fr 240px;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 20px;
+      background: white;
+      border: var(--border-width) solid var(--border-color);
+      border-radius: 40px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      box-shadow: 2px 3px 0px rgba(0,0,0,0.9);
+      width: fit-content;
+      position: relative;
+    }
+    .brand-pill .sub-tag {
+      position: absolute;
+      bottom: -11px;
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid #38bdf8;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .poster-title {
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #0f172a;
+    }
+
+    .sih-badge {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .sih-text {
+      text-align: right;
+      font-size: 0.7rem;
+      font-weight: 800;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    /* 3-Column Architectural Grid */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 460px 480px 520px;
+      gap: 18px;
+      position: relative;
+    }
+
+    /* Generic Card Box */
+    .arch-card {
+      background: #ffffff;
+      border: var(--border-width) solid var(--border-color);
+      border-radius: 14px;
+      position: relative;
+      padding: 12px;
+      box-shadow: 2px 3px 0px rgba(0,0,0,0.06);
+    }
+
+    .badge-pill-header {
+      position: absolute;
+      top: -13px;
+      left: 18px;
+      background: #0f172a;
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 3px 14px;
+      border-radius: 20px;
+      border: var(--border-width) solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .num-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background: white;
+      color: #0f172a;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 900;
+      border: 1.5px solid #0f172a;
+    }
+
+    .step-node {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #0f172a;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 800;
+      border: 2px solid white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+      position: absolute;
+      z-index: 20;
+    }
+
+    /* ========================================================
+       COLUMN 1: BACKEND ARCHITECTURE & AI COMPONENTS
+       ======================================================== */
+    .col-backend {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .backend-container {
+      background: #f8fafc;
+      padding-top: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .backend-docker-wrapper {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 8px;
+      background: #ffffff;
+      border: 1.8px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 8px 6px;
+    }
+
+    .docker-vertical-banner {
+      background: #0284c7;
+      border: 1.5px solid var(--border-color);
+      border-radius: 6px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 2px;
+      text-align: center;
+    }
+    .docker-vertical-banner span {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      margin-top: 8px;
+      text-transform: uppercase;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .backend-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .db-duo-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .db-pill-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 6px;
+      padding: 5px 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+    }
+    .db-pill-card .db-title {
+      font-size: 0.65rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+    .db-pill-card .db-desc {
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .fastapi-core-box {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 6px;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .services-pair-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .service-sub-pill {
+      background: #f8fafc;
+      border: 1.5px dashed var(--border-color);
+      border-radius: 5px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+
+    .kafka-block {
+      background: #e0f2fe;
+      border: 1.8px solid #0284c7;
+      border-radius: 8px;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    .kafka-main-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: #0369a1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .kafka-sub-meta {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .stream-direction-label {
+      font-size: 0.56rem;
+      color: #0369a1;
+      font-weight: 700;
+    }
+
+    .stream-side-row {
+      display: flex;
+      gap: 5px;
+    }
+    .stream-mini-card {
+      flex: 1;
+      background: white;
+      border: 1.3px solid var(--border-color);
+      border-radius: 5px;
+      padding: 3px 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.58rem;
+      font-weight: 700;
+    }
+
+    .iot-gateway-box {
+      background: #ecfdf5;
+      border: 1.5px solid #059669;
+      border-radius: 6px;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #065f46;
+    }
+
+    .soa-description-row {
+      display: grid;
+      grid-template-columns: 1fr 135px;
+      gap: 8px;
+      align-items: center;
+    }
+    .soa-desc-text {
+      font-size: 0.62rem;
+      line-height: 1.3;
+      color: #334155;
+      font-weight: 600;
+    }
+    .object-store-card {
+      background: #fffbeb;
+      border: 1.5px solid #d97706;
+      border-radius: 6px;
+      padding: 5px 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .object-store-card span {
+      font-size: 0.56rem;
+      line-height: 1.2;
+      color: #92400e;
+      font-weight: 700;
+    }
+
+    /* AI Box */
+    .ai-components-container {
+      background: #ffffff;
+      padding-top: 22px;
+    }
+    .ai-layout-grid {
+      display: grid;
+      grid-template-columns: 40px 1fr 30px;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .ai-brands-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      background: #f8fafc;
+      border: 1.4px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 3px 0;
+    }
+    .ai-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ai-card-item {
+      background: #fff;
+      border: 1.4px solid var(--border-color);
+      border-radius: 6px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .ai-card-item p {
+      font-size: 0.64rem;
+      line-height: 1.3;
+      color: #1e293b;
+    }
+    .ai-card-item p strong {
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .ai-side-pill {
+      background: #e0f2fe;
+      border: 1.4px solid #0284c7;
+      border-radius: 5px;
+      color: #0369a1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 0.68rem;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      letter-spacing: 2px;
+    }
+
+    /* ========================================================
+       COLUMN 2: ADMIN, ZERO TRUST, BASINS & IOT FIELD MESH
+       ======================================================== */
+    .col-center {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-command-card {
+      background: #ffffff;
+      border: var(--border-width) solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 12px;
+      position: relative;
+    }
+    .admin-pill-tag {
+      background: #0284c7;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-color);
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    .admin-card-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-features-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .admin-feat-cell {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.2;
+    }
+
+    .security-api-dock {
+      display: grid;
+      grid-template-columns: 36px 1fr 85px;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .gateway-vertical-bar {
+      background: #0284c7;
+      color: white;
+      border: var(--border-width) solid var(--border-color);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      padding: 6px 2px;
+    }
+    .zero-trust-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .zero-trust-item {
+      background: #f8fafc;
+      border: 1.3px solid var(--border-color);
+      border-radius: 5px;
+      padding: 4px 6px;
+      font-size: 0.6rem;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .zero-trust-item strong {
+      display: block;
+      font-size: 0.64rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .ocr-block {
+      background: #ffffff;
+      border: 1.4px solid var(--border-color);
+      border-radius: 6px;
+      padding: 6px 3px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      position: relative;
+    }
+    .ocr-block span {
+      font-size: 0.58rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .sop-ribbon {
+      background: #fffbeb;
+      border: 1.4px dashed #d97706;
+      border-radius: 6px;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 0.64rem;
+      font-weight: 800;
+      color: #92400e;
+    }
+
+    .disaster-basin-banner {
+      background: #ffffff;
+      border: 2px dashed var(--border-color);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+    .basin-vector {
+      width: 58px;
+      height: 48px;
+      flex-shrink: 0;
+    }
+    .basin-text-info {
+      font-size: 0.65rem;
+      line-height: 1.3;
+      color: #1e293b;
+    }
+    .basin-text-info strong {
+      font-size: 0.74rem;
+      font-weight: 900;
+      color: #0f172a;
+      display: block;
+    }
+
+    .sensor-mesh-container {
+      background: #f8fafc;
+      border: var(--border-width) solid var(--border-color);
+      border-radius: 10px;
+      padding: 8px 10px;
+      position: relative;
+    }
+    .sensor-mesh-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 8px;
+      align-items: center;
+    }
+    .sensor-node-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      text-align: center;
+    }
+    .sensor-node-box span {
+      font-size: 0.6rem;
+      font-weight: 800;
+    }
+    .mesh-tag-badge {
+      font-size: 0.52rem;
+      background: #e2e8f0;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .connection-status-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .conn-box {
+      border-radius: 5px;
+      padding: 4px 6px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+    .conn-box.blue {
+      background: #e0f2fe;
+      border: 1px solid #38bdf8;
+      color: #0369a1;
+    }
+    .conn-box.red {
+      background: #fef2f2;
+      border: 1px solid #f87171;
+      color: #991b1b;
+    }
+
+    .terrain-dual-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 5px;
+    }
+    .terrain-mini-card {
+      background: white;
+      border: 1.3px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 4px;
+      text-align: center;
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    /* ========================================================
+       COLUMN 3: INCIDENT COMMANDER (WEB) & CITIZENS (APP)
+       ======================================================== */
+    .col-interfaces {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .web-app-container {
+      background: #ffffff;
+      padding-top: 22px;
+    }
+    .header-and-platform {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .header-and-platform h3 {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: #0f172a;
+    }
+    .header-and-platform span {
+      font-size: 0.64rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .tech-badges-line {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .tech-badge-chip {
+      background: #f8fafc;
+      border: 1.3px solid var(--border-color);
+      border-radius: 5px;
+      padding: 2px 5px;
+      font-size: 0.6rem;
+      font-weight: 800;
+    }
+
+    .mockup-window {
+      background: #0f172a;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .mockup-top-bar {
+      background: #1e293b;
+      padding: 3px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .dot-ctrl {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    .mockup-inner-grid {
+      padding: 6px;
+      display: grid;
+      grid-template-columns: 75px 1fr 85px;
+      gap: 5px;
+      height: 98px;
+      background: #0b1120;
+    }
+    .mock-col-nav {
+      background: #1e293b;
+      border-radius: 4px;
+      padding: 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .nav-bar-line {
+      height: 6px;
+      background: #334155;
+      border-radius: 2px;
+    }
+    .nav-bar-line.active { background: #0284c7; }
+
+    .mock-col-center {
+      background: #1e293b;
+      border-radius: 4px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      position: relative;
+    }
+    .radar-circle {
+      position: absolute;
+      right: 8px;
+      top: 6px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid #38bdf8;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(2, 132, 199, 0.05) 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .radar-sweep-hand {
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background: #38bdf8;
+      animation: sweepAnim 3s linear infinite;
+    }
+    @keyframes sweepAnim {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .mock-col-side {
+      background: #1e293b;
+      border-radius: 4px;
+      padding: 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .p1-badge-tag {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      font-size: 0.48rem;
+      font-weight: 800;
+      padding: 1px 3px;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+    .web-features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .feature-point-card {
+      background: #f8fafc;
+      border: 1.3px solid var(--border-color);
+      border-radius: 6px;
+      padding: 5px 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
+    }
+    .feature-point-card span {
+      font-size: 0.62rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1e293b;
+    }
+
+    .compliance-footer-bar {
+      display: grid;
+      grid-template-columns: 34px 1fr 85px;
+      gap: 6px;
+      align-items: center;
+      background: #ffffff;
+      border: 1.3px solid var(--border-color);
+      border-radius: 6px;
+      padding: 4px 6px;
+      margin-top: 5px;
+    }
+    .compliance-footer-bar span.text {
+      font-size: 0.58rem;
+      line-height: 1.15;
+      color: #334155;
+    }
+    .pdf-tag-btn {
+      background: #fee2e2;
+      border: 1.3px solid #ef4444;
+      border-radius: 5px;
+      color: #b91c1c;
+      padding: 2px 4px;
+      font-size: 0.55rem;
+      font-weight: 800;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .mobile-app-container {
+      background: #ffffff;
+      padding-top: 22px;
+    }
+    .toast-alert-bar {
+      background: #0f172a;
+      color: white;
+      border: 1.4px solid #38bdf8;
+      border-radius: 5px;
+      padding: 3px 6px;
+      font-size: 0.56rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+
+    .mobile-content-split {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .phone-mockup-frame {
+      width: 135px;
+      height: 185px;
+      background: #0f172a;
+      border: 2px solid #1e293b;
+      border-radius: 16px;
+      padding: 5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .phone-inner-screen {
+      background: #ffffff;
+      height: 100%;
+      border-radius: 12px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      overflow: hidden;
+    }
+    .phone-status-title {
+      font-size: 0.52rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      justify-content: space-between;
+    }
+    .phone-hazard-card {
+      background: #fef2f2;
+      border: 1px solid #ef4444;
+      border-radius: 3px;
+      padding: 2px 3px;
+      font-size: 0.46rem;
+      color: #991b1b;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .phone-gps-box {
+      background: #f0fdf4;
+      border: 1px solid #10b981;
+      border-radius: 3px;
+      padding: 3px;
+      font-size: 0.45rem;
+      color: #065f46;
+      font-weight: 600;
+    }
+    .phone-sos-bar {
+      background: #ef4444;
+      color: white;
+      text-align: center;
+      font-size: 0.5rem;
+      font-weight: 900;
+      padding: 2px 0;
+      border-radius: 3px;
+      margin-top: auto;
+    }
+
+    .mobile-points-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .mobile-point-row {
+      background: #f8fafc;
+      border: 1.3px solid var(--border-color);
+      border-radius: 5px;
+      padding: 4px 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .mobile-point-row span {
+      font-size: 0.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1e293b;
+    }
+
+    /* Footer */
+    .poster-bottom-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 6px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Controls -->
+  <div class="top-toolbar">
+    <h1>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      VARSHANET 2.0 — Technical Approach Architecture
+    </h1>
+    <div class="btn-group">
+      <button class="action-btn" onclick="window.print()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        Print / Save PDF
+      </button>
+      <button class="action-btn btn-dark" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+        Overview
+      </button>
+    </div>
+  </div>
+
+  <!-- Poster Canvas -->
+  <div class="poster-canvas" id="technical-approach-poster">
+
+    <!-- Header Section -->
+    <div class="header-bar">
+      <div class="brand-pill">
+        VARSHANET
+        <span class="sub-tag">WEATHER & DISASTER GRID</span>
+      </div>
+
+      <div class="poster-title">
+        TECHNICAL APPROACH
+      </div>
+
+      <div class="sih-badge">
+        <div class="sih-text">
+          SMART INDIA<br>HACKATHON<br><span style="color:#f97316; font-weight:900;">2024</span>
+        </div>
+        <!-- SIH Electric Bulb Spark Logo SVG -->
+        <svg width="38" height="38" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+          <path d="M50 15 C65 15 78 28 78 45 C78 58 68 68 62 74 L38 74 C32 68 22 58 22 45 C22 28 35 15 50 15 Z" fill="none" stroke="#0f172a" stroke-width="3"/>
+          <path d="M38 74 L62 74 L58 84 L42 84 Z" fill="#0f172a"/>
+          <circle cx="50" cy="42" r="15" fill="#f97316"/>
+          <circle cx="50" cy="42" r="9" fill="#ffffff"/>
+          <circle cx="50" cy="42" r="4" fill="#10b981"/>
+          <line x1="50" y1="6" x2="50" y2="12" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
+          <line x1="82" y1="22" x2="76" y2="28" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
+          <line x1="90" y1="50" x2="84" y2="50" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+          <line x1="18" y1="22" x2="24" y2="28" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
+          <line x1="10" y1="50" x2="16" y2="50" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 3-Column Architecture Body -->
+    <div class="arch-grid">
+
+      <!-- ===================================================
+           COLUMN 1: BACKEND ARCHITECTURE & AI COMPONENTS
+           =================================================== -->
+      <div class="col-backend">
+
+        <!-- (4) BACKEND ARCHITECTURE -->
+        <div class="arch-card backend-container">
+          <div class="badge-pill-header">
+            <span class="num-circle">4</span>
+            BACKEND ARCHITECTURE
+          </div>
+
+          <div class="backend-docker-wrapper">
+            <!-- Docker Vertical Banner -->
+            <div class="docker-vertical-banner">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.953 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.076a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.954 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.122a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m11.808 2.714h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.186.186 0 00-.186.185v1.888c0 .102.083.185.186.185m-5.906 0h2.118a.187.187 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.953 0h2.119a.186.186 0 00.185-.185V9.006a.186.186 0 00-.185-.186H8.076a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954 0h2.119a.186.186 0 00.185-.185V9.006a.186.186 0 00-.185-.186H5.122a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185M23.99 11.23c-.114-.783-.812-1.378-1.574-1.378-.445 0-.848.196-1.127.508-.344-.225-.756-.35-1.196-.35a2.53 2.53 0 00-1.875.834 5.372 5.372 0 00-3.328-1.135H1.46c-.25 0-.46.162-.533.393-.574 1.82-.44 4.542 1.05 6.786 1.48 2.228 4.092 3.52 7.765 3.84 1.503.13 3.037.1 4.56-.09 3.85-.48 6.945-2.4 8.68-5.385.49-.844.78-1.782.85-2.756.09-.074.19-.13.29-.17.58-.23.96-.79.868-1.492"/></svg>
+              <span>DOCKER CONTAINER</span>
+            </div>
+
+            <!-- Backend Microservices Stack -->
+            <div class="backend-stack">
+              <!-- DB Row -->
+              <div class="db-duo-row">
+                <div class="db-pill-card">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#f59e0b"><circle cx="12" cy="12" r="10" stroke="#1e293b" stroke-width="2" fill="#fffbeb"/><path d="M12 6v6l4 2" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/></svg>
+                  <div>
+                    <div class="db-title">TimescaleDB</div>
+                    <div class="db-desc">1-sec IoT & DWR Radar stream</div>
+                  </div>
+                </div>
+
+                <div class="db-pill-card">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#0284c7"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                  <div>
+                    <div class="db-title">PostgreSQL + PostGIS</div>
+                    <div class="db-desc">Relational & Spatial Basins</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FastAPI Server -->
+              <div class="fastapi-core-box">
+                <span style="font-size:0.75rem; font-weight:800; display:flex; align-items:center; gap:5px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#059669"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#059669" stroke-width="2" fill="none"/></svg>
+                  FastAPI Core Microservices Server
+                </span>
+                <span style="font-size:0.6rem; font-weight:800; background:#009639; color:white; padding:1px 5px; border-radius:3px;">Nginx</span>
+              </div>
+
+              <!-- Service Pairs -->
+              <div class="services-pair-row">
+                <div class="service-sub-pill">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>
+                  <span>IoT Ingestion</span>
+                </div>
+                <div class="service-sub-pill">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                  <span>AI / ML Service</span>
+                </div>
+              </div>
+
+              <!-- Kafka Message Bus -->
+              <div class="kafka-block">
+                <div class="stream-direction-label">↑ Produced telemetry consumed by microservices ↑</div>
+                <div class="kafka-main-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#0284c7"><circle cx="12" cy="12" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><line x1="12" y1="9" x2="12" y2="15" stroke="#0284c7" stroke-width="2"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="#0284c7" stroke-width="2"/></svg>
+                  Kafka — Message Bus Grid
+                </div>
+                <div class="kafka-sub-meta">Zookeeper Cluster • 16 Partitions (1,240 msg/sec)</div>
+                <div class="stream-direction-label">↓ Data from DWR Radar & AWS Pipelined ↓</div>
+              </div>
+
+              <!-- Side Stream & Search -->
+              <div class="stream-side-row">
+                <div class="stream-mini-card">
+                  <span style="background:#e11d48; color:white; font-size:0.52rem; padding:1px 4px; border-radius:3px;">Flink</span>
+                  <span>Stream Processing</span>
+                </div>
+                <div class="stream-mini-card">
+                  <span style="background:#005571; color:white; font-size:0.52rem; padding:1px 4px; border-radius:3px;">Elastic</span>
+                  <span>Spatial Search</span>
+                </div>
+              </div>
+
+              <!-- IoT Gateway Service -->
+              <div class="iot-gateway-box">
+                <span style="display:flex; align-items:center; gap:5px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect></svg>
+                  IoT Gateway Service (MQTT / WebSocket)
+                </span>
+                <span style="font-size:0.58rem; background:#10b981; color:white; padding:1px 5px; border-radius:3px; font-weight:800;">Nginx</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom SOA Note & MinIO Card -->
+          <div class="soa-description-row">
+            <div class="soa-desc-text">
+              We use <strong>SOA & Event-Driven architecture</strong> for flexible and efficient integration, making it perfect for disaster operations.<br>
+              <span style="color:#0284c7; font-size:0.56rem;">*Can be deployed in cloud with ease</span>
+            </div>
+
+            <div class="object-store-card">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#d97706"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
+              <span><strong>File System</strong><br>MinIO / S3 object store for radar sweeps & PDFs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- (8) AI COMPONENTS -->
+        <div class="arch-card ai-components-container">
+          <div class="badge-pill-header" style="background:#d97706;">
+            <span class="num-circle" style="color:#d97706;">8</span>
+            AI COMPONENTS
+          </div>
+
+          <div class="ai-layout-grid">
+            <div class="ai-brands-col">
+              <!-- Python -->
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M11.9 1.5c-5.2 0-4.9 2.3-4.9 2.3l.01 2.4h5v.7H4.5s-3.3.4-3.3 5.2 2.9 5 2.9 5h1.7v-2.4s-.1-2.9 2.8-2.9h4.8s2.7.1 2.7-2.6V4.1s.4-2.6-4.2-2.6zm-2.8 1.6a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm2.9 19.4c5.2 0 4.9-2.3 4.9-2.3l-.01-2.4h-5v-.7h7.5s3.3-.4 3.3-5.2-2.9-5-2.9-5h-1.7v2.4s.1 2.9-2.8 2.9h-4.8s-2.7-.1-2.7 2.6v4.7s-.4 2.6 4.2 2.6zm2.8-1.6a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6z" fill="#3b82f6"/></svg>
+              <!-- PyTorch / TF -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#f97316"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5zm0 3.3l6 3.3v6.8l-6 3.3-6-3.3V8.6l6-3.3z"/></svg>
+              <!-- Gemini / Scikit -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#0284c7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+
+            <div class="ai-cards-stack">
+              <div class="ai-card-item">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <p>
+                  <strong>AI-powered Impact Engine</strong> — Predicts precipitation (Marshall-Palmer $Z=300R^{1.4}$) & forecasts resource needs using real-time DWR & AWS telemetry.
+                </p>
+              </div>
+
+              <div class="ai-card-item">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline></svg>
+                <p>
+                  <strong>Simhash & Decision Tree Algorithm</strong> — Recommends NDRF battalions and boats for task assignment based on real-time incident severity.
+                </p>
+              </div>
+            </div>
+
+            <div class="ai-side-pill">
+              FASTAPI
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================
+           COLUMN 2: ADMIN, ZERO TRUST, BASINS & IOT FIELD MESH
+           =================================================== -->
+      <div class="col-center">
+
+        <!-- (3) ADMIN -->
+        <div class="admin-command-card">
+          <div class="step-node" style="top:-10px; left:-10px;">3</div>
+          <div class="admin-pill-tag">ADMIN</div>
+          <div class="admin-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            Efficient Task Handling with Web App for Admin
+          </div>
+
+          <div class="admin-features-2x2">
+            <div class="admin-feat-cell">
+              <span style="color:#0284c7;">🔄</span>
+              <span><strong>Easy migration</strong> using Data Mapping</span>
+            </div>
+            <div class="admin-feat-cell">
+              <span style="color:#ef4444;">⚠️</span>
+              <span><strong>Real-Time Critical Alerts</strong> for Issue Resolution</span>
+            </div>
+            <div class="admin-feat-cell">
+              <span style="color:#10b981;">👥</span>
+              <span><strong>Centralized Worker / NDRF</strong> Management</span>
+            </div>
+            <div class="admin-feat-cell">
+              <span style="color:#8b5cf6;">📄</span>
+              <span><strong>Verification of NDMA / SitRep</strong> Report Submission</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security, Zero Trust & OCR Extraction Row -->
+        <div class="security-api-dock">
+          <div class="gateway-vertical-bar">
+            <span>API GATEWAY</span>
+          </div>
+
+          <div class="zero-trust-stack">
+            <div class="zero-trust-item" style="background:#e0f2fe; border-color:#0284c7;">
+              <strong>Zero Trust Ideology</strong>
+              Intranet-only access, blocking external connections
+            </div>
+            <div class="zero-trust-item">
+              <strong>Data Encryption & Hashing</strong>
+              Data is secured through AES-256 encryption and hashing
+            </div>
+            <div class="zero-trust-item" style="background:#ecfdf5; border-color:#10b981;">
+              <strong>Google Translation & Bhashini API</strong>
+              Multi-lingual translation for 12+ Indian regional dialects
+            </div>
+          </div>
+
+          <div class="ocr-block">
+            <div class="step-node" style="top:-8px; right:-8px;">2</div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><path d="M4 7V4h3"></path><path d="M20 7V4h-3"></path><path d="M4 17v3h3"></path><path d="M20 17v3h-3"></path><line x1="9" y1="12" x2="15" y2="12"></line></svg>
+            <span><strong>OCR</strong><br>Automated Text Extraction from any type of Log Book</span>
+          </div>
+        </div>
+
+        <!-- SOP & Manual Logs Ribbon -->
+        <div class="sop-ribbon">
+          <div style="display:flex; align-items:center; gap:5px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span><strong>SMP Digitalization:</strong> Compliance with safety regulations</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:5px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#0284c7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            <span><strong>Manual Logs:</strong> Track daily operations</span>
+          </div>
+        </div>
+
+        <!-- (1) DISASTER ZONES & BASINS -->
+        <div class="disaster-basin-banner">
+          <div class="step-node" style="top:-10px; left:-10px;">1</div>
+          <svg class="basin-vector" viewBox="0 0 100 80">
+            <path d="M10 70 L35 30 L55 50 L75 20 L95 70 Z" fill="#94a3b8" stroke="#0f172a" stroke-width="2"/>
+            <path d="M25 70 Q45 55 60 70 Q75 80 90 70" fill="none" stroke="#0284c7" stroke-width="4"/>
+            <circle cx="35" cy="30" r="4" fill="#ef4444"/>
+            <circle cx="75" cy="20" r="4" fill="#ef4444"/>
+            <text x="28" y="76" font-size="7.5" font-weight="bold" fill="#0369a1">River Catchment</text>
+          </svg>
+          <div class="basin-text-info">
+            <strong>DISASTER ZONES & RIVER BASINS</strong>
+            Basins are split into <strong>sections (Section-1 ... Section-n)</strong> consisting of a supervisor and set of workers / NDRF for smooth flow of operation and safety.
+          </div>
+        </div>
+
+        <!-- (7) IOT SENSOR NETWORK & MESH -->
+        <div class="sensor-mesh-container">
+          <div class="step-node" style="top:-10px; left:-10px;">7</div>
+          <div class="sensor-mesh-layout">
+            <div class="sensor-node-box">
+              <svg width="60" height="38" viewBox="0 0 100 60">
+                <rect x="25" y="15" width="50" height="35" rx="4" fill="#1e293b" stroke="#0284c7" stroke-width="2"/>
+                <circle cx="40" cy="30" r="5" fill="#10b981"/>
+                <circle cx="60" cy="30" r="4" fill="#f59e0b"/>
+                <line x1="50" y1="15" x2="50" y2="5" stroke="#0284c7" stroke-width="3"/>
+                <circle cx="50" cy="4" r="3" fill="#38bdf8"/>
+              </svg>
+              <span><strong>Danger Detecting Nodes</strong></span>
+              <span class="mesh-tag-badge">ESP Wi-Fi MESH / LoRa</span>
+            </div>
+
+            <div class="connection-status-stack">
+              <div class="conn-box blue">
+                <strong>⚡ Internet:</strong> Data sent directly to the backend (E2E Encryption)
+              </div>
+              <div class="conn-box red">
+                <strong>🔄 Fallback:</strong> No internet — Data routed via deployed nodes
+              </div>
+            </div>
+          </div>
+
+          <div class="terrain-dual-cards">
+            <div class="terrain-mini-card">
+              🚜 <strong>Open Cast & Urban Basin</strong><br>Monitors runoffs & storm surges
+            </div>
+            <div class="terrain-mini-card">
+              ⛰️ <strong>Underground & Mountain Sector</strong><br>Monitors structural safety & tunnels
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================
+           COLUMN 3: SHIFT SUPERVISOR (WEB) & OPERATORS (APP)
+           =================================================== -->
+      <div class="col-interfaces">
+
+        <!-- (5) SHIFT SUPERVISOR / INCIDENT COMMANDER -->
+        <div class="arch-card web-app-container">
+          <div class="badge-pill-header">
+            <span class="num-circle">5</span>
+            SHIFT SUPERVISOR
+          </div>
+
+          <div class="header-and-platform">
+            <h3>Web/Desktop App</h3>
+            <span>Cross-Platform</span>
+          </div>
+
+          <!-- Tech Badges -->
+          <div class="tech-badges-line">
+            <div class="tech-badge-chip">React.js</div>
+            <div class="tech-badge-chip">Shadcn UI</div>
+            <div class="tech-badge-chip">Typescript</div>
+            <div class="tech-badge-chip">Redux</div>
+            <div class="tech-badge-chip">Mapbox</div>
+            <div class="tech-badge-chip">Socket.io</div>
+          </div>
+
+          <!-- Desktop UI Mockup -->
+          <div class="mockup-window">
+            <div class="mockup-top-bar">
+              <div class="dot-ctrl" style="background:#ef4444;"></div>
+              <div class="dot-ctrl" style="background:#f59e0b;"></div>
+              <div class="dot-ctrl" style="background:#10b981;"></div>
+              <span style="color:#94a3b8; font-size:0.5rem; margin-left:4px; font-weight:700;">VARSHANET 2.0 Command Console — Sector 4 Flash Flood Alert (P1)</span>
+            </div>
+            <div class="mockup-inner-grid">
+              <div class="mock-col-nav">
+                <div class="nav-bar-line active"></div>
+                <div class="nav-bar-line"></div>
+                <div class="nav-bar-line"></div>
+                <div class="nav-bar-line"></div>
+              </div>
+
+              <div class="mock-col-center">
+                <div style="font-size:0.5rem; color:#38bdf8; font-weight:800;">PREDICTIVE SIMULATION & RADAR</div>
+                <div class="radar-circle">
+                  <div class="radar-sweep-hand"></div>
+                  <span style="font-size:0.42rem; color:#38bdf8; font-weight:900;">55 dBZ</span>
+                </div>
+                <div style="display:flex; align-items:flex-end; gap:2px; height:28px; margin-top:14px;">
+                  <div style="flex:1; height:35%; background:#0284c7; border-radius:2px;"></div>
+                  <div style="flex:1; height:60%; background:#0284c7; border-radius:2px;"></div>
+                  <div style="flex:1; height:90%; background:#ef4444; border-radius:2px;"></div>
+                  <div style="flex:1; height:75%; background:#f59e0b; border-radius:2px;"></div>
+                  <div style="flex:1; height:45%; background:#0284c7; border-radius:2px;"></div>
+                </div>
+              </div>
+
+              <div class="mock-col-side">
+                <div class="p1-badge-tag">P1 CRITICAL</div>
+                <div style="font-size:0.42rem; color:#cbd5e1; line-height:1.1;">NDRF Unit: Active<br>Boats: 12 Allocated</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Features Grid -->
+          <div class="web-features-grid">
+            <div class="feature-point-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              <span><strong>Predictive Simulation Engine</strong><br>Real-time IoT logs</span>
+            </div>
+
+            <div class="feature-point-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              <span><strong>Supervisors can view/Edit</strong><br>Round Plans & Shift Allotment</span>
+            </div>
+
+            <div class="feature-point-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 14a1 1 0 1 1 1-1 1 1 0 0 1-1 1zm1-5h-2V7h2z"/></svg>
+              <span><strong>AI powered assistant</strong><br>to assist supervisor</span>
+            </div>
+
+            <div class="feature-point-card">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span><strong>Supervisors approve & Submit</strong><br>Shift-Handovers</span>
+            </div>
+          </div>
+
+          <!-- DGMS / NDMA Regulatory Box -->
+          <div class="compliance-footer-bar">
+            <svg width="30" height="30" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="#f8fafc" stroke="#0284c7" stroke-width="3"/>
+              <circle cx="50" cy="50" r="34" fill="#0284c7"/>
+              <text x="50" y="55" font-size="13" font-weight="900" fill="white" text-anchor="middle">DGMS</text>
+            </svg>
+            <span class="text">
+              <strong>DGMS / NDMA Compliance</strong> Log Report Submission with Admin Verification
+            </span>
+            <div class="pdf-tag-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+              Automatic PDF report
+            </div>
+          </div>
+        </div>
+
+        <!-- (6) SHIFT OPERATORS / CITIZENS MOBILE APP -->
+        <div class="arch-card mobile-app-container">
+          <div class="badge-pill-header">
+            <span class="num-circle">6</span>
+            SHIFT OPERATORS
+          </div>
+
+          <div class="toast-alert-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#38bdf8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span><strong>Notification:</strong> New task assigned. Click here to view details.</span>
+          </div>
+
+          <div class="header-and-platform">
+            <h3>Mobile App</h3>
+            <span>Cross-Platform</span>
+          </div>
+
+          <!-- Badges -->
+          <div class="tech-badges-line">
+            <div class="tech-badge-chip">SQL Lite</div>
+            <div class="tech-badge-chip">Bloc</div>
+            <div class="tech-badge-chip" style="color:#0284c7;">Flutter</div>
+          </div>
+
+          <div class="mobile-content-split">
+            <!-- Smartphone Shell -->
+            <div class="phone-mockup-frame">
+              <div class="phone-inner-screen">
+                <div class="phone-status-title">
+                  <span>CoalWorks / VARSHANET</span>
+                  <span style="color:#10b981;">●</span>
+                </div>
+                <div class="phone-hazard-card">
+                  ⚠️ <strong>Fire Hazard near Conveyor Belt</strong><br>
+                  Immediate action required in Section 4
+                </div>
+                <div class="phone-gps-box">
+                  📍 Shift Summary<br>
+                  Tasks Completed: 8<br>
+                  Critical Alerts: 1
+                </div>
+                <div class="phone-sos-bar">
+                  SUBMIT LOG / SOS
+                </div>
+              </div>
+            </div>
+
+            <!-- Features Stack -->
+            <div class="mobile-points-stack">
+              <div class="mobile-point-row">
+                <span style="font-size:0.85rem;">📋</span>
+                <span><strong>Quick summary</strong> of shifts, tasks, issues, and alerts</span>
+              </div>
+              <div class="mobile-point-row">
+                <span style="font-size:0.85rem;">📝</span>
+                <span><strong>Log details</strong> about tasks, issues, alerts during rounds</span>
+              </div>
+              <div class="mobile-point-row">
+                <span style="font-size:0.85rem;">🗣️</span>
+                <span><strong>Support for major Indian languages</strong></span>
+              </div>
+              <div class="mobile-point-row">
+                <span style="font-size:0.85rem;">🎙️</span>
+                <span><strong>Smart voice controls</strong> for assistance</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Meta -->
+    <div class="poster-bottom-meta">
+      <div>VARSHANET 2.0 — High-Throughput Weather Big Data Analytics & Disaster Intelligence Grid</div>
+      <div>Smart India Hackathon 2024 • Ministry of Earth Sciences (MoES) & NDMA Implementation Architecture</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

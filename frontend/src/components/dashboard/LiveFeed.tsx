@@ -61,7 +61,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
   });
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-4 flex flex-col h-[560px] shadow-xl font-sans">
+    <div className="bg-slate-900/90  border border-slate-800 rounded-2xl p-4 flex flex-col h-[560px] shadow-xl font-sans">
       {/* Header */}
       <div className="flex flex-col gap-2.5 mb-3 pb-2.5 border-b border-slate-800">
         <div className="flex items-center justify-between">
@@ -260,7 +260,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
                     <span className="truncate max-w-[120px]">{rep.city || 'District'}, {rep.state}</span>
                   </div>
                   <div className="flex items-center gap-1 text-slate-300 font-bold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
-                    <span>{isCitizen ? `👤 Citizen (${rep.author || 'PWA'})` : (rep.source_name || rep.source_type)}</span>
+                    <span>{isCitizen ? ` Citizen (${rep.author || 'PWA'})` : (rep.source_name || rep.source_type)}</span>
                   </div>
                 </div>
               </div>

@@ -9,8 +9,6 @@ import {
   Radio,
   RefreshCw,
   Command,
-  UserCheck,
-  Users,
   ChevronDown,
   Check,
   Menu,
@@ -32,26 +30,20 @@ export const ROLES_CONFIG = [
   {
     id: 'citizen',
     label: 'Citizen',
-    tagline: 'Citizen Portal & Ground Reports',
-    icon: Users,
-    dotColor: 'bg-emerald-400 shadow-emerald-400/50',
-    iconBg: 'bg-emerald-950/80 border-emerald-500/40 text-emerald-400',
+    tagline: 'Citizen Reports & Ground Observations',
+    icon: CloudRain,
   },
   {
     id: 'analyst',
     label: 'Analyst',
-    tagline: 'Disaster GIS Command & Forecaster',
+    tagline: 'Disaster GIS Command & Radar Analysis',
     icon: Activity,
-    dotColor: 'bg-cyan-400 shadow-cyan-400/50',
-    iconBg: 'bg-cyan-950/80 border-cyan-500/40 text-cyan-400',
   },
   {
     id: 'admin',
     label: 'Admin',
-    tagline: 'NDMA Verification & System Ops',
+    tagline: 'Verification & System Operations',
     icon: Shield,
-    dotColor: 'bg-purple-400 shadow-purple-400/50',
-    iconBg: 'bg-purple-950/80 border-purple-500/40 text-purple-400',
   },
 ] as const;
 
@@ -71,7 +63,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
   const roleDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // Close role dropdown on outside click or Escape key
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (roleDropdownRef.current && !roleDropdownRef.current.contains(event.target as Node)) {
@@ -94,7 +85,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     };
   }, [isRoleDropdownOpen]);
 
-  // 5-Minute Auto-Sync Countdown Timer
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdownSeconds(prev => {
@@ -114,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     try {
       const res = await triggerLiveSync();
       const count = res.new_reports_count || 0;
-      setSyncMessage(count > 0 ? `+${count} New` : 'Live Fresh');
+      setSyncMessage(count > 0 ? `+${count} New` : 'Updated');
       setCountdownSeconds(300);
       if (onLiveSyncDone) onLiveSyncDone();
       setTimeout(() => setSyncMessage(null), 3500);
@@ -142,7 +132,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  // Role-filtered navigation items (clean core operational suite)
   const allNavItems = [
     { id: 'dashboard', label: 'Overview', icon: Activity, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'reports', label: 'Reports', icon: FileText, roles: ['citizen', 'analyst', 'admin'] },
@@ -159,40 +148,36 @@ export const Navbar: React.FC<NavbarProps> = ({
   const CurrentRoleIcon = currentRoleConfig.icon;
 
   return (
-    <header className="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-3 py-2 w-full font-sans">
-      <div className="flex items-center justify-between gap-2 w-full max-w-7xl mx-auto">
+    <header className="bg-[#0b0f17] border-b border-slate-800 sticky top-0 z-50 px-4 py-2.5 w-full font-sans">
+      <div className="flex items-center justify-between gap-3 w-full max-w-7xl mx-auto">
         {/* Brand */}
         <div
-          className="flex items-center gap-2 cursor-pointer shrink-0"
+          className="flex items-center gap-2.5 cursor-pointer shrink-0"
           onClick={() => {
             setActiveTab('dashboard');
             setIsMobileMenuOpen(false);
           }}
         >
-          <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-md shadow-cyan-500/20 text-white font-bold shrink-0">
-            <CloudRain className="w-4 h-4 animate-pulse" />
-            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-            </span>
+          <div className="w-8 h-8 rounded-lg bg-cyan-600 text-white flex items-center justify-center font-bold shrink-0">
+            <CloudRain className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-sm tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 font-sans">
+              <span className="font-extrabold text-sm tracking-wider text-white font-sans">
                 VARSHANET
               </span>
-              <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 font-mono font-bold">
-                SIH'24
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-cyan-400 border border-slate-700 font-mono font-bold">
+                GIS
               </span>
             </div>
-            <div className="text-[9px] text-slate-400 font-mono -mt-0.5 hidden xs:block">
-              AI Monsoon Hazard & GIS Radar
+            <div className="text-[10px] text-slate-400 font-mono hidden xs:block">
+              Meteorological Intelligence Grid
             </div>
           </div>
         </div>
 
-        {/* Center / Primary Nav Items (Desktop) */}
-        <nav className="hidden lg:flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800 text-xs shadow-inner">
+        {/* Center Nav Items */}
+        <nav className="hidden lg:flex items-center gap-1 bg-[#111827] p-1 rounded-lg border border-slate-800 text-xs">
           {visibleNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -200,16 +185,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded font-medium transition-colors cursor-pointer ${
                   isActive
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-900/40 font-bold'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+                    ? 'bg-cyan-600 text-white font-semibold'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <Icon className="w-3.5 h-3.5" />
                 <span>{item.label}</span>
                 {item.badge !== undefined && (
-                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white animate-pulse">
+                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-600 text-white">
                     {item.badge}
                   </span>
                 )}
@@ -218,109 +203,72 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Right Toolbar Controls */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          {/* Live Sync Trigger & Countdown Badge */}
+        {/* Right Controls */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Live Sync */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-300 hover:text-white transition-all text-[11px] font-mono shadow-sm cursor-pointer shrink-0"
-            title="Auto-cycles every 5 minutes. Click to force instant live sync"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded bg-[#111827] border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-mono shrink-0"
+            title="Force refresh telemetry"
           >
-            <RefreshCw className={`w-3 h-3 text-cyan-400 ${isSyncing ? 'animate-spin text-cyan-300' : ''}`} />
+            <RefreshCw className={`w-3 h-3 text-cyan-400 ${isSyncing ? 'animate-spin' : ''}`} />
             <span className="text-[10px] hidden xs:inline text-cyan-400 font-bold">
               {syncMessage ? syncMessage : timerDisplay}
             </span>
           </button>
 
-          {/* Sleek Custom User Role Switcher Dropdown */}
+          {/* User Role Switcher */}
           <div className="relative" ref={roleDropdownRef}>
             <button
               type="button"
               onClick={() => setIsRoleDropdownOpen(prev => !prev)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-950 border transition-all shadow-sm cursor-pointer group ${
-                isRoleDropdownOpen
-                  ? 'border-cyan-500/80 ring-1 ring-cyan-500/40 bg-slate-900 shadow-cyan-950/40'
-                  : 'border-slate-800 hover:border-slate-700 hover:bg-slate-900/80'
-              }`}
-              aria-haspopup="true"
-              aria-expanded={isRoleDropdownOpen}
-              title="Switch platform operational role / persona"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-[#111827] border border-slate-800 hover:border-slate-700 text-xs font-mono transition-colors text-slate-200"
             >
-              <div className="flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${currentRoleConfig.dotColor} shadow-sm animate-pulse`}></span>
-                <CurrentRoleIcon className="w-3.5 h-3.5 text-slate-300 group-hover:text-cyan-300 transition-colors" />
-                <span className="font-mono text-xs font-bold text-slate-100 group-hover:text-white">
-                  {currentRoleConfig.label}
-                </span>
-              </div>
-              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
-                isRoleDropdownOpen ? 'rotate-180 text-cyan-400' : 'group-hover:text-slate-200'
-              }`} />
+              <CurrentRoleIcon className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="font-semibold">{currentRoleConfig.label}</span>
+              <ChevronDown className="w-3 h-3 text-slate-400" />
             </button>
 
-            {/* Glassmorphic Dropdown Popover */}
+            {/* Dropdown */}
             {isRoleDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-950/98 backdrop-blur-2xl border border-slate-800/90 p-1.5 shadow-2xl shadow-black/80 z-50 animate-in fade-in zoom-in-95 duration-150 font-sans divide-y divide-slate-800/60">
-                <div className="px-2.5 py-1.5 flex items-center justify-between text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider">
-                  <span>Operational Persona</span>
-                  <span className="text-[9px] text-cyan-400 lowercase font-mono">3 roles</span>
+              <div className="absolute right-0 mt-2 w-56 rounded-lg bg-[#111827] border border-slate-800 p-1.5 shadow-xl z-50 space-y-1">
+                <div className="px-2 py-1 text-[10px] font-mono text-slate-500 font-bold uppercase">
+                  Select Role
                 </div>
-
-                <div className="pt-1 space-y-1">
-                  {ROLES_CONFIG.map((role) => {
-                    const Icon = role.icon;
-                    const isSelected = userRole === role.id;
-                    return (
-                      <button
-                        key={role.id}
-                        type="button"
-                        onClick={() => {
-                          handleRoleChange(role.id);
-                          setIsRoleDropdownOpen(false);
-                        }}
-                        className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-all cursor-pointer group ${
-                          isSelected
-                            ? 'bg-slate-900 border border-slate-700/80 text-white shadow-inner'
-                            : 'hover:bg-slate-900/60 text-slate-300 hover:text-white border border-transparent'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center border shrink-0 transition-transform group-hover:scale-105 ${role.iconBg}`}>
-                            <Icon className="w-4 h-4" />
-                          </div>
-                          <div className="min-w-0">
-                            <div className="text-xs font-bold leading-tight flex items-center gap-1.5">
-                              <span>{role.label}</span>
-                              {isSelected && (
-                                <span className="text-[9px] font-mono font-extrabold px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
-                                  ACTIVE
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-[10px] text-slate-400 truncate leading-snug mt-0.5 font-sans">
-                              {role.tagline}
-                            </div>
-                          </div>
-                        </div>
-
-                        {isSelected && (
-                          <div className="w-5 h-5 rounded-full bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center shrink-0 ml-2">
-                            <Check className="w-3 h-3 text-cyan-400" />
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
+                {ROLES_CONFIG.map((role) => {
+                  const Icon = role.icon;
+                  const isSelected = userRole === role.id;
+                  return (
+                    <button
+                      key={role.id}
+                      type="button"
+                      onClick={() => {
+                        handleRoleChange(role.id);
+                        setIsRoleDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between p-2 rounded text-left text-xs transition-colors ${
+                        isSelected
+                          ? 'bg-slate-800 text-white font-semibold'
+                          : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Icon className="w-3.5 h-3.5 text-cyan-400" />
+                        <span>{role.label}</span>
+                      </div>
+                      {isSelected && <Check className="w-3 h-3 text-cyan-400" />}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
 
-          {/* Mobile Menu Hamburger Toggle */}
+          {/* Mobile Hamburger */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-1.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 hover:text-white transition-all"
+            className="lg:hidden p-1.5 rounded bg-[#111827] border border-slate-800 text-slate-300 hover:text-white"
             aria-label="Toggle Navigation Menu"
           >
             {isMobileMenuOpen ? <X className="w-4 h-4 text-cyan-400" /> : <Menu className="w-4 h-4" />}
@@ -328,39 +276,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu Drawer */}
+      {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
-          {/* Mobile Role Switcher */}
-          <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs space-y-1.5">
-            <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">
-              Select Operational Role
-            </div>
-            <div className="grid grid-cols-3 gap-1.5">
-              {ROLES_CONFIG.map((role) => {
-                const Icon = role.icon;
-                const isSelected = userRole === role.id;
-                return (
-                  <button
-                    key={role.id}
-                    onClick={() => {
-                      handleRoleChange(role.id);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`flex flex-col items-center justify-center gap-1 p-2 rounded-lg text-center font-mono text-[11px] font-bold transition-all border cursor-pointer ${
-                      isSelected
-                        ? 'bg-cyan-600/30 border-cyan-500 text-white shadow-sm'
-                        : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700'
-                    }`}
-                  >
-                    <Icon className={`w-4 h-4 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
-                    <span>{role.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
+        <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-[#0b0f17] p-2 space-y-2">
           <div className="grid grid-cols-2 gap-1">
             {visibleNavItems.map((item) => {
               const Icon = item.icon;
@@ -372,19 +290,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setActiveTab(item.id);
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all w-full text-left ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded text-xs font-semibold transition-colors w-full text-left ${
                     isActive
-                      ? 'bg-cyan-600 text-white shadow-md font-bold'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-900'
+                      ? 'bg-cyan-600 text-white'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800'
                   }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
                   <span className="truncate">{item.label}</span>
-                  {item.badge !== undefined && (
-                    <span className="ml-auto px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white">
-                      {item.badge}
-                    </span>
-                  )}
                 </button>
               );
             })}

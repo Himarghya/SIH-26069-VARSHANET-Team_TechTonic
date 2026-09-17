@@ -82,7 +82,7 @@ export const InformationGapPanel: React.FC<InformationGapPanelProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer transition-all ${
                   isDone
                     ? 'bg-emerald-600 text-white'
-                    : 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-md'
+                    : 'bg-slate-900   hover: hover: text-white shadow-md'
                 }`}
               >
                 {isDone ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Send className="w-3.5 h-3.5" />}

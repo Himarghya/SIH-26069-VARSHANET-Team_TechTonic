@@ -48,7 +48,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ overview
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* State Activity Bar Chart */}
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md">
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 ">
           <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
             <Layers className="w-4 h-4 text-cyan-400" /> State-Wise Weather Incident Density
           </h3>
@@ -67,7 +67,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ overview
         </div>
 
         {/* Event Type Distribution */}
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md">
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 ">
           <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-emerald-400" /> Event Category Distribution
           </h3>
@@ -86,7 +86,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ overview
         </div>
 
         {/* Source Distribution Donut */}
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md">
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 ">
           <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
             <PieIcon className="w-4 h-4 text-amber-400" /> Multi-Source Channel Ingestion Mix
           </h3>
@@ -108,7 +108,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ overview
         </div>
 
         {/* Verification Status Breakdown */}
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md">
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 ">
           <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
             <ShieldAlert className="w-4 h-4 text-rose-400" /> AI Credibility & Verification Status
           </h3>

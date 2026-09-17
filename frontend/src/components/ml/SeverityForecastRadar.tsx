@@ -70,7 +70,7 @@ export const SeverityForecastRadar: React.FC = () => {
         <button
           onClick={runPrediction}
           disabled={loading}
-          className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-rose-600 hover:from-amber-500 hover:to-rose-500 text-white text-xs font-bold font-mono shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+          className="px-4 py-2 rounded-xl bg-slate-900   hover: hover: text-white text-xs font-bold font-mono shadow-lg transition-all flex items-center gap-2 cursor-pointer"
         >
           {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
           <span>Recalculate 1h/3h Projections</span>
@@ -171,7 +171,7 @@ export const SeverityForecastRadar: React.FC = () => {
             {/* Operational Advisory Alert */}
             <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-600/40 text-amber-200 text-xs font-sans leading-relaxed">
               <strong className="font-mono text-amber-300 block mb-1">
-                🛡️ Predictive Action Plan (Model Confidence: {forecastResult.model_confidence_pct}%):
+                ️ Predictive Action Plan (Model Confidence: {forecastResult.model_confidence_pct}%):
               </strong>
               {forecastResult.operational_advisory}
             </div>

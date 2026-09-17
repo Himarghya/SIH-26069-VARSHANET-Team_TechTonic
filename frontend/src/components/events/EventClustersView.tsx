@@ -22,7 +22,7 @@ export const EventClustersView: React.FC<EventClustersViewProps> = ({ events, on
   return (
     <div className="space-y-6 font-sans">
       {/* 1. Architecture & Noise-to-Intelligence Compression Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
+      <div className="bg-slate-900    border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/60 shadow-md">
@@ -45,7 +45,7 @@ export const EventClustersView: React.FC<EventClustersViewProps> = ({ events, on
 
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-mono px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">
-              ⚡ Compression: <strong className="text-emerald-400">~125:1 (99.2% Noise Filtered)</strong>
+               Compression: <strong className="text-emerald-400">~125:1 (99.2% Noise Filtered)</strong>
             </span>
           </div>
         </div>
@@ -121,10 +121,10 @@ export const EventClustersView: React.FC<EventClustersViewProps> = ({ events, on
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredEvents.map((cluster) => {
           const severityColors: Record<string, string> = {
-            CRITICAL: 'from-rose-500/20 via-slate-900 to-slate-950 border-rose-500/40 text-rose-400',
-            HIGH: 'from-amber-500/20 via-slate-900 to-slate-950 border-amber-500/40 text-amber-400',
-            MODERATE: 'from-cyan-500/20 via-slate-900 to-slate-950 border-cyan-500/40 text-cyan-400',
-            LOW: 'from-emerald-500/20 via-slate-900 to-slate-950 border-emerald-500/40 text-emerald-400'
+            CRITICAL: '   border-rose-500/40 text-rose-400',
+            HIGH: '   border-amber-500/40 text-amber-400',
+            MODERATE: '   border-cyan-500/40 text-cyan-400',
+            LOW: '   border-emerald-500/40 text-emerald-400'
           };
           const theme = severityColors[cluster.severity] || severityColors.MODERATE;
 
@@ -132,7 +132,7 @@ export const EventClustersView: React.FC<EventClustersViewProps> = ({ events, on
             <div
               key={cluster.id}
               onClick={() => onSelectEvent && onSelectEvent(cluster)}
-              className={`p-5 rounded-2xl bg-gradient-to-br ${theme} border backdrop-blur-md shadow-xl hover:scale-[1.01] transition-all cursor-pointer flex flex-col justify-between group`}
+              className={`p-5 rounded-2xl bg-slate-900 ${theme} border  shadow-xl hover:scale-[1.01] transition-all cursor-pointer flex flex-col justify-between group`}
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">

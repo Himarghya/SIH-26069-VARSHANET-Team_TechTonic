@@ -146,7 +146,7 @@ export const ReportTable: React.FC<ReportTableProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-4 space-y-4 shadow-xl">
+    <div className="bg-slate-900/90  border border-slate-800 rounded-2xl p-4 space-y-4 shadow-xl">
       {/* Dynamic AI Weather Hashtags Bar */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1">
         <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-slate-400 shrink-0">
@@ -267,7 +267,7 @@ export const ReportTable: React.FC<ReportTableProps> = ({
               className="text-slate-400 hover:text-white text-xs px-1 rounded hover:bg-slate-800 transition-colors cursor-pointer"
               title="Clear hashtag filter"
             >
-              ✕
+              
             </button>
           </span>
         )}

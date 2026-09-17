@@ -133,7 +133,7 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
+    <div className="bg-slate-900/90  border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-800">
         <div className="flex items-center gap-3">
@@ -241,10 +241,10 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
                 onChange={(e) => setSeverity(e.target.value as any)}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 cursor-pointer font-bold"
               >
-                <option value="CRITICAL" className="text-rose-400">🔴 CRITICAL (Red Alert)</option>
-                <option value="HIGH" className="text-amber-400">🟠 HIGH (Orange Warning)</option>
-                <option value="MODERATE" className="text-yellow-400">🟡 MODERATE (Yellow Advisory)</option>
-                <option value="LOW" className="text-cyan-400">🔵 LOW (Green Monitoring)</option>
+                <option value="CRITICAL" className="text-rose-400"> CRITICAL (Red Alert)</option>
+                <option value="HIGH" className="text-amber-400"> HIGH (Orange Warning)</option>
+                <option value="MODERATE" className="text-yellow-400"> MODERATE (Yellow Advisory)</option>
+                <option value="LOW" className="text-cyan-400"> LOW (Green Monitoring)</option>
               </select>
             </div>
 
@@ -443,10 +443,10 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-rose-600 via-amber-600 to-emerald-600 hover:from-rose-500 hover:to-emerald-500 text-white font-bold text-xs tracking-wider shadow-lg shadow-rose-950/40 transition-all flex items-center justify-center gap-2 cursor-pointer font-mono uppercase"
+            className="w-full py-3.5 rounded-xl bg-slate-900    hover: hover: text-white font-bold text-xs tracking-wider shadow-lg shadow-rose-950/40 transition-all flex items-center justify-center gap-2 cursor-pointer font-mono uppercase"
           >
             <Send className="w-4 h-4" />
-            {isSubmitting ? 'Publishing & Mapping to National Grid...' : '⚡ Publish Pre-Verified Incident & Pin on Map'}
+            {isSubmitting ? 'Publishing & Mapping to National Grid...' : ' Publish Pre-Verified Incident & Pin on Map'}
           </button>
         </form>
       )}

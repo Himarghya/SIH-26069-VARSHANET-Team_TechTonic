@@ -183,7 +183,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
+    <div className="bg-slate-900/90  border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-800">
         <div>
@@ -240,7 +240,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
             key={idx}
             className={`p-4 rounded-xl flex flex-col justify-between h-full transition-all shadow-md ${
               isPrimary
-                ? 'bg-gradient-to-b from-cyan-950/30 to-slate-950 border border-cyan-500/50 shadow-cyan-950/20'
+                ? 'bg-slate-900   border border-cyan-500/50 shadow-cyan-950/20'
                 : 'bg-slate-950/90 border border-slate-800 hover:border-slate-700'
             }`}
           >
@@ -357,7 +357,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
       {showOrderModal && (
         <div
           onClick={() => setShowOrderModal(false)}
-          className="fixed inset-0 z-[10000] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[10000] bg-black/85  flex items-center justify-center p-4 cursor-pointer"
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -374,7 +374,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
                 onClick={() => setShowOrderModal(false)}
                 className="text-slate-400 hover:text-white transition-colors"
               >
-                ✕
+                
               </button>
             </div>
 
@@ -398,7 +398,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
               </button>
               <button
                 onClick={handleConfirmDispatch}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-900   hover: hover: text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Confirm & Issue Dispatch Order</span>

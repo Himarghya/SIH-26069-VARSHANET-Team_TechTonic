@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertTriangle, BellRing, ArrowRight, ChevronLeft, ChevronRight, Flame, ShieldAlert, Sparkles, ExternalLink, Share2 } from 'lucide-react';
 import { Alert } from '../../types';
 import { broadcastAlertToX } from '../../services/api';
@@ -86,14 +86,14 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onClick={() => onSelectAlert && onSelectAlert(currentAlert)}
-      className={`border-y px-3 sm:px-4 py-2 text-xs flex items-center justify-between gap-2 transition-all cursor-pointer select-none group shadow-lg ${
+      className={`border-y px-3 sm:px-4 py-2 text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none group ${
         isNewAlertFlash
-          ? 'bg-gradient-to-r from-red-600 via-rose-700 to-red-950 border-red-400 text-white animate-pulse'
+          ? 'bg-red-950 border-red-600 text-white animate-pulse'
           : isCritical
-          ? 'bg-gradient-to-r from-rose-950 via-red-950/90 to-slate-950 border-rose-800/80 text-rose-100 hover:bg-rose-950/90'
+          ? 'bg-red-950/80 border-red-800 text-red-100 hover:bg-red-900/80'
           : isHigh
-          ? 'bg-gradient-to-r from-amber-950 via-orange-950/90 to-slate-950 border-amber-800/80 text-amber-100 hover:bg-amber-950/90'
-          : 'bg-gradient-to-r from-cyan-950 via-blue-950/90 to-slate-950 border-cyan-800/80 text-cyan-100 hover:bg-cyan-950/90'
+          ? 'bg-amber-950/80 border-amber-800 text-amber-100 hover:bg-amber-900/80'
+          : 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-850'
       }`}
       title="Click to open full AI nowcasting and response in Incident Command Room"
     >
@@ -145,16 +145,16 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
         <button
           onClick={handlePostToX}
           disabled={isPostingToX}
-          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-black/70 hover:bg-black text-white hover:text-cyan-300 border border-slate-700 hover:border-cyan-500 transition-all text-[10px] font-mono font-bold shadow-sm cursor-pointer shrink-0"
-          title="Post this Red Alert immediately to X (Twitter) & notify Somadas7803@gmail.com"
+          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-black hover:bg-slate-800 text-white hover:text-cyan-300 border border-slate-700 hover:border-cyan-500 transition-all text-[10px] font-mono font-bold cursor-pointer shrink-0"
+          title="Post this Red Alert immediately to X"
         >
-          <span className="font-black text-xs leading-none">𝕏</span>
-          <span className="hidden sm:inline">{postSuccess ? 'Posted ✓' : isPostingToX ? 'Posting...' : 'Post to 𝕏'}</span>
+          <span className="font-black text-xs leading-none">X</span>
+          <span className="hidden sm:inline">{postSuccess ? 'Posted' : isPostingToX ? 'Posting...' : 'Post to X'}</span>
         </button>
 
         {/* Location (hidden on small mobile) */}
-        <span className="text-[10px] font-mono text-slate-300 hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/10">
-          📍 {currentAlert.city || 'District'}, {currentAlert.state} • <strong className="text-cyan-300">{currentAlert.reports_count} reports</strong>
+        <span className="text-[10px] font-mono text-slate-300 hidden md:inline bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
+          {currentAlert.city || 'District'}, {currentAlert.state} &bull; <strong className="text-cyan-400">{currentAlert.reports_count} reports</strong>
         </span>
 
         {/* Carousel Pagination & Arrows */}

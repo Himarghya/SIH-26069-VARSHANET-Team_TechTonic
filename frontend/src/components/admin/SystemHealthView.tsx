@@ -10,7 +10,7 @@ export const SystemHealthView: React.FC<SystemHealthViewProps> = ({ health }) =>
   if (!health) return null;
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
+    <div className="bg-slate-900/90  border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
       <div className="flex items-center justify-between pb-3 border-b border-slate-800 flex-wrap gap-2">
         <div>
           <h2 className="text-base font-bold text-white flex items-center gap-2">

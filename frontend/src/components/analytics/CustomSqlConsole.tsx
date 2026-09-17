@@ -116,12 +116,12 @@ export const CustomSqlConsole: React.FC = () => {
         />
         <div className="flex items-center justify-between p-2.5 bg-slate-900/80 border-t border-slate-800">
           <span className="text-[10px] font-mono text-slate-500">
-            🔒 Read-only security sandbox active (SELECT queries only)
+             Read-only security sandbox active (SELECT queries only)
           </span>
           <button
             onClick={handleRunQuery}
             disabled={isLoading}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold font-mono transition-all shadow-md cursor-pointer disabled:opacity-50"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-slate-900   hover: hover: text-white text-xs font-bold font-mono transition-all shadow-md cursor-pointer disabled:opacity-50"
           >
             <Play className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             <span>{isLoading ? 'Executing...' : 'Run Query'}</span>

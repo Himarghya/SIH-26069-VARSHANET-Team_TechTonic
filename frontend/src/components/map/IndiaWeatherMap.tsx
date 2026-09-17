@@ -256,7 +256,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         const ndrfHtml = `
           <div class="relative flex items-center justify-center cursor-pointer group">
             <div class="w-6 h-6 rounded-lg bg-emerald-950 border border-emerald-400 text-emerald-300 flex items-center justify-center shadow-lg shadow-emerald-950/60 font-bold text-[10px] group-hover:scale-110 transition-transform">
-              🚁
+              
             </div>
             <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rotate-45"></div>
           </div>
@@ -274,7 +274,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           <div class="p-3 space-y-2 min-w-[240px] font-sans">
             <div class="flex items-center justify-between border-b border-emerald-800 pb-1.5">
               <span class="text-xs font-bold text-white uppercase flex items-center gap-1">
-                <span>🚁</span> ${bn.name}
+                <span></span> ${bn.name}
               </span>
               <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700">
                 ${bn.readiness}
@@ -322,7 +322,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         const popupHtml = `
           <div class="p-2.5 space-y-1.5 min-w-[220px] font-sans">
             <div class="flex items-center gap-1 border-b border-cyan-800 pb-1 text-cyan-300 font-bold text-xs">
-              <span>🌊</span> ${riv.name}
+              <span></span> ${riv.name}
             </div>
             <div class="text-[10px] font-mono space-y-1 bg-slate-950 p-1.5 rounded border border-slate-800">
               <div>Gauge Stage: <strong class="text-rose-400">${riv.dangerLevel}</strong></div>
@@ -347,7 +347,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           <div class="relative flex items-center justify-center cursor-pointer">
             <div class="w-5 h-5 rounded-full bg-amber-400/20 animate-ping absolute"></div>
             <div class="w-4 h-4 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center font-bold text-[9px] shadow-lg shadow-amber-400/80">
-              ⚡
+              
             </div>
           </div>
         `;
@@ -362,7 +362,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         const marker = L.marker([lgt.lat, lgt.lon], { icon });
         const popupHtml = `
           <div class="p-2 space-y-1 font-sans text-xs min-w-[180px]">
-            <div class="text-amber-400 font-bold flex items-center gap-1">⚡ Cloud-to-Ground Strike</div>
+            <div class="text-amber-400 font-bold flex items-center gap-1"> Cloud-to-Ground Strike</div>
             <div class="text-[11px] text-white font-mono">${lgt.city}</div>
             <div class="text-[10px] font-mono text-slate-400">Peak Current: <strong class="text-rose-400">${lgt.peakKa} kA</strong> (${lgt.delayMs})</div>
           </div>
@@ -389,7 +389,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       });
       cone.bindPopup(`
         <div class="p-2.5 font-sans space-y-1 text-xs">
-          <div class="text-rose-400 font-bold">🌀 ${CYCLONE_SYSTEM.name} (${CYCLONE_SYSTEM.stage})</div>
+          <div class="text-rose-400 font-bold"> ${CYCLONE_SYSTEM.name} (${CYCLONE_SYSTEM.stage})</div>
           <div class="text-[10px] font-mono text-slate-300">Peak Sustained Wind: ${CYCLONE_SYSTEM.windSpeed}</div>
         </div>
       `, { className: 'custom-leaflet-popup' });
@@ -419,7 +419,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       const eyeMarker = L.marker(CYCLONE_SYSTEM.eyeCoords as any, { icon: eyeIcon });
       eyeMarker.bindPopup(`
         <div class="p-2.5 font-sans space-y-1 text-xs">
-          <div class="text-rose-400 font-black">🌀 LIVE CYCLONE EYE: ${CYCLONE_SYSTEM.name}</div>
+          <div class="text-rose-400 font-black"> LIVE CYCLONE EYE: ${CYCLONE_SYSTEM.name}</div>
           <div class="text-[10px] font-mono text-slate-200">Wind: ${CYCLONE_SYSTEM.windSpeed}</div>
           <div class="text-[10px] font-mono text-amber-300">Estimated Landfall: Odisha Coast in 24 hrs</div>
         </div>
@@ -468,7 +468,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           coreRadiusScale = 1.0;
           outerOpacity = 0.22;
           coreOpacity = 0.65;
-          timelineLabel = '🔴 LIVE IMD DOPPLER RADAR';
+          timelineLabel = ' LIVE IMD DOPPLER RADAR';
           timelineSub = 'Real-time Synoptic Dual-Pol Echo Scan';
         } else if (radarTimeline === '+1h') {
           // Nowcast Optical Flow Vector (+1 hr projected storm core)
@@ -548,7 +548,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           <div class="relative flex items-center justify-center cursor-pointer group">
             ${radarTimeline === 'LIVE' ? '<span class="absolute inline-flex h-8 w-8 rounded-full bg-cyan-400 opacity-40 animate-ping"></span>' : ''}
             <div style="background-color: ${radarColor};" class="relative w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-black border-2 border-white shadow-xl transform transition-transform group-hover:scale-125">
-              📡
+              
             </div>
           </div>
         `;
@@ -617,9 +617,9 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
         const newsPinHtml = `
           <div class="relative flex flex-col items-center justify-center cursor-pointer group">
-            <div class="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-indigo-950/95 backdrop-blur-md text-indigo-200 text-[8px] font-mono font-bold border border-indigo-500/70 shadow-md shadow-indigo-950/80 transition-transform group-hover:scale-110 whitespace-nowrap">
+            <div class="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-indigo-950/95  text-indigo-200 text-[8px] font-mono font-bold border border-indigo-500/70 shadow-md shadow-indigo-950/80 transition-transform group-hover:scale-110 whitespace-nowrap">
               <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
-              <span>📰 ${publisherClean}${countBadge}</span>
+              <span> ${publisherClean}${countBadge}</span>
             </div>
             <div class="w-1 h-1 bg-indigo-400 rotate-45 -mt-0.5"></div>
           </div>
@@ -640,7 +640,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         popupContent.innerHTML = `
           <div class="flex items-center justify-between gap-2 border-b border-indigo-800/60 pb-1.5">
             <span class="text-[11px] font-extrabold text-indigo-300 uppercase tracking-wide flex items-center gap-1">
-              <span>📰</span> ${primaryRep.city || 'Regional'} News Feed (${count})
+              <span></span> ${primaryRep.city || 'Regional'} News Feed (${count})
             </span>
             <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
               ${primaryRep.credibility_score}/100 Rel
@@ -653,7 +653,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           </div>
           <div class="pt-1">
             <a href="${streetViewUrl}" target="_blank" rel="noopener noreferrer" class="w-full py-1 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 text-indigo-200 border border-indigo-700/50 text-[10px] font-bold text-center flex items-center justify-center gap-1 transition-colors">
-              <span>👁 Open Ground Street View</span>
+              <span> Open Ground Street View</span>
             </a>
           </div>
         `;
@@ -686,7 +686,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           <div class="relative flex items-center justify-center cursor-pointer group">
             <span class="absolute inline-flex h-8 w-8 rounded-full bg-emerald-400 opacity-40 animate-ping"></span>
             <div class="relative w-7 h-7 rounded-xl bg-slate-950 border-2 border-emerald-400 text-emerald-300 flex items-center justify-center shadow-xl shadow-emerald-950/80 font-bold text-xs transform transition-transform group-hover:scale-125">
-              🛡️
+              ️
             </div>
             <div class="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-400 rotate-45"></div>
           </div>
@@ -710,7 +710,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           <div class="p-3 space-y-2 min-w-[250px] max-w-[280px] font-sans text-slate-200">
             <div class="flex items-center justify-between border-b border-emerald-800/80 pb-1.5">
               <span class="text-xs font-bold text-white uppercase flex items-center gap-1">
-                <span>🛡️</span> Verified Ground Report
+                <span>️</span> Verified Ground Report
               </span>
               <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700">
                 VERIFIED
@@ -726,11 +726,11 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
             ${hashtagsHtml ? `<div class="flex flex-wrap gap-1 pt-1">${hashtagsHtml}</div>` : ''}
             <div class="text-[10px] font-mono text-slate-400 flex items-center justify-between pt-1 border-t border-slate-800/80">
               <span>By: ${rep.author || 'Citizen Observer'}</span>
-              <span>📍 ${rep.city || 'Local'}, ${rep.state}</span>
+              <span> ${rep.city || 'Local'}, ${rep.state}</span>
             </div>
             <div class="pt-1.5 flex flex-col gap-1">
               <a href="${streetViewUrl}" target="_blank" rel="noopener noreferrer" class="w-full py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 text-emerald-200 border border-emerald-700/50 text-[10px] font-bold text-center flex items-center justify-center gap-1 transition-colors">
-                <span>👁 View Ground Street View</span>
+                <span> View Ground Street View</span>
               </a>
             </div>
           </div>
@@ -816,10 +816,10 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         
         <div class="pt-2 flex flex-col gap-1.5">
           <button id="btn-inspect-${evt.id}" class="w-full py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
-            <span>⚡ Open in Incident Command Room</span>
+            <span> Open in Incident Command Room</span>
           </button>
           <a href="${streetViewUrl}" target="_blank" rel="noopener noreferrer" class="w-full py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-amber-400 border border-amber-500/30 text-[10px] font-bold text-center flex items-center justify-center gap-1">
-            <span>👁 Pinpoint in Google Street View</span>
+            <span> Pinpoint in Google Street View</span>
           </a>
         </div>
       `;
@@ -890,7 +890,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   return (
     <div className="relative w-full h-full min-h-[580px] rounded-2xl overflow-hidden border border-slate-800/80 shadow-2xl bg-slate-950 flex flex-col font-sans">
       {/* Tactical Quick-Jump City Bar */}
-      <div className="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-3 py-2 flex items-center justify-between gap-2 overflow-x-auto z-10 shrink-0">
+      <div className="bg-slate-900/95  border-b border-slate-800 px-3 py-2 flex items-center justify-between gap-2 overflow-x-auto z-10 shrink-0">
         <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-300 shrink-0 font-mono">
           <Compass className="w-4 h-4 text-cyan-400 animate-spin-slow" />
           <span>Tactical City Jump:</span>
@@ -902,7 +902,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
               onClick={() => handleQuickJump(c)}
               className="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-cyan-950/80 border border-slate-800 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-200 text-[11px] font-mono font-semibold transition-all shrink-0 flex items-center gap-1 cursor-pointer"
             >
-              <span>📍 {c.name}</span>
+              <span> {c.name}</span>
               <span className="text-[9px] px-1 py-0.2 rounded bg-rose-950 text-rose-300 border border-rose-800">
                 {c.tag}
               </span>
@@ -913,7 +913,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
       {/* Map Control Bar Overlay */}
       <div className="absolute top-14 left-3 right-3 z-[400] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-        <div className="flex items-center gap-2 bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-800 text-xs shadow-2xl pointer-events-auto">
+        <div className="flex items-center gap-2 bg-slate-900/95  px-3.5 py-2 rounded-xl border border-slate-800 text-xs shadow-2xl pointer-events-auto">
           <Layers className="w-4 h-4 text-cyan-400" />
           <span className="font-bold text-slate-200">National Weather Radar</span>
           <span className="text-[11px] text-cyan-400 font-mono font-semibold">({events.length} Clusters)</span>
@@ -932,7 +932,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
                   className="ml-1 text-slate-400 hover:text-white cursor-pointer"
                   title="Clear Filter"
                 >
-                  ✕
+                  
                 </button>
               )}
             </span>
@@ -941,7 +941,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
         <div className="flex items-center gap-1.5 flex-wrap pointer-events-auto">
           {/* Map Layer Switcher */}
-          <div className="flex items-center bg-slate-900/95 backdrop-blur-md p-1 rounded-xl border border-slate-800 text-xs shadow-2xl">
+          <div className="flex items-center bg-slate-900/95  p-1 rounded-xl border border-slate-800 text-xs shadow-2xl">
             <button
               onClick={() => setSelectedBaseMap('dark')}
               className={`px-2 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
@@ -963,7 +963,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           {/* Verified Citizen Incident Reports Toggle */}
           <button
             onClick={() => setShowVerifiedReports(!showVerifiedReports)}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold backdrop-blur-md border transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold  border transition-all cursor-pointer ${
               showVerifiedReports
                 ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/50 shadow-md font-bold'
                 : 'bg-slate-900/90 text-slate-400 border-slate-800'
@@ -977,59 +977,59 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
           {/* NDRF Depots Toggle */}
           <button
             onClick={() => setShowNdrfDepots(!showNdrfDepots)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold backdrop-blur-md border transition-all cursor-pointer ${
+            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold  border transition-all cursor-pointer ${
               showNdrfDepots
                 ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/50 shadow-md font-bold'
                 : 'bg-slate-900/90 text-slate-400 border-slate-800'
             }`}
             title="Toggle NDRF Strategic Quick Response Battalions"
           >
-            <span>🚁 NDRF Bases</span>
+            <span> NDRF Bases</span>
           </button>
 
           {/* River Flood Corridors Toggle */}
           <button
             onClick={() => setShowRiverCorridors(!showRiverCorridors)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold backdrop-blur-md border transition-all cursor-pointer ${
+            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold  border transition-all cursor-pointer ${
               showRiverCorridors
                 ? 'bg-cyan-600/30 text-cyan-300 border-cyan-500/50 shadow-md font-bold'
                 : 'bg-slate-900/90 text-slate-400 border-slate-800'
             }`}
             title="Toggle CWC River Basin Corridors"
           >
-            <span>🌊 River Basins</span>
+            <span> River Basins</span>
           </button>
 
           {/* Lightning Grid Toggle */}
           <button
             onClick={() => setShowLightningGrid(!showLightningGrid)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold backdrop-blur-md border transition-all cursor-pointer ${
+            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold  border transition-all cursor-pointer ${
               showLightningGrid
                 ? 'bg-amber-600/30 text-amber-300 border-amber-500/50 shadow-md font-bold'
                 : 'bg-slate-900/90 text-slate-400 border-slate-800'
             }`}
             title="Toggle Cloud-to-Ground Lightning Sensor Network"
           >
-            <span>⚡ Lightning</span>
+            <span> Lightning</span>
           </button>
 
           {/* Cyclone Cone Toggle */}
           <button
             onClick={() => setShowCycloneCone(!showCycloneCone)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold backdrop-blur-md border transition-all cursor-pointer ${
+            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold  border transition-all cursor-pointer ${
               showCycloneCone
                 ? 'bg-rose-600/30 text-rose-300 border-rose-500/50 shadow-md font-bold'
                 : 'bg-slate-900/90 text-slate-400 border-slate-800'
             }`}
             title="Toggle Active Cyclone Forecast Cones"
           >
-            <span>🌀 Cyclone</span>
+            <span> Cyclone</span>
           </button>
 
           {/* DWR Doppler Radar Toggle */}
           <button
             onClick={() => setShowDwrRadarEchoes(!showDwrRadarEchoes)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold backdrop-blur-md border transition-all cursor-pointer ${
+            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold  border transition-all cursor-pointer ${
               showDwrRadarEchoes
                 ? 'bg-indigo-500/30 text-indigo-300 border-indigo-500/50 shadow-md font-bold'
                 : 'bg-slate-900/90 text-slate-400 border-slate-800'
@@ -1055,7 +1055,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
                 }
               }
             }}
-            className="bg-slate-900/95 backdrop-blur-md text-xs text-slate-200 font-medium px-3 py-1.5 rounded-xl border border-slate-800 focus:outline-none cursor-pointer shadow-2xl"
+            className="bg-slate-900/95  text-xs text-slate-200 font-medium px-3 py-1.5 rounded-xl border border-slate-800 focus:outline-none cursor-pointer shadow-2xl"
           >
             <option value="All">All Indian States & UTs (36)</option>
             {ALL_INDIAN_STATES_UTS.map((st) => (
@@ -1072,7 +1072,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       <div ref={mapContainerRef} className="w-full flex-1" style={{ minHeight: '500px' }} />
 
       {/* Radar Playback & Timeline Scrubber Bar */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[400] bg-slate-900/95 backdrop-blur-md px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl border border-slate-800 shadow-2xl flex items-center gap-1.5 sm:gap-2.5 max-w-[calc(100%-16px)] sm:max-w-max overflow-x-auto no-scrollbar pointer-events-auto shrink-0">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[400] bg-slate-900/95  px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl border border-slate-800 shadow-2xl flex items-center gap-1.5 sm:gap-2.5 max-w-[calc(100%-16px)] sm:max-w-max overflow-x-auto no-scrollbar pointer-events-auto shrink-0">
         <button
           onClick={() => setIsRadarPlaying(!isRadarPlaying)}
           className={`p-2 rounded-xl text-white transition-all cursor-pointer shrink-0 flex items-center justify-center ${
@@ -1106,14 +1106,14 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
                   : 'text-slate-300 hover:text-white bg-slate-950/90 border border-slate-800 hover:border-slate-700'
               }`}
             >
-              {frame === 'LIVE' ? '🔴 LIVE' : frame}
+              {frame === 'LIVE' ? ' LIVE' : frame}
             </button>
           ))}
         </div>
       </div>
 
       {/* DWR Radar Reflectivity dBZ Scale Legend (Placed top-right on mobile to prevent overlapping timeline) */}
-      <div className="absolute top-28 sm:top-auto sm:bottom-3 right-3 z-[400] bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-800 text-[9px] space-y-1 shadow-2xl pointer-events-auto">
+      <div className="absolute top-28 sm:top-auto sm:bottom-3 right-3 z-[400] bg-slate-900/95  p-2 rounded-xl border border-slate-800 text-[9px] space-y-1 shadow-2xl pointer-events-auto">
         <span className="font-bold text-slate-300 block uppercase tracking-wider text-[8px]">DWR Radar (dBZ)</span>
         <div className="flex items-center gap-1 font-mono">
           <span className="px-1 py-0.2 rounded bg-emerald-700 text-white font-bold text-[8px] sm:text-[9px]">15-25</span>
@@ -1125,14 +1125,14 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       </div>
 
       {/* Tactical Layers Legend Badge */}
-      <div className="absolute bottom-3 left-3 z-[400] bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-800 text-[9px] space-y-1 shadow-2xl hidden lg:block">
+      <div className="absolute bottom-3 left-3 z-[400] bg-slate-900/95  p-2 rounded-xl border border-slate-800 text-[9px] space-y-1 shadow-2xl hidden lg:block">
         <span className="font-bold text-slate-300 block uppercase tracking-wider text-[8px]">Tactical Layers</span>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span><span className="text-slate-300">Critical</span></div>
-          <div className="flex items-center gap-1"><span>🚁</span><span className="text-slate-300">NDRF</span></div>
-          <div className="flex items-center gap-1"><span>🌊</span><span className="text-slate-300">CWC River</span></div>
-          <div className="flex items-center gap-1"><span>⚡</span><span className="text-slate-300">Lightning</span></div>
-          <div className="flex items-center gap-1"><span>🌀</span><span className="text-slate-300">Cyclone</span></div>
+          <div className="flex items-center gap-1"><span></span><span className="text-slate-300">NDRF</span></div>
+          <div className="flex items-center gap-1"><span></span><span className="text-slate-300">CWC River</span></div>
+          <div className="flex items-center gap-1"><span></span><span className="text-slate-300">Lightning</span></div>
+          <div className="flex items-center gap-1"><span></span><span className="text-slate-300">Cyclone</span></div>
         </div>
       </div>
     </div>

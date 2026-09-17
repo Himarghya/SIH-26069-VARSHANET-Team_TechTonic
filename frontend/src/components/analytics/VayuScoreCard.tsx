@@ -31,7 +31,7 @@ export const VayuScoreAndQualityDashboard: React.FC = () => {
       {/* Top Banner: VayuScore™ & Model Metrics */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* VayuScore Composite Card */}
-        <div className="lg:col-span-6 bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-950 border border-cyan-500/40 rounded-2xl p-6 shadow-xl space-y-4 flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-slate-900    border border-cyan-500/40 rounded-2xl p-6 shadow-xl space-y-4 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -67,18 +67,18 @@ export const VayuScoreAndQualityDashboard: React.FC = () => {
               </span>
               <span className="text-xs font-mono text-slate-400">/ 100 Composite Confidence</span>
               <span className="ml-auto text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-700/60 shadow-sm">
-                ✓ HIGHLY CORROBORATED
+                 HIGHLY CORROBORATED
               </span>
             </div>
 
             {/* 5 Sub-Vectors */}
             <div className="space-y-3 pt-3 border-t border-slate-800/80">
               {[
-                { label: 'Source Historical Reliability', score: vayu_score_metrics.source_reliability, gradient: 'from-cyan-500 to-blue-500' },
-                { label: 'Cross-Platform Corroboration', score: vayu_score_metrics.cross_platform_corroboration, gradient: 'from-indigo-500 to-purple-500' },
-                { label: 'Image / Video Optical Authenticity (DHash)', score: vayu_score_metrics.image_video_authenticity, gradient: 'from-emerald-500 to-teal-500' },
-                { label: 'Spatio-Temporal Physics Consistency', score: vayu_score_metrics.spatiotemporal_consistency, gradient: 'from-amber-500 to-orange-500' },
-                { label: 'Community Peer Validation & Triangulation', score: vayu_score_metrics.community_validation, gradient: 'from-purple-500 to-pink-500' },
+                { label: 'Source Historical Reliability', score: vayu_score_metrics.source_reliability, gradient: ' ' },
+                { label: 'Cross-Platform Corroboration', score: vayu_score_metrics.cross_platform_corroboration, gradient: ' ' },
+                { label: 'Image / Video Optical Authenticity (DHash)', score: vayu_score_metrics.image_video_authenticity, gradient: ' ' },
+                { label: 'Spatio-Temporal Physics Consistency', score: vayu_score_metrics.spatiotemporal_consistency, gradient: ' ' },
+                { label: 'Community Peer Validation & Triangulation', score: vayu_score_metrics.community_validation, gradient: ' ' },
               ].map((v, i) => (
                 <div key={i} className="space-y-1.5">
                   <div className="flex items-center justify-between text-xs">
@@ -86,7 +86,7 @@ export const VayuScoreAndQualityDashboard: React.FC = () => {
                     <strong className="text-white font-mono text-xs">{v.score}%</strong>
                   </div>
                   <div className="h-2 w-full rounded-full bg-slate-950 overflow-hidden border border-slate-800/80 p-0.5">
-                    <div className={`h-full rounded-full bg-gradient-to-r ${v.gradient} transition-all duration-700`} style={{ width: `${v.score}%` }} />
+                    <div className={`h-full rounded-full bg-slate-900 ${v.gradient} transition-all duration-700`} style={{ width: `${v.score}%` }} />
                   </div>
                 </div>
               ))}

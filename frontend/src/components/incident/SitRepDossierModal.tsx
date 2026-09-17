@@ -106,10 +106,10 @@ ${response_recommendations.map(rec => `* **[${rec.priority_label}] ${rec.action}
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in font-sans">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85  animate-fade-in font-sans">
       <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto shadow-2xl flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+        <div className="p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95  z-10">
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
               <FileCheck className="w-5 h-5" />

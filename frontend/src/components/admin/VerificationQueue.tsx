@@ -29,7 +29,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 font-sans">
+    <div className="bg-slate-900/90  border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 font-sans">
       <div className="flex items-center justify-between pb-3 border-b border-slate-800">
         <div>
           <h2 className="text-base font-bold text-white flex items-center gap-2">
@@ -69,7 +69,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
               : !isNonWeatherOrFake;
 
             const modelVerdict = imgAnalysis.model_verdict || imgAnalysis.admin_verdict || (isDisasterRelated ? 'TRUE: DISASTER PHOTO' : 'FALSE: NOT A DISASTER PHOTO');
-            const modelRecommendation = imgAnalysis.admin_recommendation || (isDisasterRelated ? '✅ RECOMMEND APPROVE' : '❌ RECOMMEND REJECT');
+            const modelRecommendation = imgAnalysis.admin_recommendation || (isDisasterRelated ? ' RECOMMEND APPROVE' : ' RECOMMEND REJECT');
             const detectedCategory = imgAnalysis.detected_category || (isDisasterRelated ? 'Disaster Ground Evidence' : 'Non-Disaster Everyday Scene');
             const stage1 = imgAnalysis.stage1_result || (isDisasterRelated ? 'Disaster Detected' : 'Normal Everyday Scene (Non-Disaster)');
             const stage2 = imgAnalysis.stage2_result || (isDisasterRelated ? rep.event_type : 'None');
@@ -89,16 +89,16 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                       {rep.city || 'District'}, {rep.state}
                     </span>
                     
-                    {/* 🤖 Direct In-House ML Model Verdict to Admin */}
+                    {/*  Direct In-House ML Model Verdict to Admin */}
                     {!isDisasterRelated ? (
                       <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-rose-950 text-rose-200 border border-rose-500 shadow-md animate-pulse">
                         <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-                        <span>🤖 ML: {modelVerdict}</span>
+                        <span> ML: {modelVerdict}</span>
                       </span>
                     ) : (
                       <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-emerald-950 text-emerald-200 border border-emerald-500 shadow-md">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>🤖 ML: {modelVerdict}</span>
+                        <span> ML: {modelVerdict}</span>
                       </span>
                     )}
 

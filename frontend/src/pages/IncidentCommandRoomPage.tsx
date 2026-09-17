@@ -86,7 +86,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               <button
                 onClick={() => setShowSitRepModal(true)}
                 disabled={!impactData}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white text-[11px] font-bold shadow-md cursor-pointer"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-900   text-white text-[11px] font-bold shadow-md cursor-pointer"
               >
                 <FileText className="w-3 h-3" />
                 <span>SitRep</span>
@@ -114,7 +114,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                     : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200 hover:border-slate-700'
                 }`}
               >
-                📍 {evt.city || evt.state} ({evt.event_type})
+                 {evt.city || evt.state} ({evt.event_type})
               </button>
             );
           })}
@@ -125,7 +125,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
             <button
               onClick={() => setShowSitRepModal(true)}
               disabled={!impactData}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold shadow-md shadow-indigo-950/40 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900   hover: hover: text-white text-xs font-bold shadow-md shadow-indigo-950/40 transition-all cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>Official SitRep Dossier</span>
@@ -163,7 +163,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
 
           {/* CITIZEN VIEW: Clean Public Safety & Emergency Directives Card */}
           {isCitizen ? (
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-rose-950/40 via-slate-900 to-slate-950 border border-rose-500/30 space-y-4 shadow-xl">
+            <div className="p-5 rounded-2xl bg-slate-900    border border-rose-500/30 space-y-4 shadow-xl">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-xl bg-rose-900/60 text-rose-300">
                   <ShieldAlert className="w-5 h-5" />

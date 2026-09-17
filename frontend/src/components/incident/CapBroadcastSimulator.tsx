@@ -31,12 +31,12 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
   const isModerate = normalizedSeverity === 'MODERATE';
 
   const alertTheme = isCritical
-    ? { title: 'CRITICAL DISASTER EMERGENCY ALERT', color: 'rose', bg: 'from-rose-950/80 to-slate-900', border: 'border-rose-500/60', text: 'text-rose-400', icon: BellRing }
+    ? { title: 'CRITICAL DISASTER EMERGENCY ALERT', color: 'rose', bg: ' ', border: 'border-rose-500/60', text: 'text-rose-400', icon: BellRing }
     : isHigh
-    ? { title: 'SEVERE WEATHER WARNING', color: 'amber', bg: 'from-amber-950/80 to-slate-900', border: 'border-amber-500/60', text: 'text-amber-400', icon: AlertTriangle }
+    ? { title: 'SEVERE WEATHER WARNING', color: 'amber', bg: ' ', border: 'border-amber-500/60', text: 'text-amber-400', icon: AlertTriangle }
     : isModerate
-    ? { title: 'WEATHER WATCH BULLETIN', color: 'cyan', bg: 'from-cyan-950/80 to-slate-900', border: 'border-cyan-500/60', text: 'text-cyan-400', icon: Info }
-    : { title: 'ROUTINE WEATHER ADVISORY', color: 'emerald', bg: 'from-emerald-950/80 to-slate-900', border: 'border-emerald-500/60', text: 'text-emerald-400', icon: CheckCircle2 };
+    ? { title: 'WEATHER WATCH BULLETIN', color: 'cyan', bg: ' ', border: 'border-cyan-500/60', text: 'text-cyan-400', icon: Info }
+    : { title: 'ROUTINE WEATHER ADVISORY', color: 'emerald', bg: ' ', border: 'border-emerald-500/60', text: 'text-emerald-400', icon: CheckCircle2 };
 
   const hindiDirective = isCritical
     ? 'जलभराव एवं बाढ़ संभावित क्षेत्रों से तुरंत सुरक्षित स्थान पर जाएं। आपातकालीन सहायता के लिए 112 डायल करें।'
@@ -50,14 +50,14 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
     ? 'Severe weather conditions expected. Avoid non-essential travel and monitor flood zones.'
     : 'Monitor official meteorological updates. Follow civic safety guidelines.';
 
-  const hindiMessage = `📢 राष्ट्रीय आपदा प्रबंधन (NDMA) - ${alertTheme.title}\nस्थान: ${city}, ${state}\nघटना: ${eventType} (AI स्तर: ${normalizedSeverity})\nनिर्देश: ${hindiDirective}\nकार्रवाई: ${recommendations[0] || 'सतर्क रहें एवं आधिकारिक निर्देशों का पालन करें।'}`;
-  const englishMessage = `📢 NDMA / SDMA ${alertTheme.title}\nLocation: ${city}, ${state}\nEvent: ${eventType} (AI Level: ${normalizedSeverity})\nDirective: ${englishDirective}\nImmediate Action: ${recommendations[0] || 'Follow standard civic safety guidelines.'}`;
+  const hindiMessage = ` राष्ट्रीय आपदा प्रबंधन (NDMA) - ${alertTheme.title}\nस्थान: ${city}, ${state}\nघटना: ${eventType} (AI स्तर: ${normalizedSeverity})\nनिर्देश: ${hindiDirective}\nकार्रवाई: ${recommendations[0] || 'सतर्क रहें एवं आधिकारिक निर्देशों का पालन करें।'}`;
+  const englishMessage = ` NDMA / SDMA ${alertTheme.title}\nLocation: ${city}, ${state}\nEvent: ${eventType} (AI Level: ${normalizedSeverity})\nDirective: ${englishDirective}\nImmediate Action: ${recommendations[0] || 'Follow standard civic safety guidelines.'}`;
 
   const currentMsg = language === 'hi' ? hindiMessage : englishMessage;
 
   // Formatted X (Twitter) Alert Tweet
   const cleanCity = (city || 'District').replace(/\s+/g, '');
-  const xTweetText = `🚨 🔴 [VARSHANET 2.0 RED HIGH ALERT]\n📍 ${city}, ${state}\n⚠️ Hazard: ${eventType} (${normalizedSeverity})\n📢 Directive: ${englishDirective}\n⏱️ Live Broadcast | #IMD #${cleanCity}Weather #RedAlert #NDRF #VARSHANET`;
+  const xTweetText = `  [VARSHANET 2.0 RED HIGH ALERT]\n ${city}, ${state}\n️ Hazard: ${eventType} (${normalizedSeverity})\n Directive: ${englishDirective}\n⏱️ Live Broadcast | #IMD #${cleanCity}Weather #RedAlert #NDRF #VARSHANET`;
   const xIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(xTweetText)}`;
 
   const handleSendCellBroadcast = () => {
@@ -226,7 +226,7 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
               ) : (
                 <button
                   onClick={handleSendCellBroadcast}
-                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-2.5 px-4 rounded-xl bg-slate-900   hover: hover: text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                   <span>Dispatch Cell Siren Alert</span>
@@ -248,7 +248,7 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
               </span>
             </div>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700 font-bold">
-              ✓ X DISPATCH ACTIVE
+               X DISPATCH ACTIVE
             </span>
           </div>
 
@@ -305,7 +305,7 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700 font-bold">
-                ✓ OASIS CAP v1.2 / ITU-T X.1303 COMPLIANT
+                 OASIS CAP v1.2 / ITU-T X.1303 COMPLIANT
               </span>
               <span className="text-xs text-slate-400 font-mono">Bilingual (en-IN + hi-IN)</span>
             </div>
@@ -315,14 +315,14 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
                 disabled={isGeneratingXml}
                 className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
               >
-                <span>{isGeneratingXml ? 'Generating...' : '⚡ Refresh XML'}</span>
+                <span>{isGeneratingXml ? 'Generating...' : ' Refresh XML'}</span>
               </button>
               {capXmlContent && (
                 <button
                   onClick={handleDownloadXml}
                   className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
                 >
-                  <span>💾 Download .xml</span>
+                  <span> Download .xml</span>
                 </button>
               )}
             </div>
@@ -334,7 +334,7 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
               <span>{capXmlContent ? `${capXmlContent.length} bytes` : 'Ready to generate'}</span>
             </div>
             <pre className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-[11px] text-emerald-300 font-mono leading-relaxed overflow-x-auto max-h-[220px] whitespace-pre">
-              {capXmlContent || 'Click "⚡ Refresh XML" or switch tabs to generate standard OASIS CAP 1.2 XML.'}
+              {capXmlContent || 'Click " Refresh XML" or switch tabs to generate standard OASIS CAP 1.2 XML.'}
             </pre>
           </div>
         </div>

@@ -26,7 +26,7 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
   const displayPhotos = photos.slice(0, 2);
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
+    <div className="bg-slate-900/90  border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-800">
         <div className="flex items-center gap-2.5">
@@ -76,7 +76,7 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
 
               {/* Top status tag */}
               <div className="absolute top-2 left-2 flex items-center gap-1">
-                <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm text-emerald-300 border border-emerald-500/50 text-[9px] font-mono font-bold flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded bg-black/80  text-emerald-300 border border-emerald-500/50 text-[9px] font-mono font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
                   <span>VERIFIED PROOF #{idx + 1}</span>
                 </span>
@@ -98,7 +98,7 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
               
               <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono pt-1.5 border-t border-slate-900">
                 <span className="text-cyan-300 font-bold truncate max-w-[150px]">
-                  📍 {item.city}
+                   {item.city}
                 </span>
                 <span className="text-slate-500">
                   {item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Live'}
@@ -113,7 +113,7 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
       {selectedPhoto && (
         <div
           onClick={() => setSelectedPhoto(null)}
-          className="fixed inset-0 z-[10000] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer animate-fade-in"
+          className="fixed inset-0 z-[10000] bg-black/90  flex items-center justify-center p-4 cursor-pointer animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}

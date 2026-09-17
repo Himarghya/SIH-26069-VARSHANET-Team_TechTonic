@@ -18,7 +18,7 @@ export const IncidentHeader: React.FC<IncidentHeaderProps> = ({ incident }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
+    <div className="bg-slate-900    border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
       {/* Top Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
         <div>

@@ -30,7 +30,7 @@ export const StreetViewPin: React.FC<StreetViewPinProps> = ({
         href={streetViewUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={`flex items-center rounded-xl bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 hover:from-amber-500 hover:to-rose-500 text-white font-semibold shadow-lg shadow-orange-950/40 border border-amber-400/40 transition-all cursor-pointer ${sizeClasses[size]}`}
+        className={`flex items-center rounded-xl bg-slate-900    hover: hover: text-white font-semibold shadow-lg shadow-orange-950/40 border border-amber-400/40 transition-all cursor-pointer ${sizeClasses[size]}`}
         title="Open exact ground panorama in Google Street View"
       >
         <Eye className="w-3.5 h-3.5" />

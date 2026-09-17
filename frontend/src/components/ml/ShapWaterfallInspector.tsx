@@ -141,7 +141,7 @@ export const ShapWaterfallInspector: React.FC<ShapWaterfallInspectorProps> = ({
           <button
             onClick={() => loadShap()}
             disabled={loading}
-            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold font-mono shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3.5 py-1.5 rounded-xl bg-slate-900   hover: hover: text-white text-xs font-bold font-mono shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Recalculate</span>
@@ -351,8 +351,8 @@ export const ShapWaterfallInspector: React.FC<ShapWaterfallInspectorProps> = ({
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         isPositive
-                          ? 'bg-gradient-to-r from-cyan-500 to-emerald-400'
-                          : 'bg-gradient-to-r from-amber-500 to-rose-500'
+                          ? 'bg-slate-900  '
+                          : 'bg-slate-900  '
                       }`}
                       style={{ width: `${widthPct}%` }}
                     />

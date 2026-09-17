@@ -44,10 +44,10 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
   const photos = report.media_urls || [];
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in font-sans">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85  animate-fade-in font-sans">
       <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+        <div className="p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95  z-10">
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
               <Cpu className="w-5 h-5" />
@@ -88,7 +88,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
             )}
           </div>
 
-          {/* 📸 CITIZEN PHOTO & VIDEO EVIDENCE GALLERY & AI VISUAL VERDICT */}
+          {/*  CITIZEN PHOTO & VIDEO EVIDENCE GALLERY & AI VISUAL VERDICT */}
           {photos.length > 0 && (
             <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
@@ -131,7 +131,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                             alt={`Evidence ${idx + 1}`}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                          <div className="absolute inset-0 bg-slate-900   opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
                             <span className="text-[10px] text-white font-mono flex items-center gap-1">
                               <Eye className="w-3 h-3" /> Inspect High-Res
                             </span>
@@ -139,7 +139,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                         </div>
                       )}
                       <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-cyan-300 pointer-events-none">
-                        {isVid ? '🎥 Field Video' : `Photo #${idx + 1}`}
+                        {isVid ? ' Field Video' : `Photo #${idx + 1}`}
                       </span>
                     </div>
                   );
@@ -148,19 +148,19 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
             </div>
           )}
 
-          {/* 🤖 Two-Stage In-House ML Disaster Model Audit for Admin */}
+          {/*  Two-Stage In-House ML Disaster Model Audit for Admin */}
           {photos.length > 0 && (
             <div className="p-4 rounded-xl bg-purple-950/30 border border-purple-800/60 space-y-3 font-mono">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
-                  <span>🤖 In-House ML Disaster Model Audit</span>
+                  <span> In-House ML Disaster Model Audit</span>
                 </span>
                 <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded border ${
                   report.image_analysis_results?.is_weather_related === false || report.credibility_score < 70
                     ? 'bg-rose-950 text-rose-300 border-rose-700'
                     : 'bg-emerald-950 text-emerald-300 border-emerald-700'
                 }`}>
-                  {report.image_analysis_results?.admin_recommendation || (report.credibility_score < 70 ? '❌ RECOMMEND REJECT' : '✅ RECOMMEND VERIFY')}
+                  {report.image_analysis_results?.admin_recommendation || (report.credibility_score < 70 ? ' RECOMMEND REJECT' : ' RECOMMEND VERIFY')}
                 </span>
               </div>
 
@@ -189,7 +189,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
             </div>
           )}
 
-          {/* 🤖 Live Custom ML Forensic Inspector (VARSHANET-VisionGuard & TextGuard v2.1) */}
+          {/*  Live Custom ML Forensic Inspector (VARSHANET-VisionGuard & TextGuard v2.1) */}
           <LiveMlForensicInspector
             mediaUrls={photos}
             reportText={report.text}
@@ -228,7 +228,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
 
           {/* Quick Incident Command Room Navigation Button */}
           {report.event_cluster_id && onOpenIncidentRoom && (
-            <div className="p-3 rounded-xl bg-gradient-to-r from-cyan-950/60 to-blue-950/60 border border-cyan-700/50 flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-slate-900   border border-cyan-700/50 flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold text-white block">Active Incident Cluster</span>
                 <span className="text-[11px] font-mono text-cyan-300">{report.event_cluster_id}</span>
@@ -240,7 +240,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                 }}
                 className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition-all shadow-md cursor-pointer"
               >
-                ⚡ View in Incident Command Room
+                 View in Incident Command Room
               </button>
             </div>
           )}
@@ -328,7 +328,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
               onClick={() => setSelectedPhoto(null)}
               className="absolute top-3 right-3 px-3 py-1.5 rounded-xl bg-black/80 text-white font-mono text-xs font-bold hover:bg-white hover:text-black transition-colors cursor-pointer"
             >
-              ✕ Close Preview
+               Close Preview
             </button>
           </div>
         </div>

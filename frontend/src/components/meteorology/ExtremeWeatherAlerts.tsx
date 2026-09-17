@@ -84,7 +84,7 @@ export const ExtremeWeatherAlerts: React.FC = () => {
       {extData && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Cloudburst CPI Card */}
-          <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-950/50 to-slate-950 border border-indigo-500/40 space-y-2">
+          <div className="p-4 rounded-xl bg-slate-900   border border-indigo-500/40 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
                 <CloudLightning className="w-4 h-4 text-cyan-400" /> Cloudburst Prediction Index (CPI)
@@ -109,7 +109,7 @@ export const ExtremeWeatherAlerts: React.FC = () => {
           </div>
 
           {/* Heatwave WBGT Card */}
-          <div className="p-4 rounded-xl bg-gradient-to-br from-amber-950/40 to-slate-950 border border-amber-500/40 space-y-2">
+          <div className="p-4 rounded-xl bg-slate-900   border border-amber-500/40 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
                 <Flame className="w-4 h-4 text-orange-400" /> Severe Heatwave & WBGT Index

@@ -60,7 +60,7 @@ export const MultimodalFusionInspector: React.FC = () => {
         <button
           onClick={handleRunFusion}
           disabled={loading}
-          className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold font-mono shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+          className="px-4 py-2 rounded-xl bg-slate-900   hover: hover: text-white text-xs font-bold font-mono shadow-lg transition-all flex items-center gap-2 cursor-pointer"
         >
           {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           <span>Run Multimodal Fusion</span>
@@ -170,7 +170,7 @@ export const MultimodalFusionInspector: React.FC = () => {
                   <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 block">
                     Multimodal Model Output
                   </span>
-                  <div className="text-3xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300">
+                  <div className="text-3xl font-black font-mono text-transparent bg-clip-text bg-slate-900   ">
                     {result.incident_verification_probability}%
                   </div>
                   <span className="text-xs font-mono font-bold text-emerald-400 flex items-center gap-1 mt-0.5">

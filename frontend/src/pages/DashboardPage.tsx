@@ -275,8 +275,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <span className="w-2 h-2 rounded-full animate-ping bg-cyan-400"></span>
               <span>
                 Active Filter: <strong className="text-white">
-                  {dashboardFilter === 'VERIFIED' && '🛡️ Verified Clusters & Confirmed Incidents'}
-                  {dashboardFilter === 'CRITICAL' && '⚠️ High & Critical Severity Alerts'}
+                  {dashboardFilter === 'VERIFIED' && '️ Verified Clusters & Confirmed Incidents'}
+                  {dashboardFilter === 'CRITICAL' && '️ High & Critical Severity Alerts'}
                   {dashboardFilter === '24H' && '⏱️ Past 24 Hours Real-Time Stream'}
                 </strong> — Synchronized <strong className="text-cyan-400">{displayEvents.length}</strong> Map Clusters & <strong className="text-cyan-400">{displayReports.length}</strong> Live Feed Reports
               </span>
@@ -285,7 +285,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               onClick={() => setDashboardFilter('ALL')}
               className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-sans text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1"
             >
-              <span>✕ Reset Filter</span>
+              <span> Reset Filter</span>
             </button>
           </div>
         )}

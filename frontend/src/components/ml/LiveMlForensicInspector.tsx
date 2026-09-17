@@ -99,7 +99,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
       {/* Tab 1: Live Inference */}
       {activeTab === 'inference' && (
         <div className="space-y-4">
-          {/* 🎯 Explicit Binary TRUE / FALSE Verdict & Admin Recommendation Banner */}
+          {/*  Explicit Binary TRUE / FALSE Verdict & Admin Recommendation Banner */}
           <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg ${
             isFake ? 'bg-rose-950/70 border-rose-600/80 text-rose-200' : 'bg-emerald-950/70 border-emerald-600/80 text-emerald-200'
           }`}>
@@ -108,7 +108,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
                 <span className={`text-xs font-black font-mono px-2.5 py-1 rounded uppercase tracking-wider ${
                   isFake ? 'bg-rose-600 text-white shadow-lg shadow-rose-900/50' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/50'
                 }`}>
-                  {isFake ? '❌ FALSE: NOT DISASTER RELATED' : '✅ TRUE: DISASTER RELATED'}
+                  {isFake ? ' FALSE: NOT DISASTER RELATED' : ' TRUE: DISASTER RELATED'}
                 </span>
                 <span className="text-xs font-mono font-bold">
                   {isFake ? '(Non-Disaster / Pet / Irrelevant Media)' : '(Verified Disaster Ground Evidence)'}
@@ -126,7 +126,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
               <span className={`text-xs font-black font-mono px-3 py-1 rounded-lg ${
                 isFake ? 'bg-rose-900/90 text-rose-100 border border-rose-400 shadow-md' : 'bg-emerald-900/90 text-emerald-100 border border-emerald-400 shadow-md'
               }`}>
-                {isFake ? '❌ RECOMMEND REJECT' : '✅ RECOMMEND APPROVE'}
+                {isFake ? ' RECOMMEND REJECT' : ' RECOMMEND APPROVE'}
               </span>
             </div>
           </div>
@@ -154,7 +154,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Authenticity Status</span>
                 <span className={`text-xs font-bold font-mono ${isFake ? 'text-rose-400' : 'text-emerald-400'}`}>
-                  {isFake ? `⚠️ Fake Suspect (${fakeProb}%)` : `Authentic (${authScore}%)`}
+                  {isFake ? `️ Fake Suspect (${fakeProb}%)` : `Authentic (${authScore}%)`}
                 </span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden border border-slate-800">
@@ -188,7 +188,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
               <div className="flex items-center justify-between bg-slate-950 p-2 rounded border border-slate-800">
                 <span>Recycled Disaster Archive Match:</span>
                 <strong className={isFake ? 'text-rose-400' : 'text-emerald-400'}>
-                  {isFake ? '⚠️ Matches 2018 Kerala Archive' : '✓ 0 Archive Collisions'}
+                  {isFake ? '️ Matches 2018 Kerala Archive' : ' 0 Archive Collisions'}
                 </strong>
               </div>
               <div className="flex items-center justify-between bg-slate-950 p-2 rounded border border-slate-800">
@@ -230,12 +230,12 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
           <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-[10px] space-y-1">
             <span className="text-slate-400 uppercase font-bold block">Trained Dataset Partitions &amp; Negative Baselines:</span>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-slate-300">
-              <span className="text-emerald-400">✓ Fire &amp; Wildfire</span>
-              <span className="text-cyan-400">✓ Flood Water Inundation</span>
-              <span className="text-amber-400">✓ Infrastructure Damage</span>
-              <span className="text-purple-400">✓ Landslide &amp; Drought</span>
-              <span className="text-rose-400">✓ Human Disaster Impact</span>
-              <span className="text-slate-400">✓ Non-Damage &amp; Everyday</span>
+              <span className="text-emerald-400"> Fire &amp; Wildfire</span>
+              <span className="text-cyan-400"> Flood Water Inundation</span>
+              <span className="text-amber-400"> Infrastructure Damage</span>
+              <span className="text-purple-400"> Landslide &amp; Drought</span>
+              <span className="text-rose-400"> Human Disaster Impact</span>
+              <span className="text-slate-400"> Non-Damage &amp; Everyday</span>
             </div>
           </div>
 
@@ -282,7 +282,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
 
   if (onClose) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70  animate-fade-in overflow-y-auto">
         {content}
       </div>
     );

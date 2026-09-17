@@ -25,28 +25,28 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   actionLabel
 }) => {
   const colorMap = {
-    cyan: 'from-cyan-500/10 to-blue-500/5 border-cyan-500/30 text-cyan-400 shadow-cyan-500/5 hover:border-cyan-400 hover:shadow-cyan-950/40',
-    rose: 'from-rose-500/10 to-red-500/5 border-rose-500/30 text-rose-400 shadow-rose-500/5 hover:border-rose-400 hover:shadow-rose-950/40',
-    amber: 'from-amber-500/10 to-yellow-500/5 border-amber-500/30 text-amber-400 shadow-amber-500/5 hover:border-amber-400 hover:shadow-amber-950/40',
-    emerald: 'from-emerald-500/10 to-teal-500/5 border-emerald-500/30 text-emerald-400 shadow-emerald-500/5 hover:border-emerald-400 hover:shadow-emerald-950/40',
-    blue: 'from-blue-500/10 to-indigo-500/5 border-blue-500/30 text-blue-400 shadow-blue-500/5 hover:border-blue-400 hover:shadow-blue-950/40',
-    purple: 'from-purple-500/10 to-pink-500/5 border-purple-500/30 text-purple-400 shadow-purple-500/5 hover:border-purple-400 hover:shadow-purple-950/40',
+    cyan: 'border-slate-800 text-cyan-400 hover:border-cyan-500',
+    rose: 'border-slate-800 text-rose-400 hover:border-rose-500',
+    amber: 'border-slate-800 text-amber-400 hover:border-amber-500',
+    emerald: 'border-slate-800 text-emerald-400 hover:border-emerald-500',
+    blue: 'border-slate-800 text-blue-400 hover:border-blue-500',
+    purple: 'border-slate-800 text-purple-400 hover:border-purple-500',
   };
 
   const iconBgMap = {
-    cyan: 'bg-cyan-950/80 text-cyan-400 border border-cyan-700/50',
-    rose: 'bg-rose-950/80 text-rose-400 border border-rose-700/50',
-    amber: 'bg-amber-950/80 text-amber-400 border border-amber-700/50',
-    emerald: 'bg-emerald-950/80 text-emerald-400 border border-emerald-700/50',
-    blue: 'bg-blue-950/80 text-blue-400 border border-blue-700/50',
-    purple: 'bg-purple-950/80 text-purple-400 border border-purple-700/50',
+    cyan: 'bg-slate-800 text-cyan-400 border border-slate-700',
+    rose: 'bg-slate-800 text-rose-400 border border-slate-700',
+    amber: 'bg-slate-800 text-amber-400 border border-slate-700',
+    emerald: 'bg-slate-800 text-emerald-400 border border-slate-700',
+    blue: 'bg-slate-800 text-blue-400 border border-slate-700',
+    purple: 'bg-slate-800 text-purple-400 border border-slate-700',
   };
 
   return (
     <div
       onClick={onClick}
-      className={`p-3.5 sm:p-4 rounded-xl bg-gradient-to-br ${colorMap[colorTheme]} border backdrop-blur-sm shadow-lg flex flex-col justify-between transition-all select-none active:scale-[0.98] ${
-        onClick ? 'cursor-pointer hover:scale-[1.03] group' : ''
+      className={`p-3.5 sm:p-4 rounded-xl bg-slate-900 ${colorMap[colorTheme]} border flex flex-col justify-between transition-colors select-none ${
+        onClick ? 'cursor-pointer hover:bg-slate-850 group' : ''
       }`}
       title={onClick ? (actionLabel || `Click to inspect ${title}`) : undefined}
     >
