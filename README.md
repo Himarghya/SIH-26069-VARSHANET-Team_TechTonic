@@ -23,11 +23,13 @@
 
 <!-- Continuous Autoplaying 60-Second Video Preview -->
 <p align="center">
-  <img src="brag-output/brag.gif" alt="VARSHANET 2.0 60-Second Technical Overview" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); border: 1px solid #1e293b;" />
+  <img src="https://raw.githubusercontent.com/Himarghya/SIH-26069-VARSHANET-Team_TechTonic/main/brag-output/brag.gif" alt="VARSHANET 2.0 60-Second Technical Overview" width="100%" />
 </p>
 
 <p align="center">
-  <video src="brag-output/brag.mp4" controls autoplay loop muted playsinline width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); border: 1px solid #1e293b;"></video>
+  <a href="https://github.com/Himarghya/SIH-26069-VARSHANET-Team_TechTonic/raw/main/brag-output/brag.mp4">
+    <img src="https://img.shields.io/badge/▶_WATCH_FULL_1080P_HD_VIDEO_WITH_AUDIO-0284C7?style=for-the-badge&logo=youtube&logoColor=white" alt="Play 1080p Video" />
+  </a>
 </p>
 
 <details>
