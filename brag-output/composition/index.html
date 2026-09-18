@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0">
+  <title>VARSHANET · National Meteorological Intelligence Grid</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="root" data-composition-id="varshanet-launch" data-no-timeline data-width="1920" data-height="1080" data-duration="60">
+    
+    <!-- Audio Elements: Dynamic Music Track (60s Duration) -->
+    <audio id="music" class="clip" data-start="0" data-duration="60" data-track-index="0" data-volume="0.85" src="assets/music/track.mp3"></audio>
+
+    <!-- Global Grid & Scanline Atmosphere -->
+    <div class="hud-scanlines"></div>
+    <div class="hud-grid-overlay"></div>
+    
+    <!-- Top Global Header -->
+    <header class="hud-top-bar">
+      <div class="hud-badge-live">
+        <span class="live-dot"></span>
+        <span>DEFCON 1 · NATIONAL DISASTER RESPONSE GRID</span>
+      </div>
+      <div class="hud-sys-time">APACHE KAFKA + POSTGIS STREAMING // ZERO-DOWNTIME ASYNC ENGINE</div>
+      <div class="hud-nodes-online">33 RADARS · CWC GAUGES · SDMA FEEDS ACTIVE</div>
+    </header>
+
+    <!-- ========================================================
+         SCENE 1: MULTI-SOURCE INGESTION & OPEN DATASETS (0s - 10.0s)
+         ======================================================== -->
+    <section id="scene-1" class="clip scene scene-1" data-start="0" data-duration="10.0" data-track-index="2">
+      <div class="scene-content">
+        <div class="scene-header-row">
+          <div class="alert-pill">
+            <span class="pill-icon">⚡</span>
+            <span class="pill-text">STAGE 01 // MULTI-SOURCE INGESTION & REAL-TIME TELEMETRY</span>
+          </div>
+          <div class="pipeline-badge">KAFKA CLUSTER · 42ms STREAM LATENCY · 10,000+ MSGS/SEC</div>
+        </div>
+
+        <div class="ingestion-grid">
+          <!-- Radar Scope Column -->
+          <div class="radar-hud-box">
+            <div class="radar-scope">
+              <div class="radar-rings"></div>
+              <div class="radar-sweep" data-layout-allow-overflow></div>
+              <div class="radar-blip blip-1"></div>
+              <div class="radar-blip blip-2"></div>
+              <div class="radar-blip blip-3"></div>
+              <div class="radar-center-mark">
+                <span class="crosshair-h"></span>
+                <span class="crosshair-v"></span>
+              </div>
+            </div>
+            <div class="radar-caption">
+              <span class="text-cyan font-mono font-bold">33 IMD DOPPLER RADARS</span>
+              <span class="text-sub">Continuous Reflectivity (dBZ) & Storm Spikes</span>
+            </div>
+          </div>
+
+          <!-- Multi-Source Telemetry Cards -->
+          <div class="streams-panel">
+            <h1 class="hero-headline">
+              <span class="text-gradient">National Ingestion Grid</span>
+            </h1>
+            <p class="scene-subhead">Aggregating live open datasets, hydrometric sensors, and citizen field reports.</p>
+            
+            <div class="source-cards-grid">
+              <!-- Source 1 -->
+              <div class="stream-card">
+                <div class="card-tag tag-cyan">HYDROLOGICAL</div>
+                <div class="stream-title">CWC River Gauges & SDMA</div>
+                <div class="stream-desc">Central Water Commission stream levels, danger mark thresholds & 36 State SDMA webhooks.</div>
+              </div>
+              <!-- Source 2 -->
+              <div class="stream-card">
+                <div class="card-tag tag-purple">SOCIAL SIGNALS</div>
+                <div class="stream-title">Crisis Hashtag Webhooks</div>
+                <div class="stream-desc">Curated real-time social crisis feeds, SOS beacons & disaster keyword distress pings.</div>
+              </div>
+              <!-- Source 3 -->
+              <div class="stream-card highlight-card">
+                <div class="card-tag tag-emerald">GEOSPATIAL CITIZEN PWA</div>
+                <div class="stream-title">Structured Ground Reports</div>
+                <div class="stream-desc">GPS Location · Geotagged Photos · Micro-Hazard Severity Triage · 500m Geohash Privacy.</div>
+              </div>
+            </div>
+
+            <div class="meta-tickers-row">
+              <span class="ticker-pill">● 36 STATES & UTs MONITORED</span>
+              <span class="ticker-pill">● POSTGIS 3.4 SPATIAL INDEXING</span>
+              <span class="ticker-pill">● ASYNC FASTAPI INGESTION ENGINE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCENE 2: DUAL-ENGINE AI & EXPLAINABLE VAYUSCORE (10.0s - 20.0s)
+         ======================================================== -->
+    <section id="scene-2" class="clip scene scene-2" data-start="10.0" data-duration="10.0" data-track-index="3">
+      <div class="scene-content">
+        <div class="ai-header-block">
+          <div class="section-tag">STAGE 02 // DUAL-ENGINE AI & UNTRUSTED SOURCE SCORING</div>
+          <h2 class="section-title">Eliminating Crisis Misinformation & Recycled Media</h2>
+          <p class="scene-subhead">Grounding unverified crowd reports through deep computer vision and multilingual NLP corroboration.</p>
+        </div>
+
+        <div class="ai-grid-cards">
+          <!-- VisionGuard -->
+          <div class="ai-card card-left">
+            <div class="card-header">
+              <span class="badge badge-cyan">VISIONGUARD AI</span>
+              <span class="mono-code">ResNet-18 + Perceptual DHash</span>
+            </div>
+            <div class="mock-image-analysis">
+              <div class="scan-box">
+                <div class="scan-laser"></div>
+                <div class="box-tag">RECYCLED FLOOD PHOTO → BLOCKED</div>
+              </div>
+            </div>
+            <div class="card-bullet-list">
+              <div class="ai-bullet">✓ Duplicate Hash & Optical Authenticity Check</div>
+              <div class="ai-bullet">✓ Magic Byte Inspection & EXIF Metadata Validation</div>
+              <div class="ai-bullet">✓ Intercepts Stale/Fake Media in 18ms</div>
+            </div>
+          </div>
+
+          <!-- Central Score HUD -->
+          <div class="ai-center-gauge">
+            <div class="gauge-ring">
+              <div class="gauge-score">98.4</div>
+              <div class="gauge-label">VAYUSCORE™</div>
+            </div>
+            <div class="gauge-status">
+              <span class="status-badge verified">● VERIFIED GROUND TRUTH</span>
+            </div>
+            <div class="explainable-box">
+              <div class="exp-row"><span>Radar Agreement:</span> <strong class="text-cyan">99.2%</strong></div>
+              <div class="exp-row"><span>Geo-Corroboration:</span> <strong class="text-emerald">98.4%</strong></div>
+              <div class="exp-row"><span>Hydrological Align:</span> <strong class="text-purple">97.8%</strong></div>
+            </div>
+          </div>
+
+          <!-- TextGuard -->
+          <div class="ai-card card-right">
+            <div class="card-header">
+              <span class="badge badge-purple">TEXTGUARD AI</span>
+              <span class="mono-code">7-HAZARD INDIC NLP</span>
+            </div>
+            <div class="hazard-pills-wrap">
+              <span class="hpill active">Rainfall</span>
+              <span class="hpill active">Thunderstorm</span>
+              <span class="hpill active">Flood</span>
+              <span class="hpill active">Heatwave</span>
+              <span class="hpill">Fog</span>
+              <span class="hpill">Dust Storm</span>
+              <span class="hpill">High Winds</span>
+            </div>
+            <div class="chat-pill system">
+              <span class="badge-sm">MULTILINGUAL NLP</span>
+              <span>English · Hindi · Hinglish Dialect Scored</span>
+            </div>
+            <div class="card-bullet-list">
+              <div class="ai-bullet">✓ Zero-Shot IndicBERT Disaster Classifier</div>
+              <div class="ai-bullet">✓ Urgency Priority & Sentiment Extraction</div>
+              <div class="ai-bullet">✓ Vets Untrusted & Anonymous Crowdsources</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCENE 3: DUAL-INTERFACE ARCHITECTURE (20.0s - 30.0s)
+         ======================================================== -->
+    <section id="scene-3" class="clip scene scene-3" data-start="20.0" data-duration="10.0" data-track-index="4">
+      <div class="scene-content">
+        <div class="dual-view-header">
+          <div class="section-tag tag-emerald">STAGE 03 // DUAL-INTERFACE ARCHITECTURE</div>
+          <h2 class="section-title">Public Citizen PWA vs Authorized Admin Command Grid</h2>
+          <p class="scene-subhead">Bridging 1.4 billion citizens with central and state disaster response forces.</p>
+        </div>
+
+        <div class="dual-view-grid">
+          <!-- Citizen PWA Column -->
+          <div class="interface-card citizen-view">
+            <div class="iface-header">
+              <span class="badge badge-emerald">PUBLIC CITIZEN PWA</span>
+              <span class="mono-code">500m Geohash Blur · Sybil Protected</span>
+            </div>
+            <div class="iface-body">
+              <div class="pwa-mock-box">
+                <div class="pwa-alert-header">🚨 HYPERLOCAL FLOOD WARNING</div>
+                <p class="pwa-text">Flash Flood Alert within 2.4 km. Suggested safe high-elevation evacuation corridor active.</p>
+                <div class="pwa-corridor-badge">✓ SAFE EVACUATION CORRIDOR: NH-48 ELEVATED ROUTE</div>
+              </div>
+              <div class="feature-bullets-grid">
+                <div class="feat-item">🛡️ <strong>Sybil Bot Defense:</strong> IP Rate-Limits & Proof-of-Location</div>
+                <div class="feat-item">🔒 <strong>Privacy-First:</strong> 500m Geohash Spatial Anonymization</div>
+                <div class="feat-item">📶 <strong>Offline Resilience:</strong> Service Worker & Low-Bandwidth Caching</div>
+                <div class="feat-item">🗣️ <strong>Regional Languages:</strong> Native Voice & Indic Text Interface</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin Command Grid Column -->
+          <div class="interface-card admin-view">
+            <div class="iface-header">
+              <span class="badge badge-cyan">ADMIN COMMAND GRID</span>
+              <span class="mono-code">NDMA / SDMA / NDRF TACTICAL SUITE</span>
+            </div>
+            <div class="iface-body">
+              <!-- Tactical Map -->
+              <div class="mini-tactical-map">
+                <svg class="tactical-svg" viewBox="0 0 500 160">
+                  <rect width="500" height="160" fill="#090d16" />
+                  <!-- Grid Lines -->
+                  <line x1="0" y1="40" x2="500" y2="40" stroke="rgba(2, 132, 199, 0.15)" stroke-width="1"/>
+                  <line x1="0" y1="80" x2="500" y2="80" stroke="rgba(2, 132, 199, 0.15)" stroke-width="1"/>
+                  <line x1="0" y1="120" x2="500" y2="120" stroke="rgba(2, 132, 199, 0.15)" stroke-width="1"/>
+                  <!-- Hazard Zone -->
+                  <circle cx="240" cy="80" r="38" fill="rgba(239, 68, 68, 0.25)" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 4"/>
+                  <!-- Route -->
+                  <path d="M 40 130 Q 140 150 200 100 T 360 60 T 460 30" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                  <circle cx="40" cy="130" r="7" fill="#0284c7" />
+                  <circle cx="460" cy="30" r="7" fill="#10b981" />
+                </svg>
+                <div class="map-tag">NDRF 4TH BATTALION · INUNDATION-FREE SAFE CORRIDOR</div>
+              </div>
+
+              <div class="admin-dispatch-row">
+                <button class="siren-btn">🚨 1-CLICK OASIS CAP 1.2 SIRENS</button>
+                <button class="sitrep-btn">📋 AUTOMATED NDMA SITREP</button>
+              </div>
+
+              <div class="admin-features-row">
+                <span class="admin-pill">● Role-Based RBAC</span>
+                <span class="admin-pill">● Multi-Radar Layers</span>
+                <span class="admin-pill">● Live Convoy GPS Tracking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCENE 4: IMPACTS & SOCIETAL BENEFITS (30.0s - 40.0s)
+         ======================================================== -->
+    <section id="scene-4" class="clip scene scene-4" data-start="30.0" data-duration="10.0" data-track-index="5">
+      <div class="scene-content">
+        <div class="impact-header-block">
+          <div class="section-tag tag-purple">STAGE 04 // MEASURABLE IMPACTS & SOCIETAL BENEFITS</div>
+          <h2 class="section-title">Saving Lives, Mitigating Economic Loss & Accelerating Response</h2>
+          <p class="scene-subhead">Delivering quantifiable improvements over legacy manual warning systems.</p>
+        </div>
+
+        <div class="metrics-hero-grid">
+          <!-- Metric 1 -->
+          <div class="metric-box">
+            <div class="metric-num text-cyan">&lt; 30s</div>
+            <div class="metric-label">Alert Broadcast Latency</div>
+            <div class="metric-sub">Reduced from 2.5 hours legacy latency down to sub-30s direct push broadcast.</div>
+          </div>
+
+          <!-- Metric 2 -->
+          <div class="metric-box">
+            <div class="metric-num text-emerald">94.7%</div>
+            <div class="metric-label">Fake / Recycled Media Filtered</div>
+            <div class="metric-sub">Automated VisionGuard + TextGuard prevents panic and dispatch pollution.</div>
+          </div>
+
+          <!-- Metric 3 -->
+          <div class="metric-box">
+            <div class="metric-num text-purple">100%</div>
+            <div class="metric-label">Safe Evacuation Corridors</div>
+            <div class="metric-sub">Zero stranded rescue convoys through dynamic flood-aware road routing.</div>
+          </div>
+
+          <!-- Metric 4 -->
+          <div class="metric-box">
+            <div class="metric-num text-amber">1.4B</div>
+            <div class="metric-label">Citizens Empowered</div>
+            <div class="metric-sub">Hyperlocal, offline-capable PWA accessible across all 36 Indian states & UTs.</div>
+          </div>
+        </div>
+
+        <div class="impact-summary-strip">
+          <div class="impact-col">
+            <span class="impact-icon">🏥</span>
+            <strong>Critical Life Safety:</strong> Eliminates citizen entrapment in micro-urban waterlogging & sudden flash floods.
+          </div>
+          <div class="impact-col">
+            <span class="impact-icon">🎯</span>
+            <strong>Resource Optimization:</strong> Directs NDRF / SDRF battalions precisely to high-VayuScore distress clusters.
+          </div>
+          <div class="impact-col">
+            <span class="impact-icon">🌐</span>
+            <strong>Democratized Intelligence:</strong> Puts enterprise meteorological command tools directly into citizen hands.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCENE 5: TECHNICAL ARCHITECTURE & STANDARDS (40.0s - 50.0s)
+         ======================================================== -->
+    <section id="scene-5" class="clip scene scene-5" data-start="40.0" data-duration="10.0" data-track-index="6">
+      <div class="scene-content">
+        <div class="arch-header-block">
+          <div class="section-tag tag-cyan">STAGE 05 // TECHNICAL ARCHITECTURE & SCIENTIFIC STANDARDS</div>
+          <h2 class="section-title">Built on Open Protocols, Spatial Science & Resilient Systems</h2>
+          <p class="scene-subhead">Full compliance with international disaster communication protocols and open data networks.</p>
+        </div>
+
+        <div class="arch-standards-grid">
+          <!-- Architecture Stack Box -->
+          <div class="arch-stack-box">
+            <div class="box-title text-cyan">CORE ENGINEERING STACK</div>
+            <div class="stack-layers-list">
+              <div class="stack-layer-row">
+                <span class="layer-name">⚡ INGESTION</span>
+                <span class="layer-val">Apache Kafka Streaming Broker · 10K msg/sec burst buffer</span>
+              </div>
+              <div class="stack-layer-row">
+                <span class="layer-name">🚀 BACKEND</span>
+                <span class="layer-val">FastAPI Async Engine · Celery Distributed Workers · Redis Cache</span>
+              </div>
+              <div class="stack-layer-row">
+                <span class="layer-name">🗺️ SPATIAL DB</span>
+                <span class="layer-val">PostgreSQL 16 + PostGIS 3.4 · R-Tree Spatial Indexing (&lt;8ms)</span>
+              </div>
+              <div class="stack-layer-row">
+                <span class="layer-name">🛡️ AI MODELS</span>
+                <span class="layer-val">PyTorch ResNet-18, Perceptual DHash, IndicBERT Transformer</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Standards & References Box -->
+          <div class="arch-standards-box">
+            <div class="box-title text-emerald">STANDARDS & SCIENTIFIC GROUNDING</div>
+            <div class="standards-pills-grid">
+              <div class="std-card">
+                <div class="std-badge">OASIS CAP v1.2</div>
+                <div class="std-desc">Common Alerting Protocol standard for interoperable siren & wireless alerts.</div>
+              </div>
+              <div class="std-card">
+                <div class="std-badge">WMO GUIDELINES</div>
+                <div class="std-desc">World Meteorological Organization standards for Multi-Hazard Early Warning Systems (MHEWS).</div>
+              </div>
+              <div class="std-card">
+                <div class="std-badge">IMD & CWC NETWORKS</div>
+                <div class="std-desc">Official integration with 33 Doppler Radars & Central Water Commission gauge telemetry.</div>
+              </div>
+              <div class="std-card">
+                <div class="std-badge">ITU-T DISASTER COMM</div>
+                <div class="std-desc">International Telecommunication Union standards for public emergency telecommunications.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCENE 6: SCALABLE NATIONAL RESILIENCE OUTRO (50.0s - 60.0s)
+         ======================================================== -->
+    <section id="scene-6" class="clip scene scene-6" data-start="50.0" data-duration="10.0" data-track-index="7">
+      <div class="scene-content outro-content">
+        <div class="outro-crest">
+          <div class="crest-glow"></div>
+          <div class="crest-icon">⚡</div>
+        </div>
+        
+        <h1 class="outro-brand">VARSHANET</h1>
+        <p class="outro-tagline">
+          National Meteorological Intelligence, Dual-Engine AI & Disaster Response Grid
+        </p>
+
+        <div class="tech-stack-strip">
+          <div class="stack-badge">FASTAPI ASYNC ENGINE</div>
+          <div class="stack-badge">POSTGIS GEOSPATIAL</div>
+          <div class="stack-badge">APACHE KAFKA STREAMS</div>
+          <div class="stack-badge">OASIS CAP 1.2 COMPLIANT</div>
+          <div class="stack-badge">EDGE SURGE RESILIENT</div>
+        </div>
+
+        <div class="outro-footer-call">
+          <span class="mono-code">MISSION-CRITICAL AI RESILIENCE · PROTECTING 1.4 BILLION CITIZENS ACROSS INDIA</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
