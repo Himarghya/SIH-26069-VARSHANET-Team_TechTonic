@@ -1,0 +1,1 @@
+﻿Meet VARSHANET: The 60-second deep dive into India's National Meteorological Intelligence Grid. Uniting 33 IMD Doppler radars, CWC river gauges, Dual-Engine AI (VisionGuard + TextGuard), explainable VayuScoreâ„¢ ground-truth verification, OASIS CAP 1.2 sirens, and automated NDRF tactical disaster response protecting 1.4 billion citizens.
