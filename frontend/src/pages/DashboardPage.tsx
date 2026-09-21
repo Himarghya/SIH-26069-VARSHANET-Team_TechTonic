@@ -272,7 +272,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         {dashboardFilter !== 'ALL' && (
           <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-950/90 border border-cyan-500/30 text-[11px] font-mono text-slate-300">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full animate-ping bg-cyan-400"></span>
+              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
               <span>
                 Active Filter: <strong className="text-white">
                   {dashboardFilter === 'VERIFIED' && '🛡️ Verified Clusters & Confirmed Incidents'}

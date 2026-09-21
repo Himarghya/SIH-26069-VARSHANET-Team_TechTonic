@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertTriangle, BellRing, ArrowRight, ChevronLeft, ChevronRight, Flame, ShieldAlert, Sparkles, ExternalLink, Share2 } from 'lucide-react';
 import { Alert } from '../../types';
 import { broadcastAlertToX } from '../../services/api';
@@ -99,11 +99,8 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
     >
       {/* Left: Indicator, Severity Badge & Bulletin */}
       <div className="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-        {/* Pulsing Beacon */}
+        {/* Solid Indicator */}
         <span className="flex h-2.5 w-2.5 relative shrink-0">
-          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-            isCritical ? 'bg-rose-400' : isHigh ? 'bg-amber-400' : 'bg-cyan-400'
-          }`}></span>
           <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
             isCritical ? 'bg-rose-500' : isHigh ? 'bg-amber-500' : 'bg-cyan-500'
           }`}></span>

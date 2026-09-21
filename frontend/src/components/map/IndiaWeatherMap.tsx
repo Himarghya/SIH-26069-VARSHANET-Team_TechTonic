@@ -618,7 +618,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         const newsPinHtml = `
           <div class="relative flex flex-col items-center justify-center cursor-pointer group">
             <div class="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-indigo-950/95 backdrop-blur-md text-indigo-200 text-[8px] font-mono font-bold border border-indigo-500/70 shadow-md shadow-indigo-950/80 transition-transform group-hover:scale-110 whitespace-nowrap">
-              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
               <span>📰 ${publisherClean}${countBadge}</span>
             </div>
             <div class="w-1 h-1 bg-indigo-400 rotate-45 -mt-0.5"></div>
@@ -1088,7 +1088,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
         {isRadarPlaying && (
           <span className="hidden sm:inline-flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-700/80 shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
             SWEEPING
           </span>
         )}

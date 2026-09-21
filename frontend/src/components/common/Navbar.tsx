@@ -170,11 +170,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           }}
         >
           <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-md shadow-cyan-500/20 text-white font-bold shrink-0">
-            <CloudRain className="w-4 h-4 animate-pulse" />
-            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-            </span>
+            <CloudRain className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
@@ -182,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 VARSHANET
               </span>
               <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 font-mono font-bold">
-                SIH'24
+                SIH'26
               </span>
             </div>
             <div className="text-[9px] text-slate-400 font-mono -mt-0.5 hidden xs:block">
@@ -209,7 +205,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                 <span>{item.label}</span>
                 {item.badge !== undefined && (
-                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white animate-pulse">
+                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white">
                     {item.badge}
                   </span>
                 )}
@@ -248,7 +244,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               title="Switch platform operational role / persona"
             >
               <div className="flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${currentRoleConfig.dotColor} shadow-sm animate-pulse`}></span>
+                <span className={`w-2 h-2 rounded-full ${currentRoleConfig.dotColor} shadow-sm`}></span>
                 <CurrentRoleIcon className="w-3.5 h-3.5 text-slate-300 group-hover:text-cyan-300 transition-colors" />
                 <span className="font-mono text-xs font-bold text-slate-100 group-hover:text-white">
                   {currentRoleConfig.label}

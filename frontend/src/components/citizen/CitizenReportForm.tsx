@@ -388,7 +388,7 @@ export const CitizenReportForm: React.FC = () => {
         {/* 🧠 Interactive In-House ML Model Status Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 mb-5 gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             <span className="text-xs font-mono text-purple-200">
               <strong>ML Filter Online:</strong> VARSHANET DisasterGuard v5.0 (100 Epochs &bull; 5,000 Steps)
             </span>
@@ -635,8 +635,8 @@ export const CitizenReportForm: React.FC = () => {
                           {/* 🔬 Per-Photo Automatic In-App ML Verdict Card */}
                           <div className="p-2.5 space-y-1 font-mono text-left bg-slate-950/60 border-t border-slate-800/80">
                             {isAnalyzing ? (
-                              <div className="flex items-center gap-1.5 text-cyan-300 text-[10px] animate-pulse">
-                                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                              <div className="flex items-center gap-1.5 text-cyan-300 text-[10px]">
+                                <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
                                 <span className="font-bold">Scanning ML Models...</span>
                               </div>
                             ) : isNotDisaster ? (
@@ -700,9 +700,9 @@ export const CitizenReportForm: React.FC = () => {
 
                     if (isAnyAnalyzing) {
                       return (
-                        <div className="p-3 rounded-xl bg-purple-950/60 border border-purple-800/80 text-[11px] font-mono text-purple-200 flex items-center justify-between gap-2 shadow-lg animate-pulse">
+                        <div className="p-3 rounded-xl bg-purple-950/60 border border-purple-800/80 text-[11px] font-mono text-purple-200 flex items-center justify-between gap-2 shadow-lg">
                           <span className="flex items-center gap-2 font-bold text-purple-300">
-                            <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping"></span>
+                            <span className="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
                             <span>🔬 VARSHANET DisasterGuard (Trained Kaggle CDD Dataset) analyzing photo evidence in real time...</span>
                           </span>
                         </div>

@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Camera, CheckCircle2, ShieldCheck, Eye, X, MapPin, Clock, ExternalLink, Sparkles, Image as ImageIcon } from 'lucide-react';
 import { VerifiedGroundPhoto } from '../../types';
 import { StreetViewPin } from './StreetViewPin';
@@ -36,7 +36,7 @@ export const VerifiedGroundEvidenceGallery: React.FC<VerifiedGroundEvidenceGalle
           <div>
             <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 font-mono">
               <span>Verified Ground Truth & Optical Evidence</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
             </h3>
             <p className="text-[10px] text-slate-400 font-mono">
               Corroborated ground truth for: <strong className="text-cyan-300">{city}, {state}</strong>
