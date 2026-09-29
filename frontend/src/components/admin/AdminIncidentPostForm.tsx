@@ -22,11 +22,44 @@ const PRESET_CITY_COORDS: Record<string, { lat: number; lon: number; state: stri
   'Srinagar': { lat: 34.0837, lon: 74.7973, state: 'Jammu and Kashmir' },
 };
 
-const SAMPLE_OFFICIAL_PHOTOS = [
-  { name: 'Arterial Inundation', url: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=600&auto=format&fit=crop&q=80' },
-  { name: 'Underpass Submersion', url: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&auto=format&fit=crop&q=80' },
-  { name: 'Storm Front & Radar', url: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=600&auto=format&fit=crop&q=80' }
-];
+const CATEGORY_SAMPLE_PHOTOS: Record<string, { name: string; url: string }[]> = {
+  'Urban Flooding': [
+    { name: 'Underpass Submersion', url: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Street Inundation', url: 'https://images.unsplash.com/photo-1574786198875-49f5d09fd2b1?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Cloudburst': [
+    { name: 'Flash Flood Torrent', url: 'https://images.unsplash.com/photo-1604537466158-719b1972feb8?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Extreme Deluge', url: 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Heavy Rainfall': [
+    { name: 'Highway Rain Sheet', url: 'https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Urban Downpour', url: 'https://images.unsplash.com/photo-1508873696983-2df5293cb395?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Severe Cyclone Alert': [
+    { name: 'Tidal Storm Surge', url: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Cyclonic Gale Winds', url: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Flash Flood': [
+    { name: 'River Surge Inundation', url: 'https://images.unsplash.com/photo-1604537466158-719b1972feb8?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Residential Inundation', url: 'https://images.unsplash.com/photo-1574786198875-49f5d09fd2b1?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Thunderstorm': [
+    { name: 'Lightning Strike', url: 'https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Thunderhead Squall', url: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Heatwave': [
+    { name: 'Scorching Thermal', url: 'https://images.unsplash.com/photo-1504370805625-d32c54b16100?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Heat Distress Zone', url: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Landslide': [
+    { name: 'Highway Rockfall', url: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Mudflow Slurry', url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80' }
+  ],
+  'Dense Fog': [
+    { name: 'Zero-Visibility Fog', url: 'https://images.unsplash.com/photo-1487621167305-5d248087c724?w=800&auto=format&fit=crop&q=80' },
+    { name: 'Transit Haze Inversion', url: 'https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?w=800&auto=format&fit=crop&q=80' }
+  ],
+};
 
 interface AdminIncidentPostFormProps {
   onReportPublished?: () => void;
@@ -420,10 +453,10 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
                   </label>
                 </div>
 
-                {/* Preset sample proofs */}
-                <div className="flex items-center gap-1.5 pt-1">
-                  <span className="text-[10px] text-slate-600 dark:text-slate-400 font-mono font-medium">Quick Pick:</span>
-                  {SAMPLE_OFFICIAL_PHOTOS.map((sample, sIdx) => (
+                {/* Preset sample proofs dynamically mapped to the chosen Hazard Category */}
+                <div className="flex items-center gap-1.5 pt-1 flex-wrap">
+                  <span className="text-[10px] text-slate-600 dark:text-slate-400 font-mono font-medium">Quick Pick ({eventType}):</span>
+                  {(CATEGORY_SAMPLE_PHOTOS[eventType] || CATEGORY_SAMPLE_PHOTOS['Urban Flooding']).map((sample, sIdx) => (
                     <button
                       key={sIdx}
                       type="button"
