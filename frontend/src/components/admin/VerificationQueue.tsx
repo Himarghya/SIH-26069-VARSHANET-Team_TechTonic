@@ -124,7 +124,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                     <div className="text-[11px] font-mono flex items-center gap-2 text-slate-300 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 w-fit">
                       <span className="text-purple-400 font-bold">ML Analysis:</span>
                       <span>Stage 1: <strong className={!isDisasterRelated ? "text-rose-300" : "text-emerald-300"}>{stage1}</strong></span>
-                      <span>&bull;</span>
+                      <span className="text-slate-500">|</span>
                       <span>Category: <strong className="text-cyan-300">{detectedCategory}</strong></span>
                     </div>
                   )}

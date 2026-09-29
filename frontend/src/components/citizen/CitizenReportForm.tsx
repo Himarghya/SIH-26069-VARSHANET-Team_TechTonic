@@ -388,9 +388,8 @@ export const CitizenReportForm: React.FC = () => {
         {/* 🧠 Interactive In-House ML Model Status Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 mb-5 gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             <span className="text-xs font-mono text-purple-200">
-              <strong>ML Filter Online:</strong> VARSHANET DisasterGuard v5.0 (100 Epochs &bull; 5,000 Steps)
+              <strong>ML Filter Online:</strong> VARSHANET DisasterGuard v5.0 (100 Epochs | 5,000 Steps)
             </span>
           </div>
           <button
@@ -520,7 +519,6 @@ export const CitizenReportForm: React.FC = () => {
                 <label className="text-xs font-bold text-slate-300 block">Observation Details (English, Hindi, or Hinglish)</label>
                 {isAnalyzingText && (
                   <span className="text-[10px] font-mono text-cyan-400 flex items-center gap-1.5 animate-pulse">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
                     Scanning NLP Threat...
                   </span>
                 )}
@@ -636,7 +634,6 @@ export const CitizenReportForm: React.FC = () => {
                           <div className="p-2.5 space-y-1 font-mono text-left bg-slate-950/60 border-t border-slate-800/80">
                             {isAnalyzing ? (
                               <div className="flex items-center gap-1.5 text-cyan-300 text-[10px]">
-                                <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
                                 <span className="font-bold">Scanning ML Models...</span>
                               </div>
                             ) : isNotDisaster ? (
@@ -702,7 +699,6 @@ export const CitizenReportForm: React.FC = () => {
                       return (
                         <div className="p-3 rounded-xl bg-purple-950/60 border border-purple-800/80 text-[11px] font-mono text-purple-200 flex items-center justify-between gap-2 shadow-lg">
                           <span className="flex items-center gap-2 font-bold text-purple-300">
-                            <span className="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
                             <span>🔬 VARSHANET DisasterGuard (Trained Kaggle CDD Dataset) analyzing photo evidence in real time...</span>
                           </span>
                         </div>
@@ -821,12 +817,12 @@ export const CitizenReportForm: React.FC = () => {
                   {isAllGreen ? (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span className="text-emerald-300">ALL PRE-SCREENS VERIFIED (GREEN) &bull; READY TO TRANSMIT</span>
+                      <span className="text-emerald-300">ALL PRE-SCREENS VERIFIED (GREEN) | READY TO TRANSMIT</span>
                     </>
                   ) : (
                     <>
                       <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span className="text-amber-300">SUBMISSION LOCKED &bull; REQUIRES ALL GREEN PRE-SCREENS</span>
+                      <span className="text-amber-300">SUBMISSION LOCKED | REQUIRES ALL GREEN PRE-SCREENS</span>
                     </>
                   )}
                 </span>
@@ -854,9 +850,7 @@ export const CitizenReportForm: React.FC = () => {
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   ) : textAnalysis && !textAnalysis.is_disaster ? (
                     <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                  ) : (
-                    <span className="w-2 h-2 rounded-full bg-slate-500 shrink-0"></span>
-                  )}
+                  ) : null}
                   <span className="truncate">
                     {isTextGreen
                       ? 'Text: Disaster Threat (Green)'
@@ -882,9 +876,7 @@ export const CitizenReportForm: React.FC = () => {
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   ) : isAnyPhotoNonDisaster ? (
                     <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                  ) : (
-                    <span className="w-2 h-2 rounded-full bg-slate-500 shrink-0"></span>
-                  )}
+                  ) : null}
                   <span className="truncate">
                     {isMediaGreen
                       ? `Media: ${photos.length} Proof(s) Confirmed (Green)`

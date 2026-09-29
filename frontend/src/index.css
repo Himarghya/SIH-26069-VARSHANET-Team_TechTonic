@@ -1,12 +1,85 @@
 @import "tailwindcss";
 
 @layer base {
-  body {
-    font-family: 'Inter', sans-serif;
+  :root {
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   }
+
+  html, body {
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Dark Navy Background Base */
+  html.dark, body.dark {
+    background-color: #0b1120;
+    color: #f1f5f9;
+  }
+
+  /* Headings Hierarchy (600–700) */
+  h1, h2 {
+    font-family: var(--font-inter);
+    font-weight: 700;
+    letter-spacing: -0.022em;
+  }
+
+  h3, h4, h5, h6 {
+    font-family: var(--font-inter);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  /* Navigation Hierarchy (500–600) */
+  nav, nav button, nav a, .nav-item {
+    font-family: var(--font-inter);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  nav button[aria-current="page"], nav button.active, .nav-item-active {
+    font-weight: 600;
+  }
+
+  /* Table Headers Hierarchy (500–600) */
+  th, thead th, table th {
+    font-family: var(--font-inter);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+
+  /* Numbers / Metrics / Tabular Stats (600) */
+  .tabular-nums, .font-mono, [data-metric], .metric-number, .stat-val {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Standard Rectangular Controls with subtle 6–8px radius */
+  button, input, select, textarea {
+    font-family: var(--font-inter);
+  }
+
   code, pre {
     font-family: 'JetBrains Mono', monospace;
   }
+}
+
+/* Enforce subtle 6-8px radius globally for cards & controls */
+.rounded-2xl, .rounded-3xl {
+  border-radius: 0.5rem !important; /* 8px subtle radius */
+}
+.rounded-xl {
+  border-radius: 0.5rem !important; /* 8px subtle radius */
+}
+.rounded-lg {
+  border-radius: 0.5rem !important; /* 8px subtle radius */
+}
+.rounded-md {
+  border-radius: 0.375rem !important; /* 6px subtle radius */
 }
 
 /* Custom cyber-radar pulse animation */
@@ -20,36 +93,59 @@
   animation: radar-pulse 3s infinite ease-in-out;
 }
 
-/* Leaflet dark theme tweaks */
-.leaflet-container {
+/* =========================================================
+   DARK THEME LEAFLET & SCROLLBAR SETTINGS
+   ========================================================= */
+html.dark .leaflet-container,
+body.dark .leaflet-container {
   background: #090d16 !important;
   font-family: inherit;
 }
-.leaflet-popup-content-wrapper {
+html.dark .leaflet-popup-content-wrapper,
+body.dark .leaflet-popup-content-wrapper {
   background: #0f172a !important;
   color: #f8fafc !important;
   border: 1px solid #1e293b;
   border-radius: 0.75rem !important;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
 }
-.leaflet-popup-tip {
+html.dark .leaflet-popup-tip,
+body.dark .leaflet-popup-tip {
   background: #0f172a !important;
+}
+
+html.dark ::-webkit-scrollbar-track,
+body.dark ::-webkit-scrollbar-track {
+  background: #090d16;
+}
+html.dark ::-webkit-scrollbar-thumb,
+body.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+html.dark ::-webkit-scrollbar-thumb:hover,
+body.dark ::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
+}
+
+html.dark .leaflet-control-attribution,
+body.dark .leaflet-control-attribution {
+  background: rgba(15, 23, 42, 0.7) !important;
+  color: #64748b !important;
+  font-size: 8px !important;
+  border-radius: 4px;
+  padding: 0 4px !important;
+  margin: 0 !important;
+}
+html.dark .leaflet-control-attribution a,
+body.dark .leaflet-control-attribution a {
+  color: #94a3b8 !important;
 }
 
 /* Custom sleek scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #090d16;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #0ea5e9;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -60,14 +156,428 @@
   scrollbar-width: none;
 }
 
-.leaflet-control-attribution {
-  background: rgba(15, 23, 42, 0.7) !important;
+/* =========================================================
+   LIGHT / BRIGHT (WHITE) THEME COMPREHENSIVE HARMONY
+   ========================================================= */
+
+html.light,
+html.light body,
+[data-theme="light"],
+body.light {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Surfaces, Containers, Cards & Modals */
+html.light .bg-slate-950,
+html.light .bg-slate-900,
+body.light .bg-slate-950,
+body.light .bg-slate-900 {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+html.light .bg-slate-950\/98,
+html.light .bg-slate-950\/95,
+html.light .bg-slate-950\/90,
+html.light .bg-slate-950\/80,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-900\/95,
+html.light .bg-slate-900\/90,
+html.light .bg-slate-900\/80,
+html.light .bg-slate-900\/70,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-900\/50,
+html.light .bg-slate-900\/40,
+body.light .bg-slate-950\/98,
+body.light .bg-slate-950\/95,
+body.light .bg-slate-950\/90,
+body.light .bg-slate-950\/80,
+body.light .bg-slate-950\/70,
+body.light .bg-slate-900\/95,
+body.light .bg-slate-900\/90,
+body.light .bg-slate-900\/80,
+body.light .bg-slate-900\/70,
+body.light .bg-slate-900\/60,
+body.light .bg-slate-900\/50,
+body.light .bg-slate-900\/40 {
+  background-color: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+}
+
+html.light .bg-slate-800,
+html.light .bg-slate-800\/90,
+html.light .bg-slate-800\/80,
+html.light .bg-slate-800\/70,
+html.light .bg-slate-800\/60,
+html.light .bg-slate-800\/50,
+html.light .bg-slate-800\/40,
+body.light .bg-slate-800,
+body.light .bg-slate-800\/90,
+body.light .bg-slate-800\/80,
+body.light .bg-slate-800\/70,
+body.light .bg-slate-800\/60,
+body.light .bg-slate-800\/50,
+body.light .bg-slate-800\/40 {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+html.light .hover\:bg-slate-900:hover,
+html.light .hover\:bg-slate-950:hover,
+html.light .hover\:bg-slate-900\/80:hover,
+html.light .hover\:bg-slate-900\/60:hover,
+body.light .hover\:bg-slate-900:hover,
+body.light .hover\:bg-slate-950:hover,
+body.light .hover\:bg-slate-900\/80:hover,
+body.light .hover\:bg-slate-900\/60:hover {
+  background-color: #f8fafc;
+}
+
+html.light .hover\:bg-slate-800:hover,
+html.light .hover\:bg-slate-800\/80:hover,
+html.light .hover\:bg-slate-800\/60:hover,
+body.light .hover\:bg-slate-800:hover,
+body.light .hover\:bg-slate-800\/80:hover,
+body.light .hover\:bg-slate-800\/60:hover {
+  background-color: #e2e8f0;
+}
+
+/* Borders in Light Mode */
+html.light .border-slate-950,
+html.light .border-slate-900,
+html.light .border-slate-800,
+html.light .border-slate-800\/90,
+html.light .border-slate-800\/80,
+html.light .border-slate-800\/60,
+html.light .border-slate-800\/50,
+html.light .border-slate-700,
+html.light .border-slate-700\/80,
+html.light .border-slate-700\/60,
+html.light .border-slate-700\/50,
+body.light .border-slate-950,
+body.light .border-slate-900,
+body.light .border-slate-800,
+body.light .border-slate-800\/90,
+body.light .border-slate-800\/80,
+body.light .border-slate-800\/60,
+body.light .border-slate-800\/50,
+body.light .border-slate-700,
+body.light .border-slate-700\/80,
+body.light .border-slate-700\/60,
+body.light .border-slate-700\/50 {
+  border-color: #e2e8f0;
+}
+
+html.light .hover\:border-slate-700:hover,
+html.light .hover\:border-slate-800:hover,
+body.light .hover\:border-slate-700:hover,
+body.light .hover\:border-slate-800:hover {
+  border-color: #cbd5e1;
+}
+
+html.light .divide-slate-800 > :not([hidden]) ~ :not([hidden]),
+html.light .divide-slate-800\/60 > :not([hidden]) ~ :not([hidden]),
+html.light .divide-slate-700 > :not([hidden]) ~ :not([hidden]),
+body.light .divide-slate-800 > :not([hidden]) ~ :not([hidden]),
+body.light .divide-slate-800\/60 > :not([hidden]) ~ :not([hidden]),
+body.light .divide-slate-700 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #e2e8f0;
+}
+
+/* Typography in Light Mode */
+html.light .text-white:not(.bg-clip-text):not(.text-transparent),
+html.light .text-slate-100:not(.bg-clip-text):not(.text-transparent),
+html.light .text-slate-200:not(.bg-clip-text):not(.text-transparent),
+body.light .text-white:not(.bg-clip-text):not(.text-transparent),
+body.light .text-slate-100:not(.bg-clip-text):not(.text-transparent),
+body.light .text-slate-200:not(.bg-clip-text):not(.text-transparent) {
+  color: #0f172a;
+}
+
+html.light .text-slate-300,
+body.light .text-slate-300 {
+  color: #334155;
+}
+
+html.light .text-slate-400,
+html.light .text-slate-500,
+body.light .text-slate-400,
+body.light .text-slate-500 {
+  color: #64748b;
+}
+
+html.light .hover\:text-white:hover,
+html.light .hover\:text-slate-100:hover,
+html.light .group-hover\:text-white,
+body.light .hover\:text-white:hover,
+body.light .hover\:text-slate-100:hover,
+body.light .group-hover\:text-white {
+  color: #0f172a;
+}
+
+/* Metric Cards in Light Mode */
+html.light .bg-gradient-to-br {
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Alerts Banner in Light Mode */
+html.light .from-rose-950,
+body.light .from-rose-950 {
+  --tw-gradient-from: #fee2e2 var(--tw-gradient-from-position);
+  --tw-gradient-to: #fecdd3 var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #fff1f2, var(--tw-gradient-to);
+  color: #9f1239 !important;
+  border-color: #fecdd3 !important;
+}
+
+html.light .from-amber-950,
+body.light .from-amber-950 {
+  --tw-gradient-from: #fef3c7 var(--tw-gradient-from-position);
+  --tw-gradient-to: #fde68a var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #fffbeb, var(--tw-gradient-to);
+  color: #92400e !important;
+  border-color: #fde68a !important;
+}
+
+html.light .from-cyan-950,
+body.light .from-cyan-950 {
+  --tw-gradient-from: #e0f2fe var(--tw-gradient-from-position);
+  --tw-gradient-to: #bae6fd var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #f0f9ff, var(--tw-gradient-to);
+  color: #0369a1 !important;
+  border-color: #bae6fd !important;
+}
+
+/* Badges & Accent Containers in Light Mode */
+html.light .bg-cyan-950,
+html.light .bg-cyan-950\/80,
+html.light .bg-cyan-950\/60,
+html.light .bg-cyan-950\/40,
+html.light .bg-cyan-950\/30,
+body.light .bg-cyan-950,
+body.light .bg-cyan-950\/80,
+body.light .bg-cyan-950\/60,
+body.light .bg-cyan-950\/40,
+body.light .bg-cyan-950\/30 {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+
+html.light .bg-emerald-950,
+html.light .bg-emerald-950\/80,
+html.light .bg-emerald-950\/60,
+html.light .bg-emerald-950\/40,
+html.light .bg-emerald-950\/30,
+body.light .bg-emerald-950,
+body.light .bg-emerald-950\/80,
+body.light .bg-emerald-950\/60,
+body.light .bg-emerald-950\/40,
+body.light .bg-emerald-950\/30 {
+  background-color: #d1fae5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+html.light .bg-rose-950,
+html.light .bg-rose-950\/80,
+html.light .bg-rose-950\/60,
+html.light .bg-rose-950\/40,
+html.light .bg-rose-950\/30,
+body.light .bg-rose-950,
+body.light .bg-rose-950\/80,
+body.light .bg-rose-950\/60,
+body.light .bg-rose-950\/40,
+body.light .bg-rose-950\/30 {
+  background-color: #ffe4e6;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+html.light .bg-amber-950,
+html.light .bg-amber-950\/80,
+html.light .bg-amber-950\/60,
+html.light .bg-amber-950\/40,
+html.light .bg-amber-950\/30,
+body.light .bg-amber-950,
+body.light .bg-amber-950\/80,
+body.light .bg-amber-950\/60,
+body.light .bg-amber-950\/40,
+body.light .bg-amber-950\/30 {
+  background-color: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+html.light .bg-purple-950,
+html.light .bg-purple-950\/80,
+html.light .bg-purple-950\/60,
+html.light .bg-purple-950\/40,
+html.light .bg-purple-950\/30,
+body.light .bg-purple-950,
+body.light .bg-purple-950\/80,
+body.light .bg-purple-950\/60,
+body.light .bg-purple-950\/40,
+body.light .bg-purple-950\/30 {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+  border-color: #e9d5ff;
+}
+
+html.light .bg-blue-950,
+html.light .bg-blue-950\/80,
+html.light .bg-blue-950\/60,
+html.light .bg-blue-950\/40,
+html.light .bg-blue-950\/30,
+body.light .bg-blue-950,
+body.light .bg-blue-950\/80,
+body.light .bg-blue-950\/60,
+body.light .bg-blue-950\/40,
+body.light .bg-blue-950\/30 {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+html.light .bg-indigo-950,
+html.light .bg-indigo-950\/80,
+html.light .bg-indigo-950\/60,
+html.light .bg-indigo-950\/40,
+html.light .bg-indigo-950\/30,
+body.light .bg-indigo-950,
+body.light .bg-indigo-950\/80,
+body.light .bg-indigo-950\/60,
+body.light .bg-indigo-950\/40,
+body.light .bg-indigo-950\/30 {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  border-color: #c7d2fe;
+}
+
+/* Form Controls in Light Mode */
+html.light input,
+html.light textarea,
+html.light select,
+body.light input,
+body.light textarea,
+body.light select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder,
+body.light input::placeholder,
+body.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Tables in Light Mode */
+html.light table th,
+body.light table th {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light table td,
+body.light table td {
+  border-color: #e2e8f0 !important;
+}
+
+/* Active solid button states must retain pure white text */
+html.light .bg-cyan-600,
+html.light .bg-emerald-600,
+html.light .bg-rose-600,
+html.light .bg-blue-600,
+html.light .bg-purple-600,
+html.light .bg-indigo-600,
+body.light .bg-cyan-600,
+body.light .bg-emerald-600,
+body.light .bg-rose-600,
+body.light .bg-blue-600,
+body.light .bg-purple-600,
+body.light .bg-indigo-600 {
+  color: #ffffff !important;
+}
+
+html.light .bg-cyan-600 *,
+html.light .bg-emerald-600 *,
+html.light .bg-rose-600 *,
+html.light .bg-blue-600 *,
+html.light .bg-purple-600 *,
+html.light .bg-indigo-600 *,
+body.light .bg-cyan-600 *,
+body.light .bg-emerald-600 *,
+body.light .bg-rose-600 *,
+body.light .bg-blue-600 *,
+body.light .bg-purple-600 *,
+body.light .bg-indigo-600 * {
+  color: #ffffff !important;
+}
+
+/* Recharts Tooltips in Light Mode */
+html.light .recharts-default-tooltip,
+body.light .recharts-default-tooltip {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+  color: #0f172a !important;
+}
+
+/* Leaflet light theme tweaks */
+html.light .leaflet-container,
+body.light .leaflet-container {
+  background: #f8fafc !important;
+  font-family: inherit;
+}
+
+html.light .leaflet-popup-content-wrapper,
+body.light .leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+html.light .leaflet-popup-tip,
+body.light .leaflet-popup-tip {
+  background: #ffffff !important;
+}
+
+html.light .leaflet-control-attribution,
+body.light .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.85) !important;
   color: #64748b !important;
   font-size: 8px !important;
   border-radius: 4px;
   padding: 0 4px !important;
   margin: 0 !important;
 }
-.leaflet-control-attribution a {
-  color: #94a3b8 !important;
+
+html.light .leaflet-control-attribution a,
+body.light .leaflet-control-attribution a {
+  color: #0284c7 !important;
+}
+
+/* Light theme sleek scrollbars */
+html.light ::-webkit-scrollbar-track,
+body.light ::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+html.light ::-webkit-scrollbar-thumb,
+body.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover,
+body.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

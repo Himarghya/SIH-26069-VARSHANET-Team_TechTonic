@@ -11,10 +11,12 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { CitizenPage } from './pages/CitizenPage';
 import { AdminPage } from './pages/AdminPage';
 import { useWeatherWebSocket } from './hooks/useWebSocket';
+import { useTheme } from './context/ThemeContext';
 import { fetchReports, fetchEvents, fetchAlerts, fetchAnalyticsOverview, fetchPendingVerification, fetchSystemHealth } from './services/api';
 import { WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth } from './types';
 
 export function App() {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [userRole, setUserRole] = useState('citizen');
   const [reports, setReports] = useState<WeatherReport[]>([]);
@@ -106,7 +108,9 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
+    <div className={`min-h-screen flex flex-col transition-colors duration-200 selection:bg-cyan-500 selection:text-white ${
+      theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
+    }`}>
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -213,10 +217,13 @@ export function App() {
       />
 
       {/* National Platform Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-4 px-6 text-center text-xs text-slate-500 font-mono flex flex-wrap items-center justify-between gap-2">
+      <footer className="border-t border-slate-200 dark:border-slate-900 bg-white/80 dark:bg-slate-950/80 py-4 px-6 text-xs text-slate-500 font-mono flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span>VARSHANET 2.0 National Disaster Decision Support Grid • v2.0.0</span>
+          <span>VARSHANET 2.0 National Disaster Decision Support Grid | v2.0.0</span>
+        </div>
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-950/20 dark:bg-cyan-950/60 border border-cyan-500/30 text-cyan-600 dark:text-cyan-300 font-bold tracking-wide">
+          <span>Crafted by</span>
+          <span className="text-cyan-700 dark:text-cyan-200">Team Tech_Tonic</span>
         </div>
         <div>
           Ministry of Earth Sciences / IMD AI Impact Nowcasting & Citizen Response Protocol

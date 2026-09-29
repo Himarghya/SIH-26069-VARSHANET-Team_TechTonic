@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RefreshCw, CheckCircle2, UserCheck, Shield, Award, BarChart, Database, Sparkles, Send } from 'lucide-react';
 import { fetchActiveLearningTelemetry, submitActiveLearningFeedback, fetchDynamicSources } from '../../services/api';
 
@@ -58,7 +58,7 @@ export const ActiveLearningConsole: React.FC = () => {
                 Active Learning &amp; Online Fine-Tuning Loop
               </h3>
               <p className="text-xs text-slate-400 font-mono">
-                Human-in-the-Loop Decisions &bull; Uncertainty Sampling &bull; Continual Model Evolution
+                Human-in-the-Loop Decisions | Uncertainty Sampling | Continual Model Evolution
               </p>
             </div>
           </div>

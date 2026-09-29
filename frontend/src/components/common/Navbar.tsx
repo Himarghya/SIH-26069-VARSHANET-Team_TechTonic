@@ -14,9 +14,12 @@ import {
   ChevronDown,
   Check,
   Menu,
-  X
+  X,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
+import { useTheme } from '../../context/ThemeContext';
 
 interface NavbarProps {
   activeTab: string;
@@ -64,6 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setUserRole,
   onLiveSyncDone
 }) => {
+  const { theme, toggleTheme } = useTheme();
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [countdownSeconds, setCountdownSeconds] = useState(300);
@@ -134,7 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleRoleChange = (newRole: string) => {
     setUserRole(newRole);
     if (newRole === 'admin') {
-      setActiveTab('admin');
+      setActiveTab('dashboard');
     } else if (newRole === 'citizen') {
       setActiveTab('citizen');
     } else if (newRole === 'analyst' && (activeTab === 'citizen' || activeTab === 'admin')) {
@@ -159,74 +163,101 @@ export const Navbar: React.FC<NavbarProps> = ({
   const CurrentRoleIcon = currentRoleConfig.icon;
 
   return (
-    <header className="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-3 py-2 w-full font-sans">
-      <div className="flex items-center justify-between gap-2 w-full max-w-7xl mx-auto">
+    <header className="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-4 py-2.5 w-full font-sans transition-colors">
+      <div className="flex items-center justify-between gap-3 lg:gap-6 w-full max-w-7xl mx-auto">
         {/* Brand */}
         <div
-          className="flex items-center gap-2 cursor-pointer shrink-0"
+          className="flex items-center gap-2.5 cursor-pointer shrink-0"
           onClick={() => {
             setActiveTab('dashboard');
             setIsMobileMenuOpen(false);
           }}
         >
-          <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-md shadow-cyan-500/20 text-white font-bold shrink-0">
-            <CloudRain className="w-4 h-4" />
+          <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-md shadow-cyan-500/25 text-white font-bold shrink-0 transition-transform hover:scale-105">
+            <CloudRain className="w-4.5 h-4.5" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-sm tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 font-sans">
+              <span className="font-bold text-sm sm:text-base tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 font-sans">
                 VARSHANET
               </span>
-              <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 font-mono font-bold">
+              <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 font-mono font-semibold">
                 SIH'26
               </span>
             </div>
-            <div className="text-[9px] text-slate-400 font-mono -mt-0.5 hidden xs:block">
+            <div className="text-[9px] text-slate-400 font-mono -mt-0.5 hidden sm:block">
               AI Monsoon Hazard & GIS Radar
             </div>
           </div>
         </div>
 
-        {/* Center / Primary Nav Items (Desktop) */}
-        <nav className="hidden lg:flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800 text-xs shadow-inner">
-          {visibleNavItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
-                  isActive
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-900/40 font-bold'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
-                {item.badge !== undefined && (
-                  <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded-full bg-rose-500 text-white">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        {/* Center / Primary Nav Items (Desktop) - Evenly Spread */}
+        <nav className="hidden md:flex flex-1 items-center justify-center max-w-3xl mx-2 lg:mx-4 bg-slate-950/70 p-1 rounded-lg border border-slate-800/80 shadow-inner">
+          <div className="flex items-center justify-between w-full gap-1">
+            {visibleNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 lg:px-3.5 rounded-md text-xs transition-all cursor-pointer select-none ${
+                    isActive
+                      ? 'bg-cyan-600 text-white shadow-md shadow-cyan-900/40 font-semibold'
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80 font-medium'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <span className="truncate">{item.label}</span>
+                  {item.badge !== undefined && (
+                    <span className="ml-1 px-1.5 py-0.2 text-[9px] font-semibold font-mono rounded-md bg-rose-500 text-white">
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </nav>
 
         {/* Right Toolbar Controls */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {/* Live Sync Trigger & Countdown Badge */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-300 hover:text-white transition-all text-[11px] font-mono shadow-sm cursor-pointer shrink-0"
+            className="h-9 flex items-center gap-1.5 px-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-300 hover:text-white transition-all text-xs font-mono shadow-sm cursor-pointer shrink-0"
             title="Auto-cycles every 5 minutes. Click to force instant live sync"
           >
-            <RefreshCw className={`w-3 h-3 text-cyan-400 ${isSyncing ? 'animate-spin text-cyan-300' : ''}`} />
-            <span className="text-[10px] hidden xs:inline text-cyan-400 font-bold">
+            <RefreshCw className={`w-3.5 h-3.5 text-cyan-400 ${isSyncing ? 'animate-spin text-cyan-300' : ''}`} />
+            <span className="text-[11px] hidden sm:inline text-cyan-400 font-semibold tabular-nums">
               {syncMessage ? syncMessage : timerDisplay}
             </span>
+          </button>
+
+          {/* Bright (White) / Dark Mode Toggle Switch */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className={`h-9 flex items-center gap-1.5 px-3 rounded-lg border transition-all shadow-sm cursor-pointer group select-none ${
+              theme === 'dark'
+                ? 'bg-slate-950 border-slate-800 hover:border-amber-400/60 text-slate-300 hover:text-amber-300'
+                : 'bg-white border-slate-200 hover:border-amber-500/60 text-slate-700 hover:text-amber-600 shadow-slate-200/50'
+            }`}
+            aria-label={`Switch to ${theme === 'dark' ? 'Bright (White)' : 'Dark'} mode`}
+            title={`Current: ${theme === 'dark' ? 'Dark' : 'Bright (White)'} Mode. Click to toggle.`}
+          >
+            {theme === 'dark' ? (
+              <>
+                <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
+                <span className="text-xs font-medium hidden sm:inline text-slate-200">Dark</span>
+              </>
+            ) : (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-500 group-hover:rotate-45 transition-transform" />
+                <span className="text-xs font-medium hidden sm:inline text-slate-800">Bright</span>
+              </>
+            )}
           </button>
 
           {/* Sleek Custom User Role Switcher Dropdown */}
@@ -234,7 +265,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setIsRoleDropdownOpen(prev => !prev)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-950 border transition-all shadow-sm cursor-pointer group ${
+              className={`h-9 flex items-center gap-1.5 px-3 rounded-lg bg-slate-950 border transition-all shadow-sm cursor-pointer group ${
                 isRoleDropdownOpen
                   ? 'border-cyan-500/80 ring-1 ring-cyan-500/40 bg-slate-900 shadow-cyan-950/40'
                   : 'border-slate-800 hover:border-slate-700 hover:bg-slate-900/80'
@@ -243,13 +274,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-expanded={isRoleDropdownOpen}
               title="Switch platform operational role / persona"
             >
-              <div className="flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${currentRoleConfig.dotColor} shadow-sm`}></span>
-                <CurrentRoleIcon className="w-3.5 h-3.5 text-slate-300 group-hover:text-cyan-300 transition-colors" />
-                <span className="font-mono text-xs font-bold text-slate-100 group-hover:text-white">
-                  {currentRoleConfig.label}
-                </span>
-              </div>
+              <CurrentRoleIcon className="w-3.5 h-3.5 text-slate-300 group-hover:text-cyan-300 transition-colors" />
+              <span className="text-xs font-semibold text-slate-100 group-hover:text-white">
+                {currentRoleConfig.label}
+              </span>
               <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
                 isRoleDropdownOpen ? 'rotate-180 text-cyan-400' : 'group-hover:text-slate-200'
               }`} />
@@ -257,8 +285,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Glassmorphic Dropdown Popover */}
             {isRoleDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-950/98 backdrop-blur-2xl border border-slate-800/90 p-1.5 shadow-2xl shadow-black/80 z-50 animate-in fade-in zoom-in-95 duration-150 font-sans divide-y divide-slate-800/60">
-                <div className="px-2.5 py-1.5 flex items-center justify-between text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider">
+              <div className="absolute right-0 mt-2 w-64 rounded-lg bg-slate-950/98 backdrop-blur-2xl border border-slate-800/90 p-1.5 shadow-2xl shadow-black/80 z-50 animate-in fade-in zoom-in-95 duration-150 font-sans divide-y divide-slate-800/60">
+                <div className="px-2.5 py-1.5 flex items-center justify-between text-[10px] font-mono text-slate-400 font-semibold uppercase tracking-wider">
                   <span>Operational Persona</span>
                   <span className="text-[9px] text-cyan-400 lowercase font-mono">3 roles</span>
                 </div>
@@ -275,21 +303,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                           handleRoleChange(role.id);
                           setIsRoleDropdownOpen(false);
                         }}
-                        className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-all cursor-pointer group ${
+                        className={`w-full flex items-center justify-between p-2 rounded-md text-left transition-all cursor-pointer group ${
                           isSelected
                             ? 'bg-slate-900 border border-slate-700/80 text-white shadow-inner'
                             : 'hover:bg-slate-900/60 text-slate-300 hover:text-white border border-transparent'
                         }`}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
-                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center border shrink-0 transition-transform group-hover:scale-105 ${role.iconBg}`}>
+                          <div className={`w-8 h-8 rounded-md flex items-center justify-center border shrink-0 transition-transform group-hover:scale-105 ${role.iconBg}`}>
                             <Icon className="w-4 h-4" />
                           </div>
                           <div className="min-w-0">
-                            <div className="text-xs font-bold leading-tight flex items-center gap-1.5">
+                            <div className="text-xs font-semibold leading-tight flex items-center gap-1.5">
                               <span>{role.label}</span>
                               {isSelected && (
-                                <span className="text-[9px] font-mono font-extrabold px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                                <span className="text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800">
                                   ACTIVE
                                 </span>
                               )}
@@ -301,7 +329,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         </div>
 
                         {isSelected && (
-                          <div className="w-5 h-5 rounded-full bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center shrink-0 ml-2">
+                          <div className="w-5 h-5 rounded-md bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center shrink-0 ml-2">
                             <Check className="w-3 h-3 text-cyan-400" />
                           </div>
                         )}
@@ -327,6 +355,24 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Dropdown Menu Drawer */}
       {isMobileMenuOpen && (
         <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+          {/* Mobile Bright / Dark Mode Switcher */}
+          <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2 font-semibold text-slate-200">
+              {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
+              <span>Theme Mode</span>
+            </div>
+            <button
+              onClick={toggleTheme}
+              className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all border cursor-pointer ${
+                theme === 'dark'
+                  ? 'bg-slate-950 text-indigo-300 border-indigo-700/50'
+                  : 'bg-amber-100 text-amber-900 border-amber-300'
+              }`}
+            >
+              {theme === 'dark' ? '🌙 Dark Mode' : '☀️ Bright (White)'}
+            </button>
+          </div>
+
           {/* Mobile Role Switcher */}
           <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs space-y-1.5">
             <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">

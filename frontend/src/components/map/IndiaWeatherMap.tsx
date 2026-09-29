@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, ShieldCheck, AlertTriangle, Play, Pause, FastForward, Anchor, LifeBuoy, Wind } from 'lucide-react';
 import { EventCluster, WeatherReport, DwrStation, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../../types';
 import { fetchDwrRadarGrid } from '../../services/api';
+import { useTheme } from '../../context/ThemeContext';
 
 interface IndiaWeatherMapProps {
   events: EventCluster[];
@@ -134,9 +135,15 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   const [radarTimeline, setRadarTimeline] = useState<'T-1h' | 'LIVE' | '+1h' | '+3h'>('LIVE');
   const [isRadarPlaying, setIsRadarPlaying] = useState(false);
 
+  const { theme } = useTheme();
   const [selectedState, setSelectedState] = useState('All');
-  const [selectedBaseMap, setSelectedBaseMap] = useState<'dark' | 'satellite' | 'street'>('dark');
+  const [selectedBaseMap, setSelectedBaseMap] = useState<'dark' | 'satellite' | 'street'>(theme === 'dark' ? 'dark' : 'street');
   const [dwrStations, setDwrStations] = useState<DwrStation[]>([]);
+
+  // Keep base map in sync with Bright / Dark theme
+  useEffect(() => {
+    setSelectedBaseMap(theme === 'dark' ? 'dark' : 'street');
+  }, [theme]);
 
   // Load DWR radar stations
   useEffect(() => {
@@ -618,7 +625,6 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         const newsPinHtml = `
           <div class="relative flex flex-col items-center justify-center cursor-pointer group">
             <div class="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-indigo-950/95 backdrop-blur-md text-indigo-200 text-[8px] font-mono font-bold border border-indigo-500/70 shadow-md shadow-indigo-950/80 transition-transform group-hover:scale-110 whitespace-nowrap">
-              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
               <span>📰 ${publisherClean}${countBadge}</span>
             </div>
             <div class="w-1 h-1 bg-indigo-400 rotate-45 -mt-0.5"></div>
@@ -1088,7 +1094,6 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
         {isRadarPlaying && (
           <span className="hidden sm:inline-flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-700/80 shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
             SWEEPING
           </span>
         )}
@@ -1106,7 +1111,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
                   : 'text-slate-300 hover:text-white bg-slate-950/90 border border-slate-800 hover:border-slate-700'
               }`}
             >
-              {frame === 'LIVE' ? '🔴 LIVE' : frame}
+              {frame}
             </button>
           ))}
         </div>
@@ -1128,7 +1133,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       <div className="absolute bottom-3 left-3 z-[400] bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-800 text-[9px] space-y-1 shadow-2xl hidden lg:block">
         <span className="font-bold text-slate-300 block uppercase tracking-wider text-[8px]">Tactical Layers</span>
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span><span className="text-slate-300">Critical</span></div>
+          <div className="flex items-center gap-1"><span className="px-1 py-0.2 rounded bg-rose-600 text-white font-bold text-[8px]">CRIT</span><span className="text-slate-300">Critical</span></div>
           <div className="flex items-center gap-1"><span>🚁</span><span className="text-slate-300">NDRF</span></div>
           <div className="flex items-center gap-1"><span>🌊</span><span className="text-slate-300">CWC River</span></div>
           <div className="flex items-center gap-1"><span>⚡</span><span className="text-slate-300">Lightning</span></div>

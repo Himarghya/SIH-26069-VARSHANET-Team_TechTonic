@@ -87,7 +87,6 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
         {dashboardFilter && dashboardFilter !== 'ALL' && (
           <div className="flex items-center justify-between px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-800/60 text-[10px] font-mono text-cyan-300">
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
               <span>
                 GIS Synced: <strong className="text-white">
                   {dashboardFilter === 'VERIFIED' && 'Verified Incidents'}

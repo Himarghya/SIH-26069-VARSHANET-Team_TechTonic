@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Cpu, Network, TrendingUp, ShieldCheck, RefreshCw, Layers, Compass, Sparkles } from 'lucide-react';
 import { MlArchitectureDiagram } from '../components/ml/MlArchitectureDiagram';
 import { MultimodalFusionInspector } from '../components/ml/MultimodalFusionInspector';
@@ -22,7 +22,7 @@ export const MlIntelligencePage: React.FC = () => {
               VARSHANET 2.0 Enterprise ML Intelligence Layer
             </h1>
             <p className="text-xs text-slate-400 font-mono">
-              Multimodal Verification &bull; 1–3h Predictive Escalation &bull; Explainable VayuScore™ &bull; Active Learning
+              Multimodal Verification | 1–3h Predictive Escalation | Explainable VayuScore™ | Active Learning
             </p>
           </div>
         </div>

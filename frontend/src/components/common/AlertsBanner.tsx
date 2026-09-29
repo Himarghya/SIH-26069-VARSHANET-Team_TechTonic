@@ -97,15 +97,8 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
       }`}
       title="Click to open full AI nowcasting and response in Incident Command Room"
     >
-      {/* Left: Indicator, Severity Badge & Bulletin */}
+      {/* Left: Severity Badge & Bulletin */}
       <div className="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-        {/* Solid Indicator */}
-        <span className="flex h-2.5 w-2.5 relative shrink-0">
-          <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-            isCritical ? 'bg-rose-500' : isHigh ? 'bg-amber-500' : 'bg-cyan-500'
-          }`}></span>
-        </span>
-
         {/* Severity Pill */}
         <span className={`font-mono font-bold tracking-wider uppercase px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] flex items-center gap-1 shrink-0 ${
           isNewAlertFlash
@@ -151,7 +144,7 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
 
         {/* Location (hidden on small mobile) */}
         <span className="text-[10px] font-mono text-slate-300 hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/10">
-          📍 {currentAlert.city || 'District'}, {currentAlert.state} • <strong className="text-cyan-300">{currentAlert.reports_count} reports</strong>
+          📍 {currentAlert.city || 'District'}, {currentAlert.state} | <strong className="text-cyan-300">{currentAlert.reports_count} reports</strong>
         </span>
 
         {/* Carousel Pagination & Arrows */}

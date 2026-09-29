@@ -62,7 +62,7 @@ export const SeverityForecastRadar: React.FC = () => {
               Spatio-Temporal Severity Forecasting (1h &amp; 3h Lookahead)
             </h3>
             <p className="text-xs text-slate-400 font-mono">
-              Predictive Disaster Escalation &bull; Unsupervised Burst Anomaly Trigger
+              Predictive Disaster Escalation | Unsupervised Burst Anomaly Trigger
             </p>
           </div>
         </div>
@@ -98,7 +98,7 @@ export const SeverityForecastRadar: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-slate-200 mt-0.5 leading-relaxed">
-                Surge of <strong>{anomalyResult.signals?.surge_ratio}</strong> &bull; <strong>{anomalyResult.signals?.rainfall_z_score}</strong>
+                Surge of <strong>{anomalyResult.signals?.surge_ratio}</strong> | <strong>{anomalyResult.signals?.rainfall_z_score}</strong>
               </p>
             </div>
           </div>

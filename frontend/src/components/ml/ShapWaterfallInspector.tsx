@@ -117,7 +117,7 @@ export const ShapWaterfallInspector: React.FC<ShapWaterfallInspectorProps> = ({
               )}
             </h3>
             <p className="text-xs text-slate-400 font-mono">
-              Dynamic Gradient Boosted TreeSHAP Waterfall &bull; 6-Vector Attribution
+              Dynamic Gradient Boosted TreeSHAP Waterfall | 6-Vector Attribution
             </p>
           </div>
         </div>
@@ -160,7 +160,7 @@ export const ShapWaterfallInspector: React.FC<ShapWaterfallInspectorProps> = ({
               className="px-3 py-1.5 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-700/60 text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             >
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Verified Disaster (5 Sources &bull; Doppler Match)</span>
+              <span>Verified Disaster (5 Sources | Doppler Match)</span>
             </button>
 
             <button
@@ -168,7 +168,7 @@ export const ShapWaterfallInspector: React.FC<ShapWaterfallInspectorProps> = ({
               className="px-3 py-1.5 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-700/60 text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             >
               <BarChart3 className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Emerging / Moderate (2 Sources &bull; Light Rain)</span>
+              <span>Emerging / Moderate (2 Sources | Light Rain)</span>
             </button>
 
             <button
@@ -176,7 +176,7 @@ export const ShapWaterfallInspector: React.FC<ShapWaterfallInspectorProps> = ({
               className="px-3 py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-700/60 text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             >
               <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-              <span>Fake / Recycled Photo Hoax (0 Rain &bull; Low Trust)</span>
+              <span>Fake / Recycled Photo Hoax (0 Rain | Low Trust)</span>
             </button>
           </div>
 
@@ -265,7 +265,7 @@ export const ShapWaterfallInspector: React.FC<ShapWaterfallInspectorProps> = ({
                 {shapData.vayu_score}
               </span>
               <span className="text-xs font-mono text-slate-400">
-                / 100 &bull; Baseline Prior: <strong className="text-white">E[f(x)] = {shapData.base_value}</strong>
+                / 100 | Baseline Prior: <strong className="text-white">E[f(x)] = {shapData.base_value}</strong>
               </span>
             </div>
 

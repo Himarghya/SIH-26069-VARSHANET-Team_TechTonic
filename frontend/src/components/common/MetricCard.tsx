@@ -45,28 +45,28 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`p-3.5 sm:p-4 rounded-xl bg-gradient-to-br ${colorMap[colorTheme]} border backdrop-blur-sm shadow-lg flex flex-col justify-between transition-all select-none active:scale-[0.98] ${
-        onClick ? 'cursor-pointer hover:scale-[1.03] group' : ''
+      className={`p-3.5 sm:p-4 rounded-lg bg-gradient-to-br ${colorMap[colorTheme]} border backdrop-blur-sm shadow-sm flex flex-col justify-between transition-all select-none active:scale-[0.99] font-sans ${
+        onClick ? 'cursor-pointer hover:border-cyan-500/50 group' : ''
       }`}
       title={onClick ? (actionLabel || `Click to inspect ${title}`) : undefined}
     >
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[11px] font-semibold text-slate-400 tracking-wider uppercase flex items-center gap-1 group-hover:text-white transition-colors">
+        <span className="text-[11px] font-semibold text-slate-400 tracking-wider uppercase flex items-center gap-1 group-hover:text-slate-200 transition-colors">
           <span className="truncate">{title}</span>
           {onClick && (
-            <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+            <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
           )}
         </span>
-        <div className={`p-1.5 sm:p-2 rounded-lg ${iconBgMap[colorTheme]} group-hover:scale-110 transition-transform shrink-0`}>
+        <div className={`p-1.5 sm:p-2 rounded-md ${iconBgMap[colorTheme]} group-hover:scale-105 transition-transform shrink-0`}>
           <Icon className="w-4 h-4" />
         </div>
       </div>
       <div>
-        <div className="text-2xl font-black text-white tracking-tight font-mono">{value}</div>
-        <div className="flex items-center justify-between mt-1 text-[11px] gap-1">
+        <div className="text-2xl font-semibold text-slate-100 dark:text-white tracking-tight tabular-nums font-sans">{value}</div>
+        <div className="flex items-center justify-between mt-1 text-[11px] gap-1 font-sans">
           {subtext && <span className="text-slate-400 truncate" title={subtext}>{subtext}</span>}
           {trend && (
-            <span className={`font-mono font-bold whitespace-nowrap shrink-0 ${trendPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <span className={`font-semibold whitespace-nowrap shrink-0 ${trendPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
               {trend}
             </span>
           )}
