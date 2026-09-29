@@ -11,9 +11,9 @@
   html, body {
     font-family: var(--font-sans);
     font-weight: 500;
-    font-size: 15px;
-    line-height: 1.55;
-    letter-spacing: -0.006em;
+    font-size: 16.5px;
+    line-height: 1.58;
+    letter-spacing: -0.005em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.2s ease, color 0.2s ease;
@@ -58,7 +58,7 @@
   th, thead th, table th {
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: 12px;
+    font-size: 13.5px;
     letter-spacing: 0.02em;
   }
 
@@ -66,6 +66,17 @@
   .tabular-nums, .font-mono, [data-metric], .metric-number, .stat-val {
     font-weight: 700;
     font-variant-numeric: tabular-nums;
+  }
+
+  /* Boost readability for micro-text across dashboard & tables */
+  .text-\[9px\] {
+    font-size: 10.5px !important;
+  }
+  .text-\[10px\] {
+    font-size: 11.5px !important;
+  }
+  .text-\[11px\] {
+    font-size: 12.5px !important;
   }
 
   /* Standard Rectangular Controls with subtle 6–8px radius */
