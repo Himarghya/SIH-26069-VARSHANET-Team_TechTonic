@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
-import { GovernmentHeader } from './components/common/GovernmentHeader';
 import { AlertsBanner } from './components/common/AlertsBanner';
 import { ReportDetailModal } from './components/reports/ReportDetailModal';
 import { DashboardPage } from './pages/DashboardPage';
@@ -112,9 +111,6 @@ export function App() {
     <div className={`min-h-screen flex flex-col transition-colors duration-200 selection:bg-cyan-500 selection:text-white ${
       theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
     }`}>
-      {/* Official Government of India & NDMA Authority Emblem Header */}
-      <GovernmentHeader onSubscribeClick={() => setActiveTab('reports')} />
-
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
