@@ -163,9 +163,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   const CurrentRoleIcon = currentRoleConfig.icon;
 
   return (
-    <header className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 px-3 sm:px-6 lg:px-8 xl:px-10 py-2.5 w-full font-sans transition-colors">
+    <header className="bg-[#18447e] dark:bg-slate-900/95 backdrop-blur-md border-b-2 border-[#123666] dark:border-slate-800 sticky top-0 z-50 px-3 sm:px-6 lg:px-8 xl:px-10 py-2 w-full font-sans transition-colors text-white shadow-md">
       <div className="flex items-center justify-between gap-3 lg:gap-6 w-full mx-auto">
-        {/* Brand */}
+        {/* Brand with Devanagari 'सचेत' & National Disaster Alert Portal Tagline */}
         <div
           className="flex items-center gap-2.5 cursor-pointer shrink-0"
           onClick={() => {
@@ -173,26 +173,29 @@ export const Navbar: React.FC<NavbarProps> = ({
             setIsMobileMenuOpen(false);
           }}
         >
-          <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700 shadow-md shadow-cyan-500/25 text-white font-bold shrink-0 transition-transform hover:scale-105">
-            <CloudRain className="w-4.5 h-4.5" />
+          <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-white text-[#18447e] dark:bg-gradient-to-br dark:from-cyan-500 dark:via-blue-600 dark:to-indigo-700 shadow-md shadow-black/20 font-bold shrink-0 transition-transform hover:scale-105">
+            <CloudRain className="w-5 h-5 text-[#18447e] dark:text-white" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-sm sm:text-base tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 dark:from-cyan-400 dark:via-blue-400 dark:to-indigo-300 font-sans">
+              <span className="text-xl sm:text-2xl font-black tracking-wide text-white drop-shadow-xs font-serif leading-none mr-0.5">
+                सचेत
+              </span>
+              <span className="font-extrabold text-sm sm:text-base tracking-wider text-white font-sans">
                 VARSHANET
               </span>
-              <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-cyan-100 dark:bg-cyan-950/80 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-700/60 font-mono font-semibold">
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-900/60 dark:bg-cyan-950/80 text-yellow-300 dark:text-cyan-300 border border-blue-400/40 dark:border-cyan-700/60 font-mono font-bold">
                 SIH'26
               </span>
             </div>
-            <div className="text-[9px] text-slate-500 dark:text-slate-400 font-mono -mt-0.5 hidden sm:block">
-              AI Monsoon Hazard & GIS Radar
+            <div className="text-[8px] sm:text-[9px] text-blue-200 dark:text-slate-400 font-mono tracking-widest uppercase -mt-0.5 font-bold">
+              National Disaster Alert Portal &amp; Radar
             </div>
           </div>
         </div>
 
-        {/* Center / Primary Nav Items (Desktop) - Evenly Spread */}
-        <nav className="hidden md:flex flex-1 items-center justify-center max-w-4xl mx-2 lg:mx-4 bg-slate-100 dark:bg-slate-950/70 p-1 rounded-lg border border-slate-200 dark:border-slate-800/80 shadow-inner">
+        {/* Center / Primary Nav Items (Desktop) - Royal Blue Government Navigation */}
+        <nav className="hidden md:flex flex-1 items-center justify-center max-w-4xl mx-2 lg:mx-4 bg-[#123666] dark:bg-slate-950/70 p-1 rounded-lg border border-[#1f4a85] dark:border-slate-800/80 shadow-inner">
           <div className="flex items-center justify-between w-full gap-1">
             {visibleNavItems.map((item) => {
               const Icon = item.icon;
@@ -201,16 +204,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 lg:px-3 rounded-md text-[13px] transition-all cursor-pointer select-none ${
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 lg:px-2.5 rounded text-[12px] uppercase tracking-wider transition-all cursor-pointer select-none font-bold ${
                     isActive
-                      ? 'bg-cyan-600 text-white shadow-xs font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/80 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900/80 font-semibold'
+                      ? 'bg-[#0a2344] text-yellow-300 dark:text-white shadow-xs border-b-2 border-yellow-400 dark:border-cyan-400'
+                      : 'text-white/90 hover:text-white hover:bg-white/10 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900/80'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-yellow-300 dark:text-white' : 'text-blue-200 dark:text-slate-400'}`} />
                   <span className="truncate">{item.label}</span>
                   {item.badge !== undefined && (
-                    <span className="ml-1 px-1.5 py-0.2 text-[10px] font-bold font-mono rounded-md bg-rose-500 text-white">
+                    <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded bg-rose-500 text-white">
                       {item.badge}
                     </span>
                   )}
@@ -226,11 +229,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="h-9 flex items-center gap-1.5 px-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/50 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all text-xs font-mono shadow-xs cursor-pointer shrink-0"
+            className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/50 text-white dark:text-slate-300 transition-all text-xs font-mono shadow-xs cursor-pointer shrink-0"
             title="Auto-cycles every 5 minutes. Click to force instant live sync"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 ${isSyncing ? 'animate-spin' : ''}`} />
-            <span className="text-xs hidden sm:inline text-cyan-700 dark:text-cyan-400 font-bold tabular-nums">
+            <RefreshCw className={`w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400 ${isSyncing ? 'animate-spin' : ''}`} />
+            <span className="text-[11px] hidden sm:inline text-yellow-200 dark:text-cyan-400 font-bold tabular-nums">
               {syncMessage ? syncMessage : timerDisplay}
             </span>
           </button>
@@ -239,23 +242,19 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={toggleTheme}
-            className={`h-9 flex items-center gap-1.5 px-3 rounded-lg border transition-all shadow-xs cursor-pointer group select-none ${
-              theme === 'dark'
-                ? 'bg-slate-950 border-slate-800 hover:border-amber-400/60 text-slate-300 hover:text-amber-300'
-                : 'bg-white border-slate-200 hover:border-amber-500/60 text-slate-700 hover:text-amber-600'
-            }`}
+            className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer group select-none"
             aria-label={`Switch to ${theme === 'dark' ? 'Bright (White)' : 'Dark'} mode`}
             title={`Current: ${theme === 'dark' ? 'Dark' : 'Bright (White)'} Mode. Click to toggle.`}
           >
             {theme === 'dark' ? (
               <>
-                <Moon className="w-4 h-4 text-indigo-400 group-hover:rotate-12 transition-transform" />
-                <span className="text-xs font-semibold hidden sm:inline text-slate-200">Dark</span>
+                <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
+                <span className="text-[11px] font-bold hidden sm:inline text-slate-200">Dark</span>
               </>
             ) : (
               <>
-                <Sun className="w-4 h-4 text-amber-500 group-hover:rotate-45 transition-transform" />
-                <span className="text-xs font-semibold hidden sm:inline text-slate-800">Bright</span>
+                <Sun className="w-3.5 h-3.5 text-yellow-300 group-hover:rotate-45 transition-transform" />
+                <span className="text-[11px] font-bold hidden sm:inline text-white">Bright</span>
               </>
             )}
           </button>
@@ -265,21 +264,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setIsRoleDropdownOpen(prev => !prev)}
-              className={`h-9 flex items-center gap-1.5 px-3 rounded-lg bg-slate-50 dark:bg-slate-950 border transition-all shadow-xs cursor-pointer group ${
-                isRoleDropdownOpen
-                  ? 'border-cyan-500/80 ring-1 ring-cyan-500/40 bg-white dark:bg-slate-900'
-                  : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-slate-900/80'
-              }`}
+              className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold"
               aria-haspopup="true"
               aria-expanded={isRoleDropdownOpen}
               title="Switch platform operational role / persona"
             >
-              <CurrentRoleIcon className="w-4 h-4 text-slate-600 dark:text-slate-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors" />
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-slate-900 dark:group-hover:text-white">
-                {currentRoleConfig.label}
-              </span>
-              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
-                isRoleDropdownOpen ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : 'group-hover:text-slate-600 dark:group-hover:text-slate-200'
+              <CurrentRoleIcon className="w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400" />
+              <span className="capitalize">{currentRoleConfig.label}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-blue-200 transition-transform duration-200 ${
+                isRoleDropdownOpen ? 'rotate-180 text-yellow-300' : ''
               }`} />
             </button>
 

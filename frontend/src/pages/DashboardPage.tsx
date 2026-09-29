@@ -3,6 +3,7 @@ import { Activity, AlertTriangle, ShieldCheck, MapPin, Radio, Shield, Filter, Ey
 import { MetricCard } from '../components/common/MetricCard';
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { LiveFeed } from '../components/dashboard/LiveFeed';
+import { SachetActionCardsRibbon } from '../components/dashboard/SachetActionCardsRibbon';
 import { WeatherReport, EventCluster, Alert, AnalyticsOverview } from '../types';
 
 interface DashboardPageProps {
@@ -39,6 +40,28 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   onNavigateTab
 }) => {
   const [dashboardFilter, setDashboardFilter] = useState<'ALL' | 'VERIFIED' | 'CRITICAL' | '24H'>('ALL');
+  const [activeRibbonCard, setActiveRibbonCard] = useState<'current_loc' | 'all_india' | 'state_wise' | 'forecast'>('all_india');
+  const [isLocating, setIsLocating] = useState(false);
+  const [userLocationName, setUserLocationName] = useState<string | null>(null);
+
+  const handleAutoLocate = () => {
+    setIsLocating(true);
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setIsLocating(false);
+          setUserLocationName('GPS Locked (Near Current Coordinates)');
+        },
+        (err) => {
+          setIsLocating(false);
+          setUserLocationName('Location Permission Required');
+        },
+        { timeout: 8000 }
+      );
+    } else {
+      setIsLocating(false);
+    }
+  };
 
   // 1. Live Dynamic Calculations from current datasets
   const totalIngested = overview?.total_reports || reports.length;
@@ -150,6 +173,38 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
   return (
     <div className="space-y-5">
+      {/* Official SACHET 4-Action Cards Ribbon */}
+      <SachetActionCardsRibbon
+        activeCard={activeRibbonCard}
+        onSelectCard={(card) => {
+          setActiveRibbonCard(card);
+          if (card === 'all_india') setDashboardFilter('ALL');
+          if (card === 'forecast') {
+            if (onNavigateTab) onNavigateTab('radar');
+          }
+          if (card === 'state_wise') {
+            if (onNavigateTab) onNavigateTab('map');
+          }
+        }}
+        onAutoLocate={handleAutoLocate}
+        isLocating={isLocating}
+      />
+
+      {userLocationName && (
+        <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-xs text-blue-900 dark:text-blue-200 font-sans">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <span><strong>Location Status:</strong> {userLocationName}</span>
+          </div>
+          <button
+            onClick={() => setUserLocationName(null)}
+            className="text-blue-600 dark:text-blue-400 hover:underline text-[11px] cursor-pointer"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
       {/* 6 Clickable Live Interactive Metric Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <MetricCard
