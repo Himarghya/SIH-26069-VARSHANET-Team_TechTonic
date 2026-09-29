@@ -140,8 +140,8 @@ export function App() {
         }}
       />
 
-      {/* Main Content View Switcher */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 overflow-x-hidden">
+      {/* Main Content View Switcher (Full Width Layout) */}
+      <main className="flex-1 w-full p-3 sm:p-4 md:p-6 lg:px-8 xl:px-10 overflow-x-hidden">
         {activeTab === 'dashboard' && (
           <DashboardPage
             reports={reports}
@@ -216,8 +216,8 @@ export function App() {
         userRole={userRole}
       />
 
-      {/* National Platform Footer */}
-      <footer className="border-t border-slate-200 dark:border-slate-900 bg-white/80 dark:bg-slate-950/80 py-4 px-6 text-xs text-slate-500 font-mono flex flex-wrap items-center justify-between gap-3">
+      {/* National Platform Footer (Full Width) */}
+      <footer className="border-t border-slate-200 dark:border-slate-900 bg-white/80 dark:bg-slate-950/80 py-4 px-3 sm:px-6 lg:px-8 xl:px-10 text-xs text-slate-500 font-mono flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span>VARSHANET 2.0 National Disaster Decision Support Grid | v2.0.0</span>
         </div>
