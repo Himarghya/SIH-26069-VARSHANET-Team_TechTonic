@@ -35,21 +35,21 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
   const weatherConf = isFake && !reportText.toLowerCase().includes('rain') ? 35.0 : 96.4;
 
   const content = (
-    <div className="bg-slate-950/95 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 font-sans shadow-2xl max-w-2xl w-full">
+    <div className="bg-slate-50 dark:bg-slate-950/95 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 font-sans shadow-sm dark:shadow-2xl max-w-2xl w-full text-slate-900 dark:text-slate-100">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-2 border-b border-slate-800 pb-3">
+      <div className="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-purple-950/80 text-purple-400 border border-purple-800/50">
+          <div className="p-2 rounded-xl bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50">
             <Cpu className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-xs sm:text-sm font-bold text-white">VARSHANET-DisasterGuard &amp; TextGuard ML Forensics</h4>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">VARSHANET-DisasterGuard &amp; TextGuard ML Forensics</h4>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-bold">
                 Kaggle CDD Trained
               </span>
             </div>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
               Trained on Kaggle Comprehensive Disaster Dataset (13,557 images) + Intel Scenes &amp; Negative Baselines.
             </p>
           </div>
@@ -57,11 +57,11 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
 
         <div className="flex items-center gap-2">
           {/* Tab switcher */}
-          <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 text-[10px] font-mono font-bold">
+          <div className="flex items-center bg-slate-200/80 dark:bg-slate-900 p-1 rounded-xl border border-slate-300 dark:border-slate-800 text-[10px] font-mono font-bold">
             <button
               onClick={() => setActiveTab('inference')}
               className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                activeTab === 'inference' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+                activeTab === 'inference' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               Live Inference
@@ -69,7 +69,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
             <button
               onClick={() => setActiveTab('epochs')}
               className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                activeTab === 'epochs' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+                activeTab === 'epochs' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               CDD Dataset &amp; Curves
@@ -77,7 +77,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
             <button
               onClick={() => setActiveTab('architecture')}
               className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                activeTab === 'architecture' ? 'bg-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+                activeTab === 'architecture' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               Architecture
@@ -87,7 +87,7 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
           {onClose && (
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer border border-slate-700"
+              className="p-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition cursor-pointer border border-slate-300 dark:border-slate-700"
               title="Close modal"
             >
               <X className="w-4 h-4" />
@@ -100,21 +100,23 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
       {activeTab === 'inference' && (
         <div className="space-y-4">
           {/* 🎯 Explicit Binary TRUE / FALSE Verdict & Admin Recommendation Banner */}
-          <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg ${
-            isFake ? 'bg-rose-950/70 border-rose-600/80 text-rose-200' : 'bg-emerald-950/70 border-emerald-600/80 text-emerald-200'
+          <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs ${
+            isFake 
+              ? 'bg-rose-50 dark:bg-rose-950/70 border-rose-300 dark:border-rose-600/80 text-rose-950 dark:text-rose-200' 
+              : 'bg-emerald-50 dark:bg-emerald-950/70 border-emerald-300 dark:border-emerald-600/80 text-emerald-950 dark:text-emerald-200'
           }`}>
             <div className="space-y-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className={`text-xs font-black font-mono px-2.5 py-1 rounded uppercase tracking-wider ${
-                  isFake ? 'bg-rose-600 text-white shadow-lg shadow-rose-900/50' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/50'
+                  isFake ? 'bg-rose-600 text-white shadow-sm' : 'bg-emerald-600 text-white shadow-sm'
                 }`}>
                   {isFake ? '❌ FALSE: NOT DISASTER RELATED' : '✅ TRUE: DISASTER RELATED'}
                 </span>
-                <span className="text-xs font-mono font-bold">
+                <span className="text-xs font-mono font-bold text-slate-800 dark:text-white">
                   {isFake ? '(Non-Disaster / Pet / Irrelevant Media)' : '(Verified Disaster Ground Evidence)'}
                 </span>
               </div>
-              <p className="text-xs text-slate-300 font-sans">
+              <p className="text-xs text-slate-700 dark:text-slate-300 font-sans">
                 {isFake 
                   ? 'ML Vision Neural Guard detected an unrelated object (e.g. Domestic Pet, Food, or Meme) in attached proof.' 
                   : 'ML Vision Neural Guard confirmed high-turbidity flood inundation and overcast storm signatures.'}
@@ -122,9 +124,11 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
             </div>
 
             <div className="shrink-0 flex sm:flex-col items-end gap-1">
-              <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">Admin Action:</span>
+              <span className="text-[10px] uppercase font-mono tracking-widest text-slate-500 dark:text-slate-400 font-semibold">Admin Action:</span>
               <span className={`text-xs font-black font-mono px-3 py-1 rounded-lg ${
-                isFake ? 'bg-rose-900/90 text-rose-100 border border-rose-400 shadow-md' : 'bg-emerald-900/90 text-emerald-100 border border-emerald-400 shadow-md'
+                isFake 
+                  ? 'bg-rose-100 text-rose-800 border border-rose-400 dark:bg-rose-900/90 dark:text-rose-100 shadow-xs' 
+                  : 'bg-emerald-100 text-emerald-800 border border-emerald-400 dark:bg-emerald-900/90 dark:text-emerald-100 shadow-xs'
               }`}>
                 {isFake ? '❌ RECOMMEND REJECT' : '✅ RECOMMEND APPROVE'}
               </span>
@@ -133,67 +137,71 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Weather Relevance Gauge */}
-            <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Meteorological Domain</span>
-                <span className="text-xs font-bold text-cyan-400 font-mono">{weatherConf}% Relevance</span>
+                <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Meteorological Domain</span>
+                <span className="text-xs font-bold text-cyan-700 dark:text-cyan-400 font-mono">{weatherConf}% Relevance</span>
               </div>
-              <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden border border-slate-800">
+              <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-950 overflow-hidden border border-slate-200 dark:border-slate-800">
                 <div
                   style={{ width: `${weatherConf}%` }}
-                  className={`h-full transition-all duration-500 ${weatherConf >= 75 ? 'bg-cyan-400' : 'bg-amber-400'}`}
+                  className={`h-full transition-all duration-500 ${weatherConf >= 75 ? 'bg-cyan-500' : 'bg-amber-500'}`}
                 />
               </div>
-              <p className="text-[10px] text-slate-400 font-mono">
-                Head 1: Classified as <strong>{weatherConf >= 75 ? 'Genuine Weather Event' : 'Non-Weather / Off-topic'}</strong>.
+              <p className="text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+                Head 1: Classified as <strong className="text-slate-900 dark:text-white">{weatherConf >= 75 ? 'Genuine Weather Event' : 'Non-Weather / Off-topic'}</strong>.
               </p>
             </div>
 
             {/* Authenticity vs Fake Probability Gauge */}
-            <div className={`p-3.5 rounded-xl border space-y-2 ${isFake ? 'bg-rose-950/20 border-rose-800/80' : 'bg-slate-900/80 border-slate-800'}`}>
+            <div className={`p-3.5 rounded-xl border space-y-2 shadow-xs ${
+              isFake 
+                ? 'bg-rose-50/60 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/80' 
+                : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800'
+            }`}>
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Authenticity Status</span>
-                <span className={`text-xs font-bold font-mono ${isFake ? 'text-rose-400' : 'text-emerald-400'}`}>
+                <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Authenticity Status</span>
+                <span className={`text-xs font-bold font-mono ${isFake ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'}`}>
                   {isFake ? `⚠️ Fake Suspect (${fakeProb}%)` : `Authentic (${authScore}%)`}
                 </span>
               </div>
-              <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden border border-slate-800">
+              <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-950 overflow-hidden border border-slate-200 dark:border-slate-800">
                 <div
                   style={{ width: `${authScore}%` }}
-                  className={`h-full transition-all duration-500 ${isFake ? 'bg-rose-500' : 'bg-emerald-400'}`}
+                  className={`h-full transition-all duration-500 ${isFake ? 'bg-rose-500' : 'bg-emerald-500'}`}
                 />
               </div>
-              <p className="text-[10px] text-slate-400 font-mono">
-                Head 2: <strong>{isFake ? 'Flagged: Recycled / Synthetic Hoax' : 'Verified: In-Situ Ground Capture'}</strong>.
+              <p className="text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+                Head 2: <strong className="text-slate-900 dark:text-white">{isFake ? 'Flagged: Recycled / Synthetic Hoax' : 'Verified: In-Situ Ground Capture'}</strong>.
               </p>
             </div>
           </div>
 
           {/* Forensic Evidence Breakdown */}
-          <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2 font-mono text-[11px]">
-            <span className="text-slate-400 uppercase font-bold text-[10px] block border-b border-slate-800 pb-1.5 flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-purple-400" /> Multi-Modal Forensic Evidence Checks
+          <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-2 font-mono text-[11px] shadow-xs">
+            <span className="text-slate-600 dark:text-slate-400 uppercase font-bold text-[10px] block border-b border-slate-200 dark:border-slate-800 pb-1.5 flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" /> Multi-Modal Forensic Evidence Checks
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-300">
-              <div className="flex items-center justify-between bg-slate-950 p-2 rounded border border-slate-800">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700 dark:text-slate-300">
+              <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 p-2 rounded border border-slate-200 dark:border-slate-800">
                 <span>HSV Flood Turbidity Index:</span>
-                <strong className={isFake ? 'text-amber-400' : 'text-emerald-400'}>
+                <strong className={isFake ? 'text-amber-700 dark:text-amber-400' : 'text-emerald-700 dark:text-emerald-400'}>
                   {isFake ? '0.24 (Synthetic Clear)' : '0.86 (High Silt/Runoff)'}
                 </strong>
               </div>
-              <div className="flex items-center justify-between bg-slate-950 p-2 rounded border border-slate-800">
+              <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 p-2 rounded border border-slate-200 dark:border-slate-800">
                 <span>Overcast Luminance Spectrum:</span>
-                <strong className="text-cyan-400">0.88 (Dark Rain Clouds)</strong>
+                <strong className="text-cyan-700 dark:text-cyan-400">0.88 (Dark Rain Clouds)</strong>
               </div>
-              <div className="flex items-center justify-between bg-slate-950 p-2 rounded border border-slate-800">
+              <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 p-2 rounded border border-slate-200 dark:border-slate-800">
                 <span>Recycled Disaster Archive Match:</span>
-                <strong className={isFake ? 'text-rose-400' : 'text-emerald-400'}>
+                <strong className={isFake ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'}>
                   {isFake ? '⚠️ Matches 2018 Kerala Archive' : '✓ 0 Archive Collisions'}
                 </strong>
               </div>
-              <div className="flex items-center justify-between bg-slate-950 p-2 rounded border border-slate-800">
+              <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 p-2 rounded border border-slate-200 dark:border-slate-800">
                 <span>Temporal Flow Coherence:</span>
-                <strong className="text-purple-400">{isFake ? '38.2% (Spliced)' : '94.8% (Continuous)'}</strong>
+                <strong className="text-purple-700 dark:text-purple-400">{isFake ? '38.2% (Spliced)' : '94.8% (Continuous)'}</strong>
               </div>
             </div>
           </div>
@@ -202,53 +210,53 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
 
       {/* Tab 2: CDD Dataset & Training Convergence */}
       {activeTab === 'epochs' && (
-        <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-3 font-mono text-xs">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-            <span className="text-white font-bold">Kaggle Comprehensive Disaster Dataset (CDD varpit94)</span>
-            <span className="text-emerald-400 font-bold">13,557 Images Trained</span>
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 space-y-3 font-mono text-xs shadow-xs">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <span className="text-slate-900 dark:text-white font-bold">Kaggle Comprehensive Disaster Dataset (CDD varpit94)</span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-bold">13,557 Images Trained</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[10px]">
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
+            <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
               <span className="text-slate-500 block">TOTAL IMAGES</span>
-              <strong className="text-cyan-400 text-xs">13,557</strong>
+              <strong className="text-cyan-700 dark:text-cyan-400 text-xs">13,557</strong>
             </div>
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
+            <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
               <span className="text-slate-500 block">EPOCHS TRAINED</span>
-              <strong className="text-purple-400 text-xs">100 Epochs</strong>
+              <strong className="text-purple-700 dark:text-purple-400 text-xs">100 Epochs</strong>
             </div>
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
+            <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
               <span className="text-slate-500 block">TRAIN ACCURACY</span>
-              <strong className="text-emerald-400 text-xs">78.66%</strong>
+              <strong className="text-emerald-700 dark:text-emerald-400 text-xs">78.66%</strong>
             </div>
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
+            <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
               <span className="text-slate-500 block">TEST ACCURACY</span>
-              <strong className="text-amber-400 text-xs">74.67% (F1: 0.75)</strong>
+              <strong className="text-amber-700 dark:text-amber-400 text-xs">74.67% (F1: 0.75)</strong>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-[10px] space-y-1">
-            <span className="text-slate-400 uppercase font-bold block">Trained Dataset Partitions &amp; Negative Baselines:</span>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-slate-300">
-              <span className="text-emerald-400">✓ Fire &amp; Wildfire</span>
-              <span className="text-cyan-400">✓ Flood Water Inundation</span>
-              <span className="text-amber-400">✓ Infrastructure Damage</span>
-              <span className="text-purple-400">✓ Landslide &amp; Drought</span>
-              <span className="text-rose-400">✓ Human Disaster Impact</span>
-              <span className="text-slate-400">✓ Non-Damage &amp; Everyday</span>
+          <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-[10px] space-y-1">
+            <span className="text-slate-600 dark:text-slate-400 uppercase font-bold block">Trained Dataset Partitions &amp; Negative Baselines:</span>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-slate-700 dark:text-slate-300">
+              <span className="text-emerald-700 dark:text-emerald-400 font-semibold">✓ Fire &amp; Wildfire</span>
+              <span className="text-cyan-700 dark:text-cyan-400 font-semibold">✓ Flood Water Inundation</span>
+              <span className="text-amber-700 dark:text-amber-400 font-semibold">✓ Infrastructure Damage</span>
+              <span className="text-purple-700 dark:text-purple-400 font-semibold">✓ Landslide &amp; Drought</span>
+              <span className="text-rose-700 dark:text-rose-400 font-semibold">✓ Human Disaster Impact</span>
+              <span className="text-slate-600 dark:text-slate-400 font-semibold">✓ Non-Damage &amp; Everyday</span>
             </div>
           </div>
 
           <div className="space-y-1 pt-1">
-            <div className="flex justify-between text-[10px] text-slate-400">
+            <div className="flex justify-between text-[10px] text-slate-500 dark:text-slate-400 font-semibold">
               <span>Epoch 1 (Loss: 0.602)</span>
               <span>Epoch 50 (Loss: 0.489)</span>
               <span>Epoch 100 (Loss: 0.446)</span>
             </div>
-            <div className="w-full h-3 rounded-full bg-slate-950 overflow-hidden border border-slate-800 flex">
+            <div className="w-full h-3 rounded-full bg-slate-100 dark:bg-slate-950 overflow-hidden border border-slate-200 dark:border-slate-800 flex">
               <div style={{ width: '40%' }} className="bg-rose-500 h-full"></div>
               <div style={{ width: '35%' }} className="bg-amber-400 h-full"></div>
-              <div style={{ width: '25%' }} className="bg-emerald-400 h-full"></div>
+              <div style={{ width: '25%' }} className="bg-emerald-500 h-full"></div>
             </div>
           </div>
         </div>
@@ -256,22 +264,22 @@ export const LiveMlForensicInspector: React.FC<LiveMlForensicInspectorProps> = (
 
       {/* Tab 3: Model Architecture */}
       {activeTab === 'architecture' && (
-        <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-2 font-mono text-xs text-slate-300">
-          <div className="text-xs font-bold text-white mb-2 flex items-center gap-1.5">
-            <Layers className="w-4 h-4 text-purple-400" />
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 space-y-2 font-mono text-xs text-slate-700 dark:text-slate-300 shadow-xs">
+          <div className="text-xs font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-1.5">
+            <Layers className="w-4 h-4 text-purple-600 dark:text-purple-400" />
             Neural Model Topology &amp; Feature Pipelines
           </div>
           <div className="space-y-1.5 text-[11px]">
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-cyan-400 font-bold block">1. Stage 1: MobileNetV3 Semantic Entity Discriminator (ImageNet-1K):</span>
+            <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+              <span className="text-cyan-700 dark:text-cyan-400 font-bold block">1. Stage 1: MobileNetV3 Semantic Entity Discriminator (ImageNet-1K):</span>
               <span>Scans 1,000 visual categories to filter out animals/pets, clean scenic rivers, food, and intact residential buildings with 0 false-alarm escalation.</span>
             </div>
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-purple-400 font-bold block">2. Stage 2: Fine-Tuned ResNet18 Binary Classifier (Kaggle CDD):</span>
+            <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+              <span className="text-purple-700 dark:text-purple-400 font-bold block">2. Stage 2: Fine-Tuned ResNet18 Binary Classifier (Kaggle CDD):</span>
               <span>Trained on 13,557 Kaggle disaster images (Floods, Wildfires, Storms, Collapses) paired with Intel Scene &amp; Domestic Pet negative controls.</span>
             </div>
-            <div className="p-2 rounded bg-slate-950 border border-slate-800">
-              <span className="text-emerald-400 font-bold block">3. VARSHANET-TextGuard-v2.1:</span>
+            <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+              <span className="text-emerald-700 dark:text-emerald-400 font-bold block">3. VARSHANET-TextGuard-v2.1:</span>
               <span>Multi-lingual TF-IDF (1,200 n-grams) $\rightarrow$ 256-dim Dense (BatchNorm1d + Dropout 0.35) $\rightarrow$ 128-dim Dense $\rightarrow$ Dual Classification Heads.</span>
             </div>
           </div>
