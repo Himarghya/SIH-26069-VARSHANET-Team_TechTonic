@@ -29,24 +29,24 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 font-sans">
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+    <div className="bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl space-y-4 font-sans">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
             National Weather Incident Verification Queue
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Citizen submissions with 2-3 photo proofs, social alerts, and AI-flagged fake media (&lt;20% authenticity) awaiting operational review.
           </p>
         </div>
-        <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-amber-950/80 border border-amber-700/50 text-amber-300">
+        <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-700/50 text-amber-900 dark:text-amber-300">
           {pendingReports.length} PENDING DECISION
         </span>
       </div>
 
       {pendingReports.length === 0 ? (
-        <div className="p-8 text-center text-slate-400 font-mono text-xs">
+        <div className="p-8 text-center text-slate-500 dark:text-slate-400 font-mono text-xs">
           All reports verified! No pending items in the active moderation queue.
         </div>
       ) : (
@@ -78,41 +78,43 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
             return (
               <div
                 key={rep.id}
-                className={`p-4 rounded-xl bg-slate-950/90 border flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all shadow-xl ${
-                  !isDisasterRelated ? 'border-rose-700/80 bg-rose-950/20 shadow-rose-950/30' : 'border-slate-800/90'
+                className={`p-4 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all shadow-md ${
+                  !isDisasterRelated 
+                    ? 'border-rose-300 dark:border-rose-700/80 bg-rose-50/70 dark:bg-rose-950/20 shadow-rose-900/10' 
+                    : 'bg-slate-50 dark:bg-slate-950/90 border-slate-200 dark:border-slate-800/90'
                 }`}
               >
                 <div className="space-y-2.5 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold text-white uppercase tracking-wider">{rep.event_type}</span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+                    <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">{rep.event_type}</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold">
                       {rep.city || 'District'}, {rep.state}
                     </span>
                     
                     {/* 🤖 Direct In-House ML Model Verdict to Admin */}
                     {!isDisasterRelated ? (
-                      <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-rose-950 text-rose-200 border border-rose-500 shadow-md animate-pulse">
-                        <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+                      <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-200 border border-rose-300 dark:border-rose-500 shadow-sm animate-pulse">
+                        <AlertTriangle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
                         <span>🤖 ML: {modelVerdict}</span>
                       </span>
                     ) : (
-                      <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-emerald-950 text-emerald-200 border border-emerald-500 shadow-md">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-xs font-black px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-500 shadow-sm">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                         <span>🤖 ML: {modelVerdict}</span>
                       </span>
                     )}
 
                     {/* Admin Action Recommendation from ML Model */}
-                    <span className={`text-[11px] font-mono font-black px-2.5 py-0.5 rounded border ${
+                    <span className={`text-[11px] font-mono font-black px-2.5 py-0.5 rounded border shadow-sm ${
                       !isDisasterRelated 
-                        ? 'bg-rose-900/90 text-white border-rose-400' 
-                        : 'bg-emerald-900/90 text-white border-emerald-400'
+                        ? 'bg-rose-600 dark:bg-rose-900/90 text-white border-rose-500 dark:border-rose-400' 
+                        : 'bg-emerald-600 dark:bg-emerald-900/90 text-white border-emerald-500 dark:border-emerald-400'
                     }`}>
                       {modelRecommendation}
                     </span>
 
                     {hasPhotos && (
-                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/50 flex items-center gap-1">
+                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800/50 flex items-center gap-1">
                         <Camera className="w-2.5 h-2.5" />
                         <span>{rep.media_urls!.length} Proofs</span>
                       </span>
@@ -121,15 +123,15 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
 
                   {/* Model Classification Breakdown */}
                   {hasPhotos && (
-                    <div className="text-[11px] font-mono flex items-center gap-2 text-slate-300 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 w-fit">
-                      <span className="text-purple-400 font-bold">ML Analysis:</span>
-                      <span>Stage 1: <strong className={!isDisasterRelated ? "text-rose-300" : "text-emerald-300"}>{stage1}</strong></span>
-                      <span className="text-slate-500">|</span>
-                      <span>Category: <strong className="text-cyan-300">{detectedCategory}</strong></span>
+                    <div className="text-[11px] font-mono flex items-center gap-2 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 w-fit">
+                      <span className="text-purple-600 dark:text-purple-400 font-bold">ML Analysis:</span>
+                      <span>Stage 1: <strong className={!isDisasterRelated ? "text-rose-600 dark:text-rose-300" : "text-emerald-600 dark:text-emerald-300"}>{stage1}</strong></span>
+                      <span className="text-slate-400 dark:text-slate-500">|</span>
+                      <span>Category: <strong className="text-cyan-600 dark:text-cyan-300">{detectedCategory}</strong></span>
                     </div>
                   )}
 
-                  <p className="text-xs text-slate-200 leading-relaxed font-sans">{rep.text}</p>
+                  <p className="text-xs text-slate-800 dark:text-slate-200 leading-relaxed font-sans">{rep.text}</p>
 
                   {/* Photo/Video Thumbnails in Queue Row */}
                   {hasPhotos && (
@@ -146,7 +148,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                             title="Click to inspect media in detail"
                           >
                             {isVid ? (
-                              <div className="w-full h-full bg-slate-950 flex flex-col items-center justify-center text-cyan-400 text-[9px] font-bold font-mono">
+                              <div className="w-full h-full bg-slate-900 flex flex-col items-center justify-center text-cyan-400 text-[9px] font-bold font-mono">
                                 <span>▶ VID</span>
                               </div>
                             ) : (
@@ -157,11 +159,11 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                       })}
                       <div className="text-[11px] font-mono">
                         {!isDisasterRelated ? (
-                          <span className="text-rose-400 font-bold flex items-center gap-1">
+                          <span className="text-rose-600 dark:text-rose-400 font-bold flex items-center gap-1">
                             <AlertCircle className="w-3.5 h-3.5" /> Non-Disaster Media Attached (Pet / Irrelevant Object Detected)
                           </span>
                         ) : (
-                          <span className="text-emerald-400 font-bold flex items-center gap-1">
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                             <CheckCircle2 className="w-3.5 h-3.5" /> Ground Disaster Evidence Confirmed (Urban Flooding / Rainfall)
                           </span>
                         )}
@@ -169,7 +171,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                     </div>
                   )}
 
-                  <div className="text-[10px] text-slate-500 font-mono">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                     Report ID: {rep.id} • Source: {rep.source_name || rep.source_type} • Time: {new Date(rep.timestamp).toLocaleTimeString()}
                   </div>
                 </div>
@@ -179,7 +181,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                   <button
                     disabled={processingId === rep.id}
                     onClick={() => onSelectReport(rep)}
-                    className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 cursor-pointer"
+                    className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-300 dark:border-slate-700 cursor-pointer transition-colors"
                     title="Inspect Details"
                   >
                     <Eye className="w-4 h-4" />
@@ -191,7 +193,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                     className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer shadow-md ${
                       isDisasterRelated
                         ? 'bg-emerald-600 hover:bg-emerald-500 text-white ring-2 ring-emerald-400 font-black shadow-emerald-900/30'
-                        : 'bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700'
+                        : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-400 border border-slate-300 dark:border-slate-700'
                     }`}
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
@@ -204,7 +206,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                     className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer shadow-md ${
                       !isDisasterRelated
                         ? 'bg-rose-600 hover:bg-rose-500 text-white ring-2 ring-rose-400 font-black shadow-rose-900/40 animate-pulse'
-                        : 'bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700'
+                        : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-400 border border-slate-300 dark:border-slate-700'
                     }`}
                   >
                     <AlertTriangle className="w-3.5 h-3.5" />
@@ -214,7 +216,7 @@ export const VerificationQueue: React.FC<VerificationQueueProps> = ({
                   <button
                     disabled={processingId === rep.id}
                     onClick={() => handleAction(rep.id, 'MARK_DUPLICATE')}
-                    className="px-2.5 py-1.5 rounded-lg bg-amber-600/60 hover:bg-amber-600 text-white text-xs font-bold cursor-pointer border border-amber-500/40"
+                    className="px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 dark:bg-amber-600/60 dark:hover:bg-amber-600 text-white text-xs font-bold cursor-pointer border border-amber-600 dark:border-amber-500/40 shadow-sm"
                   >
                     Duplicate
                   </button>

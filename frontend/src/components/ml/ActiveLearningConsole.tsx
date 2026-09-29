@@ -47,24 +47,24 @@ export const ActiveLearningConsole: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Card: Active Learning Pipeline */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
-        <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-800">
+      <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+        <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-purple-950 text-purple-400 border border-purple-800/40">
+            <div className="p-2.5 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/40">
               <RefreshCw className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
                 Active Learning &amp; Online Fine-Tuning Loop
               </h3>
-              <p className="text-xs text-slate-400 font-mono">
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">
                 Human-in-the-Loop Decisions | Uncertainty Sampling | Continual Model Evolution
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700">
+            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
               Epoch 14 Converged (F1: 0.965)
             </span>
           </div>
@@ -73,36 +73,36 @@ export const ActiveLearningConsole: React.FC = () => {
         {/* Telemetry Metrics */}
         {telemetry && (
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 font-mono">
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-500 uppercase block">Total Labeled Samples</span>
-              <div className="text-2xl font-bold text-white mt-1">
+            <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-[10px] text-slate-500 uppercase block font-semibold">Total Labeled Samples</span>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
                 {telemetry.total_active_learning_samples}
               </div>
-              <span className="text-[10px] text-purple-400">High-Entropy Edge Cases</span>
+              <span className="text-[10px] text-purple-600 dark:text-purple-400 font-semibold">High-Entropy Edge Cases</span>
             </div>
 
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-500 uppercase block">Current Model Accuracy</span>
-              <div className="text-2xl font-bold text-emerald-400 mt-1">
+            <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-[10px] text-slate-500 uppercase block font-semibold">Current Model Accuracy</span>
+              <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
                 {telemetry.current_accuracy_pct}%
               </div>
-              <span className="text-[10px] text-emerald-500 font-bold">{telemetry.accuracy_gain_since_baseline} since baseline</span>
+              <span className="text-[10px] text-emerald-700 dark:text-emerald-500 font-bold">{telemetry.accuracy_gain_since_baseline} since baseline</span>
             </div>
 
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-500 uppercase block">Pending Retraining Buffer</span>
-              <div className="text-2xl font-bold text-cyan-400 mt-1">
+            <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-[10px] text-slate-500 uppercase block font-semibold">Pending Retraining Buffer</span>
+              <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mt-1">
                 {telemetry.pending_queue_size} batches
               </div>
-              <span className="text-[10px] text-slate-400">Triggers at 200 items</span>
+              <span className="text-[10px] text-slate-600 dark:text-slate-400">Triggers at 200 items</span>
             </div>
 
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-500 uppercase block">Sampling Strategy</span>
-              <div className="text-xs font-bold text-slate-200 mt-1">
+            <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-[10px] text-slate-500 uppercase block font-semibold">Sampling Strategy</span>
+              <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">
                 Uncertainty Margin
               </div>
-              <span className="text-[10px] text-slate-400">Entropy Minimization</span>
+              <span className="text-[10px] text-slate-600 dark:text-slate-400">Entropy Minimization</span>
             </div>
           </div>
         )}
@@ -110,13 +110,13 @@ export const ActiveLearningConsole: React.FC = () => {
         {/* Retraining History Table */}
         {telemetry && telemetry.retraining_history && (
           <div className="space-y-2">
-            <h4 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
+            <h4 className="text-xs font-mono font-bold text-slate-700 dark:text-slate-400 uppercase tracking-wider">
               Continuous Retraining Epoch Convergence:
             </h4>
-            <div className="bg-slate-950 rounded-xl border border-slate-800 overflow-x-auto">
+            <div className="bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
-                  <tr className="border-b border-slate-900 text-slate-500 text-left">
+                  <tr className="border-b border-slate-200 dark:border-slate-900 text-slate-600 dark:text-slate-500 text-left">
                     <th className="p-3">Retraining Cycle</th>
                     <th className="p-3">Samples Added</th>
                     <th className="p-3">Accuracy</th>
@@ -125,14 +125,14 @@ export const ActiveLearningConsole: React.FC = () => {
                     <th className="p-3">Date Completed</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-900 text-slate-300">
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-900 text-slate-800 dark:text-slate-300">
                   {telemetry.retraining_history.map((h: any, i: number) => (
-                    <tr key={i} className="hover:bg-slate-900/50">
-                      <td className="p-3 font-bold text-cyan-400">{h.cycle}</td>
-                      <td className="p-3 text-slate-400">+{h.samples_added} samples</td>
-                      <td className="p-3 font-bold text-emerald-400">{h.accuracy}%</td>
-                      <td className="p-3 text-indigo-300">{h.f1_score}</td>
-                      <td className="p-3 text-purple-400">{h.loss}</td>
+                    <tr key={i} className="hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-colors">
+                      <td className="p-3 font-bold text-cyan-600 dark:text-cyan-400">{h.cycle}</td>
+                      <td className="p-3 text-slate-600 dark:text-slate-400">+{h.samples_added} samples</td>
+                      <td className="p-3 font-bold text-emerald-600 dark:text-emerald-400">{h.accuracy}%</td>
+                      <td className="p-3 text-indigo-700 dark:text-indigo-300">{h.f1_score}</td>
+                      <td className="p-3 text-purple-700 dark:text-purple-400">{h.loss}</td>
                       <td className="p-3 text-slate-500">{h.date}</td>
                     </tr>
                   ))}
@@ -144,15 +144,15 @@ export const ActiveLearningConsole: React.FC = () => {
       </div>
 
       {/* Bottom Card: Dynamic ML Source Reliability */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 flex-wrap gap-2">
           <div className="flex items-center gap-2.5">
-            <Shield className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+            <Shield className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
               Dynamic ML Data Source Reliability (Empirical Bayesian Scores)
             </h3>
           </div>
-          <span className="text-xs font-mono text-slate-400">
+          <span className="text-xs font-mono text-slate-600 dark:text-slate-400">
             Learned dynamically from historical accuracy &amp; false-alarm penalties
           </span>
         </div>
@@ -161,25 +161,25 @@ export const ActiveLearningConsole: React.FC = () => {
           {sources.map((src, idx) => (
             <div
               key={idx}
-              className="bg-slate-950 rounded-xl p-4 border border-slate-800 space-y-2 hover:border-indigo-500/40 transition-all font-mono"
+              className="bg-slate-50 dark:bg-slate-950 rounded-xl p-4 border border-slate-200 dark:border-slate-800 space-y-2 hover:border-indigo-400 dark:hover:border-indigo-500/40 transition-all font-mono"
             >
               <div className="flex items-center justify-between">
-                <strong className="text-white text-xs truncate max-w-[160px]">{src.name}</strong>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800 font-bold">
+                <strong className="text-slate-900 dark:text-white text-xs truncate max-w-[160px]">{src.name}</strong>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-bold">
                   {src.status}
                 </span>
               </div>
 
               <div className="flex items-baseline gap-2 pt-1">
-                <span className="text-2xl font-black text-cyan-400">{src.dynamic_reliability_score}%</span>
-                <span className="text-[10px] text-slate-500">reliability score</span>
+                <span className="text-2xl font-black text-cyan-600 dark:text-cyan-400">{src.dynamic_reliability_score}%</span>
+                <span className="text-[10px] text-slate-500 font-semibold">reliability score</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-400 pt-1 border-t border-slate-900">
-                <div>Verified: <strong className="text-emerald-400">{src.verified_true}</strong></div>
-                <div>False: <strong className="text-rose-400">{src.false_alarms}</strong></div>
-                <div>Corroboration: <strong className="text-indigo-300">{src.corroboration_rate * 100}%</strong></div>
-                <div>Spatial Match: <strong className="text-cyan-300">{src.spatial_consistency * 100}%</strong></div>
+              <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-600 dark:text-slate-400 pt-1 border-t border-slate-200 dark:border-slate-900">
+                <div>Verified: <strong className="text-emerald-600 dark:text-emerald-400">{src.verified_true}</strong></div>
+                <div>False: <strong className="text-rose-600 dark:text-rose-400">{src.false_alarms}</strong></div>
+                <div>Corroboration: <strong className="text-indigo-600 dark:text-indigo-300">{(src.corroboration_rate * 100).toFixed(0)}%</strong></div>
+                <div>Spatial Match: <strong className="text-cyan-600 dark:text-cyan-300">{(src.spatial_consistency * 100).toFixed(0)}%</strong></div>
               </div>
             </div>
           ))}

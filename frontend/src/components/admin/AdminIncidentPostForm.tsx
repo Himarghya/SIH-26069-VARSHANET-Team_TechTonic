@@ -133,21 +133,21 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
+    <div className="bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm dark:shadow-2xl space-y-6 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-xl bg-rose-950 text-rose-400 border border-rose-800/40">
+          <div className="p-3 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border border-rose-300 dark:border-rose-800/40">
             <ShieldAlert className="w-6 h-6 animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold text-white">Official Incident Dispatch & Pre-Verified Post</h2>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-600 text-[10px] font-mono font-bold">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">Official Incident Dispatch & Pre-Verified Post</h2>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-600 text-[10px] font-mono font-bold">
                 100% PRE-VERIFIED (ZERO QUEUE MODERATION)
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
               Publishes official ground intelligence or warnings directly onto the National Weather Map & Incident Grid with immediate cluster placement.
             </p>
           </div>
@@ -156,7 +156,7 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
         {onNavigateToMap && (
           <button
             onClick={onNavigateToMap}
-            className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-cyan-700 dark:text-cyan-300 text-xs font-bold border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
             <Globe className="w-4 h-4" />
             <span>View Live Map</span>
@@ -165,26 +165,26 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
       </div>
 
       {publishedReport ? (
-        <div className="p-6 rounded-2xl bg-slate-950/90 border border-emerald-500/40 text-center space-y-4 animate-fade-in">
+        <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950/90 border border-emerald-500/40 text-center space-y-4 animate-fade-in">
           <div className="flex items-center justify-center gap-2">
-            <CheckCircle2 className="w-8 h-8 text-emerald-400 animate-bounce" />
-            <h3 className="text-base font-bold text-white">Official Incident Published & Mapped to National Grid</h3>
+            <CheckCircle2 className="w-8 h-8 text-emerald-500 dark:text-emerald-400 animate-bounce" />
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">Official Incident Published & Mapped to National Grid</h3>
           </div>
 
-          <p className="text-xs text-emerald-300 font-mono">
-            Direct Dispatch Code: <strong className="text-white text-sm underline">{publishedReport.source_id}</strong>
+          <p className="text-xs text-emerald-800 dark:text-emerald-300 font-mono font-bold">
+            Direct Dispatch Code: <strong className="text-slate-900 dark:text-white text-sm underline">{publishedReport.source_id}</strong>
           </p>
 
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-left space-y-2 text-xs font-mono text-slate-300">
+          <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-left space-y-2 text-xs font-mono text-slate-700 dark:text-slate-300 shadow-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-              <div>Hazard: <strong className="text-white font-sans">{publishedReport.event_type}</strong></div>
-              <div>Severity Level: <strong className="text-rose-400">{publishedReport.risk_level}</strong></div>
-              <div>Map Location: <strong className="text-cyan-300 font-sans">{publishedReport.city}, {publishedReport.state}</strong></div>
-              <div>Coordinates: <strong className="text-slate-200">{publishedReport.latitude}° N, {publishedReport.longitude}° E</strong></div>
-              <div>Verification Status: <strong className="text-emerald-400">100% PRE-VERIFIED (OFFICIAL)</strong></div>
-              <div>Authority: <strong className="text-white font-sans">{publishedReport.author}</strong></div>
+              <div>Hazard: <strong className="text-slate-900 dark:text-white font-sans">{publishedReport.event_type}</strong></div>
+              <div>Severity Level: <strong className="text-rose-600 dark:text-rose-400">{publishedReport.risk_level}</strong></div>
+              <div>Map Location: <strong className="text-cyan-700 dark:text-cyan-300 font-sans">{publishedReport.city}, {publishedReport.state}</strong></div>
+              <div>Coordinates: <strong className="text-slate-800 dark:text-slate-200">{publishedReport.latitude}° N, {publishedReport.longitude}° E</strong></div>
+              <div>Verification Status: <strong className="text-emerald-700 dark:text-emerald-400">100% PRE-VERIFIED (OFFICIAL)</strong></div>
+              <div>Authority: <strong className="text-slate-900 dark:text-white font-sans">{publishedReport.author}</strong></div>
             </div>
-            <div className="pt-2 border-t border-slate-800 text-slate-400 font-sans">
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 font-sans">
               "{publishedReport.text}"
             </div>
           </div>
@@ -216,11 +216,11 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
           {/* Row 1: Event Type, Severity, Authority */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">Hazard Event Category</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Hazard Event Category</label>
               <select
                 value={eventType}
                 onChange={(e) => setEventType(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 cursor-pointer"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 cursor-pointer font-medium"
               >
                 <option value="Urban Flooding">Urban Flooding (Waterlogging)</option>
                 <option value="Cloudburst">Cloudburst & Flash Deluge</option>
@@ -235,49 +235,49 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">Threat Severity Level</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Threat Severity Level</label>
               <select
                 value={severity}
                 onChange={(e) => setSeverity(e.target.value as any)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 cursor-pointer font-bold"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 cursor-pointer font-bold"
               >
-                <option value="CRITICAL" className="text-rose-400">🔴 CRITICAL (Red Alert)</option>
-                <option value="HIGH" className="text-amber-400">🟠 HIGH (Orange Warning)</option>
-                <option value="MODERATE" className="text-yellow-400">🟡 MODERATE (Yellow Advisory)</option>
-                <option value="LOW" className="text-cyan-400">🔵 LOW (Green Monitoring)</option>
+                <option value="CRITICAL" className="text-rose-600 dark:text-rose-400">🔴 CRITICAL (Red Alert)</option>
+                <option value="HIGH" className="text-amber-600 dark:text-amber-400">🟠 HIGH (Orange Warning)</option>
+                <option value="MODERATE" className="text-yellow-600 dark:text-yellow-400">🟡 MODERATE (Yellow Advisory)</option>
+                <option value="LOW" className="text-cyan-600 dark:text-cyan-400">🔵 LOW (Green Monitoring)</option>
               </select>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">Publishing Authority</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Publishing Authority</label>
               <input
                 type="text"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 font-medium"
               />
             </div>
           </div>
 
           {/* Row 2: Location Presets & Coordinates (Auto-Implemented in Map) */}
-          <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-cyan-400 flex items-center gap-1.5 font-mono uppercase">
+              <label className="text-xs font-bold text-cyan-800 dark:text-cyan-400 flex items-center gap-1.5 font-mono uppercase">
                 <MapPin className="w-4 h-4" />
                 <span>Geographic Location & Map Placement Coordinates</span>
               </label>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-medium">
                 Auto-Pins Incident on National Weather Map
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">Select Preset Landmark / City</label>
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 block mb-1">Select Preset Landmark / City</label>
                 <select
                   value={city}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 cursor-pointer font-semibold"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 cursor-pointer font-semibold"
                 >
                   {Object.keys(PRESET_CITY_COORDS).map(c => (
                     <option key={c} value={c}>{c}</option>
@@ -286,13 +286,13 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">State / UT</label>
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 block mb-1">State / UT</label>
                 <input
                   type="text"
                   list="admin-states-list"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 font-medium"
                 />
                 <datalist id="admin-states-list">
                   {ALL_INDIAN_STATES_UTS.map(st => (
@@ -301,32 +301,31 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
                 </datalist>
               </div>
 
-
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">Latitude (°N)</label>
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 block mb-1">Latitude (°N)</label>
                 <input
                   type="number"
                   step="0.0001"
                   value={latitude}
                   onChange={(e) => setLatitude(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-cyan-300 font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-cyan-800 dark:text-cyan-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">Longitude (°E)</label>
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 block mb-1">Longitude (°E)</label>
                 <div className="flex gap-1.5">
                   <input
                     type="number"
                     step="0.0001"
                     value={longitude}
                     onChange={(e) => setLongitude(parseFloat(e.target.value) || 0)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-cyan-300 font-mono focus:outline-none focus:border-cyan-500"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-cyan-800 dark:text-cyan-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
                   />
                   <button
                     type="button"
                     onClick={handleAutoGPS}
-                    className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition-colors cursor-pointer"
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-cyan-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
                     title="Auto-Locate GPS"
                   >
                     <Navigation className="w-4 h-4" />
@@ -339,37 +338,37 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
           {/* Row 3: Title & Operational Description */}
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">Official Advisory Headline</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Official Advisory Headline</label>
               <input
                 type="text"
                 placeholder="e.g. Red Alert: Inundation & Severe Waterlogging along MP Nagar Zone 2 Corridor"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500"
               />
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">Official Incident Briefing & Public Directives</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Official Incident Briefing & Public Directives</label>
               <textarea
                 rows={3}
                 required
                 placeholder="Detail current inundation depth, emergency shelter locations, power status, road diversions, and SDMA operational response..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500"
               />
             </div>
           </div>
 
           {/* Row 4: Official Photo Evidence & Drag and Drop */}
-          <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-white flex items-center gap-1.5 font-mono uppercase">
-                <Camera className="w-4 h-4 text-cyan-400" />
+              <label className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 font-mono uppercase">
+                <Camera className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                 <span>Attach 2-3 Verified Field Photographs</span>
               </label>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-800">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-cyan-800 dark:text-cyan-300 border border-slate-200 dark:border-slate-800">
                 {photos.length} / 3 Photos Attached
               </span>
             </div>
@@ -378,7 +377,7 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
             {photos.length > 0 && (
               <div className="grid grid-cols-3 gap-2">
                 {photos.map((photoUrl, idx) => (
-                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-emerald-500/50 bg-slate-900 aspect-video shadow-md">
+                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-emerald-500/50 bg-slate-100 dark:bg-slate-900 aspect-video shadow-xs">
                     <img src={photoUrl} alt={`Evidence ${idx + 1}`} className="w-full h-full object-cover" />
                     <button
                       type="button"
@@ -387,7 +386,7 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
-                    <span className="absolute bottom-1 left-1 px-1.5 py-0.2 rounded bg-black/80 text-[9px] font-mono text-emerald-300">
+                    <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/80 text-[9px] font-mono text-emerald-300">
                       Verified Photo #{idx + 1}
                     </span>
                   </div>
@@ -403,13 +402,13 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
                   onDragLeave={() => setIsDragging(false)}
                   onDrop={handleDrop}
                   className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 border-dashed transition-all cursor-pointer ${
-                    isDragging ? 'border-cyan-400 bg-cyan-950/60' : 'border-slate-700 bg-slate-900/60 hover:bg-slate-900/90'
+                    isDragging ? 'border-cyan-400 bg-cyan-100/50 dark:bg-cyan-950/60' : 'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/60 hover:bg-slate-100/60 dark:hover:bg-slate-900/90'
                   }`}
                 >
                   <label className="flex flex-col items-center justify-center w-full cursor-pointer">
-                    <Upload className="w-5 h-5 text-cyan-400 mb-1" />
-                    <span className="text-xs font-semibold text-slate-300">
-                      Drag & Drop official photos here, or <span className="text-cyan-400 underline">browse files</span>
+                    <Upload className="w-5 h-5 text-cyan-600 dark:text-cyan-400 mb-1" />
+                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      Drag & Drop official photos here, or <span className="text-cyan-600 dark:text-cyan-400 underline">browse files</span>
                     </span>
                     <input
                       type="file"
@@ -423,13 +422,13 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
 
                 {/* Preset sample proofs */}
                 <div className="flex items-center gap-1.5 pt-1">
-                  <span className="text-[10px] text-slate-400 font-mono">Quick Pick:</span>
+                  <span className="text-[10px] text-slate-600 dark:text-slate-400 font-mono font-medium">Quick Pick:</span>
                   {SAMPLE_OFFICIAL_PHOTOS.map((sample, sIdx) => (
                     <button
                       key={sIdx}
                       type="button"
                       onClick={() => setPhotos(prev => prev.length < 3 ? [...prev, sample.url] : prev)}
-                      className="px-2 py-0.5 rounded-lg text-[10px] font-mono bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-slate-700 transition-colors cursor-pointer"
+                      className="px-2 py-0.5 rounded-lg text-[10px] font-mono bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-emerald-800 dark:text-emerald-300 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
                     >
                       + {sample.name}
                     </button>
