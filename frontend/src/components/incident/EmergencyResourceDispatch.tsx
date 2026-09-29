@@ -183,28 +183,28 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 font-sans">
+    <div className="bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl space-y-6 font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-cyan-950/80 text-cyan-400 border border-cyan-800/40">
+            <div className="p-2 rounded-xl bg-cyan-100 dark:bg-cyan-950/80 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/40">
               <Truck className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold text-white tracking-wide">
-                  Flood-Aware 16 NDRF Battalion Tactical Routing & Logistics
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-wide">
+                  Flood-Aware 16 NDRF Battalion Tactical Routing &amp; Logistics
                 </h3>
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-700/50">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700/50">
                   PHASE 2 LOGISTICS EXTENSION
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-2 flex-wrap">
-                <span>Target: <strong className="text-cyan-300 font-medium">{currentCoords.label}</strong></span>
-                <span className="text-slate-600">•</span>
-                <span className="text-emerald-400 flex items-center gap-1">
-                  <Waves className="w-3.5 h-3.5 text-emerald-400" />
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 flex items-center gap-2 flex-wrap">
+                <span>Target: <strong className="text-cyan-700 dark:text-cyan-300 font-semibold">{currentCoords.label}</strong></span>
+                <span className="text-slate-400 dark:text-slate-600">•</span>
+                <span className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-medium">
+                  <Waves className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>CWC River Flood Detour-Aware (pgRouting / OSRM)</span>
                 </span>
               </p>
@@ -215,7 +215,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
         <button
           onClick={handleUseUserGps}
           disabled={isLocating}
-          className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-semibold border border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+          className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-cyan-300 text-xs font-semibold border border-slate-300 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
         >
           <Compass className="w-3.5 h-3.5" />
           <span>{isLocating ? 'Locating...' : 'Use Live GPS'}</span>
@@ -223,8 +223,8 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
       </div>
 
       {dispatchSuccess && (
-        <div className="p-3.5 rounded-xl bg-emerald-950/80 border border-emerald-600/60 text-emerald-200 text-xs flex items-center gap-2.5 animate-fade-in shadow-md">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="p-3.5 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-600/60 text-emerald-900 dark:text-emerald-200 text-xs flex items-center gap-2.5 animate-fade-in shadow-xs">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
           <span>{dispatchSuccess}</span>
         </div>
       )}
@@ -238,35 +238,35 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
         ].map(({ bn, label, badge, isPrimary }, idx) => (
           <div
             key={idx}
-            className={`p-4 rounded-xl flex flex-col justify-between h-full transition-all shadow-md ${
+            className={`p-4 rounded-xl flex flex-col justify-between h-full transition-all shadow-sm ${
               isPrimary
-                ? 'bg-gradient-to-b from-cyan-950/30 to-slate-950 border border-cyan-500/50 shadow-cyan-950/20'
-                : 'bg-slate-950/90 border border-slate-800 hover:border-slate-700'
+                ? 'bg-cyan-50/60 dark:bg-gradient-to-b dark:from-cyan-950/30 dark:to-slate-950 border border-cyan-300 dark:border-cyan-500/50'
+                : 'bg-slate-50 dark:bg-slate-950/90 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
             }`}
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-slate-400 tracking-wider">{label}</span>
+                <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400 tracking-wider">{label}</span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                  isPrimary ? 'bg-cyan-950 text-cyan-300 border border-cyan-800' : 'bg-slate-800 text-slate-300 border border-slate-700'
+                  isPrimary ? 'bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700'
                 }`}>
                   {badge}
                 </span>
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-white">{bn.name}</h4>
-                <p className="text-xs text-slate-400 font-mono">Base: {bn.baseCity}, {bn.state}</p>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{bn.name}</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">Base: {bn.baseCity}, {bn.state}</p>
               </div>
 
-              <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1 font-mono text-xs">
-                <div className="flex justify-between text-slate-300">
+              <div className="p-2.5 rounded-lg bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1 font-mono text-xs shadow-2xs">
+                <div className="flex justify-between text-slate-700 dark:text-slate-300">
                   <span>Detour Road Distance:</span>
-                  <strong className="text-cyan-300">{bn.distanceKm} km</strong>
+                  <strong className="text-cyan-700 dark:text-cyan-300">{bn.distanceKm} km</strong>
                 </div>
-                <div className="flex justify-between text-slate-300">
+                <div className="flex justify-between text-slate-700 dark:text-slate-300">
                   <span>Estimated Convoy ETA:</span>
-                  <strong className="text-emerald-400">~{bn.etaHours} hours</strong>
+                  <strong className="text-emerald-700 dark:text-emerald-400">~{bn.etaHours} hours</strong>
                 </div>
                 <div className="flex justify-between text-[11px] text-slate-500">
                   <span>CWC Detour Factor:</span>
@@ -274,23 +274,23 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-400 space-y-0.5 pt-1">
-                <div>Commandant: <span className="text-slate-200 font-medium">{bn.commander}</span></div>
-                <div>Specialty: <span className="text-slate-300 font-medium">{bn.specialization}</span></div>
-                <div className="flex items-center gap-1 text-cyan-400 font-mono">
+              <div className="text-[11px] text-slate-600 dark:text-slate-400 space-y-0.5 pt-1">
+                <div>Commandant: <span className="text-slate-800 dark:text-slate-200 font-semibold">{bn.commander}</span></div>
+                <div>Specialty: <span className="text-slate-800 dark:text-slate-300 font-medium">{bn.specialization}</span></div>
+                <div className="flex items-center gap-1 text-cyan-700 dark:text-cyan-400 font-mono font-semibold">
                   <PhoneCall className="w-3 h-3" />
                   <span>{bn.phone}</span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-slate-800/80">
+            <div className="pt-3 mt-3 border-t border-slate-200 dark:border-slate-800/80">
               <button
                 onClick={() => handleGenerateRequisition(bn)}
-                className={`w-full py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm ${
+                className={`w-full py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs ${
                   isPrimary
                     ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-cyan-900/30'
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
+                    : 'bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700'
                 }`}
               >
                 <FileText className="w-3.5 h-3.5" />
@@ -304,15 +304,15 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
       {/* Asset Allocation Table */}
       <div className="space-y-3 pt-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2 font-mono flex-wrap">
-            <span>Dynamic NDRF & Civil Defense Tactical Allocation</span>
+          <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2 font-mono flex-wrap">
+            <span>Dynamic NDRF &amp; Civil Defense Tactical Allocation</span>
             <span className="text-slate-500 font-normal">({totalPopulationExposed.toLocaleString()} citizens exposed)</span>
           </h4>
         </div>
 
-        <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/80 shadow-inner w-full">
+        <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/80 shadow-inner w-full">
           <table className="w-full min-w-[580px] text-left text-xs font-sans">
-            <thead className="bg-slate-900/90 text-slate-400 uppercase tracking-wider text-[10px] font-mono border-b border-slate-800">
+            <thead className="bg-slate-100 dark:bg-slate-900/90 text-slate-700 dark:text-slate-400 uppercase tracking-wider text-[10px] font-mono border-b border-slate-200 dark:border-slate-800">
               <tr>
                 <th className="py-3 px-3 sm:px-4">Emergency Asset Type</th>
                 <th className="py-3 px-3 sm:px-4">Required Scale</th>
@@ -321,17 +321,17 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
                 <th className="py-3 px-3 sm:px-4 text-right">Field Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-300 font-sans">
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-700 dark:text-slate-300 font-sans">
               {resources.map((res, i) => (
-                <tr key={i} className="hover:bg-slate-900/40 transition-colors">
-                  <td className="py-3 px-3 sm:px-4 font-semibold text-white">
+                <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                  <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900 dark:text-white">
                     {res.name}
                     <span className="block text-[10px] font-mono text-slate-500 font-normal">{res.unit}</span>
                   </td>
-                  <td className="py-3 px-3 sm:px-4 font-mono text-slate-300">
+                  <td className="py-3 px-3 sm:px-4 font-mono text-slate-700 dark:text-slate-300 font-medium">
                     {res.required}
                   </td>
-                  <td className="py-3 px-3 sm:px-4 font-mono font-bold text-cyan-400">
+                  <td className="py-3 px-3 sm:px-4 font-mono font-bold text-cyan-700 dark:text-cyan-400">
                     {res.allocated}
                   </td>
                   <td className="py-3 px-3 sm:px-4">
@@ -341,7 +341,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
                     <button
                       onClick={() => handleAllocate(i)}
                       disabled={res.allocated >= res.required}
-                      className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-cyan-600 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 hover:text-white disabled:text-slate-500 text-xs font-medium border border-slate-700 hover:border-cyan-500 transition-all cursor-pointer shadow-sm whitespace-nowrap"
+                      className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-cyan-600 dark:bg-slate-800 dark:hover:bg-cyan-600 disabled:opacity-30 disabled:hover:bg-slate-100 text-slate-700 hover:text-white dark:text-slate-200 dark:hover:text-white disabled:text-slate-400 text-xs font-semibold border border-slate-300 dark:border-slate-700 hover:border-cyan-500 transition-all cursor-pointer shadow-xs whitespace-nowrap"
                     >
                       + Dispatch
                     </button>
@@ -361,25 +361,25 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-slate-950 border border-slate-800 rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl text-slate-200 cursor-default font-sans text-xs max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl text-slate-800 dark:text-slate-200 cursor-default font-sans text-xs max-h-[90vh] overflow-y-auto"
           >
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <div className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-cyan-400" />
-                <h4 className="text-sm font-bold text-white uppercase tracking-wide">
+                <FileText className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide">
                   Official NDRF Requisition Order (Phase 2 Prototype)
                 </h4>
               </div>
               <button
                 onClick={() => setShowOrderModal(false)}
-                className="text-slate-400 hover:text-white transition-colors"
+                className="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
               >
                 ✕
               </button>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2 text-xs leading-relaxed font-mono">
-              <div className="text-center font-bold text-white uppercase pb-2 border-b border-slate-800 text-xs font-sans">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2 text-xs leading-relaxed font-mono">
+              <div className="text-center font-bold text-slate-900 dark:text-white uppercase pb-2 border-b border-slate-200 dark:border-slate-800 text-xs font-sans">
                 GOVERNMENT OF INDIA • NATIONAL DISASTER MANAGEMENT AUTHORITY
               </div>
               <p><strong>TO:</strong> {selectedBnForOrder.commander}, {selectedBnForOrder.name} ({selectedBnForOrder.baseCity})</p>
@@ -392,7 +392,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setShowOrderModal(false)}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors cursor-pointer border border-slate-200 dark:border-slate-700"
               >
                 Cancel
               </button>
@@ -401,7 +401,7 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
                 className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
               >
                 <Send className="w-3.5 h-3.5" />
-                <span>Confirm & Issue Dispatch Order</span>
+                <span>Confirm &amp; Issue Dispatch Order</span>
               </button>
             </div>
           </div>

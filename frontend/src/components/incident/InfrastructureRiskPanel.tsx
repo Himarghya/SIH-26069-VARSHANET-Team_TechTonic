@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Building2, ShieldAlert, HeartPulse, GraduationCap, Train, Anchor } from 'lucide-react';
 import { InfrastructureRisk } from '../../types';
 
@@ -15,12 +15,12 @@ export const InfrastructureRiskPanel: React.FC<InfrastructureRiskPanelProps> = (
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-          <ShieldAlert className="w-4 h-4 text-amber-400" /> Critical Infrastructure Inundation Risk
+        <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+          <ShieldAlert className="w-4 h-4 text-amber-500 dark:text-amber-400" /> Critical Infrastructure Inundation Risk
         </h3>
-        <span className="text-xs font-mono font-bold text-amber-400">
+        <span className="text-xs font-mono font-bold text-amber-700 dark:text-amber-400">
           Risk Index: {infrastructure.infrastructure_risk_score} / 100
         </span>
       </div>
@@ -31,22 +31,22 @@ export const InfrastructureRiskPanel: React.FC<InfrastructureRiskPanelProps> = (
           return (
             <div
               key={idx}
-              className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 flex items-center justify-between gap-3"
+              className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 flex items-center justify-between gap-3 shadow-xs"
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="p-2 rounded-lg bg-slate-900 text-amber-400 border border-slate-800 shrink-0">
+                <div className="p-2 rounded-lg bg-amber-100 dark:bg-slate-900 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-slate-800 shrink-0">
                   <Icon className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs font-bold text-white truncate">{asset.name}</div>
-                  <div className="text-[10px] text-slate-400 font-mono">
+                  <div className="text-xs font-bold text-slate-900 dark:text-white truncate">{asset.name}</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-400 font-mono">
                     {asset.type} • {asset.distance_km} km away
                   </div>
                 </div>
               </div>
 
               <div className="text-right shrink-0">
-                <span className="text-xs font-mono font-bold text-amber-400 block">
+                <span className="text-xs font-mono font-bold text-amber-700 dark:text-amber-400 block">
                   {asset.asset_risk_score} Risk
                 </span>
                 <span className="text-[9px] text-slate-500 font-mono">

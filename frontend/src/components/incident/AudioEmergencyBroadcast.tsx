@@ -97,50 +97,50 @@ export const AudioEmergencyBroadcast: React.FC<AudioBroadcastProps> = ({
   };
 
   return (
-    <div className={`p-3.5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg ${
-      isCritical ? 'bg-gradient-to-r from-rose-950/40 via-slate-900 to-indigo-950/40 border-rose-800/40' :
-      isHigh ? 'bg-gradient-to-r from-amber-950/40 via-slate-900 to-indigo-950/40 border-amber-800/40' :
-      'bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 border-cyan-800/40'
+    <div className={`p-3.5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md ${
+      isCritical ? 'bg-rose-50/70 dark:bg-gradient-to-r dark:from-rose-950/40 dark:via-slate-900 dark:to-indigo-950/40 border-rose-200 dark:border-rose-800/40' :
+      isHigh ? 'bg-amber-50/70 dark:bg-gradient-to-r dark:from-amber-950/40 dark:via-slate-900 dark:to-indigo-950/40 border-amber-200 dark:border-amber-800/40' :
+      'bg-slate-50 dark:bg-gradient-to-r dark:from-cyan-950/40 dark:via-slate-900 dark:to-indigo-950/40 border-slate-200 dark:border-cyan-800/40'
     }`}>
       <div className="flex items-start sm:items-center gap-2.5 min-w-0">
         <div className={`p-2 rounded-lg shrink-0 mt-0.5 sm:mt-0 ${
           isPlaying ? 'bg-rose-600 text-white animate-pulse' : 
-          isCritical ? 'bg-slate-900 text-rose-400 border border-rose-900/50' :
-          isHigh ? 'bg-slate-900 text-amber-400 border border-amber-900/50' :
-          'bg-slate-900 text-cyan-400 border border-cyan-900/50'
+          isCritical ? 'bg-rose-100 dark:bg-slate-900 text-rose-600 dark:text-rose-400 border border-rose-300 dark:border-rose-900/50' :
+          isHigh ? 'bg-amber-100 dark:bg-slate-900 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-900/50' :
+          'bg-slate-100 dark:bg-slate-900 text-cyan-700 dark:text-cyan-400 border border-slate-300 dark:border-cyan-900/50'
         }`}>
           <Radio className="w-4 h-4" />
         </div>
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-bold text-white uppercase tracking-wide">
+            <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">
               {isCritical ? 'Emergency Radio Broadcast (TTS)' : 'Radio Bulletin Broadcast (TTS)'}
             </span>
             <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ${
-              isCritical ? 'bg-rose-950 text-rose-300 border border-rose-800' :
-              isHigh ? 'bg-amber-950 text-amber-300 border border-amber-800' :
-              'bg-cyan-950 text-cyan-300 border border-cyan-800'
+              isCritical ? 'bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800' :
+              isHigh ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800' :
+              'bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800'
             }`}>
               AI Judged: {normalizedSeverity}
             </span>
           </div>
-          <p className="text-[11px] text-slate-300 font-sans mt-0.5">
+          <p className="text-[11px] text-slate-600 dark:text-slate-300 font-sans mt-0.5">
             Synthesizes dynamic voice bulletins tailored to actual AI risk severity.
           </p>
         </div>
       </div>
 
       <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end flex-wrap">
-        <div className="flex items-center bg-slate-950 rounded-lg border border-slate-800 p-0.5 text-[11px]">
+        <div className="flex items-center bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 p-0.5 text-[11px]">
           <button
             onClick={() => setLanguage('hi')}
-            className={`px-2 py-1 rounded font-bold transition-all cursor-pointer ${language === 'hi' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+            className={`px-2 py-1 rounded font-bold transition-all cursor-pointer ${language === 'hi' ? 'bg-cyan-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
           >
             हिंदी
           </button>
           <button
             onClick={() => setLanguage('en')}
-            className={`px-2 py-1 rounded font-bold transition-all cursor-pointer ${language === 'en' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+            className={`px-2 py-1 rounded font-bold transition-all cursor-pointer ${language === 'en' ? 'bg-cyan-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
           >
             English
           </button>

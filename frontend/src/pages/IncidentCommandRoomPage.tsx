@@ -134,7 +134,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
 
           <button
             onClick={() => currentEventId && loadImpactData(currentEventId)}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors shrink-0 cursor-pointer"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors shrink-0 cursor-pointer"
             title="Recalculate AI Nowcasts"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
@@ -163,51 +163,51 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
 
           {/* CITIZEN VIEW: Clean Public Safety & Emergency Directives Card */}
           {isCitizen ? (
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-rose-950/40 via-slate-900 to-slate-950 border border-rose-500/30 space-y-4 shadow-xl">
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/90 border border-rose-200 dark:border-rose-500/30 space-y-4 shadow-sm dark:shadow-xl">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-rose-900/60 text-rose-300">
+                <div className="p-2 rounded-xl bg-rose-100 dark:bg-rose-900/60 text-rose-600 dark:text-rose-300">
                   <ShieldAlert className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                     Official Public Safety Advisory & Emergency Helplines
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     State Disaster Management Authority (SDMA) Public Guidance for {impactData.city || impactData.state}
                   </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase block font-mono">National Emergency</span>
-                  <div className="text-xl font-black text-rose-400 font-mono flex items-center gap-1.5">
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase block font-mono">National Emergency</span>
+                  <div className="text-xl font-black text-rose-600 dark:text-rose-400 font-mono flex items-center gap-1.5">
                     <PhoneCall className="w-4 h-4" /> 112
                   </div>
-                  <p className="text-[11px] text-slate-400">24x7 Unified Emergency Response</p>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">24x7 Unified Emergency Response</p>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase block font-mono">Disaster Management Relief</span>
-                  <div className="text-xl font-black text-amber-400 font-mono flex items-center gap-1.5">
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase block font-mono">Disaster Management Relief</span>
+                  <div className="text-xl font-black text-amber-600 dark:text-amber-400 font-mono flex items-center gap-1.5">
                     <PhoneCall className="w-4 h-4" /> 1070 / 1077
                   </div>
-                  <p className="text-[11px] text-slate-400">State / District Control Room</p>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">State / District Control Room</p>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase block font-mono">Designated Relief Centers</span>
-                  <div className="text-sm font-bold text-emerald-400">
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-1">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase block font-mono">Designated Relief Centers</span>
+                  <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
                     Government Higher Secondary Shelters
                   </div>
-                  <p className="text-[11px] text-slate-400">Equipped with dry rations & drinking water</p>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">Equipped with dry rations & drinking water</p>
                 </div>
               </div>
 
               {/* Citizen safety recommendations */}
-              <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-300 space-y-2">
-                <span className="font-bold text-white block">Immediate Life-Safety Instructions:</span>
-                <ul className="list-disc list-inside space-y-1 text-slate-300 text-[11px]">
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-2">
+                <span className="font-bold text-slate-900 dark:text-white block">Immediate Life-Safety Instructions:</span>
+                <ul className="list-disc list-inside space-y-1 text-slate-600 dark:text-slate-300 text-[11px]">
                   <li>Avoid walking or driving through waterlogged underpasses or flooded roads.</li>
                   <li>Keep mobile devices charged and keep emergency contact numbers handy.</li>
                   <li>Report local waterlogging or distress directly via the <strong>Citizen Portal</strong>.</li>
@@ -307,14 +307,14 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
           )}
         </div>
       ) : (
-        <div className="h-72 rounded-2xl border border-slate-800 bg-slate-900/50 flex flex-col items-center justify-center text-slate-400 gap-3">
+        <div className="h-72 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 gap-3 shadow-sm">
           <div className="flex items-center gap-2">
-            <RefreshCw className="w-5 h-5 animate-spin text-cyan-400" />
+            <RefreshCw className="w-5 h-5 animate-spin text-cyan-600 dark:text-cyan-400" />
             <span className="text-sm font-medium">Loading Incident Impact Intelligence...</span>
           </div>
           <button
             onClick={() => loadImpactData(currentEventId || 'default')}
-            className="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded-lg text-xs font-semibold border border-cyan-500/30 transition-all cursor-pointer"
+            className="px-3 py-1.5 bg-cyan-50 dark:bg-cyan-500/20 hover:bg-cyan-100 dark:hover:bg-cyan-500/30 text-cyan-700 dark:text-cyan-300 rounded-xl text-xs font-semibold border border-cyan-200 dark:border-cyan-500/30 transition-all cursor-pointer"
           >
             Retry Loading Incident Feed
           </button>

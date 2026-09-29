@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Smartphone, Send, BellRing, CheckCircle2, ShieldAlert, Sparkles, MessageSquare, Info, AlertTriangle, Radio, Share2, Mail, ExternalLink } from 'lucide-react';
 import { broadcastAlertToX } from '../../services/api';
 
@@ -87,29 +87,29 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
       {/* Top Header & Broadcast Channel Switcher */}
-      <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-800">
+      <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
+          <div className="p-2 rounded-xl bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/40">
             <Radio className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
-              National Emergency Gateway & Social Broadcaster
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
+              National Emergency Gateway &amp; Social Broadcaster
             </h3>
-            <p className="text-[10px] text-slate-400 font-mono">
-              CAP Cell Broadcast Siren & Automated 𝕏 (Twitter) Dispatch
+            <p className="text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+              CAP Cell Broadcast Siren &amp; Automated 𝕏 (Twitter) Dispatch
             </p>
           </div>
         </div>
 
         {/* Channel Switcher */}
-        <div className="flex items-center bg-slate-950 rounded-xl border border-slate-800 p-1 text-xs">
+        <div className="flex items-center bg-slate-100 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 p-1 text-xs">
           <button
             onClick={() => setActiveTab('cell_broadcast')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-              activeTab === 'cell_broadcast' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'cell_broadcast' ? 'bg-cyan-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
@@ -118,7 +118,7 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
           <button
             onClick={() => setActiveTab('x_twitter')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-              activeTab === 'x_twitter' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'x_twitter' ? 'bg-cyan-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <span className="font-black text-sm leading-none">𝕏</span>
@@ -131,19 +131,19 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
       {activeTab === 'cell_broadcast' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-300 font-mono">
+            <span className="text-xs text-slate-700 dark:text-slate-300 font-mono font-semibold">
               Language Select:
             </span>
-            <div className="flex items-center bg-slate-950 rounded-lg border border-slate-800 p-0.5 text-[11px]">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 p-0.5 text-[11px]">
               <button
                 onClick={() => setLanguage('hi')}
-                className={`px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${language === 'hi' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+                className={`px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${language === 'hi' ? 'bg-cyan-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
               >
                 हिंदी
               </button>
               <button
                 onClick={() => setLanguage('en')}
-                className={`px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${language === 'en' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+                className={`px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${language === 'en' ? 'bg-cyan-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
               >
                 English
               </button>
@@ -152,31 +152,31 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             {/* Mobile Device Mockup */}
-            <div className="md:col-span-6 bg-slate-950 rounded-2xl p-4 border border-slate-800 shadow-inner">
-              <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono pb-2 border-b border-slate-900">
+            <div className="md:col-span-6 bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-inner">
+              <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono pb-2 border-b border-slate-200 dark:border-slate-900">
                 <span>BSNL / JIO / AIRTEL LTE-B</span>
                 <span>EMERGENCY BROADCAST</span>
               </div>
-              <div className="p-3 mt-3 rounded-xl bg-rose-950/40 border border-rose-600/40 text-rose-100 text-xs leading-relaxed whitespace-pre-line font-mono">
+              <div className="p-3 mt-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-600/40 text-rose-900 dark:text-rose-100 text-xs leading-relaxed whitespace-pre-line font-mono font-medium">
                 {currentMsg}
               </div>
             </div>
 
             {/* Broadcast Controls */}
             <div className="md:col-span-6 space-y-3">
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                 Transmits geofenced siren alerts via C-DoT / SACHET towers directly to all mobile handsets in <strong>{city}, {state}</strong> without network congestion.
               </p>
 
               {broadcastSent ? (
-                <div className="p-3 rounded-xl bg-emerald-950/80 border border-emerald-600 text-emerald-200 text-xs font-mono flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="p-3 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-600 text-emerald-900 dark:text-emerald-200 text-xs font-mono flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>Cell Broadcast Dispatched to 184 Cell Towers!</span>
                 </div>
               ) : (
                 <button
                   onClick={handleSendCellBroadcast}
-                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                   <span>Dispatch Cell Siren Alert</span>
@@ -190,55 +190,55 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
       {/* VIEW 2: Automated X (Twitter) Broadcaster */}
       {activeTab === 'x_twitter' && (
         <div className="space-y-4">
-          <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between flex-wrap gap-2">
+          <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs text-slate-300 font-mono">
-                Emergency Dispatch Notification Address: <strong className="text-white">Somadas7803@gmail.com</strong>
+              <Mail className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+              <span className="text-xs text-slate-700 dark:text-slate-300 font-mono">
+                Emergency Dispatch Notification Address: <strong className="text-slate-900 dark:text-white">Somadas7803@gmail.com</strong>
               </span>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700 font-bold">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold">
               ✓ X DISPATCH ACTIVE
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             {/* Tweet Preview Card */}
-            <div className="md:col-span-7 bg-slate-950 rounded-2xl p-4 border border-slate-800 shadow-inner space-y-2">
-              <div className="flex items-center justify-between text-xs pb-2 border-b border-slate-900">
+            <div className="md:col-span-7 bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-inner space-y-2">
+              <div className="flex items-center justify-between text-xs pb-2 border-b border-slate-200 dark:border-slate-900">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-xs">
                     VN
                   </div>
                   <div>
-                    <strong className="text-white block leading-tight text-xs">VARSHANET National Early Warning</strong>
+                    <strong className="text-slate-900 dark:text-white block leading-tight text-xs">VARSHANET National Early Warning</strong>
                     <span className="text-[10px] text-slate-500 font-mono">@VarshaNetIndia • Official</span>
                   </div>
                 </div>
                 <span className="font-black text-sm text-slate-400">𝕏</span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-200 font-mono leading-relaxed whitespace-pre-line">
+              <div className="p-3 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 font-mono leading-relaxed whitespace-pre-line">
                 {xTweetText}
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="md:col-span-5 space-y-3">
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                 Broadcasts official Red Warning bulletins to <strong>X (Twitter)</strong> with verified hashtags and dispatches copies to <strong>Somadas7803@gmail.com</strong>.
               </p>
 
               {xPostSuccess ? (
-                <div className="p-3 rounded-xl bg-emerald-950/80 border border-emerald-600 text-emerald-200 text-xs font-mono flex items-center gap-2 shadow-md">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="p-3 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-600 text-emerald-900 dark:text-emerald-200 text-xs font-mono flex items-center gap-2 shadow-md">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>Posted to 𝕏 & Notified Somadas7803@gmail.com!</span>
                 </div>
               ) : (
                 <button
                   onClick={handleBroadcastToX}
                   disabled={isPostingX}
-                  className="w-full py-2.5 px-4 rounded-xl bg-black hover:bg-slate-900 border border-slate-700 hover:border-cyan-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span className="font-black text-sm">𝕏</span>
                   <span>{isPostingX ? 'Broadcasting...' : '1-Click Broadcast to 𝕏 (Twitter)'}</span>

@@ -27,12 +27,12 @@ export const InformationGapPanel: React.FC<InformationGapPanelProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-          <HelpCircle className="w-4 h-4 text-amber-400" /> Information Gaps & Citizen Verification Loop
+        <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+          <HelpCircle className="w-4 h-4 text-amber-500 dark:text-amber-400" /> Information Gaps & Citizen Verification Loop
         </h3>
-        <span className="text-[10px] font-mono text-slate-400">
+        <span className="text-[10px] font-mono text-slate-600 dark:text-slate-400 font-semibold">
           AI Uncertainty Resolver Active
         </span>
       </div>
@@ -42,20 +42,20 @@ export const InformationGapPanel: React.FC<InformationGapPanelProps> = ({
           <p className="text-xs text-slate-500 italic">No critical information gaps identified for this incident.</p>
         ) : (
           gaps.map((gap, idx) => (
-            <div key={idx} className="p-3.5 rounded-xl bg-slate-950/80 border border-amber-500/30 space-y-2">
+            <div key={idx} className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-amber-300 dark:border-amber-500/30 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-300">
+                <span className="text-xs font-bold text-amber-800 dark:text-amber-300">
                   MISSING INTELLIGENCE: {gap.missing_information}
                 </span>
-                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800">
+                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-400 border border-amber-300 dark:border-amber-800">
                   {gap.severity}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-700 dark:text-slate-400">
                 <strong>Impact on Decision:</strong> {gap.affected_decision}
               </p>
-              <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-2">
-                <span className="text-[11px] text-cyan-300 font-sans">
+              <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
+                <span className="text-[11px] text-cyan-800 dark:text-cyan-300 font-sans font-medium">
                   Action: {gap.recommended_action}
                 </span>
               </div>
