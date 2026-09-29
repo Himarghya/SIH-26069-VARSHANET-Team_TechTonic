@@ -146,19 +146,19 @@ export const ReportTable: React.FC<ReportTableProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-4 space-y-4 shadow-xl">
+    <div className="bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-lg p-4 space-y-4 shadow-xs dark:shadow-xl">
       {/* Dynamic AI Weather Hashtags Bar */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1">
-        <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-slate-400 shrink-0">
-          <Tag className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="flex items-center gap-1 text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400 shrink-0">
+          <Tag className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
           <span>AI Trending Hashtags:</span>
         </div>
         <button
           onClick={() => setSelectedHashtag('All')}
-          className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shrink-0 transition-all cursor-pointer border ${
+          className={`px-2.5 py-1 rounded-md text-xs font-mono font-semibold shrink-0 transition-all cursor-pointer border ${
             selectedHashtag === 'All' || selectedHashtag === '#All'
-              ? 'bg-cyan-600 text-white border-cyan-500 shadow-sm'
-              : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+              ? 'bg-cyan-600 text-white border-cyan-500 shadow-xs'
+              : 'bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           #All
@@ -170,10 +170,10 @@ export const ReportTable: React.FC<ReportTableProps> = ({
             <button
               key={tag}
               onClick={() => setSelectedHashtag(isSelected ? 'All' : tag)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shrink-0 transition-all cursor-pointer border ${
+              className={`px-2.5 py-1 rounded-md text-xs font-mono font-semibold shrink-0 transition-all cursor-pointer border ${
                 isSelected
-                  ? 'bg-cyan-600 text-white border-cyan-500 shadow-sm'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                  ? 'bg-cyan-600 text-white border-cyan-500 shadow-xs'
+                  : 'bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               {tag}
@@ -192,22 +192,22 @@ export const ReportTable: React.FC<ReportTableProps> = ({
             placeholder="Search news, publisher, city, state..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans"
+            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans"
           />
         </div>
 
         {/* Date-wise Filter */}
-        <div className="flex items-center bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs">
+        <div className="flex items-center bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md p-1 text-xs">
           <Calendar className="w-3.5 h-3.5 text-slate-400 ml-2 mr-1.5 shrink-0" />
           <select
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value as any)}
-            className="bg-transparent text-xs text-cyan-300 font-semibold focus:outline-none cursor-pointer w-full"
+            className="bg-transparent text-xs text-cyan-700 dark:text-cyan-300 font-semibold focus:outline-none cursor-pointer w-full"
           >
-            <option value="ALL" className="bg-slate-900 text-white">All Dates</option>
-            <option value="TODAY" className="bg-slate-900 text-white">Today</option>
-            <option value="24H" className="bg-slate-900 text-white">Past 24 Hours</option>
-            <option value="7D" className="bg-slate-900 text-white">Past 7 Days</option>
+            <option value="ALL" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">All Dates</option>
+            <option value="TODAY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Today</option>
+            <option value="24H" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Past 24 Hours</option>
+            <option value="7D" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Past 7 Days</option>
           </select>
         </div>
 
@@ -215,7 +215,7 @@ export const ReportTable: React.FC<ReportTableProps> = ({
         <select
           value={filterEvent}
           onChange={(e) => setFilterEvent(e.target.value)}
-          className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-cyan-500 cursor-pointer"
+          className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-3 py-2 text-xs text-slate-800 dark:text-slate-300 focus:outline-none focus:border-cyan-500 cursor-pointer"
         >
           <option value="All">All Event Types</option>
           <option value="Rainfall">Rainfall / Heavy Rain</option>
@@ -233,19 +233,18 @@ export const ReportTable: React.FC<ReportTableProps> = ({
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-cyan-500 cursor-pointer"
+          className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-3 py-2 text-xs text-slate-800 dark:text-slate-300 focus:outline-none focus:border-cyan-500 cursor-pointer"
         >
           <option value="All">All Verification States</option>
           <option value="VERIFIED">Verified Official</option>
           <option value="LIKELY_AUTHENTIC">Likely Authentic</option>
         </select>
 
-
         {/* Source Channel Filter */}
         <select
           value={filterSource}
           onChange={(e) => setFilterSource(e.target.value)}
-          className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-cyan-500 cursor-pointer"
+          className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md px-3 py-2 text-xs text-slate-800 dark:text-slate-300 focus:outline-none focus:border-cyan-500 cursor-pointer"
         >
           <option value="All">All Sources</option>
           <option value="rss_news">News Media / Portals</option>

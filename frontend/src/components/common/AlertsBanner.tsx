@@ -86,32 +86,32 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onClick={() => onSelectAlert && onSelectAlert(currentAlert)}
-      className={`border-y px-3 sm:px-4 py-2 text-xs flex items-center justify-between gap-2 transition-all cursor-pointer select-none group shadow-lg ${
+      className={`border-y px-3 sm:px-4 py-2 text-xs flex items-center justify-between gap-2 transition-all cursor-pointer select-none group shadow-xs ${
         isNewAlertFlash
-          ? 'bg-gradient-to-r from-red-600 via-rose-700 to-red-950 border-red-400 text-white animate-pulse'
+          ? 'bg-rose-600 text-white border-rose-500 animate-pulse'
           : isCritical
-          ? 'bg-gradient-to-r from-rose-950 via-red-950/90 to-slate-950 border-rose-800/80 text-rose-100 hover:bg-rose-950/90'
+          ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-200 dark:border-rose-900 text-rose-900 dark:text-rose-100 hover:bg-rose-100/80 dark:hover:bg-rose-950/90'
           : isHigh
-          ? 'bg-gradient-to-r from-amber-950 via-orange-950/90 to-slate-950 border-amber-800/80 text-amber-100 hover:bg-amber-950/90'
-          : 'bg-gradient-to-r from-cyan-950 via-blue-950/90 to-slate-950 border-cyan-800/80 text-cyan-100 hover:bg-cyan-950/90'
+          ? 'bg-amber-50 dark:bg-amber-950/60 border-amber-200 dark:border-amber-900 text-amber-900 dark:text-amber-100 hover:bg-amber-100/80 dark:hover:bg-amber-950/90'
+          : 'bg-cyan-50 dark:bg-cyan-950/60 border-cyan-200 dark:border-cyan-900 text-cyan-900 dark:text-cyan-100 hover:bg-cyan-100/80 dark:hover:bg-cyan-950/90'
       }`}
       title="Click to open full AI nowcasting and response in Incident Command Room"
     >
       {/* Left: Severity Badge & Bulletin */}
       <div className="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
         {/* Severity Pill */}
-        <span className={`font-mono font-bold tracking-wider uppercase px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] flex items-center gap-1 shrink-0 ${
+        <span className={`font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] flex items-center gap-1 shrink-0 ${
           isNewAlertFlash
-            ? 'bg-white text-red-700 shadow-md font-black'
+            ? 'bg-white text-rose-700 shadow-xs font-bold'
             : isCritical
-            ? 'bg-rose-600 text-white shadow-sm'
+            ? 'bg-rose-600 text-white shadow-xs'
             : isHigh
-            ? 'bg-amber-600 text-white shadow-sm'
-            : 'bg-cyan-600 text-white shadow-sm'
+            ? 'bg-amber-600 text-white shadow-xs'
+            : 'bg-cyan-600 text-white shadow-xs'
         }`}>
           {isNewAlertFlash ? (
             <>
-              <Flame className="w-3 h-3 text-red-600 animate-bounce" />
+              <Flame className="w-3 h-3 text-rose-600 animate-bounce" />
               <span>JUST IN</span>
             </>
           ) : (
@@ -124,8 +124,8 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
 
         {/* Headline & Message */}
         <p className="font-sans font-medium truncate text-[11px] sm:text-xs">
-          <strong className="text-white font-bold">{currentAlert.title}:</strong>{' '}
-          <span className="opacity-90">{currentAlert.message}</span>
+          <strong className="text-slate-900 dark:text-white font-bold">{currentAlert.title}:</strong>{' '}
+          <span className="text-slate-700 dark:text-slate-200">{currentAlert.message}</span>
         </p>
       </div>
 
@@ -135,34 +135,34 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
         <button
           onClick={handlePostToX}
           disabled={isPostingToX}
-          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-black/70 hover:bg-black text-white hover:text-cyan-300 border border-slate-700 hover:border-cyan-500 transition-all text-[10px] font-mono font-bold shadow-sm cursor-pointer shrink-0"
-          title="Post this Red Alert immediately to X (Twitter) & notify Somadas7803@gmail.com"
+          className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-300 border border-slate-300 dark:border-slate-700 hover:border-cyan-500 transition-all text-[10px] font-mono font-semibold shadow-xs cursor-pointer shrink-0"
+          title="Post this Red Alert immediately to X (Twitter)"
         >
           <span className="font-black text-xs leading-none">𝕏</span>
           <span className="hidden sm:inline">{postSuccess ? 'Posted ✓' : isPostingToX ? 'Posting...' : 'Post to 𝕏'}</span>
         </button>
 
         {/* Location (hidden on small mobile) */}
-        <span className="text-[10px] font-mono text-slate-300 hidden md:inline bg-black/40 px-2 py-0.5 rounded border border-white/10">
-          📍 {currentAlert.city || 'District'}, {currentAlert.state} | <strong className="text-cyan-300">{currentAlert.reports_count} reports</strong>
+        <span className="text-[10px] font-mono text-slate-600 dark:text-slate-300 hidden md:inline bg-white/60 dark:bg-black/40 px-2 py-0.5 rounded-md border border-slate-200 dark:border-white/10">
+          📍 {currentAlert.city || 'District'}, {currentAlert.state} | <strong className="text-cyan-700 dark:text-cyan-300 font-semibold">{currentAlert.reports_count} reports</strong>
         </span>
 
         {/* Carousel Pagination & Arrows */}
         {alerts.length > 1 && (
-          <div className="flex items-center gap-0.5 bg-black/50 px-1 py-0.5 rounded-lg border border-white/10 text-[10px] font-mono shrink-0">
+          <div className="flex items-center gap-0.5 bg-white/80 dark:bg-slate-900 px-1 py-0.5 rounded-md border border-slate-300 dark:border-slate-700 text-[10px] font-mono shrink-0">
             <button
               onClick={handlePrev}
-              className="p-1 hover:bg-white/20 rounded transition-colors text-slate-300 hover:text-white cursor-pointer"
+              className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               title="Previous Alert"
             >
               <ChevronLeft className="w-3 h-3" />
             </button>
-            <span className="px-0.5 text-slate-300 font-bold">
+            <span className="px-1 text-slate-700 dark:text-slate-300 font-semibold tabular-nums">
               {currentIndex + 1}/{alerts.length}
             </span>
             <button
               onClick={handleNext}
-              className="p-1 hover:bg-white/20 rounded transition-colors text-slate-300 hover:text-white cursor-pointer"
+              className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               title="Next Alert"
             >
               <ChevronRight className="w-3 h-3" />
@@ -171,7 +171,7 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
         )}
 
         {/* Open in Incident Room CTA */}
-        <div className="flex items-center gap-0.5 text-[11px] font-bold text-white group-hover:text-cyan-300 transition-colors shrink-0">
+        <div className="flex items-center gap-0.5 text-[11px] font-semibold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors shrink-0">
           <span className="hidden sm:inline">Inspect</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
         </div>

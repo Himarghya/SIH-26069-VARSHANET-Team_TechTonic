@@ -217,50 +217,50 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* Interactive In-Dashboard GIS & Live Feed Filter Bar */}
       <div className="space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-900/80 p-2.5 px-3 rounded-xl border border-slate-800 text-xs font-sans">
-          <div className="flex items-center gap-2 text-slate-400 font-mono text-[11px]">
-            <Filter className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-100 dark:bg-slate-900/80 p-2 px-3 rounded-lg border border-slate-200 dark:border-slate-800 text-xs font-sans">
+          <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
+            <Filter className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
             <span>Dashboard GIS & Feed Filter:</span>
           </div>
           <div className="flex items-center gap-1.5 flex-wrap">
             <button
               onClick={() => setDashboardFilter('ALL')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer border ${
+              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border ${
                 dashboardFilter === 'ALL'
-                  ? 'bg-cyan-600 text-white border-cyan-500 shadow-sm'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                  ? 'bg-cyan-600 text-white border-cyan-500 shadow-xs'
+                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               All Reports ({reports.length})
             </button>
             <button
               onClick={() => setDashboardFilter('VERIFIED')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer border flex items-center gap-1.5 ${
+              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border flex items-center gap-1.5 ${
                 dashboardFilter === 'VERIFIED'
-                  ? 'bg-emerald-600 text-white border-emerald-500 shadow-sm'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-emerald-400'
+                  ? 'bg-emerald-600 text-white border-emerald-500 shadow-xs'
+                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400'
               }`}
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
               Verified Only ({verifiedCount})
             </button>
             <button
               onClick={() => setDashboardFilter('CRITICAL')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer border flex items-center gap-1.5 ${
+              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border flex items-center gap-1.5 ${
                 dashboardFilter === 'CRITICAL'
-                  ? 'bg-rose-600 text-white border-rose-500 shadow-sm'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-rose-400'
+                  ? 'bg-rose-600 text-white border-rose-500 shadow-xs'
+                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-rose-600 dark:hover:text-rose-400'
               }`}
             >
-              <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+              <AlertTriangle className="w-3.5 h-3.5 text-rose-500" />
               Critical Alerts ({criticalCount})
             </button>
             <button
               onClick={() => setDashboardFilter('24H')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer border ${
+              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border ${
                 dashboardFilter === '24H'
-                  ? 'bg-blue-600 text-white border-blue-500 shadow-sm'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-blue-400'
+                  ? 'bg-blue-600 text-white border-blue-500 shadow-xs'
+                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
               }`}
             >
               Past 24 Hours (+{past24hCount})
@@ -270,19 +270,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         {/* Informative Active Filter Feedback Banner */}
         {dashboardFilter !== 'ALL' && (
-          <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-950/90 border border-cyan-500/30 text-[11px] font-mono text-slate-300">
+          <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950/90 border border-slate-200 dark:border-cyan-500/30 text-[11px] font-mono text-slate-700 dark:text-slate-300">
             <div className="flex items-center gap-2">
               <span>
-                Active Filter: <strong className="text-white">
+                Active Filter: <strong className="text-slate-900 dark:text-white">
                   {dashboardFilter === 'VERIFIED' && '🛡️ Verified Clusters & Confirmed Incidents'}
                   {dashboardFilter === 'CRITICAL' && '⚠️ High & Critical Severity Alerts'}
                   {dashboardFilter === '24H' && '⏱️ Past 24 Hours Real-Time Stream'}
-                </strong> — Synchronized <strong className="text-cyan-400">{displayEvents.length}</strong> Map Clusters & <strong className="text-cyan-400">{displayReports.length}</strong> Live Feed Reports
+                </strong> — Synchronized <strong className="text-cyan-700 dark:text-cyan-400">{displayEvents.length}</strong> Map Clusters & <strong className="text-cyan-700 dark:text-cyan-400">{displayReports.length}</strong> Live Feed Reports
               </span>
             </div>
             <button
               onClick={() => setDashboardFilter('ALL')}
-              className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-sans text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1"
+              className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-sans text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1"
             >
               <span>✕ Reset Filter</span>
             </button>
