@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { VerificationQueue } from '../components/admin/VerificationQueue';
 import { SystemHealthView } from '../components/admin/SystemHealthView';
 import { AdminIncidentPostForm } from '../components/admin/AdminIncidentPostForm';
@@ -28,19 +28,19 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* Admin Navigation Sub-Bar */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-lg font-bold text-white tracking-wide">National Operations Command &amp; Admin Panel</h1>
-          <p className="text-xs text-slate-400">
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white tracking-wide">National Operations Command &amp; Admin Panel</h1>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Publish pre-verified official incidents, review citizen verification queues, inspect active learning feedback loops, and monitor big data telemetry.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 bg-slate-900 p-1 rounded-xl border border-slate-800 flex-wrap">
+        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 flex-wrap">
           <button
             onClick={() => setAdminTab('post')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               adminTab === 'post'
                 ? 'bg-rose-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Send className="w-3.5 h-3.5" />
@@ -52,7 +52,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               adminTab === 'verification'
                 ? 'bg-cyan-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
@@ -64,7 +64,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               adminTab === 'active_learning'
                 ? 'bg-purple-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <RefreshCw className="w-3.5 h-3.5" />
@@ -76,7 +76,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               adminTab === 'health'
                 ? 'bg-emerald-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Activity className="w-3.5 h-3.5" />

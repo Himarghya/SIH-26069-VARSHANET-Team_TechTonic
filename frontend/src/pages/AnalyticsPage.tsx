@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { AnalyticsOverview } from '../types';
 import { BarChart3, Database, Shield, Zap, TrendingUp, PieChart, Activity, Globe, Cpu, Terminal, Award, MessageSquare } from 'lucide-react';
 import { RadarDwrViewer } from '../components/meteorology/RadarDwrViewer';
@@ -20,22 +20,22 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ overview }) => {
   return (
     <div className="space-y-6 font-sans">
       {/* Top Header */}
-      <div className="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-slate-800">
+      <div className="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <h1 className="text-lg font-bold text-white tracking-wide">
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white tracking-wide">
             Big Data Weather Analytics & Multi-Modal Intelligence Grid
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Real-time Doppler radar volume sweeps, INSAT-3D thermal cloud telemetry, VayuScore™ confidence analytics, and interactive SQL query explorer.
           </p>
         </div>
 
         {/* Sub-Navigation Tabs */}
-        <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 flex-wrap gap-1">
+        <div className="flex items-center bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 flex-wrap gap-1">
           <button
             onClick={() => setSubTab('radar_ml')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              subTab === 'radar_ml' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+              subTab === 'radar_ml' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Zap className="w-3.5 h-3.5" />
@@ -44,7 +44,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ overview }) => {
           <button
             onClick={() => setSubTab('vayuscore')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              subTab === 'vayuscore' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+              subTab === 'vayuscore' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Award className="w-3.5 h-3.5" />
@@ -53,7 +53,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ overview }) => {
           <button
             onClick={() => setSubTab('sql_explorer')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              subTab === 'sql_explorer' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+              subTab === 'sql_explorer' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Terminal className="w-3.5 h-3.5" />
@@ -62,7 +62,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ overview }) => {
           <button
             onClick={() => setSubTab('sentiment')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              subTab === 'sentiment' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+              subTab === 'sentiment' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <MessageSquare className="w-3.5 h-3.5" />

@@ -18,8 +18,8 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-bold text-white tracking-wide">Weather Observation & Report Explorer</h1>
-        <p className="text-xs text-slate-400">
+        <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Weather Observation & Report Explorer</h1>
+        <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
           Comprehensive search, inspection, and NLP intelligence query portal across millions of real-time Indian weather observations.
         </p>
       </div>

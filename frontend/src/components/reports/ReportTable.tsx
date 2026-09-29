@@ -256,14 +256,14 @@ export const ReportTable: React.FC<ReportTableProps> = ({
       </div>
 
       {/* Filter Info Badge */}
-      <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
-        <span>Showing <strong className="text-white">{filtered.length}</strong> real-time observations across India</span>
+      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-mono">
+        <span>Showing <strong className="text-slate-900 dark:text-white font-bold">{filtered.length}</strong> real-time observations across India</span>
         {selectedHashtag !== 'All' && selectedHashtag !== '#All' && (
-          <span className="text-cyan-400 font-bold bg-slate-950 px-2.5 py-1 rounded border border-cyan-800/60 flex items-center gap-2">
+          <span className="text-cyan-700 dark:text-cyan-400 font-bold bg-slate-100 dark:bg-slate-950 px-2.5 py-1 rounded-md border border-cyan-300 dark:border-cyan-800/60 flex items-center gap-2">
             <span>Active Hashtag: {selectedHashtag.startsWith('#') ? selectedHashtag : `#${selectedHashtag}`}</span>
             <button
               onClick={() => setSelectedHashtag('All')}
-              className="text-slate-400 hover:text-white text-xs px-1 rounded hover:bg-slate-800 transition-colors cursor-pointer"
+              className="text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs px-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               title="Clear hashtag filter"
             >
               ✕
@@ -273,9 +273,9 @@ export const ReportTable: React.FC<ReportTableProps> = ({
       </div>
 
       {/* Observation Table */}
-      <div className="overflow-x-auto rounded-xl border border-slate-800/80">
+      <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-800">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-950/80 text-slate-400 font-mono text-[11px] uppercase border-b border-slate-800">
+          <thead className="bg-slate-50 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 font-mono text-[11px] uppercase border-b border-slate-200 dark:border-slate-800 font-bold">
             <tr>
               <th className="py-3 px-4">Event & Location</th>
               <th className="py-3 px-4">Observation & AI Hashtags</th>
@@ -286,27 +286,27 @@ export const ReportTable: React.FC<ReportTableProps> = ({
               <th className="py-3 px-4 text-right">Inspect</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60 font-sans">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 font-sans">
             {filtered.map((rep) => (
-              <tr key={rep.id} className="hover:bg-slate-800/40 transition-colors">
+              <tr key={rep.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
                 {/* Event & Location */}
                 <td className="py-3 px-4">
-                  <div className="font-bold text-white text-xs">{rep.event_type}</div>
-                  <div className="text-[11px] text-cyan-400 flex items-center gap-1 font-mono">
+                  <div className="font-bold text-slate-900 dark:text-white text-xs">{rep.event_type}</div>
+                  <div className="text-[11px] text-cyan-700 dark:text-cyan-400 flex items-center gap-1 font-mono font-semibold">
                     <MapPin className="w-3 h-3" /> {rep.city || 'District'}, {rep.state}
                   </div>
                 </td>
 
                 {/* Text & AI Generated Hashtags */}
-                <td className="py-3 px-4 max-w-sm text-slate-300">
-                  <p className="line-clamp-2 leading-relaxed">{rep.text}</p>
+                <td className="py-3 px-4 max-w-sm text-slate-700 dark:text-slate-300">
+                  <p className="line-clamp-2 leading-relaxed font-medium">{rep.text}</p>
                   {rep.hashtags && rep.hashtags.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1 mt-1.5">
                       {rep.hashtags.map(h => (
                         <button
                           key={h}
                           onClick={() => setSelectedHashtag(h)}
-                          className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-800/40 hover:bg-cyan-900/60 hover:text-white transition-all cursor-pointer"
+                          className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800/40 hover:bg-cyan-100 dark:hover:bg-cyan-900/60 transition-all cursor-pointer"
                         >
                           {h.startsWith('#') ? h : `#${h}`}
                         </button>
@@ -319,16 +319,16 @@ export const ReportTable: React.FC<ReportTableProps> = ({
                 <td className="py-3 px-4 font-mono text-[11px]">
                   <div className="flex items-center gap-1.5">
                     {getSourceIcon(rep.source_type)}
-                    <span className="font-bold text-slate-200 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                    <span className="font-bold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-950 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-800">
                       {rep.source_name || (rep.source_type === 'rss_news' ? 'National News Agency' : rep.source_type)}
                     </span>
                     {rep.media_urls && rep.media_urls.length > 0 && (
-                      <span className="text-cyan-400" title="Photo/Video media attached">
+                      <span className="text-cyan-600 dark:text-cyan-400" title="Photo/Video media attached">
                         <ImageIcon className="w-3.5 h-3.5" />
                       </span>
                     )}
                   </div>
-                  <span className="text-[9px] text-slate-500 block mt-0.5 uppercase tracking-wider">
+                  <span className="text-[9px] text-slate-500 block mt-0.5 uppercase tracking-wider font-semibold">
                     Channel: {rep.source_type.replace(/_/g, ' ')}
                   </span>
                 </td>
@@ -337,9 +337,9 @@ export const ReportTable: React.FC<ReportTableProps> = ({
                 <td className="py-3 px-4">
                   <div className="flex items-center gap-1.5 font-mono font-bold">
                     <span className={`text-xs ${
-                      rep.credibility_score >= 80 ? 'text-emerald-400' :
-                      rep.credibility_score >= 60 ? 'text-cyan-400' :
-                      'text-rose-400'
+                      rep.credibility_score >= 80 ? 'text-emerald-700 dark:text-emerald-400' :
+                      rep.credibility_score >= 60 ? 'text-cyan-700 dark:text-cyan-400' :
+                      'text-rose-700 dark:text-rose-400'
                     }`}>
                       {rep.credibility_score}%
                     </span>
@@ -348,18 +348,18 @@ export const ReportTable: React.FC<ReportTableProps> = ({
 
                 {/* Verification Status */}
                 <td className="py-3 px-4">
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full font-mono ${
-                    rep.verification_status === 'VERIFIED' ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-700/50' :
-                    rep.verification_status === 'LIKELY_MISLEADING' ? 'bg-rose-950/80 text-rose-300 border border-rose-700/50' :
-                    'bg-slate-800 text-slate-300'
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md font-mono ${
+                    rep.verification_status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/50' :
+                    rep.verification_status === 'LIKELY_MISLEADING' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300 dark:border-rose-700/50' :
+                    'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
                   }`}>
                     {rep.verification_status}
                   </span>
                 </td>
 
                 {/* Date & Time */}
-                <td className="py-3 px-4 text-slate-400 font-mono text-[11px]">
-                  <div className="text-slate-300">{new Date(rep.timestamp).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+                <td className="py-3 px-4 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
+                  <div className="text-slate-800 dark:text-slate-300 font-semibold">{new Date(rep.timestamp).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
                   <div className="text-[10px] text-slate-500">
                     {new Date(rep.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
@@ -369,7 +369,7 @@ export const ReportTable: React.FC<ReportTableProps> = ({
                 <td className="py-3 px-4 text-right">
                   <button
                     onClick={() => onSelectReport(rep)}
-                    className="p-1.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-800/40 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-md bg-cyan-50 dark:bg-cyan-950/80 hover:bg-cyan-100 dark:hover:bg-cyan-900 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800/40 transition-colors cursor-pointer"
                     title="Deep Inspect with AI & Google Street View"
                   >
                     <Eye className="w-3.5 h-3.5" />
