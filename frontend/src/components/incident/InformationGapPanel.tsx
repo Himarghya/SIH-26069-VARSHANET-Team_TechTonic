@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { HelpCircle, CheckCircle2, Send, Radio } from 'lucide-react';
 import { InformationGap, VerificationRequestItem } from '../../types';
 import { respondToVerificationRequest } from '../../services/api';
@@ -67,14 +67,14 @@ export const InformationGapPanel: React.FC<InformationGapPanelProps> = ({
         {verificationRequests.map((req, idx) => {
           const isDone = resolvedIds[req.id];
           return (
-            <div key={idx} className="p-3.5 rounded-xl bg-cyan-950/20 border border-cyan-700/40 flex items-center justify-between gap-3">
+            <div key={idx} className="p-3.5 rounded-xl bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-700/40 flex items-center justify-between gap-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-                  <span className="text-xs font-bold text-white">{req.title}</span>
+                  <Radio className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 animate-pulse" />
+                  <span className="text-xs font-bold text-slate-900 dark:text-white">{req.title}</span>
                 </div>
-                <p className="text-[11px] text-slate-300 font-sans mt-0.5">{req.prompt}</p>
-                <span className="text-[10px] text-cyan-400 font-mono">{req.target_area} ({req.radius_km}km radius)</span>
+                <p className="text-[11px] text-slate-700 dark:text-slate-300 font-sans mt-0.5">{req.prompt}</p>
+                <span className="text-[10px] text-cyan-700 dark:text-cyan-400 font-mono font-semibold">{req.target_area} ({req.radius_km}km radius)</span>
               </div>
 
               <button

@@ -372,30 +372,30 @@ export const CitizenReportForm: React.FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" onPaste={handlePaste}>
       {/* Submission Form */}
-      <div className="lg:col-span-7 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl font-sans">
-        <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-800">
-          <div className="p-3 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
+      <div className="lg:col-span-7 bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm dark:shadow-2xl font-sans">
+        <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-200 dark:border-slate-800">
+          <div className="p-3 rounded-xl bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-400 border border-cyan-300 dark:border-cyan-800/40">
             <CloudRain className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-white">Citizen Weather Intelligence & Ground Report Portal</h2>
-            <p className="text-xs text-slate-400">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Citizen Weather Intelligence & Ground Report Portal</h2>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
               Submit real-time ground observations, localized flood hotspots, or storm damage with photo/video proofs. Media is pre-screened in real-time by in-house ML neural models.
             </p>
           </div>
         </div>
 
         {/* 🧠 Interactive In-House ML Model Status Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 mb-5 gap-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 mb-5 gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-purple-200">
+            <span className="text-xs font-mono text-purple-900 dark:text-purple-200">
               <strong>ML Filter Online:</strong> VARSHANET DisasterGuard v5.0 (100 Epochs | 5,000 Steps)
             </span>
           </div>
           <button
             type="button"
             onClick={() => setShowMlModal(true)}
-            className="px-2.5 py-1 rounded-lg bg-purple-900/80 hover:bg-purple-800 text-purple-200 text-xs font-mono font-bold border border-purple-600/50 transition cursor-pointer flex items-center gap-1.5"
+            className="px-2.5 py-1 rounded-lg bg-purple-700 hover:bg-purple-800 dark:bg-purple-900/80 dark:hover:bg-purple-800 text-white dark:text-purple-200 text-xs font-mono font-bold border border-purple-600/50 transition cursor-pointer flex items-center gap-1.5 shadow-xs"
           >
             <span>🔬</span>
             <span>Inspect 100-Epoch ML Model &amp; Loss Curves</span>
@@ -451,7 +451,7 @@ export const CitizenReportForm: React.FC = () => {
               </div>
             )}
 
-            <div className="p-3 rounded-xl bg-cyan-950/20 border border-cyan-800/30 text-xs text-cyan-200 text-left">
+            <div className="p-3.5 rounded-xl bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/40 text-xs text-slate-800 dark:text-cyan-200 text-left font-medium">
               <span>Thank you for contributing to national life-safety intelligence. Operational units have been notified.</span>
             </div>
 
@@ -914,10 +914,10 @@ export const CitizenReportForm: React.FC = () => {
       </div>
 
       {/* Tracking Portal */}
-      <div className="lg:col-span-5 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 flex flex-col justify-between font-sans">
+      <div className="lg:col-span-5 bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm dark:shadow-2xl space-y-4 flex flex-col justify-between font-sans">
         <div>
-          <h3 className="text-base font-bold text-white mb-1">Track Citizen Submission</h3>
-          <p className="text-xs text-slate-400 mb-4">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">Track Citizen Submission</h3>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
             Enter your official VR tracking code to view verification and meteorological dispatch status.
           </p>
 
@@ -927,58 +927,58 @@ export const CitizenReportForm: React.FC = () => {
               placeholder="e.g. VR-2026-AB12CD"
               value={trackingId}
               onChange={(e) => setTrackingId(e.target.value)}
-              className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white uppercase placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500"
+              className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white uppercase placeholder-slate-400 dark:placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500"
             />
             <button
               onClick={handleTrack}
-              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-cyan-700 dark:text-cyan-300 text-xs font-bold border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               Track
             </button>
           </div>
 
           {trackError && (
-            <p className="text-xs text-rose-400 mt-2 font-mono">{trackError}</p>
+            <p className="text-xs text-rose-600 dark:text-rose-400 mt-2 font-mono">{trackError}</p>
           )}
 
           {trackedReport && (
-            <div className="mt-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2.5 text-xs font-mono">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span className="text-white font-bold">{trackedReport.event_type}</span>
+            <div className="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs font-mono">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+                <span className="text-slate-900 dark:text-white font-bold">{trackedReport.event_type}</span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                  trackedReport.verification_status === 'VERIFIED' ? 'bg-emerald-950 text-emerald-300' :
-                  trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'bg-rose-950 text-rose-300' : 'bg-cyan-950 text-cyan-300'
+                  trackedReport.verification_status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800' :
+                  trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-800' : 'bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800'
                 }`}>
                   {trackedReport.verification_status === 'VERIFIED' ? 'VERIFIED OFFICIAL' :
                    trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'FLAGGED / REJECTED' : 'UNDER OPERATIONAL REVIEW'}
                 </span>
               </div>
-              <p className="text-slate-300 font-sans text-xs py-1">{trackedReport.text}</p>
+              <p className="text-slate-700 dark:text-slate-300 font-sans text-xs py-1">{trackedReport.text}</p>
               
               {/* Image Proof Inspection in Tracking */}
               {trackedReport.media_urls && trackedReport.media_urls.length > 0 && (
-                <div className="pt-2 border-t border-slate-800">
-                  <span className="text-[10px] text-slate-400 block mb-1.5">Submitted Photo Evidence ({trackedReport.media_urls.length}):</span>
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block mb-1.5 font-semibold">Submitted Photo Evidence ({trackedReport.media_urls.length}):</span>
                   <div className="flex gap-2">
                     {trackedReport.media_urls.map((p, i) => (
-                      <img key={i} src={p} alt="Tracked Proof" className="w-14 h-14 rounded-lg object-cover border border-slate-700" />
+                      <img key={i} src={p} alt="Tracked Proof" className="w-14 h-14 rounded-lg object-cover border border-slate-200 dark:border-slate-700" />
                     ))}
                   </div>
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-[11px]">
-                <div>Location: <strong className="text-white">{trackedReport.city || 'District'}, {trackedReport.state}</strong></div>
-                <div>Status: <strong className="text-cyan-300">{trackedReport.verification_status}</strong></div>
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-800/80 text-[11px]">
+                <div>Location: <strong className="text-slate-900 dark:text-white">{trackedReport.city || 'District'}, {trackedReport.state}</strong></div>
+                <div>Status: <strong className="text-cyan-700 dark:text-cyan-300">{trackedReport.verification_status}</strong></div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Public Service Notice */}
-        <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-800/30 text-xs text-cyan-200 space-y-1">
-          <strong className="block font-bold">National Safety Directive:</strong>
-          <p className="text-[11px] leading-relaxed text-cyan-300/80">
+        {/* Public Service Notice (High contrast in both Light & Dark modes) */}
+        <div className="p-4 rounded-xl bg-cyan-50/90 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/40 text-xs space-y-1.5 shadow-xs">
+          <strong className="block font-bold text-cyan-950 dark:text-cyan-200 text-xs">National Safety Directive:</strong>
+          <p className="text-[12px] leading-relaxed text-slate-800 dark:text-cyan-100 font-medium">
             For active life-threatening emergencies, call State Disaster Management Authority (SDMA: 1070) or National Emergency Number 112 immediately.
           </p>
         </div>

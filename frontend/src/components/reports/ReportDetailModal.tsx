@@ -267,16 +267,16 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
 
           {/* Admin Verification Controls */}
           {(userRole === 'admin' || userRole === 'analyst') && (
-            <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-800/40 space-y-3">
-              <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-cyan-400" /> Operational Verification Decision
+            <div className="p-4 rounded-xl bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-800/40 space-y-3">
+              <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> Operational Verification Decision
               </span>
               <input
                 type="text"
                 placeholder="Reason or meteorological bulletin reference (optional)..."
                 value={actionReason}
                 onChange={(e) => setActionReason(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans"
+                className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans"
               />
               <div className="flex flex-wrap items-center gap-2">
                 <button
