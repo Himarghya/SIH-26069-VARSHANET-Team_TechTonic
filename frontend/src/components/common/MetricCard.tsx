@@ -51,7 +51,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       title={onClick ? (actionLabel || `Click to inspect ${title}`) : undefined}
     >
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tracking-wider uppercase flex items-center gap-1 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase flex items-center gap-1 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
           <span className="truncate">{title}</span>
           {onClick && (
             <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
@@ -62,11 +62,11 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         </div>
       </div>
       <div>
-        <div className="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight tabular-nums font-sans">{value}</div>
-        <div className="flex items-center justify-between mt-1 text-[11px] gap-1 font-sans">
-          {subtext && <span className="text-slate-500 dark:text-slate-400 truncate" title={subtext}>{subtext}</span>}
+        <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight tabular-nums font-sans">{value}</div>
+        <div className="flex items-center justify-between mt-1 text-xs gap-1 font-sans">
+          {subtext && <span className="text-slate-500 dark:text-slate-400 font-medium truncate" title={subtext}>{subtext}</span>}
           {trend && (
-            <span className={`font-semibold whitespace-nowrap shrink-0 ${
+            <span className={`font-bold whitespace-nowrap shrink-0 ${
               trendPositive
                 ? 'text-emerald-600 dark:text-emerald-400'
                 : 'text-rose-600 dark:text-rose-400'

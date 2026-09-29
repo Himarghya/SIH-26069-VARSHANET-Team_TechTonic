@@ -201,16 +201,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 lg:px-3.5 rounded-md text-xs transition-all cursor-pointer select-none ${
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 lg:px-3 rounded-md text-[13px] transition-all cursor-pointer select-none ${
                     isActive
-                      ? 'bg-cyan-600 text-white shadow-xs font-semibold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/80 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900/80 font-medium'
+                      ? 'bg-cyan-600 text-white shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/80 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900/80 font-semibold'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
                   <span className="truncate">{item.label}</span>
                   {item.badge !== undefined && (
-                    <span className="ml-1 px-1.5 py-0.2 text-[9px] font-semibold font-mono rounded-md bg-rose-500 text-white">
+                    <span className="ml-1 px-1.5 py-0.2 text-[10px] font-bold font-mono rounded-md bg-rose-500 text-white">
                       {item.badge}
                     </span>
                   )}
@@ -230,7 +230,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="Auto-cycles every 5 minutes. Click to force instant live sync"
           >
             <RefreshCw className={`w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 ${isSyncing ? 'animate-spin' : ''}`} />
-            <span className="text-[11px] hidden sm:inline text-cyan-700 dark:text-cyan-400 font-semibold tabular-nums">
+            <span className="text-xs hidden sm:inline text-cyan-700 dark:text-cyan-400 font-bold tabular-nums">
               {syncMessage ? syncMessage : timerDisplay}
             </span>
           </button>
@@ -249,13 +249,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             {theme === 'dark' ? (
               <>
-                <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
-                <span className="text-xs font-medium hidden sm:inline text-slate-200">Dark</span>
+                <Moon className="w-4 h-4 text-indigo-400 group-hover:rotate-12 transition-transform" />
+                <span className="text-xs font-semibold hidden sm:inline text-slate-200">Dark</span>
               </>
             ) : (
               <>
-                <Sun className="w-3.5 h-3.5 text-amber-500 group-hover:rotate-45 transition-transform" />
-                <span className="text-xs font-medium hidden sm:inline text-slate-800">Bright</span>
+                <Sun className="w-4 h-4 text-amber-500 group-hover:rotate-45 transition-transform" />
+                <span className="text-xs font-semibold hidden sm:inline text-slate-800">Bright</span>
               </>
             )}
           </button>
@@ -274,8 +274,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-expanded={isRoleDropdownOpen}
               title="Switch platform operational role / persona"
             >
-              <CurrentRoleIcon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors" />
-              <span className="text-xs font-semibold text-slate-800 dark:text-slate-100 group-hover:text-slate-900 dark:group-hover:text-white">
+              <CurrentRoleIcon className="w-4 h-4 text-slate-600 dark:text-slate-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors" />
+              <span className="text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-slate-900 dark:group-hover:text-white">
                 {currentRoleConfig.label}
               </span>
               <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${

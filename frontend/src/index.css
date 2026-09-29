@@ -7,10 +7,10 @@
 
   html, body {
     font-family: var(--font-inter);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.5;
-    letter-spacing: -0.011em;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.55;
+    letter-spacing: -0.012em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.2s ease, color 0.2s ease;
@@ -28,45 +28,47 @@
     color: #f1f5f9;
   }
 
-  /* Headings Hierarchy (600–700) */
+  /* Headings Hierarchy (700–800 Bolder) */
   h1, h2 {
     font-family: var(--font-inter);
-    font-weight: 700;
-    letter-spacing: -0.022em;
+    font-weight: 800;
+    letter-spacing: -0.025em;
   }
 
   h3, h4, h5, h6 {
     font-family: var(--font-inter);
-    font-weight: 600;
-    letter-spacing: -0.015em;
+    font-weight: 700;
+    letter-spacing: -0.018em;
   }
 
-  /* Navigation Hierarchy (500–600) */
+  /* Navigation Hierarchy (600–700 Bolder) */
   nav, nav button, nav a, .nav-item {
     font-family: var(--font-inter);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.01em;
   }
   nav button[aria-current="page"], nav button.active, .nav-item-active {
-    font-weight: 600;
+    font-weight: 700;
   }
 
-  /* Table Headers Hierarchy (500–600) */
+  /* Table Headers Hierarchy (600–700 Bolder) */
   th, thead th, table th {
     font-family: var(--font-inter);
-    font-weight: 600;
-    letter-spacing: 0.025em;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.03em;
   }
 
-  /* Numbers / Metrics / Tabular Stats (600) */
+  /* Numbers / Metrics / Tabular Stats (700 Bold) */
   .tabular-nums, .font-mono, [data-metric], .metric-number, .stat-val {
-    font-weight: 600;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
 
   /* Standard Rectangular Controls with subtle 6–8px radius */
   button, input, select, textarea {
     font-family: var(--font-inter);
+    font-weight: 500;
   }
 
   code, pre {
