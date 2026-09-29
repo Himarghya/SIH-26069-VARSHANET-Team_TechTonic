@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { EventCluster, WeatherReport } from '../types';
 
@@ -19,8 +19,8 @@ export const MapPage: React.FC<MapPageProps> = ({
     <div className="space-y-4 flex flex-col h-[calc(100vh-140px)]">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-bold text-white tracking-wide">National Geospatial Intelligence Radar</h1>
-          <p className="text-xs text-slate-400">
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white tracking-wide">National Geospatial Intelligence Radar</h1>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             High-precision pan-India interactive map with live cluster intensity, radar pulses, and multi-layer satellite view.
           </p>
         </div>
