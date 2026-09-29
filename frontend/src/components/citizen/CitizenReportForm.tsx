@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { submitCitizenReport, trackCitizenReport, analyzeMedia, analyzeObservationText, TextAnalysisResult } from '../../services/api';
 import { WeatherReport, ALL_INDIAN_STATES_UTS } from '../../types';
-import { LiveMlForensicInspector } from '../ml/LiveMlForensicInspector';
 
 export interface MediaAnalysisResult {
   status: 'analyzing' | 'done' | 'error';
@@ -107,7 +106,6 @@ export const CitizenReportForm: React.FC = () => {
   const [trackingId, setTrackingId] = useState('');
   const [trackedReport, setTrackedReport] = useState<WeatherReport | null>(null);
   const [trackError, setTrackError] = useState('');
-  const [showMlModal, setShowMlModal] = useState(false);
 
   // 🧠 Automatic ML inference whenever any photo enters (uploaded, dropped, pasted, or clicked)
   useEffect(() => {
@@ -380,26 +378,9 @@ export const CitizenReportForm: React.FC = () => {
           <div className="flex-1">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">Citizen Weather Intelligence & Ground Report Portal</h2>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Submit real-time ground observations, localized flood hotspots, or storm damage with photo/video proofs. Media is pre-screened in real-time by in-house ML neural models.
+              Submit real-time ground observations, localized flood hotspots, or storm damage with photo/video proofs.
             </p>
           </div>
-        </div>
-
-        {/* 🧠 Interactive In-House ML Model Status Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 mb-5 gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-purple-900 dark:text-purple-200">
-              <strong>ML Filter Online:</strong> VARSHANET DisasterGuard v5.0 (100 Epochs | 5,000 Steps)
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowMlModal(true)}
-            className="px-2.5 py-1 rounded-lg bg-purple-700 hover:bg-purple-800 dark:bg-purple-900/80 dark:hover:bg-purple-800 text-white dark:text-purple-200 text-xs font-mono font-bold border border-purple-600/50 transition cursor-pointer flex items-center gap-1.5 shadow-xs"
-          >
-            <span>🔬</span>
-            <span>Inspect 100-Epoch ML Model &amp; Loss Curves</span>
-          </button>
         </div>
 
         {submittedReport ? (
@@ -982,10 +963,6 @@ export const CitizenReportForm: React.FC = () => {
         </div>
       </div>
 
-      {/* 🔬 Live ML Model & Training Curves Modal */}
-      {showMlModal && (
-        <LiveMlForensicInspector onClose={() => setShowMlModal(false)} />
-      )}
     </div>
   );
 };
