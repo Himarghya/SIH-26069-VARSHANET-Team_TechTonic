@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Radio, Activity, RefreshCw, Gauge, Zap, Waves } from 'lucide-react';
 import { fetchDwrRadarGrid } from '../../services/api';
 import { RadarGridResponse, DwrStation } from '../../types';
@@ -34,18 +34,18 @@ export const RadarDwrViewer: React.FC = () => {
   const activeStn = radarData?.stations.find(s => s.station_code === selectedStation) || radarData?.stations[0];
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 font-sans">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-800/40">
+          <div className="p-2 rounded-xl bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-400 border border-cyan-300 dark:border-cyan-800/40">
             <Radio className="w-4 h-4 animate-pulse" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
               IMD Doppler Weather Radar (DWR) Grid
             </h3>
-            <p className="text-[10px] text-slate-400 font-mono">
+            <p className="text-[10px] text-slate-600 dark:text-slate-400 font-mono">
               Polar S/C-Band Volume Reflectivity & Marshall-Palmer Z-R Telemetry
             </p>
           </div>
@@ -58,10 +58,10 @@ export const RadarDwrViewer: React.FC = () => {
           <button
             onClick={loadData}
             disabled={isLoading}
-            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 text-cyan-300 transition-all cursor-pointer border border-slate-700 flex items-center gap-1 text-[11px] font-mono"
+            className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 text-cyan-700 dark:text-cyan-300 transition-all cursor-pointer border border-slate-200 dark:border-slate-700 flex items-center gap-1 text-[11px] font-mono"
             title="Refresh Radar Sweeps"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-cyan-600 dark:text-cyan-400' : ''}`} />
             <span className="hidden md:inline">{isLoading ? 'Sweeping...' : 'Reload Sweeps'}</span>
           </button>
         </div>
@@ -79,7 +79,7 @@ export const RadarDwrViewer: React.FC = () => {
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold shrink-0 transition-all cursor-pointer border ${
                   isSelected
                     ? 'bg-cyan-600 text-white border-cyan-500 shadow-md'
-                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                    : 'bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <span>{st.station_code}</span>
@@ -92,11 +92,11 @@ export const RadarDwrViewer: React.FC = () => {
 
       {/* Selected Station Deep Telemetry Card */}
       {activeStn && (
-        <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-sm font-extrabold text-white">{activeStn.station_name}</span>
-              <span className="text-xs text-slate-400 block font-mono">
+              <span className="text-sm font-extrabold text-slate-900 dark:text-white">{activeStn.station_name}</span>
+              <span className="text-xs text-slate-600 dark:text-slate-400 block font-mono">
                 {activeStn.state} • {activeStn.range_km} km Synoptic Radius
               </span>
             </div>
@@ -109,22 +109,22 @@ export const RadarDwrViewer: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <span className="text-[9px] font-bold text-slate-400 uppercase block font-mono">Peak Reflectivity (Z)</span>
-              <span className="text-xl font-black font-mono text-cyan-300">
-                {activeStn.peak_reflectivity_dbz} <span className="text-xs text-slate-400">dBZ</span>
+            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
+              <span className="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase block font-mono">Peak Reflectivity (Z)</span>
+              <span className="text-xl font-black font-mono text-cyan-700 dark:text-cyan-300">
+                {activeStn.peak_reflectivity_dbz} <span className="text-xs text-slate-500">dBZ</span>
               </span>
             </div>
-            <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <span className="text-[9px] font-bold text-slate-400 uppercase block font-mono">Z-R Rain Intensity</span>
-              <span className="text-xl font-black font-mono text-emerald-400">
-                {activeStn.estimated_rain_rate_mmh} <span className="text-xs text-slate-400">mm/h</span>
+            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
+              <span className="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase block font-mono">Z-R Rain Intensity</span>
+              <span className="text-xl font-black font-mono text-emerald-700 dark:text-emerald-400">
+                {activeStn.estimated_rain_rate_mmh} <span className="text-xs text-slate-500">mm/h</span>
               </span>
             </div>
-            <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-              <span className="text-[9px] font-bold text-slate-400 uppercase block font-mono">Elevation Angle</span>
-              <span className="text-xl font-black font-mono text-white">
-                {activeStn.sweep_elevation_deg}° <span className="text-xs text-slate-400">PPI</span>
+            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
+              <span className="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase block font-mono">Elevation Angle</span>
+              <span className="text-xl font-black font-mono text-slate-900 dark:text-white">
+                {activeStn.sweep_elevation_deg}° <span className="text-xs text-slate-500">PPI</span>
               </span>
             </div>
           </div>

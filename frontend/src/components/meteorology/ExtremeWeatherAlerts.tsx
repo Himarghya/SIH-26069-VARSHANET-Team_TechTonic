@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Zap, Flame, ShieldAlert, CloudLightning, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { fetchExtremeWeatherMl } from '../../services/api';
 import { ExtremeWeatherMlResponse } from '../../types';
@@ -48,18 +48,18 @@ export const ExtremeWeatherAlerts: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 font-sans">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-rose-950 text-rose-400 border border-rose-800/40">
+          <div className="p-2 rounded-xl bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border border-rose-300 dark:border-rose-800/40">
             <Zap className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
               Extreme Anomaly AI Predictor (MoES ML Models)
             </h3>
-            <p className="text-[10px] text-slate-400 font-mono">
+            <p className="text-[10px] text-slate-600 dark:text-slate-400 font-mono">
               Cloudburst CPI & Severe Heatwave WBGT Thermal Stress
             </p>
           </div>
@@ -72,10 +72,10 @@ export const ExtremeWeatherAlerts: React.FC = () => {
           <button
             onClick={handleReload}
             disabled={isLoading}
-            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 text-cyan-300 transition-all cursor-pointer border border-slate-700 flex items-center gap-1 text-[11px] font-mono"
+            className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 text-cyan-700 dark:text-cyan-300 transition-all cursor-pointer border border-slate-200 dark:border-slate-700 flex items-center gap-1 text-[11px] font-mono"
             title="Rerun Extreme Anomaly ML Prediction"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-cyan-600 dark:text-cyan-400' : ''}`} />
             <span className="hidden md:inline">{isLoading ? 'Predicting...' : 'Reload ML'}</span>
           </button>
         </div>
@@ -84,51 +84,51 @@ export const ExtremeWeatherAlerts: React.FC = () => {
       {extData && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Cloudburst CPI Card */}
-          <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-950/50 to-slate-950 border border-indigo-500/40 space-y-2">
+          <div className="p-4 rounded-xl bg-indigo-50/80 dark:bg-gradient-to-br dark:from-indigo-950/50 dark:to-slate-950 border border-indigo-200 dark:border-indigo-500/40 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-                <CloudLightning className="w-4 h-4 text-cyan-400" /> Cloudburst Prediction Index (CPI)
+              <span className="text-xs font-bold text-indigo-900 dark:text-indigo-300 flex items-center gap-1.5">
+                <CloudLightning className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> Cloudburst Prediction Index (CPI)
               </span>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-800">
                 {extData.cloudburst_prediction.alert_level}
               </span>
             </div>
 
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-black font-mono text-white transition-all">
+              <span className="text-3xl font-black font-mono text-slate-900 dark:text-white transition-all">
                 {extData.cloudburst_prediction.cloudburst_prediction_index}
               </span>
-              <span className="text-xs text-slate-400 font-mono">/ 100 CPI Score</span>
-              <span className="text-xs text-amber-400 font-mono ml-auto">
+              <span className="text-xs text-slate-600 dark:text-slate-400 font-mono font-semibold">/ 100 CPI Score</span>
+              <span className="text-xs text-amber-700 dark:text-amber-400 font-mono font-bold ml-auto">
                 Lead Time: ~{extData.cloudburst_prediction.estimated_lead_time_minutes} mins
               </span>
             </div>
-            <p className="text-[11px] text-slate-300 font-sans leading-snug">
+            <p className="text-[11px] text-slate-700 dark:text-slate-300 font-sans leading-snug">
               {extData.cloudburst_prediction.meteorological_rationale}
             </p>
           </div>
 
           {/* Heatwave WBGT Card */}
-          <div className="p-4 rounded-xl bg-gradient-to-br from-amber-950/40 to-slate-950 border border-amber-500/40 space-y-2">
+          <div className="p-4 rounded-xl bg-amber-50/80 dark:bg-gradient-to-br dark:from-amber-950/40 dark:to-slate-950 border border-amber-200 dark:border-amber-500/40 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                <Flame className="w-4 h-4 text-orange-400" /> Severe Heatwave & WBGT Index
+              <span className="text-xs font-bold text-amber-900 dark:text-amber-300 flex items-center gap-1.5">
+                <Flame className="w-4 h-4 text-orange-600 dark:text-orange-400" /> Severe Heatwave & WBGT Index
               </span>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-800">
                 {extData.heatwave_wbgt_prediction.severity_classification}
               </span>
             </div>
 
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-black font-mono text-white transition-all">
+              <span className="text-3xl font-black font-mono text-slate-900 dark:text-white transition-all">
                 {extData.heatwave_wbgt_prediction.heat_index_c}°C
               </span>
-              <span className="text-xs text-slate-400 font-mono">Heat Index (HI)</span>
-              <span className="text-xs text-rose-400 font-mono ml-auto">
+              <span className="text-xs text-slate-600 dark:text-slate-400 font-mono font-semibold">Heat Index (HI)</span>
+              <span className="text-xs text-rose-700 dark:text-rose-400 font-mono font-bold ml-auto">
                 Wet-Bulb: {extData.heatwave_wbgt_prediction.wet_bulb_temperature_c}°C
               </span>
             </div>
-            <p className="text-[11px] text-slate-300 font-sans leading-snug">
+            <p className="text-[11px] text-slate-700 dark:text-slate-300 font-sans leading-snug">
               {extData.heatwave_wbgt_prediction.biometeorological_impact}
             </p>
           </div>

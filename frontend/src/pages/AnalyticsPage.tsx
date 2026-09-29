@@ -97,16 +97,16 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ overview }) => {
           {overview && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Source Distribution */}
-              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+              <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-3">
                 <div className="flex items-center gap-2">
-                  <Database className="w-4 h-4 text-cyan-400" />
-                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">Multi-Source Ingestion Mix</h3>
+                  <Database className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Multi-Source Ingestion Mix</h3>
                 </div>
                 <div className="space-y-2">
                   {Object.entries(overview.source_distribution || {}).map(([src, count]) => (
                     <div key={src} className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-slate-400 capitalize">{src.replace(/_/g, ' ')}</span>
-                      <span className="text-white font-bold bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                      <span className="text-slate-600 dark:text-slate-400 capitalize font-medium">{src.replace(/_/g, ' ')}</span>
+                      <span className="text-slate-900 dark:text-white font-bold bg-slate-100 dark:bg-slate-950 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800">
                         {count} records
                       </span>
                     </div>
@@ -115,16 +115,16 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ overview }) => {
               </div>
 
               {/* Event Classification Breakdown */}
-              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+              <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-3">
                 <div className="flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-amber-400" />
-                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">Hazard Classification</h3>
+                  <Zap className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Hazard Classification</h3>
                 </div>
                 <div className="space-y-2">
                   {Object.entries(overview.event_distribution || {}).map(([evt, count]) => (
                     <div key={evt} className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-slate-400 capitalize">{evt.replace(/_/g, ' ')}</span>
-                      <span className="text-white font-bold bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                      <span className="text-slate-600 dark:text-slate-400 capitalize font-medium">{evt.replace(/_/g, ' ')}</span>
+                      <span className="text-slate-900 dark:text-white font-bold bg-slate-100 dark:bg-slate-950 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800">
                         {count}
                       </span>
                     </div>
@@ -133,16 +133,16 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ overview }) => {
               </div>
 
               {/* State Activity Ranking */}
-              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+              <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-3">
                 <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-emerald-400" />
-                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">Active State Corridors</h3>
+                  <Globe className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Active State Corridors</h3>
                 </div>
                 <div className="space-y-2">
                   {Object.entries(overview.state_activity || {}).slice(0, 5).map(([st, count]) => (
                     <div key={st} className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-slate-300">{st}</span>
-                      <span className="text-cyan-400 font-bold bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                      <span className="text-slate-800 dark:text-slate-300 font-medium">{st}</span>
+                      <span className="text-cyan-700 dark:text-cyan-400 font-bold bg-slate-100 dark:bg-slate-950 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800">
                         {count} reports
                       </span>
                     </div>
