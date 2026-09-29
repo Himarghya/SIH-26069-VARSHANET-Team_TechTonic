@@ -25,21 +25,21 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   actionLabel
 }) => {
   const colorMap = {
-    cyan: 'bg-white dark:bg-gradient-to-br dark:from-cyan-500/10 dark:to-blue-500/5 border-slate-200 dark:border-cyan-500/30 hover:border-cyan-500/60 shadow-xs dark:shadow-cyan-950/40',
-    rose: 'bg-white dark:bg-gradient-to-br dark:from-rose-500/10 dark:to-red-500/5 border-slate-200 dark:border-rose-500/30 hover:border-rose-500/60 shadow-xs dark:shadow-rose-950/40',
-    amber: 'bg-white dark:bg-gradient-to-br dark:from-amber-500/10 dark:to-yellow-500/5 border-slate-200 dark:border-amber-500/30 hover:border-amber-500/60 shadow-xs dark:shadow-amber-950/40',
-    emerald: 'bg-white dark:bg-gradient-to-br dark:from-emerald-500/10 dark:to-teal-500/5 border-slate-200 dark:border-emerald-500/30 hover:border-emerald-500/60 shadow-xs dark:shadow-emerald-950/40',
-    blue: 'bg-white dark:bg-gradient-to-br dark:from-blue-500/10 dark:to-indigo-500/5 border-slate-200 dark:border-blue-500/30 hover:border-blue-500/60 shadow-xs dark:shadow-blue-950/40',
-    purple: 'bg-white dark:bg-gradient-to-br dark:from-purple-500/10 dark:to-pink-500/5 border-slate-200 dark:border-purple-500/30 hover:border-purple-500/60 shadow-xs dark:shadow-purple-950/40',
+    cyan: 'bg-cyan-50/40 dark:bg-gradient-to-br dark:from-cyan-500/10 dark:to-blue-500/5 border-cyan-200 dark:border-cyan-500/30 hover:border-cyan-400 dark:hover:border-cyan-500/60 shadow-xs',
+    blue: 'bg-blue-50/40 dark:bg-gradient-to-br dark:from-blue-500/10 dark:to-indigo-500/5 border-blue-200 dark:border-blue-500/30 hover:border-blue-400 dark:hover:border-blue-500/60 shadow-xs',
+    emerald: 'bg-emerald-50/40 dark:bg-gradient-to-br dark:from-emerald-500/10 dark:to-teal-500/5 border-emerald-200 dark:border-emerald-500/30 hover:border-emerald-400 dark:hover:border-emerald-500/60 shadow-xs',
+    rose: 'bg-rose-50/40 dark:bg-gradient-to-br dark:from-rose-500/10 dark:to-red-500/5 border-rose-200 dark:border-rose-500/30 hover:border-rose-400 dark:hover:border-rose-500/60 shadow-xs',
+    amber: 'bg-amber-50/40 dark:bg-gradient-to-br dark:from-amber-500/10 dark:to-yellow-500/5 border-amber-200 dark:border-amber-500/30 hover:border-amber-400 dark:hover:border-amber-500/60 shadow-xs',
+    purple: 'bg-purple-50/40 dark:bg-gradient-to-br dark:from-purple-500/10 dark:to-pink-500/5 border-purple-200 dark:border-purple-500/30 hover:border-purple-400 dark:hover:border-purple-500/60 shadow-xs',
   };
 
   const iconBgMap = {
-    cyan: 'bg-cyan-50 dark:bg-cyan-950/80 text-cyan-600 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-700/50',
-    rose: 'bg-rose-50 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-700/50',
-    amber: 'bg-amber-50 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50',
-    emerald: 'bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/50',
-    blue: 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-700/50',
-    purple: 'bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-700/50',
+    cyan: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-950/80 dark:text-cyan-400 border border-cyan-300 dark:border-cyan-700/50',
+    blue: 'bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-400 border border-blue-300 dark:border-blue-700/50',
+    emerald: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-700/50',
+    rose: 'bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-400 border border-rose-300 dark:border-rose-700/50',
+    amber: 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-400 border border-amber-300 dark:border-amber-700/50',
+    purple: 'bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-400 border border-purple-300 dark:border-purple-700/50',
   };
 
   return (
@@ -51,7 +51,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       title={onClick ? (actionLabel || `Click to inspect ${title}`) : undefined}
     >
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase flex items-center gap-1 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+        <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400 tracking-wider uppercase flex items-center gap-1 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
           <span className="truncate">{title}</span>
           {onClick && (
             <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
@@ -61,15 +61,17 @@ export const MetricCard: React.FC<MetricCardProps> = ({
           <Icon className="w-4 h-4" />
         </div>
       </div>
-      <div>
-        <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight tabular-nums font-sans">{value}</div>
+      <div className="mt-1">
+        <div className="text-3xl font-black text-slate-900 dark:text-white tracking-tight tabular-nums font-sans">
+          {value}
+        </div>
         <div className="flex items-center justify-between mt-1 text-xs gap-1 font-sans">
-          {subtext && <span className="text-slate-500 dark:text-slate-400 font-medium truncate" title={subtext}>{subtext}</span>}
+          {subtext && <span className="text-slate-600 dark:text-slate-400 font-semibold truncate" title={subtext}>{subtext}</span>}
           {trend && (
             <span className={`font-bold whitespace-nowrap shrink-0 ${
               trendPositive
-                ? 'text-emerald-600 dark:text-emerald-400'
-                : 'text-rose-600 dark:text-rose-400'
+                ? 'text-emerald-700 dark:text-emerald-400'
+                : 'text-rose-700 dark:text-rose-400'
             }`}>
               {trend}
             </span>
