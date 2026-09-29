@@ -789,26 +789,26 @@ export const CitizenReportForm: React.FC = () => {
             <div className={`p-3 rounded-xl border text-xs font-mono transition-all ${
               isAllGreen
                 ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-500/60 text-emerald-900 dark:text-emerald-200'
-                : 'bg-slate-50 dark:bg-slate-950/90 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400'
+                : 'bg-amber-50/70 dark:bg-slate-950/90 border-amber-200 dark:border-slate-800 text-amber-950 dark:text-slate-400'
             }`}>
               <div className="flex items-center justify-between mb-2">
                 <span className="font-bold flex items-center gap-1.5">
                   {isAllGreen ? (
                     <>
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span className="text-emerald-300">ALL PRE-SCREENS VERIFIED (GREEN) | READY TO TRANSMIT</span>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      <span className="text-emerald-900 dark:text-emerald-300 font-bold">ALL PRE-SCREENS VERIFIED (GREEN) | READY TO TRANSMIT</span>
                     </>
                   ) : (
                     <>
-                      <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span className="text-amber-300">SUBMISSION LOCKED | REQUIRES ALL GREEN PRE-SCREENS</span>
+                      <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                      <span className="text-amber-900 dark:text-amber-300 font-bold">SUBMISSION LOCKED | REQUIRES ALL GREEN PRE-SCREENS</span>
                     </>
                   )}
                 </span>
                 <span className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded border ${
                   isAllGreen
-                    ? 'bg-emerald-900/90 text-emerald-200 border-emerald-700'
-                    : 'bg-slate-900 text-slate-400 border-slate-800'
+                    ? 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-900/90 dark:text-emerald-200 dark:border-emerald-700'
+                    : 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-800'
                 }`}>
                   {isAllGreen ? 'ENABLED' : 'DISABLED'}
                 </span>
@@ -816,19 +816,19 @@ export const CitizenReportForm: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                 {/* Text Threat Verification Indicator */}
-                <div className={`flex items-center gap-1.5 p-2 rounded-lg border ${
+                <div className={`flex items-center gap-1.5 p-2 rounded-lg border shadow-xs ${
                   isTextGreen
-                    ? 'bg-emerald-950/80 border-emerald-700/60 text-emerald-200 font-semibold'
+                    ? 'bg-emerald-50 dark:bg-emerald-950/80 border-emerald-300 dark:border-emerald-700/60 text-emerald-900 dark:text-emerald-200 font-semibold'
                     : isAnalyzingText
-                    ? 'bg-purple-950/60 border-purple-700/50 text-purple-300 animate-pulse'
+                    ? 'bg-purple-50 dark:bg-purple-950/60 border-purple-300 dark:border-purple-700/50 text-purple-900 dark:text-purple-300 animate-pulse'
                     : textAnalysis && !textAnalysis.is_disaster
-                    ? 'bg-rose-950/80 border-rose-800/80 text-rose-300'
-                    : 'bg-slate-900 border-slate-800 text-slate-400'
+                    ? 'bg-rose-50 dark:bg-rose-950/80 border-rose-300 dark:border-rose-800/80 text-rose-900 dark:text-rose-300 font-semibold'
+                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-400'
                 }`}>
                   {isTextGreen ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   ) : textAnalysis && !textAnalysis.is_disaster ? (
-                    <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                    <AlertCircle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
                   ) : null}
                   <span className="truncate">
                     {isTextGreen
@@ -842,19 +842,19 @@ export const CitizenReportForm: React.FC = () => {
                 </div>
 
                 {/* Media Proof Verification Indicator */}
-                <div className={`flex items-center gap-1.5 p-2 rounded-lg border ${
+                <div className={`flex items-center gap-1.5 p-2 rounded-lg border shadow-xs ${
                   isMediaGreen
-                    ? 'bg-emerald-950/80 border-emerald-700/60 text-emerald-200 font-semibold'
+                    ? 'bg-emerald-50 dark:bg-emerald-950/80 border-emerald-300 dark:border-emerald-700/60 text-emerald-900 dark:text-emerald-200 font-semibold'
                     : isAnyPhotoAnalyzing
-                    ? 'bg-purple-950/60 border-purple-700/50 text-purple-300 animate-pulse'
+                    ? 'bg-purple-50 dark:bg-purple-950/60 border-purple-300 dark:border-purple-700/50 text-purple-900 dark:text-purple-300 animate-pulse'
                     : isAnyPhotoNonDisaster
-                    ? 'bg-rose-950/80 border-rose-800/80 text-rose-300'
-                    : 'bg-slate-900 border-slate-800 text-slate-400'
+                    ? 'bg-rose-50 dark:bg-rose-950/80 border-rose-300 dark:border-rose-800/80 text-rose-900 dark:text-rose-300 font-semibold'
+                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-400'
                 }`}>
                   {isMediaGreen ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   ) : isAnyPhotoNonDisaster ? (
-                    <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                    <AlertCircle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
                   ) : null}
                   <span className="truncate">
                     {isMediaGreen
@@ -878,10 +878,10 @@ export const CitizenReportForm: React.FC = () => {
               className={`w-full py-3.5 rounded-xl font-bold text-xs tracking-wide transition-all flex items-center justify-center gap-2 ${
                 isAllGreen && !isSubmitting
                   ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white shadow-lg shadow-cyan-900/30 cursor-pointer'
-                  : 'bg-slate-800/80 border border-slate-700/60 text-slate-500 cursor-not-allowed shadow-inner'
+                  : 'bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-500 cursor-not-allowed shadow-inner'
               }`}
             >
-              <Send className={`w-4 h-4 ${isAllGreen ? 'text-white' : 'text-slate-500'} ${isSubmitting ? 'animate-spin' : ''}`} />
+              <Send className={`w-4 h-4 ${isAllGreen ? 'text-white' : 'text-slate-400 dark:text-slate-500'} ${isSubmitting ? 'animate-spin' : ''}`} />
               {isSubmitting
                 ? 'Transmitting to State Disaster Command...'
                 : isAllGreen
