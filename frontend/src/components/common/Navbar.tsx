@@ -178,40 +178,40 @@ export const Navbar: React.FC<NavbarProps> = ({
   const currentLanguageOption = SUPPORTED_LANGUAGES.find(l => l.code === language) || SUPPORTED_LANGUAGES[0];
 
   return (
-    <header className="bg-[#18447e] dark:bg-slate-900/95 backdrop-blur-md border-b-2 border-[#123666] dark:border-slate-800 sticky top-0 z-[9999] px-3 sm:px-6 lg:px-8 xl:px-10 py-2 w-full font-sans transition-colors text-white shadow-md">
-      <div className="flex items-center justify-between gap-3 lg:gap-6 w-full mx-auto">
+    <header className="bg-[#18447e] dark:bg-slate-900/95 backdrop-blur-md border-b-2 border-[#123666] dark:border-slate-800 sticky top-0 z-[9999] px-3 sm:px-4 md:px-6 py-2 w-full font-sans transition-colors text-white shadow-md">
+      <div className="flex items-center justify-between gap-2 lg:gap-4 w-full">
         {/* Brand with Devanagari 'सचेत' & National Disaster Alert Portal Tagline */}
         <div
-          className="flex items-center gap-2.5 cursor-pointer shrink-0"
+          className="flex items-center gap-2 cursor-pointer shrink-0"
           onClick={() => {
             setActiveTab('dashboard');
             setIsMobileMenuOpen(false);
           }}
         >
-          <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-white text-[#18447e] dark:bg-gradient-to-br dark:from-cyan-500 dark:via-blue-600 dark:to-indigo-700 shadow-md shadow-black/20 font-bold shrink-0 transition-transform hover:scale-105">
-            <CloudRain className="w-5 h-5 text-[#18447e] dark:text-white" />
+          <div className="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white text-[#18447e] dark:bg-gradient-to-br dark:from-cyan-500 dark:via-blue-600 dark:to-indigo-700 shadow-md shadow-black/20 font-bold shrink-0 transition-transform hover:scale-105">
+            <CloudRain className="w-4 h-4 sm:w-5 sm:h-5 text-[#18447e] dark:text-white" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xl sm:text-2xl font-black tracking-wide text-white drop-shadow-xs font-serif leading-none mr-0.5">
+              <span className="text-lg sm:text-xl font-black tracking-wide text-white drop-shadow-xs font-serif leading-none mr-0.5">
                 सचेत
               </span>
-              <span className="font-extrabold text-sm sm:text-base tracking-wider text-white font-sans">
+              <span className="font-extrabold text-xs sm:text-sm tracking-wider text-white font-sans">
                 {t('brand_name')}
               </span>
-              <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-900/60 dark:bg-cyan-950/80 text-yellow-300 dark:text-cyan-300 border border-blue-400/40 dark:border-cyan-700/60 font-mono font-bold">
+              <span className="text-[8px] sm:text-[9px] px-1 py-0.2 rounded bg-blue-900/60 dark:bg-cyan-950/80 text-yellow-300 dark:text-cyan-300 border border-blue-400/40 dark:border-cyan-700/60 font-mono font-bold">
                 SIH'26
               </span>
             </div>
-            <div className="text-[8px] sm:text-[9px] text-blue-200 dark:text-slate-400 font-mono tracking-widest uppercase -mt-0.5 font-bold">
+            <div className="text-[7px] sm:text-[8px] text-blue-200 dark:text-slate-400 font-mono tracking-widest uppercase -mt-0.5 font-bold">
               {t('tagline')}
             </div>
           </div>
         </div>
 
         {/* Center / Primary Nav Items (Desktop) - Royal Blue Government Navigation */}
-        <nav className="hidden xl:flex flex-1 items-center justify-center max-w-3xl mx-2 2xl:mx-4 bg-[#123666] dark:bg-slate-950/70 p-1 rounded-lg border border-[#1f4a85] dark:border-slate-800/80 shadow-inner">
-          <div className="flex items-center justify-between w-full gap-0.5 2xl:gap-1">
+        <nav className="hidden xl:flex items-center justify-center mx-1 2xl:mx-3 bg-[#123666] dark:bg-slate-950/70 p-0.5 2xl:p-1 rounded-lg border border-[#1f4a85] dark:border-slate-800/80 shadow-inner shrink min-w-0">
+          <div className="flex items-center gap-0.5 2xl:gap-1">
             {visibleNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -219,16 +219,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-1.5 2xl:px-2.5 rounded text-[11px] 2xl:text-[12px] uppercase tracking-wider transition-all cursor-pointer select-none font-bold whitespace-nowrap ${
+                  className={`flex items-center justify-center gap-1 py-1 px-1.5 2xl:px-2 rounded text-[10.5px] 2xl:text-[11.5px] uppercase tracking-tight transition-all cursor-pointer select-none font-bold whitespace-nowrap ${
                     isActive
                       ? 'bg-[#0a2344] text-yellow-300 dark:text-white shadow-xs border-b-2 border-yellow-400 dark:border-cyan-400'
                       : 'text-white/90 hover:text-white hover:bg-white/10 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900/80'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-yellow-300 dark:text-white' : 'text-blue-200 dark:text-slate-400'}`} />
-                  <span className="truncate">{item.label}</span>
+                  <Icon className={`w-3 h-3 2xl:w-3.5 2xl:h-3.5 shrink-0 ${isActive ? 'text-yellow-300 dark:text-white' : 'text-blue-200 dark:text-slate-400'}`} />
+                  <span>{item.label}</span>
                   {item.badge !== undefined && (
-                    <span className="ml-1 px-1.5 py-0.2 text-[9px] font-bold font-mono rounded bg-rose-500 text-white">
+                    <span className="ml-0.5 px-1 py-0.2 text-[8px] font-bold font-mono rounded bg-rose-500 text-white">
                       {item.badge}
                     </span>
                   )}
@@ -239,19 +239,19 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right Toolbar Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 ml-auto">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 ml-auto pr-0.5">
           {/* Live Sync Trigger & Countdown Badge */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
             style={{ color: '#ffffff' }}
-            className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded-md bg-[#0e2a52] dark:bg-slate-950 border border-blue-400/60 hover:border-yellow-400 !text-white transition-all text-xs font-mono shadow-sm cursor-pointer shrink-0 whitespace-nowrap"
+            className="h-8 flex items-center gap-1 px-2 rounded-md bg-[#0e2a52] dark:bg-slate-950 border border-blue-400/60 hover:border-yellow-400 !text-white transition-all text-xs font-mono shadow-sm cursor-pointer shrink-0 whitespace-nowrap"
             title="Auto-cycles every 5 minutes. Click to force instant live sync"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-yellow-400 dark:text-yellow-300 ${isSyncing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3 h-3 text-yellow-400 dark:text-yellow-300 ${isSyncing ? 'animate-spin' : ''}`} />
             <span 
               style={{ color: '#ffffff' }} 
-              className="text-xs font-black font-mono !text-white tracking-wider tabular-nums"
+              className="text-xs font-bold font-mono !text-white tracking-tight tabular-nums"
             >
               {syncMessage ? syncMessage : timerDisplay}
             </span>
@@ -262,14 +262,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setIsLangDropdownOpen(prev => !prev)}
-              className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold shrink-0 whitespace-nowrap"
+              className="h-8 flex items-center gap-1 px-2 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold shrink-0 whitespace-nowrap"
               aria-haspopup="true"
               aria-expanded={isLangDropdownOpen}
               title="Change platform language (16 Indian languages supported)"
             >
               <Languages className="w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400 shrink-0" />
-              <span className="truncate max-w-[55px] sm:max-w-[75px] md:max-w-none">{currentLanguageOption?.nativeName || language}</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-blue-200 transition-transform duration-200 shrink-0 ${
+              <span className="truncate max-w-[50px] sm:max-w-[70px]">{currentLanguageOption?.nativeName || language}</span>
+              <ChevronDown className={`w-3 h-3 text-blue-200 transition-transform duration-200 shrink-0 ${
                 isLangDropdownOpen ? 'rotate-180 text-yellow-300' : ''
               }`} />
             </button>
@@ -311,24 +311,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          {/* Bright (White) / Dark Mode Toggle Switch */}
+          {/* Bright (White) / Dark Mode Toggle Switch (Clean Icon Button) */}
           <button
             type="button"
             onClick={toggleTheme}
-            className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer group select-none shrink-0 whitespace-nowrap"
+            className="h-8 w-8 flex items-center justify-center rounded-md bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer group select-none shrink-0"
             aria-label={`Switch to ${theme === 'dark' ? 'Bright (White)' : 'Dark'} mode`}
             title={`Current: ${theme === 'dark' ? 'Dark' : 'Bright (White)'} Mode. Click to toggle.`}
           >
             {theme === 'dark' ? (
-              <>
-                <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform shrink-0" />
-                <span className="text-[11px] font-bold hidden sm:inline text-slate-200">{t('theme_dark')}</span>
-              </>
+              <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform shrink-0" />
             ) : (
-              <>
-                <Sun className="w-3.5 h-3.5 text-yellow-300 group-hover:rotate-45 transition-transform shrink-0" />
-                <span className="text-[11px] font-bold hidden sm:inline text-white">{t('theme_bright')}</span>
-              </>
+              <Sun className="w-3.5 h-3.5 text-yellow-300 group-hover:rotate-45 transition-transform shrink-0" />
             )}
           </button>
 
@@ -337,7 +331,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setIsRoleDropdownOpen(prev => !prev)}
-              className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold shrink-0 whitespace-nowrap"
+              className="h-8 flex items-center gap-1.5 px-2.5 sm:px-3 rounded-md bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold shrink-0 whitespace-nowrap"
               aria-haspopup="true"
               aria-expanded={isRoleDropdownOpen}
               title="Switch platform operational role / persona"
