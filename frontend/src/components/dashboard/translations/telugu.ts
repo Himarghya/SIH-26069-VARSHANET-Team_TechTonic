@@ -273,28 +273,28 @@ export const teluguContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#భూకంపం | వంగండి, దాక్కోండి, పట్టుకోండి (Drop, Cover, Hold On) డ్రిల్',
-        duration: '2:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: 'భూకంప భద్రత - దోస్త్ అప్పు | NDMA',
+        duration: '2:38',
+        youtubeId: 'FVh_SI_GIqc',
+        thumbnailUrl: 'https://img.youtube.com/vi/FVh_SI_GIqc/hqdefault.jpg'
       },
       {
-        title: '#భూకంపం | ఇళ్ల నిర్మాణ మరియు భద్రతా ఏర్పాట్లు',
-        duration: '4:15',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: 'భూకంపం - ముందస్తు తయారీలోనే ఉంది తెలివితేటలు | NDMA',
+        duration: '0:34',
+        youtubeId: 'uxUPDevBkxk',
+        thumbnailUrl: 'https://img.youtube.com/vi/uxUPDevBkxk/hqdefault.jpg'
       },
       {
-        title: '#భూకంపం | భూకంపం తర్వాత గ్యాస్ మరియు విద్యుత్ తనిఖీ',
-        duration: '3:30',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA Earthquake (Dost Appu - Hindi)',
+        duration: '2:38',
+        youtubeId: 'g4ajSBb1_Ws',
+        thumbnailUrl: 'https://img.youtube.com/vi/g4ajSBb1_Ws/hqdefault.jpg'
       },
       {
-        title: '#భూకంపం | కమ్యూనిటీ రక్షణ మరియు సహాయక చర్యలు',
-        duration: '5:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Earthquake | కిందకి వంగండి, కప్పుకోండి, గట్టిగా పట్టుకోండి | NDMA',
+        duration: '0:45',
+        youtubeId: 'U4QLsUNPXnU',
+        thumbnailUrl: 'https://img.youtube.com/vi/U4QLsUNPXnU/hqdefault.jpg'
       }
     ]
   },

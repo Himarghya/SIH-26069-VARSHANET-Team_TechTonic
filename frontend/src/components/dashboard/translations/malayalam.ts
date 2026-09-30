@@ -273,28 +273,28 @@ export const malayalamContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ഭൂകമ്പം | ഡ്രോപ്പ്, കവർ, ഹോൾഡ് ഓൺ (Drop, Cover, Hold On) പരിശീലനം',
-        duration: '2:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: 'ഭൂകമ്പ സുരക്ഷ - ദോസ്ത് അപ്പു | NDMA',
+        duration: '2:38',
+        youtubeId: 'FVh_SI_GIqc',
+        thumbnailUrl: 'https://img.youtube.com/vi/FVh_SI_GIqc/hqdefault.jpg'
       },
       {
-        title: '#ഭൂകമ്പം | വീടുകളുടെ ഘടനാപരമായ സുരക്ഷാ ക്രമീകരണങ്ങൾ',
-        duration: '4:15',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: 'ഭൂകമ്പം - മുൻകരുതലിലാണ് ബുദ്ധി | NDMA',
+        duration: '0:34',
+        youtubeId: 'uxUPDevBkxk',
+        thumbnailUrl: 'https://img.youtube.com/vi/uxUPDevBkxk/hqdefault.jpg'
       },
       {
-        title: '#ഭൂകമ്പം | ഭൂകമ്പാനന്തര ഗ്യാസ്, വൈദ്യുതി സുരക്ഷാ പരിശോധന',
-        duration: '3:30',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA Earthquake (Dost Appu - Hindi)',
+        duration: '2:38',
+        youtubeId: 'g4ajSBb1_Ws',
+        thumbnailUrl: 'https://img.youtube.com/vi/g4ajSBb1_Ws/hqdefault.jpg'
       },
       {
-        title: '#ഭൂകമ്പം | കമ്മ്യൂണിറ്റി രക്ഷാപ്രവർത്തന പ്രോട്ടോക്കോൾ',
-        duration: '5:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Earthquake | നിലത്തിരിക്കുക, മറഞ്ഞിരിക്കുക, മുറുകെ പിടിക്കുക | NDMA',
+        duration: '0:45',
+        youtubeId: 'U4QLsUNPXnU',
+        thumbnailUrl: 'https://img.youtube.com/vi/U4QLsUNPXnU/hqdefault.jpg'
       }
     ]
   },

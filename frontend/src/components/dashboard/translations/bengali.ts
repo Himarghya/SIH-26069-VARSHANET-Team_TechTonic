@@ -273,28 +273,28 @@ export const bengaliContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ভূমিকম্প | ঝুঁকুন, ঢাকুন ও ধরে রাখুন সঠিক মহড়া',
-        duration: '2:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: 'ভূমিকম্প নিরাপত্তা - দোস্ত অপ্পু | NDMA',
+        duration: '2:38',
+        youtubeId: 'FVh_SI_GIqc',
+        thumbnailUrl: 'https://img.youtube.com/vi/FVh_SI_GIqc/hqdefault.jpg'
       },
       {
-        title: '#ভূমিকম্প | বাড়ির কাঠামো ও আসবাবপত্রের সুরক্ষা',
-        duration: '4:15',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: 'ভূমিকম্প - প্রস্তুতিতেই রয়েছে বুদ্ধিমত্তা | NDMA',
+        duration: '0:34',
+        youtubeId: 'uxUPDevBkxk',
+        thumbnailUrl: 'https://img.youtube.com/vi/uxUPDevBkxk/hqdefault.jpg'
       },
       {
-        title: '#ভূমিকম্প | ভূমিকম্প পরবর্তী বিদ্যুৎ ও গ্যাস পরীক্ষা',
-        duration: '3:30',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA Earthquake (Dost Appu - Hindi)',
+        duration: '2:38',
+        youtubeId: 'g4ajSBb1_Ws',
+        thumbnailUrl: 'https://img.youtube.com/vi/g4ajSBb1_Ws/hqdefault.jpg'
       },
       {
-        title: '#ভূমিকম্প | কমিউনিটি উদ্ধার ও প্রাথমিক চিকিৎসা',
-        duration: '5:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Earthquake | ড্রপ, কভার ও হোল্ড (ঝুঁকো, ঢাকো, ধরো) | NDMA',
+        duration: '0:45',
+        youtubeId: 'U4QLsUNPXnU',
+        thumbnailUrl: 'https://img.youtube.com/vi/U4QLsUNPXnU/hqdefault.jpg'
       }
     ]
   },
