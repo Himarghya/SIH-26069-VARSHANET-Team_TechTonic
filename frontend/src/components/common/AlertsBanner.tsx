@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, BellRing, ArrowRight, ChevronLeft, ChevronRight, Flame, ShieldAlert, Sparkles, ExternalLink, Share2 } from 'lucide-react';
+import { 
+  AlertTriangle, 
+  BellRing, 
+  ArrowRight, 
+  ChevronLeft, 
+  ChevronRight, 
+  Flame, 
+  ShieldAlert, 
+  Sparkles, 
+  ExternalLink, 
+  Share2,
+  Radio,
+  MapPin
+} from 'lucide-react';
 import { Alert } from '../../types';
 import { broadcastAlertToX } from '../../services/api';
 
@@ -67,7 +80,6 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
         event_id: currentAlert.event_cluster_id
       });
 
-      // Open X / Twitter Web Intent in a new tab for instant 1-click posting
       if (res?.dispatch_details?.web_intent_url) {
         window.open(res.dispatch_details.web_intent_url, '_blank', 'noopener,noreferrer');
       }
@@ -86,92 +98,122 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onClick={() => onSelectAlert && onSelectAlert(currentAlert)}
-      className={`border-y px-3 sm:px-4 py-2 text-xs flex items-center justify-between gap-2 transition-all cursor-pointer select-none group shadow-xs ${
+      className={`relative border-y py-2.5 px-3 sm:px-6 text-xs flex items-center justify-between gap-3 transition-all cursor-pointer select-none group shadow-md z-40 overflow-hidden ${
         isNewAlertFlash
           ? 'bg-rose-600 text-white border-rose-500 animate-pulse'
           : isCritical
-          ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-200 dark:border-rose-900 text-rose-900 dark:text-rose-100 hover:bg-rose-100/80 dark:hover:bg-rose-950/90'
+          ? 'bg-gradient-to-r from-red-50 via-rose-50 to-red-100/60 dark:from-red-950/70 dark:via-slate-900 dark:to-red-950/50 border-red-300/80 dark:border-red-900/80 text-red-950 dark:text-red-100 hover:border-red-500'
           : isHigh
-          ? 'bg-amber-50 dark:bg-amber-950/60 border-amber-200 dark:border-amber-900 text-amber-900 dark:text-amber-100 hover:bg-amber-100/80 dark:hover:bg-amber-950/90'
-          : 'bg-cyan-50 dark:bg-cyan-950/60 border-cyan-200 dark:border-cyan-900 text-cyan-900 dark:text-cyan-100 hover:bg-cyan-100/80 dark:hover:bg-cyan-950/90'
+          ? 'bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 dark:from-amber-950/70 dark:via-slate-900 dark:to-amber-950/50 border-amber-300/80 dark:border-amber-900/80 text-amber-950 dark:text-amber-100 hover:border-amber-500'
+          : 'bg-gradient-to-r from-blue-50 via-cyan-50 to-blue-100/60 dark:from-cyan-950/70 dark:via-slate-900 dark:to-cyan-950/50 border-cyan-300/80 dark:border-cyan-900/80 text-cyan-950 dark:text-cyan-100 hover:border-cyan-500'
       }`}
-      title="Click to open full AI nowcasting and response in Incident Command Room"
+      title="Click to inspect this emergency alert in Incident Command Room"
     >
-      {/* Left: Severity Badge & Bulletin */}
-      <div className="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-        {/* Severity Pill */}
-        <span className={`font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] flex items-center gap-1 shrink-0 ${
+      {/* Left Glowing Accent Border Line */}
+      <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${
+        isCritical ? 'bg-red-600 animate-pulse' : isHigh ? 'bg-amber-500' : 'bg-cyan-500'
+      }`} />
+
+      {/* Left: Severity Badge & Bulletin Details */}
+      <div className="flex items-center gap-2.5 overflow-hidden flex-1 min-w-0 pl-1.5">
+        
+        {/* Severity Pill Badge */}
+        <div className={`font-mono font-black tracking-wider uppercase px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] flex items-center gap-1.5 shrink-0 shadow-sm transition-transform group-hover:scale-105 ${
           isNewAlertFlash
-            ? 'bg-white text-rose-700 shadow-xs font-bold'
+            ? 'bg-white text-rose-700 shadow-md font-black'
             : isCritical
-            ? 'bg-rose-600 text-white shadow-xs'
+            ? 'bg-red-600 text-white shadow-red-900/30'
             : isHigh
-            ? 'bg-amber-600 text-white shadow-xs'
-            : 'bg-cyan-600 text-white shadow-xs'
+            ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-amber-900/30'
+            : 'bg-cyan-600 text-white'
         }`}>
           {isNewAlertFlash ? (
             <>
-              <Flame className="w-3 h-3 text-rose-600 animate-bounce" />
-              <span>JUST IN</span>
+              <Flame className="w-3.5 h-3.5 text-rose-600 animate-bounce" />
+              <span>FLASH ALERT</span>
             </>
           ) : (
             <>
-              <AlertTriangle className="w-3 h-3" />
-              <span>{severity}</span>
+              <AlertTriangle className={`w-3.5 h-3.5 ${isCritical ? 'animate-bounce' : ''}`} />
+              <span>{severity === 'HIGH' ? 'HIGH ALERT' : severity}</span>
             </>
           )}
+        </div>
+
+        {/* Live Indicator Dot */}
+        <span className="relative flex h-2 w-2 shrink-0">
+          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+            isCritical ? 'bg-red-500' : isHigh ? 'bg-amber-500' : 'bg-cyan-500'
+          }`} />
+          <span className={`relative inline-flex rounded-full h-2 w-2 ${
+            isCritical ? 'bg-red-600' : isHigh ? 'bg-amber-500' : 'bg-cyan-500'
+          }`} />
         </span>
 
-        {/* Headline & Message */}
-        <p className="font-sans font-medium truncate text-[11px] sm:text-xs">
-          <strong className="text-slate-900 dark:text-white font-bold">{currentAlert.title}:</strong>{' '}
-          <span className="text-slate-700 dark:text-slate-200">{currentAlert.message}</span>
-        </p>
+        {/* Headline & Directive Message */}
+        <div className="font-sans flex items-center gap-2 truncate text-xs sm:text-[13px] min-w-0">
+          <strong className="text-slate-900 dark:text-white font-extrabold uppercase tracking-tight shrink-0">
+            {currentAlert.title}:
+          </strong>
+          <span className="text-slate-700 dark:text-slate-200 font-medium truncate">
+            {currentAlert.message}
+          </span>
+        </div>
       </div>
 
-      {/* Right: Location, 1-Click Post to X Button & Carousel Controls */}
-      <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-        {/* 1-Click Post to X (Twitter) Button */}
+      {/* Right: Metadata, 1-Click Broadcast, Carousel Controls & CTA */}
+      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        
+        {/* 1-Click Post to X (Twitter) Broadcast Button */}
         <button
           onClick={handlePostToX}
           disabled={isPostingToX}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-300 border border-slate-300 dark:border-slate-700 hover:border-cyan-500 transition-all text-[10px] font-mono font-semibold shadow-xs cursor-pointer shrink-0"
-          title="Post this Red Alert immediately to X (Twitter)"
+          className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black hover:bg-slate-800 text-white border border-slate-700 hover:border-slate-500 transition-all text-[11px] font-mono font-bold shadow-sm cursor-pointer shrink-0 active:scale-95"
+          title="Post this verified alert to X (Twitter)"
         >
           <span className="font-black text-xs leading-none">𝕏</span>
-          <span className="hidden sm:inline">{postSuccess ? 'Posted ✓' : isPostingToX ? 'Posting...' : 'Post to 𝕏'}</span>
+          <span className="hidden sm:inline">
+            {postSuccess ? 'Posted ✓' : isPostingToX ? 'Posting...' : 'Post to 𝕏'}
+          </span>
         </button>
 
-        {/* Location (hidden on small mobile) */}
-        <span className="text-[10px] font-mono text-slate-600 dark:text-slate-300 hidden md:inline bg-white/60 dark:bg-black/40 px-2 py-0.5 rounded-md border border-slate-200 dark:border-white/10">
-          📍 {currentAlert.city || 'District'}, {currentAlert.state} | <strong className="text-cyan-700 dark:text-cyan-300 font-semibold">{currentAlert.reports_count} reports</strong>
-        </span>
+        {/* Location & Report Counter Badge (Pill Container) */}
+        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700 text-[11px] font-mono shadow-xs">
+          <MapPin className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+          <span className="text-slate-800 dark:text-slate-200 font-semibold truncate max-w-[130px]">
+            {currentAlert.city || 'District'}, {currentAlert.state}
+          </span>
+          <span className="text-slate-400">|</span>
+          <span className="text-cyan-700 dark:text-cyan-300 font-bold">
+            {currentAlert.reports_count} reports
+          </span>
+        </div>
 
-        {/* Carousel Pagination & Arrows */}
+        {/* Carousel Pagination & Arrow Controls */}
         {alerts.length > 1 && (
-          <div className="flex items-center gap-0.5 bg-white/80 dark:bg-slate-900 px-1 py-0.5 rounded-md border border-slate-300 dark:border-slate-700 text-[10px] font-mono shrink-0">
+          <div className="flex items-center gap-1 bg-white/90 dark:bg-slate-900/90 px-1.5 py-0.5 rounded-lg border border-slate-300 dark:border-slate-700 text-[11px] font-mono shadow-xs">
             <button
               onClick={handlePrev}
-              className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+              className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               title="Previous Alert"
             >
-              <ChevronLeft className="w-3 h-3" />
+              <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <span className="px-1 text-slate-700 dark:text-slate-300 font-semibold tabular-nums">
+            <span className="px-1 text-slate-900 dark:text-white font-bold tabular-nums">
               {currentIndex + 1}/{alerts.length}
             </span>
             <button
               onClick={handleNext}
-              className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+              className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               title="Next Alert"
             >
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         )}
 
-        {/* Open in Incident Room CTA */}
-        <div className="flex items-center gap-0.5 text-[11px] font-semibold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors shrink-0">
+        {/* Inspect CTA Link */}
+        <div className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors pl-1">
           <span className="hidden sm:inline">Inspect</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
         </div>
