@@ -385,28 +385,22 @@ export const punjabiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ਜ਼ਮੀਨਖਿਸਕਣਾ | ਪਹਾੜੀ ਢਲਾਣਾਂ ਤੇ ਭੂਸਖਲਨ ਦੇ ਸ਼ੁਰੂਆਤੀ ਸੰਕੇਤ',
-        duration: '3:45',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA Landslide (Dost Appu - English)',
+        duration: '2:27',
+        youtubeId: '49ZqCiqorcA',
+        thumbnailUrl: 'https://img.youtube.com/vi/49ZqCiqorcA/hqdefault.jpg'
       },
       {
-        title: '#ਜ਼ਮੀਨਖਿਸਕਣਾ | ਪਹਾੜੀ ਹਾਈਵੇਅ ਤੇ ਡਰਾਈਵਿੰਗ ਦੌਰਾਨ ਸਾਵਧਾਨੀਆਂ',
-        duration: '4:10',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA - Landslide (are you ready)',
+        duration: '4:49',
+        youtubeId: '0M9OMkDV3_k',
+        thumbnailUrl: 'https://img.youtube.com/vi/0M9OMkDV3_k/hqdefault.jpg'
       },
       {
-        title: '#ਜ਼ਮੀਨਖਿਸਕਣਾ | ਬਾਇਓ-ਇੰਜੀਨੀਅਰਿੰਗ ਰਾਹੀਂ ਢਲਾਣਾਂ ਦੀ ਸਥਿਰਤਾ',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ਜ਼ਮੀਨਖਿਸਕਣਾ | ਭੂਸਖਲਨ ਤੋਂ ਬਾਅਦ ਬਚਾਅ ਕਾਰਜ',
-        duration: '5:00',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Landslide | ਜ਼ਮੀਨ ਖਿਸਕਣ ਅਤੇ ਭੂ-ਵਿਗਿਆਨਕ ਸੁਰੱਖਿਆ | NDMA',
+        duration: '0:40',
+        youtubeId: 'lQViP8bo04M',
+        thumbnailUrl: 'https://img.youtube.com/vi/lQViP8bo04M/hqdefault.jpg'
       }
     ]
   },

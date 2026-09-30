@@ -385,28 +385,22 @@ export const malayalamContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ഉരുൾപൊട്ടൽ | മലയോര മേഖലകളിലെ മണ്ണിടിച്ചിലിന്റെ പ്രാരംഭ ലക്ഷണങ്ങൾ',
-        duration: '3:45',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA Landslide (Dost Appu - English)',
+        duration: '2:27',
+        youtubeId: '49ZqCiqorcA',
+        thumbnailUrl: 'https://img.youtube.com/vi/49ZqCiqorcA/hqdefault.jpg'
       },
       {
-        title: '#ഉരുൾപൊട്ടൽ | ചുരം റോഡുകളിൽ വാഹനം ഓടിക്കുമ്പോഴുള്ള മുൻകരുതലുകൾ',
-        duration: '4:10',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA - Landslide (are you ready)',
+        duration: '4:49',
+        youtubeId: '0M9OMkDV3_k',
+        thumbnailUrl: 'https://img.youtube.com/vi/0M9OMkDV3_k/hqdefault.jpg'
       },
       {
-        title: '#ഉരുൾപൊട്ടൽ | ചരിവുകളുടെ ബയോ-എഞ്ചിനീയറിംഗും മണ്ണ് സംരക്ഷണവും',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ഉരുൾപൊട്ടൽ | മണ്ണിടിച്ചിലിന് ശേഷമുള്ള രക്ഷാപ്രവർത്തനം',
-        duration: '5:00',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Landslide | ഉരുൾപൊട്ടലും ഭൂഗർഭശാസ്ത്ര സുരക്ഷയും | NDMA',
+        duration: '0:40',
+        youtubeId: 'lQViP8bo04M',
+        thumbnailUrl: 'https://img.youtube.com/vi/lQViP8bo04M/hqdefault.jpg'
       }
     ]
   },

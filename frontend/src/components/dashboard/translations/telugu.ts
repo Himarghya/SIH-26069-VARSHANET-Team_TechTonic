@@ -385,28 +385,22 @@ export const teluguContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#కొండచరియలు | కొండ వాలులలో కొండచరియలు విరిగిపడే ప్రాథమిక సంకేతాలు',
-        duration: '3:45',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA Landslide (Dost Appu - English)',
+        duration: '2:27',
+        youtubeId: '49ZqCiqorcA',
+        thumbnailUrl: 'https://img.youtube.com/vi/49ZqCiqorcA/hqdefault.jpg'
       },
       {
-        title: '#కొండచరియలు | ఘాట్ రోడ్లపై వాహనాలు నడిపేటప్పుడు జాగ్రత్తలు',
-        duration: '4:10',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA INDIA - Landslide (are you ready)',
+        duration: '4:49',
+        youtubeId: '0M9OMkDV3_k',
+        thumbnailUrl: 'https://img.youtube.com/vi/0M9OMkDV3_k/hqdefault.jpg'
       },
       {
-        title: '#కొండచరియలు | బయో-ఇంజనీరింగ్ ద్వారా వాలుల స్థిరీకరణ',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#కొండచరియలు | కొండచరియలు విరిగిన తర్వాత సహాయక చర్యలు',
-        duration: '5:00',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Landslide | కొండచరియలు విరిగిపడటం మరియు భూగర్భ శాస్త్ర భద్రత | NDMA',
+        duration: '0:40',
+        youtubeId: 'lQViP8bo04M',
+        thumbnailUrl: 'https://img.youtube.com/vi/lQViP8bo04M/hqdefault.jpg'
       }
     ]
   },
