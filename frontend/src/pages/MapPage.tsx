@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { CapAlertDetailModal, OfficialCapAlert } from '../components/map/CapAlertDetailModal';
+import { ForecastWeatherView } from '../components/map/ForecastWeatherView';
 import { EventCluster, WeatherReport, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -402,19 +403,21 @@ export const MapPage: React.FC<MapPageProps> = ({
           </span>
         </button>
 
-        {/* Card 4: FORECAST */}
+        {/* Card 4: FORECAST (Matching Screenshot 1 Active State) */}
         <button
           onClick={() => setActiveTabMode('FORECAST')}
           className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
             activeTabMode === 'FORECAST'
-              ? 'border-[#18447e] bg-blue-50/70 dark:bg-blue-950/40 shadow-md scale-[1.01]'
+              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
               : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
           }`}
         >
           <div className="w-10 h-10 rounded-full border-2 border-emerald-500 bg-white dark:bg-slate-950 flex items-center justify-center text-emerald-600 mb-2 shadow-sm group-hover:scale-110 transition-transform">
             <CloudRain className="w-5 h-5" />
           </div>
-          <span className="text-xs font-black tracking-wider uppercase text-slate-900 dark:text-white font-heading">
+          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'FORECAST' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          }`}>
             FORECAST
           </span>
         </button>
@@ -574,8 +577,11 @@ export const MapPage: React.FC<MapPageProps> = ({
           </div>
 
         </div>
+      ) : activeTabMode === 'FORECAST' ? (
+        /* 3. FORECAST VIEW (Matching Screenshot) */
+        <ForecastWeatherView />
       ) : (
-        /* 3. DEFAULT 3-COLUMN VIEW: Map (Left) + ALERT LIST (Center) + Earthquakes & Weather (Right) */
+        /* 4. DEFAULT 3-COLUMN VIEW: Map (Left) + ALERT LIST (Center) + Earthquakes & Weather (Right) */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[680px]">
           
           {/* Column A: Interactive Leaflet Map (6 cols on lg) */}
