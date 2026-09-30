@@ -7,7 +7,7 @@ from backend.app.api.websocket import ws_manager
 
 router = APIRouter(prefix="/system", tags=["System Health & Observability"])
 
-@router.get("/health", response_model=SystemHealthOut)
+@router.api_route("/health", methods=["GET", "HEAD"], response_model=SystemHealthOut)
 def get_system_health(db: Session = Depends(get_db)):
     db_status = "HEALTHY"
     try:

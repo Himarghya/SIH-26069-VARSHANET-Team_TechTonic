@@ -81,6 +81,12 @@ async def websocket_weather_feed(websocket: WebSocket):
     except WebSocketDisconnect:
         ws_manager.disconnect(websocket)
 
+@app.api_route("/health", methods=["GET", "HEAD"])
+@app.api_route("/api/health", methods=["GET", "HEAD"])
+@app.api_route("/api/v1/health", methods=["GET", "HEAD"])
+def quick_health_check():
+    return {"status": "OPERATIONAL", "platform": "VARSHANET 2.0"}
+
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
@@ -94,7 +100,7 @@ if os.path.exists(frontend_dist):
     if os.path.exists(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
     
-    @app.get("/{full_path:path}")
+    @app.api_route("/{full_path:path}", methods=["GET", "HEAD"])
     async def serve_frontend(full_path: str):
         if full_path.startswith("api") or full_path.startswith("ws"):
             return {"error": "Not found"}
@@ -103,7 +109,7 @@ if os.path.exists(frontend_dist):
             return FileResponse(file_path)
         return FileResponse(os.path.join(frontend_dist, "index.html"))
 else:
-    @app.get("/")
+    @app.api_route("/", methods=["GET", "HEAD"])
     def root():
         return {
             "platform": "VARSHANET 2.0 National Meteorological Decision Support Grid",
