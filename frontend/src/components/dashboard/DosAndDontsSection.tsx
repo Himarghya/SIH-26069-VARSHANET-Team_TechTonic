@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Play, X, ShieldAlert, CheckCircle2, AlertTriangle, BookOpen, Video, Globe, Sparkles } from 'lucide-react';
+import { Search, Play, X, ShieldAlert, ShieldCheck, CheckCircle2, AlertTriangle, BookOpen, Video, Globe, Sparkles } from 'lucide-react';
 import { 
   DisasterCategory, 
   LanguageCode, 
@@ -11,20 +11,6 @@ import {
 } from './dosAndDontsTypes';
 import { DISASTER_CONTENT } from './translations';
 import { useLanguage, LanguageCode as GlobalLanguageCode } from '../../context/LanguageContext';
-
-const CATEGORY_ICONS: Record<DisasterCategory, string> = {
-  'Cyclones': '🌀',
-  'Tsunamis': '🌊',
-  'Avalanches': '🏔️',
-  'Cold Wave': '❄️',
-  'Heat Waves': '☀️',
-  'Lightning': '⚡',
-  'Floods': '🌊',
-  'Earthquakes': '🏚️',
-  'Urban Floods': '🏙️',
-  'Landslides': '⛰️',
-  'Cloudbursts': '🌧️'
-};
 
 export const DosAndDontsSection: React.FC = () => {
   const { language: globalLanguage, setLanguage: setGlobalLanguage } = useLanguage();
@@ -87,7 +73,8 @@ export const DosAndDontsSection: React.FC = () => {
         </div>
         <div className="flex items-center gap-2">
           <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-cyan-50 dark:bg-cyan-950/80 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800">
-            <span>🛡️</span> NDMA Verified Protocol
+            <ShieldCheck className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+            <span>NDMA Verified Protocol</span>
           </span>
         </div>
       </div>
@@ -115,18 +102,16 @@ export const DosAndDontsSection: React.FC = () => {
             {filteredCategories.map((cat) => {
               const isSelected = selectedCategory === cat;
               const displayName = CATEGORY_NAMES[cat]?.[selectedLanguage] || cat;
-              const icon = CATEGORY_ICONS[cat] || '⚠️';
               return (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer border flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer border ${
                     isSelected
                       ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-transparent shadow-sm font-bold shadow-blue-900/20'
                       : 'bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200/90 dark:border-slate-700/80 hover:bg-slate-200/80 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <span>{icon}</span>
                   <span>{displayName}</span>
                 </button>
               );
