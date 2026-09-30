@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Activity, AlertTriangle, ShieldCheck, MapPin, Radio, Shield, Filter, Eye } from 'lucide-react';
+import { Activity, AlertTriangle, ShieldCheck, MapPin, Radio, Shield, Filter, Eye, Clock, X, Sparkles } from 'lucide-react';
 import { MetricCard } from '../components/common/MetricCard';
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { LiveFeed } from '../components/dashboard/LiveFeed';
@@ -219,79 +219,123 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         />
       </div>
 
-      {/* Interactive In-Dashboard GIS & Live Feed Filter Bar */}
-      <div className="space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-100 dark:bg-slate-900/80 p-2 px-3 rounded-lg border border-slate-200 dark:border-slate-800 text-xs font-sans">
-          <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
-            <Filter className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-            <span>{t('filter_label')}</span>
+      {/* Interactive Modern In-Dashboard GIS & Live Feed Filter Bar */}
+      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-2xl p-2 px-3 sm:px-4 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 font-sans">
+        
+        {/* Left: Filter Icon, Title & Live Status Indicator */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500/15 via-blue-500/10 to-indigo-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center border border-cyan-500/20 shadow-xs">
+            <Filter className="w-4 h-4" />
           </div>
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <button
-              onClick={() => setDashboardFilter('ALL')}
-              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border ${
-                dashboardFilter === 'ALL'
-                  ? 'bg-cyan-600 text-white border-cyan-500 shadow-xs'
-                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              {t('filter_all')} ({reports.length})
-            </button>
-            <button
-              onClick={() => setDashboardFilter('VERIFIED')}
-              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border flex items-center gap-1.5 ${
-                dashboardFilter === 'VERIFIED'
-                  ? 'bg-emerald-600 text-white border-emerald-500 shadow-xs'
-                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400'
-              }`}
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              {t('filter_verified')} ({verifiedCount})
-            </button>
-            <button
-              onClick={() => setDashboardFilter('CRITICAL')}
-              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border flex items-center gap-1.5 ${
-                dashboardFilter === 'CRITICAL'
-                  ? 'bg-rose-600 text-white border-rose-500 shadow-xs'
-                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-rose-600 dark:hover:text-rose-400'
-              }`}
-            >
-              <AlertTriangle className="w-3.5 h-3.5 text-rose-500" />
-              {t('filter_critical')} ({criticalCount})
-            </button>
-            <button
-              onClick={() => setDashboardFilter('24H')}
-              className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer border ${
-                dashboardFilter === '24H'
-                  ? 'bg-blue-600 text-white border-blue-500 shadow-xs'
-                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
-              }`}
-            >
-              {t('filter_24h')} (+{past24hCount})
-            </button>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-[13px] tracking-tight">
+                {t('filter_label')}
+              </span>
+              {dashboardFilter !== 'ALL' && (
+                <div className="flex items-center gap-1.5 animate-fadeIn">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800">
+                    <span>{displayEvents.length} {t('map_clusters')}</span>
+                    <span>•</span>
+                    <span>{displayReports.length} {t('nav_reports')}</span>
+                  </span>
+                  <button
+                    onClick={() => setDashboardFilter('ALL')}
+                    className="px-1.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-0.5 cursor-pointer"
+                    title="Reset Filter to All"
+                  >
+                    <X className="w-3 h-3" />
+                    <span>Reset</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Informative Active Filter Feedback Banner */}
-        {dashboardFilter !== 'ALL' && (
-          <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950/90 border border-slate-200 dark:border-cyan-500/30 text-[11px] font-mono text-slate-700 dark:text-slate-300">
-            <div className="flex items-center gap-2">
-              <span>
-                {t('filter_active_label')} <strong className="text-slate-900 dark:text-white">
-                  {dashboardFilter === 'VERIFIED' && `🛡️ ${t('filter_verified')}`}
-                  {dashboardFilter === 'CRITICAL' && `⚠️ ${t('filter_critical')}`}
-                  {dashboardFilter === '24H' && `⏱️ ${t('filter_24h')}`}
-                </strong> — <strong className="text-cyan-700 dark:text-cyan-400">{displayEvents.length}</strong> {t('map_clusters')} &amp; <strong className="text-cyan-700 dark:text-cyan-400">{displayReports.length}</strong> {t('nav_reports')}
-              </span>
-            </div>
-            <button
-              onClick={() => setDashboardFilter('ALL')}
-              className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-sans text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1"
-            >
-              <span>✕ {t('filter_reset')}</span>
-            </button>
-          </div>
-        )}
+        {/* Right: Segmented Tab Buttons */}
+        <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 dark:bg-slate-950/80 rounded-xl border border-slate-200/90 dark:border-slate-800/90 overflow-x-auto scrollbar-none">
+          
+          {/* 1. All Reports */}
+          <button
+            onClick={() => setDashboardFilter('ALL')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+              dashboardFilter === 'ALL'
+                ? 'bg-white dark:bg-slate-800 text-cyan-700 dark:text-cyan-400 shadow-sm font-bold border border-slate-200/80 dark:border-slate-700'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white/50 dark:hover:bg-slate-900/50'
+            }`}
+          >
+            <Radio className={`w-3.5 h-3.5 ${dashboardFilter === 'ALL' ? 'text-cyan-600 dark:text-cyan-400' : 'text-slate-400'}`} />
+            <span>{t('filter_all')}</span>
+            <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full ${
+              dashboardFilter === 'ALL'
+                ? 'bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300'
+                : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+            }`}>
+              {reports.length}
+            </span>
+          </button>
+
+          {/* 2. Verified Incidents */}
+          <button
+            onClick={() => setDashboardFilter('VERIFIED')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+              dashboardFilter === 'VERIFIED'
+                ? 'bg-emerald-600 text-white shadow-sm font-bold shadow-emerald-900/20'
+                : 'text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
+            }`}
+          >
+            <ShieldCheck className={`w-3.5 h-3.5 ${dashboardFilter === 'VERIFIED' ? 'text-emerald-200' : 'text-emerald-500'}`} />
+            <span>{t('filter_verified')}</span>
+            <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full ${
+              dashboardFilter === 'VERIFIED'
+                ? 'bg-emerald-800/80 text-white'
+                : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400'
+            }`}>
+              {verifiedCount}
+            </span>
+          </button>
+
+          {/* 3. Critical Red Alerts */}
+          <button
+            onClick={() => setDashboardFilter('CRITICAL')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+              dashboardFilter === 'CRITICAL'
+                ? 'bg-rose-600 text-white shadow-sm font-bold shadow-rose-900/20'
+                : 'text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+            }`}
+          >
+            <AlertTriangle className={`w-3.5 h-3.5 ${dashboardFilter === 'CRITICAL' ? 'text-rose-200' : 'text-rose-500'}`} />
+            <span>{t('filter_critical')}</span>
+            <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full ${
+              dashboardFilter === 'CRITICAL'
+                ? 'bg-rose-800/80 text-white'
+                : 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400'
+            }`}>
+              {criticalCount}
+            </span>
+          </button>
+
+          {/* 4. Past 24 Hours */}
+          <button
+            onClick={() => setDashboardFilter('24H')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+              dashboardFilter === '24H'
+                ? 'bg-blue-600 text-white shadow-sm font-bold shadow-blue-900/20'
+                : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30'
+            }`}
+          >
+            <Clock className={`w-3.5 h-3.5 ${dashboardFilter === '24H' ? 'text-blue-200' : 'text-blue-500'}`} />
+            <span>{t('filter_24h')}</span>
+            <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full ${
+              dashboardFilter === '24H'
+                ? 'bg-blue-800/80 text-white'
+                : 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-400'
+            }`}>
+              +{past24hCount}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Main Grid: Interactive Map (8 cols) + Real-Time Live Feed (4 cols) */}

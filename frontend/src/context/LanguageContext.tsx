@@ -139,7 +139,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<TranslationKey, string>> = {
     filter_verified: 'Verified Only',
     filter_critical: 'Critical Red Alert',
     filter_24h: 'Past 24 Hours',
-    filter_label: 'Dashboard GIS & Feed Filter:',
+    filter_label: 'GIS & Telemetry Filter',
     filter_active_label: 'Active Filter:',
     filter_reset: 'Reset Filter',
     map_title: 'National Weather Radar',
