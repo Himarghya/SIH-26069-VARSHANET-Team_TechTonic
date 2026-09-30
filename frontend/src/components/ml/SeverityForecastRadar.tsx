@@ -79,33 +79,36 @@ export const SeverityForecastRadar: React.FC = () => {
 
       {/* Top Banner: Unsupervised Anomaly Alert */}
       {anomalyResult && (
-        <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+        <div className={`p-4 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-4 ${
           anomalyResult.is_anomaly
             ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-300 dark:border-rose-600/60 text-slate-900 dark:text-rose-100'
             : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-300'
         }`}>
-          <div className="flex items-start sm:items-center gap-3 min-w-0">
-            <div className="p-2 rounded-lg bg-rose-100 dark:bg-rose-900/80 text-rose-700 dark:text-rose-200 shrink-0 mt-0.5 sm:mt-0">
+          <div className="flex items-start gap-3 min-w-0 flex-1">
+            <div className="p-2.5 rounded-xl bg-rose-100 dark:bg-rose-900/80 text-rose-700 dark:text-rose-200 shrink-0 mt-0.5">
               <AlertTriangle className="w-5 h-5 animate-pulse" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 space-y-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <strong className="text-xs font-mono font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                <strong className="text-xs font-mono font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">
                   Unsupervised Isolation Forest Anomaly Trigger:
                 </strong>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800 shrink-0 font-bold">
                   Score: {anomalyResult.anomaly_score} / 1.0
                 </span>
               </div>
-              <p className="text-xs text-slate-700 dark:text-slate-200 mt-0.5 leading-relaxed">
-                Surge of <strong>{anomalyResult.signals?.surge_ratio}</strong> | <strong>{anomalyResult.signals?.rainfall_z_score}</strong>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
+                Surge of <strong className="text-rose-700 dark:text-rose-300 font-mono">{anomalyResult.signals?.surge_ratio}</strong> | <strong className="text-rose-700 dark:text-rose-300 font-mono">{anomalyResult.signals?.rainfall_z_score}</strong>
               </p>
             </div>
           </div>
 
-          <span className="text-[11px] font-mono font-bold text-rose-800 dark:text-rose-300 bg-rose-100 dark:bg-black/50 px-3 py-1.5 rounded-lg border border-rose-300 dark:border-rose-900/80 break-all sm:break-normal text-center sm:text-left self-stretch sm:self-auto">
-            {anomalyResult.trigger_action}
-          </span>
+          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-100/90 dark:bg-rose-900/40 border border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-[11px] font-mono font-bold shrink-0 self-start md:self-auto shadow-xs">
+            <Zap className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
+            <span className="whitespace-normal sm:whitespace-nowrap">
+              {anomalyResult.trigger_action ? anomalyResult.trigger_action.replace(/_/g, ' ') : 'Auto Incident Clustering Triggered'}
+            </span>
+          </div>
         </div>
       )}
 

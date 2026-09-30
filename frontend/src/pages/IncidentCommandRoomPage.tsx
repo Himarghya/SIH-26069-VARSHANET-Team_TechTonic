@@ -72,21 +72,21 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
   return (
     <div className="space-y-6">
       {/* Event Cluster Selector Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-3 rounded-2xl shadow-sm dark:shadow-xl">
-        <div className="flex items-center justify-between gap-2 w-full sm:w-auto">
-          <div className="flex items-center gap-2 shrink-0">
-            <Activity className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-3.5 rounded-2xl shadow-sm dark:shadow-xl">
+        <div className="flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-cyan-500 dark:text-cyan-400 shrink-0" />
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">
               {isCitizen ? 'Public Weather Incident Information:' : 'Incident Command Operations:'}
             </span>
           </div>
 
-          <div className="flex items-center gap-2 sm:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             {!isCitizen && (
               <button
                 onClick={() => setShowSitRepModal(true)}
                 disabled={!impactData}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white text-[11px] font-bold shadow-md cursor-pointer"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white text-[11px] font-bold shadow-md cursor-pointer shrink-0"
               >
                 <FileText className="w-3 h-3" />
                 <span>SitRep</span>
@@ -94,21 +94,21 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
             )}
             <button
               onClick={() => currentEventId && loadImpactData(currentEventId)}
-              className="p-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 cursor-pointer"
+              className="p-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 cursor-pointer shrink-0"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             </button>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto py-1 w-full sm:w-auto no-scrollbar">
+        <div className="flex items-center gap-2 min-w-0 flex-1 overflow-x-auto py-0.5 no-scrollbar lg:justify-end">
           {events.map((evt) => {
             const isSelected = currentEventId === evt.id;
             return (
               <button
                 key={evt.id}
                 onClick={() => handleSwitchEvent(evt.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold shrink-0 transition-all border cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold shrink-0 transition-all border cursor-pointer whitespace-nowrap ${
                   isSelected
                     ? 'bg-cyan-600 text-white border-cyan-500 shadow-md shadow-cyan-900/20'
                     : 'bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
@@ -120,12 +120,12 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
           })}
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 shrink-0">
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
           {!isCitizen && (
             <button
               onClick={() => setShowSitRepModal(true)}
               disabled={!impactData}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold shadow-md shadow-indigo-950/40 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold shadow-md shadow-indigo-950/40 transition-all cursor-pointer whitespace-nowrap"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>Official SitRep Dossier</span>
