@@ -420,28 +420,16 @@ export const malayalamContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#മേഘവിസ്ഫോടനം | മലയോര താഴ്‌വരകളിലെ മിന്നൽ പ്രളയ സുരക്ഷാ ഗൈഡ്',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA മാർഗ്ഗനിർദ്ദേശങ്ങൾ: മേഘവിസ്ഫോടന സുരക്ഷയും പ്രതിരോധ നടപടികളും',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#മേഘവിസ്ഫോടനം | കാലവർഷ പർവതയാത്രാ സുരക്ഷാ പ്രോട്ടോക്കോൾ',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#മേഘവിസ്ഫോടനം | താഴ്‌വരകളിൽ നിന്നുള്ള സുരക്ഷിത പലായനം',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#മേഘവിസ്ഫോടനം | കമ്മ്യൂണിറ്റി ദ്രുത പ്രതികരണവും വിസിൽ സിഗ്നലുകളും',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'ഉത്തരാഖണ്ഡ് മേഘവിസ്ഫോടനവും പ്രളയ രക്ഷാപ്രവർത്തനവും | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

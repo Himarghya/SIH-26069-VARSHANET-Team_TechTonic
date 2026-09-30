@@ -422,28 +422,16 @@ export const hindiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#बादलफटना | पहाड़ी घाटियों में फ्लैश फ्लड सुरक्षा गाइड',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA दिशानिर्देश: बादल फटने पर सुरक्षा एवं तैयारी के उपाय',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#बादलफटना | हिमालयी मानसून यात्रा सुरक्षा प्रोटोकॉल',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#बादलफटना | घाटी से सुरक्षित निकासी और ऊंची रिज सुरक्षा',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#बादलफटना | सामुदायिक त्वरित प्रतिक्रिया और सीटी संकेत',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'उत्तराखंड बादल फटना और बाढ़ राहत कार्य | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

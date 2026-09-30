@@ -422,28 +422,16 @@ export const gujaratiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#વાદળફાટવું | પહાડી ખીણોમાં ફ્લેશ ફ્લડ સુરક્ષા માર્ગદર્શિકા',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA માર્ગદર્શિકા: વાદળ ફાટવા પર સુરક્ષા અને બચાવના ઉપાયો',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#વાદળફાટવું | હિમાલયન ચોમાસુ પ્રવાસ સુરક્ષા પ્રોટોકોલ',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#વાદળફાટવું | ખીણમાંથી સુરક્ષિત નિકાસ અને ઊંચી ટેકરી પર સુરક્ષા',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#વાદળફાટવું | સામુદાયિક ત્વરિત પ્રતિક્રિયા અને સીટી સંકેતો',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'ઉત્તરાખંડ વાદળ ફાટવું અને પૂર રાહત કામગીરી | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

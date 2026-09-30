@@ -420,28 +420,16 @@ export const tamilContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#மேகவெடிப்பு | மலைப் பள்ளத்தாக்குகளில் திடீர் வெள்ளப் பாதுகாப்பு வழிகாட்டி',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA வழிகாட்டுதல்கள்: மேகவெடிப்பு பாதுகாப்பு மற்றும் முன்னெச்சரிக்கை நடவடிக்கைகள்',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#மேகவெடிப்பு | பருவமழை மலைப்பயண பாதுகாப்பு நெறிமுறைகள்',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#மேகவெடிப்பு | பள்ளத்தாக்கிலிருந்து பாதுகாப்பான வெளியேற்றம்',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#மேகவெடிப்பு | சமூக விரைவு மீட்பு மற்றும் விசில் சமிக்ஞைகள்',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'உத்தரகாண்ட் மேகவெடிப்பு மற்றும் வெள்ள மீட்புப் பணிகள் | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

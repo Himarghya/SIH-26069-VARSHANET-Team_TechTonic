@@ -420,28 +420,16 @@ export const punjabiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ਬੱਦਲਫਟਣਾ | ਪਹਾੜੀ ਘਾਟੀਆਂ ਵਿੱਚ ਅਚਾਨਕ ਹੜ੍ਹ ਸੁਰੱਖਿਆ ਗਾਈਡ',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA ਦਿਸ਼ਾ-ਨਿਰਦੇਸ਼: ਬੱਦਲ ਫਟਣ ਤੇ ਸੁਰੱਖਿਆ ਅਤੇ ਤਿਆਰੀ ਦੇ ਉਪਾਅ',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#ਬੱਦਲਫਟਣਾ | ਹਿਮਾਲਿਆਈ ਮਾਨਸੂਨ ਯਾਤਰਾ ਸੁਰੱਖਿਆ ਪ੍ਰੋਟੋਕੋਲ',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ਬੱਦਲਫਟਣਾ | ਘਾਟੀ ਤੋਂ ਸੁਰੱਖਿਅਤ ਨਿਕਾਸੀ ਅਤੇ ਉੱਚੀ ਪਹਾੜੀ ਸੁਰੱਖਿਆ',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ਬੱਦਲਫਟਣਾ | ਭਾਈਚਾਰਕ ਤੁਰੰਤ ਪ੍ਰਤੀਕਿਰਿਆ ਅਤੇ ਸੀਟੀ ਸੰਕੇਤ',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'ਉੱਤਰਾਖੰਡ ਬੱਦਲ ਫਟਣਾ ਅਤੇ ਹੜ੍ਹ ਰਾਹਤ ਕਾਰਜ | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

@@ -420,28 +420,16 @@ export const odiaContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ମେଘଫାଟିବା | ପାହାଡ଼ିଆ ଉପତ୍ୟକାରେ ଫ୍ଲାସ୍ ଫ୍ଲଡ୍ ସୁରକ୍ଷା ଗାଇଡ୍',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA ନିର୍ଦ୍ଦେଶାବଳୀ: ମେଘ ଫାଟିବା ସମୟରେ ସୁରକ୍ଷା ଓ ପ୍ରସ୍ତୁତି ପଦକ୍ଷେପ',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#ମେଘଫାଟିବା | ହିମାଳୟ ମୌସୁମୀ ଯାତ୍ରା ସୁରକ୍ଷା ନିୟମାବଳୀ',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ମେଘଫାଟିବା | ଉପତ୍ୟକାରୁ ସୁରକ୍ଷିତ ନିଷ୍କାସନ ଏବଂ ଉଚ୍ଚ ରିଜ୍ ସୁରକ୍ଷା',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ମେଘଫାଟିବା | ଆକସ୍ମିକ ବିପର୍ଯ୍ୟୟରେ ହୁଇସିଲ୍ ସଙ୍କେତ ଓ ଉଦ୍ଧାର',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'ଉତ୍ତରାଖଣ୍ଡ ମେଘ ଫାଟିବା ଏବଂ ବନ୍ୟା ରିଲିଫ୍ କାର୍ଯ୍ୟ | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

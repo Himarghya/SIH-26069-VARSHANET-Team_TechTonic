@@ -420,28 +420,16 @@ export const kannadaContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ಮೇಘಸ್ಫೋಟ | ಪರ್ವತ ಕಣಿವೆಗಳಲ್ಲಿ ಹಠಾತ್ ಪ್ರವಾಹ ಸುರಕ್ಷತಾ ಮಾರ್ಗದರ್ಶಿ',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA ಮಾರ್ಗಸೂಚಿಗಳು: ಮೇಘಸ್ಫೋಟ ಸುರಕ್ಷತೆ ಮತ್ತು ಮುನ್ನೆಚ್ಚರಿಕಾ ಕ್ರಮಗಳು',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#ಮೇಘಸ್ಫೋಟ | ಮಳೆಗಾಲದ ಪರ್ವತ ಯಾತ್ರೆ ಸುರಕ್ಷತಾ ನಿಯಮಗಳು',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ಮೇಘಸ್ಫೋಟ | ಕಣಿವೆಯಿಂದ ಸುರಕ್ಷಿತ ನಿರ್ಗಮನ ಮತ್ತು ಬೆಟ್ಟದ ಮೇಲಿನ ರಕ್ಷಣೆ',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ಮೇಘಸ್ಫೋಟ | ಸಮುದಾಯ ತ್ವರಿತ ಪ್ರತಿಕ್ರಿಯೆ ಮತ್ತು ಸೀಟಿ ಸಂಕೇತಗಳು',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'ಉತ್ತರಾಖಂಡ ಮೇಘಸ್ಫೋಟ ಮತ್ತು ಪ್ರವಾಹ ಪರಿಹಾರ ಕಾರ್ಯ | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

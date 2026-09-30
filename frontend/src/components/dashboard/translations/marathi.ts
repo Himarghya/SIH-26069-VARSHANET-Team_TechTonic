@@ -420,28 +420,16 @@ export const marathiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ढगफुटी | पर्वतीय दऱ्यांमध्ये अचानक पूर सुरक्षा मार्गदर्शिका',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA मार्गदर्शक तत्त्वे: ढगफुटीवरील सुरक्षा आणि पूर्वतयारी उपाय',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#ढगफुटी | पावसाळी पर्वतीय प्रवास सुरक्षा प्रोटोकॉल',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ढगफुटी | दरीतून सुरक्षित बाहेर पडणे आणि उंच कडा सुरक्षा',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#ढगफुटी | समुदाय तत्काळ प्रतिसाद आणि शिट्टी संकेत',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'उत्तराखंड ढगफुटी आणि पूर बचाव कार्य | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }

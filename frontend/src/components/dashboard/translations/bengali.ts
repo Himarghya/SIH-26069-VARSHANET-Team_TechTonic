@@ -420,28 +420,16 @@ export const bengaliContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#মেঘভাঙাবৃষ্টি | পাহাড়ি উপত্যকায় হড়পা বান থেকে সুরক্ষাবিধি',
-        duration: '4:20',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: 'NDMA নির্দেশিকা: মেঘভাঙা বৃষ্টিতে নিরাপত্তা ও মোকাবিলার উপায়',
+        duration: '5:30',
+        youtubeId: 'DgFFR8i639g',
+        thumbnailUrl: 'https://img.youtube.com/vi/DgFFR8i639g/hqdefault.jpg'
       },
       {
-        title: '#মেঘভাঙাবৃষ্টি | পাহাড়ি বর্ষাকালীন ভ্রমণ ও নিরাপত্তা ব্যবস্থা',
-        duration: '3:40',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#মেঘভাঙাবৃষ্টি | উপত্যকা থেকে দ্রুত নির্গমন ও শৈলশিরা সুরক্ষা',
-        duration: '3:05',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        title: '#মেঘভাঙাবৃষ্টি | আকস্মিক দুর্যোগে বাঁশি সংকেত ও উদ্ধার',
-        duration: '4:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: 'উত্তরাখণ্ড মেঘভাঙা বৃষ্টি ও বন্যা মোকাবিলা | NDMA',
+        duration: '3:15',
+        youtubeId: 'HPXJ-1kbDsk',
+        thumbnailUrl: 'https://img.youtube.com/vi/HPXJ-1kbDsk/hqdefault.jpg'
       }
     ]
   }
