@@ -87,7 +87,7 @@ export const CapBroadcastSimulator: React.FC<CapBroadcastProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans h-full flex flex-col justify-between">
       {/* Top Header & Broadcast Channel Switcher */}
       <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2">

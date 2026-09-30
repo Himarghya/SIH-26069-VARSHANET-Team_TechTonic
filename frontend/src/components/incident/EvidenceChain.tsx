@@ -8,8 +8,8 @@ interface EvidenceChainProps {
 
 export const EvidenceChain: React.FC<EvidenceChainProps> = ({ evidenceChain }) => {
   return (
-    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-      <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans h-full flex flex-col justify-between">
+      <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5 font-sans">
         <GitCommit className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> Explainable AI Multi-Source Evidence Tree
       </h3>
 

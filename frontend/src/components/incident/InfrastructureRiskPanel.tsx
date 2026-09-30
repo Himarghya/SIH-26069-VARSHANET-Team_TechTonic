@@ -15,7 +15,7 @@ export const InfrastructureRiskPanel: React.FC<InfrastructureRiskPanelProps> = (
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans h-full flex flex-col justify-between">
       <div className="flex items-center justify-between">
         <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
           <ShieldAlert className="w-4 h-4 text-amber-500 dark:text-amber-400" /> Critical Infrastructure Inundation Risk

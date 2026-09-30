@@ -158,9 +158,6 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
             recommendations={impactData.impact_evaluation.response_recommendations.map(r => r.action)}
           />
 
-          {/* Spatio-Temporal 1h-3h Severity Escalation Forecaster & Anomaly Trigger */}
-          <SeverityForecastRadar />
-
           {/* CITIZEN VIEW: Clean Public Safety & Emergency Directives Card */}
           {isCitizen ? (
             <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/90 border border-rose-200 dark:border-rose-500/30 space-y-4 shadow-sm dark:shadow-xl">
@@ -170,7 +167,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                    Official Public Safety Advisory & Emergency Helplines
+                    Official Public Safety Advisory &amp; Emergency Helplines
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     State Disaster Management Authority (SDMA) Public Guidance for {impactData.city || impactData.state}
@@ -200,7 +197,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                   <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
                     Government Higher Secondary Shelters
                   </div>
-                  <p className="text-[11px] text-slate-600 dark:text-slate-400">Equipped with dry rations & drinking water</p>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">Equipped with dry rations &amp; drinking water</p>
                 </div>
               </div>
 
@@ -223,63 +220,55 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               />
             </div>
           ) : (
-            /* ANALYST / ADMIN VIEW: Full Tactical Command Suite */
+            /* ANALYST / ADMIN VIEW: Perfectly Balanced Tactical Command Suite */
             <>
-              {/* CAP Cell Broadcast Early Warning Simulator */}
-              <CapBroadcastSimulator
-                city={impactData.city || impactData.state}
-                state={impactData.state}
-                severity={impactData.severity}
-                eventType={impactData.event_type}
-                recommendations={impactData.impact_evaluation.response_recommendations.map(r => r.action)}
-              />
-
-              {/* Multimodal Verification Model Embedded Tensor Inspector */}
-              <MultimodalFusionInspector />
-            </>
-          )}
-
-          {/* Demographic Exposure & 3-Hour Nowcast Trajectory (Visible to all) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-6">
-              <ImpactSummary exposure={impactData.impact_evaluation.population_exposure} />
-            </div>
-            <div className="lg:col-span-6">
-              <RiskTrajectory
-                trajectory={impactData.impact_evaluation.nowcast_trajectory}
-                escalationProbability={impactData.impact_evaluation.scores.escalation_probability}
-              />
-            </div>
-          </div>
-
-          {/* OPERATOR COMMAND MODULES: Only visible to Analyst & Admin */}
-          {!isCitizen && (
-            <>
-              {/* NDRF Logistics Demand-Supply Grid & AI Recommendations */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div className="lg:col-span-6">
-                  <EmergencyResourceDispatch
-                    city={impactData.city || impactData.state}
-                    state={impactData.state}
-                    latitude={impactData.latitude}
-                    longitude={impactData.longitude}
-                    totalPopulationExposed={impactData.impact_evaluation.population_exposure.total_population_exposed}
-                    severity={impactData.severity}
-                  />
+              {/* SECTION 1: Demographic Exposure & 3-Hour Nowcast Trajectory */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div className="lg:col-span-6 flex flex-col">
+                  <ImpactSummary exposure={impactData.impact_evaluation.population_exposure} />
                 </div>
-                <div className="lg:col-span-6">
-                  <ResponseRecommendations
-                    recommendations={impactData.impact_evaluation.response_recommendations}
+                <div className="lg:col-span-6 flex flex-col">
+                  <RiskTrajectory
+                    trajectory={impactData.impact_evaluation.nowcast_trajectory}
+                    escalationProbability={impactData.impact_evaluation.scores.escalation_probability}
                   />
                 </div>
               </div>
 
-              {/* Infrastructure Risk & Information Gaps Resolver */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div className="lg:col-span-6">
+              {/* SECTION 2: AI SOP Recommendations & Critical Infrastructure Risk */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div className="lg:col-span-6 flex flex-col">
+                  <ResponseRecommendations
+                    recommendations={impactData.impact_evaluation.response_recommendations}
+                  />
+                </div>
+                <div className="lg:col-span-6 flex flex-col">
                   <InfrastructureRiskPanel infrastructure={impactData.impact_evaluation.infrastructure} />
                 </div>
-                <div className="lg:col-span-6">
+              </div>
+
+              {/* SECTION 3: Full-Width 16 NDRF Battalion Tactical Routing & Asset Dispatch Suite */}
+              <EmergencyResourceDispatch
+                city={impactData.city || impactData.state}
+                state={impactData.state}
+                latitude={impactData.latitude}
+                longitude={impactData.longitude}
+                totalPopulationExposed={impactData.impact_evaluation.population_exposure.total_population_exposed}
+                severity={impactData.severity}
+              />
+
+              {/* SECTION 4: CAP Cell Early Warning Broadcast & Ground Verification Resolver */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div className="lg:col-span-6 flex flex-col">
+                  <CapBroadcastSimulator
+                    city={impactData.city || impactData.state}
+                    state={impactData.state}
+                    severity={impactData.severity}
+                    eventType={impactData.event_type}
+                    recommendations={impactData.impact_evaluation.response_recommendations.map(r => r.action)}
+                  />
+                </div>
+                <div className="lg:col-span-6 flex flex-col">
                   <InformationGapPanel
                     gaps={impactData.impact_evaluation.information_gaps}
                     verificationRequests={impactData.impact_evaluation.verification_requests}
@@ -288,7 +277,17 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                 </div>
               </div>
 
-              {/* Verified Ground Truth & Citizen Photo Evidence Gallery */}
+              {/* SECTION 5: AI Escalation Forecaster Radar & Multimodal Verification Tensor Inspector */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div className="lg:col-span-6 flex flex-col">
+                  <SeverityForecastRadar />
+                </div>
+                <div className="lg:col-span-6 flex flex-col">
+                  <MultimodalFusionInspector />
+                </div>
+              </div>
+
+              {/* SECTION 6: Verified Ground Truth & Citizen Photo Evidence Gallery */}
               <VerifiedGroundEvidenceGallery
                 photos={impactData.verified_ground_photos}
                 city={impactData.city || impactData.state}
@@ -296,13 +295,17 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
                 eventType={impactData.event_type}
               />
 
-              {/* Evidence Chain */}
-              <EvidenceChain evidenceChain={impactData.impact_evaluation.evidence_chain} />
-
-              {/* Post-Incident Prediction Accuracy */}
-              <PredictionAccuracy
-                predictedExposure={impactData.impact_evaluation.population_exposure.total_population_exposed}
-              />
+              {/* SECTION 7: Explainable Multi-Source Evidence Chain & Calibration Delta */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div className="lg:col-span-6 flex flex-col">
+                  <EvidenceChain evidenceChain={impactData.impact_evaluation.evidence_chain} />
+                </div>
+                <div className="lg:col-span-6 flex flex-col">
+                  <PredictionAccuracy
+                    predictedExposure={impactData.impact_evaluation.population_exposure.total_population_exposed}
+                  />
+                </div>
+              </div>
             </>
           )}
         </div>

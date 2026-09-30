@@ -12,7 +12,7 @@ export const RiskTrajectory: React.FC<RiskTrajectoryProps> = ({
   escalationProbability
 }) => {
   return (
-    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans">
+    <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-sans h-full flex flex-col justify-between">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5 font-sans">
