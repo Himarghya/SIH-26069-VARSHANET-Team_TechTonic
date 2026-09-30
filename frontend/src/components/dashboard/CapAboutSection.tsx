@@ -11,15 +11,20 @@ export const CapAboutSection: React.FC = () => {
       <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full border border-cyan-400/10 pointer-events-none" />
 
       {/* Header Title & Envisioned Mission Statement */}
-      <div className="text-center max-w-5xl mx-auto space-y-3 relative z-10">
-        <div className="inline-block">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f5a623] tracking-wide font-serif relative">
-            About
-            <span className="block h-1 w-12 bg-[#f5a623] mx-auto mt-1 rounded-full opacity-80" />
+      <div className="text-center max-w-5xl mx-auto space-y-3.5 relative z-10">
+        <div className="inline-flex flex-col items-center gap-1.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/60 border border-amber-400/40 text-amber-300 text-xs font-mono font-bold tracking-wider uppercase">
+            <span>🏆 Smart India Hackathon 2026</span>
+            <span className="text-blue-300">•</span>
+            <span>Team Tech_Tonic</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f5a623] tracking-wide font-serif relative mt-1">
+            About VARSHANET
+            <span className="block h-1 w-14 bg-[#f5a623] mx-auto mt-1 rounded-full opacity-80" />
           </h2>
         </div>
         <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed font-medium max-w-4xl mx-auto">
-          National Disaster Management Authority (NDMA) under chairmanship of Hon'ble Prime Minister of India has envisioned a CAP based Integrated Alert System on Pan India basis. The project involves near real-time dissemination of early warning through multiple means of technology using geo-intelligence.
+          <strong className="text-white font-bold">VARSHANET</strong> is envisioned and developed by <strong className="text-amber-300 font-bold">Team Tech_Tonic</strong> for <strong className="text-white font-bold">Smart India Hackathon (SIH 2026)</strong>. The platform delivers a robust Big Data Analytics engine, Multimodal AI citizen report credibility scoring, and a CAP-based Integrated Early Warning System designed for Pan-India near real-time disaster alert dissemination using advanced geo-intelligence and multi-channel reach.
         </p>
       </div>
 
