@@ -210,8 +210,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Center / Primary Nav Items (Desktop) - Royal Blue Government Navigation */}
-        <nav className="hidden md:flex flex-1 items-center justify-center max-w-4xl mx-2 lg:mx-4 bg-[#123666] dark:bg-slate-950/70 p-1 rounded-lg border border-[#1f4a85] dark:border-slate-800/80 shadow-inner">
-          <div className="flex items-center justify-between w-full gap-1">
+        <nav className="hidden xl:flex flex-1 items-center justify-center max-w-3xl mx-2 2xl:mx-4 bg-[#123666] dark:bg-slate-950/70 p-1 rounded-lg border border-[#1f4a85] dark:border-slate-800/80 shadow-inner">
+          <div className="flex items-center justify-between w-full gap-0.5 2xl:gap-1">
             {visibleNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -219,7 +219,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 lg:px-2.5 rounded text-[12px] uppercase tracking-wider transition-all cursor-pointer select-none font-bold ${
+                  className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-1.5 2xl:px-2.5 rounded text-[11px] 2xl:text-[12px] uppercase tracking-wider transition-all cursor-pointer select-none font-bold whitespace-nowrap ${
                     isActive
                       ? 'bg-[#0a2344] text-yellow-300 dark:text-white shadow-xs border-b-2 border-yellow-400 dark:border-cyan-400'
                       : 'text-white/90 hover:text-white hover:bg-white/10 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900/80'
@@ -239,13 +239,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right Toolbar Controls */}
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Live Sync Trigger & Countdown Badge (Guaranteed Pure White Text in all themes) */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 ml-auto">
+          {/* Live Sync Trigger & Countdown Badge */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
             style={{ color: '#ffffff' }}
-            className="h-8 flex items-center gap-1.5 px-2.5 rounded-md bg-[#0e2a52] dark:bg-slate-950 border border-blue-400/60 hover:border-yellow-400 !text-white transition-all text-xs font-mono shadow-sm cursor-pointer shrink-0"
+            className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded-md bg-[#0e2a52] dark:bg-slate-950 border border-blue-400/60 hover:border-yellow-400 !text-white transition-all text-xs font-mono shadow-sm cursor-pointer shrink-0 whitespace-nowrap"
             title="Auto-cycles every 5 minutes. Click to force instant live sync"
           >
             <RefreshCw className={`w-3.5 h-3.5 text-yellow-400 dark:text-yellow-300 ${isSyncing ? 'animate-spin' : ''}`} />
@@ -258,18 +258,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Indian Languages Selector Dropdown (16 Languages) */}
-          <div className="relative" ref={langDropdownRef}>
+          <div className="relative shrink-0" ref={langDropdownRef}>
             <button
               type="button"
               onClick={() => setIsLangDropdownOpen(prev => !prev)}
-              className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold"
+              className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold shrink-0 whitespace-nowrap"
               aria-haspopup="true"
               aria-expanded={isLangDropdownOpen}
               title="Change platform language (16 Indian languages supported)"
             >
-              <Languages className="w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400" />
-              <span className="truncate max-w-[85px] sm:max-w-none">{currentLanguageOption?.nativeName || language}</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-blue-200 transition-transform duration-200 ${
+              <Languages className="w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400 shrink-0" />
+              <span className="truncate max-w-[55px] sm:max-w-[75px] md:max-w-none">{currentLanguageOption?.nativeName || language}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-blue-200 transition-transform duration-200 shrink-0 ${
                 isLangDropdownOpen ? 'rotate-180 text-yellow-300' : ''
               }`} />
             </button>
@@ -315,36 +315,36 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={toggleTheme}
-            className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer group select-none"
+            className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer group select-none shrink-0 whitespace-nowrap"
             aria-label={`Switch to ${theme === 'dark' ? 'Bright (White)' : 'Dark'} mode`}
             title={`Current: ${theme === 'dark' ? 'Dark' : 'Bright (White)'} Mode. Click to toggle.`}
           >
             {theme === 'dark' ? (
               <>
-                <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
+                <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform shrink-0" />
                 <span className="text-[11px] font-bold hidden sm:inline text-slate-200">{t('theme_dark')}</span>
               </>
             ) : (
               <>
-                <Sun className="w-3.5 h-3.5 text-yellow-300 group-hover:rotate-45 transition-transform" />
+                <Sun className="w-3.5 h-3.5 text-yellow-300 group-hover:rotate-45 transition-transform shrink-0" />
                 <span className="text-[11px] font-bold hidden sm:inline text-white">{t('theme_bright')}</span>
               </>
             )}
           </button>
 
           {/* Sleek Custom User Role Switcher Dropdown */}
-          <div className="relative" ref={roleDropdownRef}>
+          <div className="relative shrink-0" ref={roleDropdownRef}>
             <button
               type="button"
               onClick={() => setIsRoleDropdownOpen(prev => !prev)}
-              className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold"
+              className="h-8 flex items-center gap-1.5 px-2 sm:px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold shrink-0 whitespace-nowrap"
               aria-haspopup="true"
               aria-expanded={isRoleDropdownOpen}
               title="Switch platform operational role / persona"
             >
-              <CurrentRoleIcon className="w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400" />
+              <CurrentRoleIcon className="w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400 shrink-0" />
               <span className="capitalize">{currentRoleConfig.label}</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-blue-200 transition-transform duration-200 ${
+              <ChevronDown className={`w-3.5 h-3.5 text-blue-200 transition-transform duration-200 shrink-0 ${
                 isRoleDropdownOpen ? 'rotate-180 text-yellow-300' : ''
               }`} />
             </button>
@@ -410,7 +410,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Mobile Menu Hamburger Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all"
+            className="xl:hidden p-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all shrink-0"
             aria-label="Toggle Navigation Menu"
           >
             {isMobileMenuOpen ? <X className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> : <Menu className="w-4 h-4" />}
@@ -420,7 +420,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Dropdown Menu Drawer */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="xl:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
           {/* Mobile Language Selector */}
           <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs space-y-1.5">
             <div className="flex items-center gap-2 font-semibold text-slate-200">
