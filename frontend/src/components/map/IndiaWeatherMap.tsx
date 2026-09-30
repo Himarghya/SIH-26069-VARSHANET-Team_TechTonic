@@ -875,7 +875,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   }, [dashboardFilter, events]);
 
   return (
-    <div className="relative isolate z-0 w-full h-full min-h-[580px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/80 shadow-2xl bg-slate-100 dark:bg-slate-950 flex flex-col font-sans">
+    <div className="relative isolate z-0 w-full h-full rounded-2xl overflow-hidden shadow-md bg-slate-100 dark:bg-slate-950 flex flex-col font-sans">
       {/* Map Control Bar Overlay */}
       <div className="absolute top-3 left-3 right-3 z-[400] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
         <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-xs shadow-xl pointer-events-auto">
@@ -1034,7 +1034,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       </div>
 
       {/* Leaflet Container */}
-      <div ref={mapContainerRef} className="w-full flex-1" style={{ minHeight: '500px' }} />
+      <div ref={mapContainerRef} className="w-full flex-1 min-h-0" />
 
       {/* DWR Radar Reflectivity dBZ Scale Legend */}
       <div className="absolute top-28 sm:top-auto sm:bottom-3 right-3 z-[400] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-[9px] space-y-1 shadow-xl pointer-events-auto">

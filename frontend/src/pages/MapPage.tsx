@@ -186,7 +186,7 @@ export const MapPage: React.FC<MapPageProps> = ({
   };
 
   return (
-    <div className="space-y-4 font-sans select-none animate-fade-in">
+    <div className="space-y-4 font-sans select-none animate-fade-in pr-0 lg:pr-10 xl:pr-12">
       
       {/* 1. Top 4 Action / Filter Cards (Matching Screenshot Top Bar) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -299,11 +299,11 @@ export const MapPage: React.FC<MapPageProps> = ({
         </button>
       </div>
 
-      {/* 2. Main 3-Column Layout: Map (Left 6.5 cols) + ALERT LIST (Center 2.5 cols) + Earthquakes & Weather (Right 3 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+      {/* 2. Main 3-Column Layout: Map (Left 6 cols) + ALERT LIST (Center 3 cols) + Earthquakes & Weather (Right 3 cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[680px]">
         
         {/* Column A: Interactive Leaflet Map (6 cols on lg) */}
-        <div className="lg:col-span-6 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md min-h-[640px] flex flex-col">
+        <div className="lg:col-span-6 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
           <div className="flex-1 w-full h-full relative">
             <IndiaWeatherMap
               events={events}
@@ -315,9 +315,9 @@ export const MapPage: React.FC<MapPageProps> = ({
         </div>
 
         {/* Column B: ALERT LIST (Vertical Colored Cards Feed - 3 cols on lg) */}
-        <div className="lg:col-span-3 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[640px]">
+        <div className="lg:col-span-3 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
           {/* Blue Official Header */}
-          <div className="bg-[#18447e] text-white px-4 py-2.5 text-center font-heading font-black text-sm uppercase tracking-wider shadow-xs">
+          <div className="bg-[#18447e] text-white px-4 py-2.5 text-center font-heading font-black text-sm uppercase tracking-wider shadow-xs shrink-0">
             ALERT LIST
           </div>
 
@@ -347,27 +347,27 @@ export const MapPage: React.FC<MapPageProps> = ({
         </div>
 
         {/* Column C: Right Sidebar (Earthquakes + Weather Overview - 3 cols on lg) */}
-        <div className="lg:col-span-3 space-y-4">
+        <div className="lg:col-span-3 flex flex-col gap-3 h-auto lg:h-full">
           
           {/* Card 1: Recent Earthquakes Widget */}
-          <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md">
-            <div className="bg-[#18447e] text-white px-4 py-2.5 flex items-center justify-between font-heading font-black text-sm uppercase tracking-wider">
+          <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[270px] shrink-0">
+            <div className="bg-[#18447e] text-white px-4 py-2 flex items-center justify-between font-heading font-black text-xs uppercase tracking-wider shrink-0">
               <span>Recent Earthquakes</span>
               <Activity className="w-4 h-4 text-amber-300" />
             </div>
 
-            <div className="p-3 space-y-2.5 bg-slate-50/50 dark:bg-slate-950/40">
+            <div className="flex-1 p-2.5 space-y-2 bg-slate-50/50 dark:bg-slate-950/40 overflow-y-auto custom-scrollbar">
               {RECENT_EARTHQUAKES.map((eq, i) => (
                 <div
                   key={i}
-                  className={`p-3 rounded-xl border shadow-xs transition-transform hover:scale-[1.02] ${
+                  className={`p-2.5 rounded-xl border shadow-xs transition-transform hover:scale-[1.01] ${
                     eq.colorTheme === 'yellow'
                       ? 'bg-[#fff59d] dark:bg-amber-950/40 text-slate-900 dark:text-amber-100 border-amber-300 dark:border-amber-700/60'
                       : 'bg-[#a5d6a7] dark:bg-emerald-950/40 text-slate-900 dark:text-emerald-100 border-emerald-300 dark:border-emerald-700/60'
                   }`}
                 >
                   <div className="flex items-center justify-between font-bold">
-                    <span className="text-xs font-black uppercase tracking-wide">
+                    <span className="text-[11px] font-black uppercase tracking-wide">
                       {eq.magnitude} Magnitude
                     </span>
                     <span className="text-[9px] font-mono opacity-80">
@@ -375,12 +375,12 @@ export const MapPage: React.FC<MapPageProps> = ({
                     </span>
                   </div>
                   
-                  <div className="flex items-center gap-1 text-[11px] font-semibold mt-1">
+                  <div className="flex items-center gap-1 text-[10px] font-semibold mt-0.5">
                     <MapPin className="w-3 h-3 text-red-600 shrink-0" />
                     <span className="truncate">{eq.location}</span>
                   </div>
 
-                  <div className="flex items-center gap-3 text-[9px] font-mono opacity-75 mt-1.5 pt-1 border-t border-black/10 dark:border-white/10">
+                  <div className="flex items-center gap-3 text-[8.5px] font-mono opacity-75 mt-1 pt-0.5 border-t border-black/10 dark:border-white/10">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-2.5 h-2.5" />
                       {eq.date}
@@ -396,14 +396,14 @@ export const MapPage: React.FC<MapPageProps> = ({
           </div>
 
           {/* Card 2: Weather Overview & Live Nowcast Forecast */}
-          <div className="bg-[#18447e] text-white rounded-2xl overflow-hidden shadow-md flex flex-col">
-            <div className="px-4 py-2.5 font-heading font-black text-sm uppercase tracking-wider border-b border-blue-400/30">
+          <div className="bg-[#18447e] text-white rounded-2xl overflow-hidden shadow-md flex flex-col flex-1 min-h-[380px] lg:min-h-0">
+            <div className="px-4 py-2 font-heading font-black text-xs uppercase tracking-wider border-b border-blue-400/30 shrink-0">
               Weather Overview
             </div>
 
-            <div className="p-3.5 space-y-3.5">
+            <div className="flex-1 p-3 flex flex-col justify-between overflow-y-auto custom-scrollbar space-y-2">
               {/* Location Search Bar */}
-              <div className="relative">
+              <div className="relative shrink-0">
                 <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
@@ -416,59 +416,59 @@ export const MapPage: React.FC<MapPageProps> = ({
               </div>
 
               {/* Current Temperature & Sky condition banner */}
-              <div className="flex items-center justify-between px-2 py-1">
+              <div className="flex items-center justify-between px-2 py-0.5 shrink-0">
                 <div className="flex items-center gap-2">
-                  <Moon className="w-8 h-8 text-cyan-200 fill-cyan-200/40" />
+                  <Moon className="w-7 h-7 text-cyan-200 fill-cyan-200/40" />
                   <span className="text-2xl sm:text-3xl font-black font-mono">
                     31.4<span className="text-lg">°C</span>
                   </span>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-bold text-white lowercase">mainly</p>
-                  <p className="text-xs font-bold text-white lowercase">clear</p>
-                  <p className="text-xs font-bold text-white lowercase">sky</p>
+                  <p className="text-[11px] font-bold text-white lowercase leading-tight">mainly</p>
+                  <p className="text-[11px] font-bold text-white lowercase leading-tight">clear</p>
+                  <p className="text-[11px] font-bold text-white lowercase leading-tight">sky</p>
                 </div>
               </div>
 
               {/* Hourly Forecast Row */}
-              <div className="space-y-1.5 border-t border-blue-400/30 pt-2.5">
-                <h5 className="text-[11px] font-bold uppercase tracking-wider text-blue-200">
+              <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
+                <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
                   Hourly Forecast
                 </h5>
                 <div className="grid grid-cols-3 gap-1.5">
-                  <div className="bg-white/10 rounded-lg p-2 text-center">
-                    <span className="block text-[10px] font-mono text-blue-200">2:00 PM</span>
-                    <Sun className="w-4 h-4 mx-auto my-1 text-yellow-300" />
-                    <span className="block text-[11px] font-bold font-mono">24.01°</span>
+                  <div className="bg-white/10 rounded-lg p-1.5 text-center">
+                    <span className="block text-[9px] font-mono text-blue-200">2:00 PM</span>
+                    <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
+                    <span className="block text-[10px] font-bold font-mono">24.01°</span>
                   </div>
-                  <div className="bg-white/10 rounded-lg p-2 text-center">
-                    <span className="block text-[10px] font-mono text-blue-200">3:00 PM</span>
-                    <Sun className="w-4 h-4 mx-auto my-1 text-yellow-300" />
-                    <span className="block text-[11px] font-bold font-mono">25.55°</span>
+                  <div className="bg-white/10 rounded-lg p-1.5 text-center">
+                    <span className="block text-[9px] font-mono text-blue-200">3:00 PM</span>
+                    <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
+                    <span className="block text-[10px] font-bold font-mono">25.55°</span>
                   </div>
-                  <div className="bg-white/10 rounded-lg p-2 text-center">
-                    <span className="block text-[10px] font-mono text-blue-200">4:00 PM</span>
-                    <Sun className="w-4 h-4 mx-auto my-1 text-yellow-300" />
-                    <span className="block text-[11px] font-bold font-mono">27.35°</span>
+                  <div className="bg-white/10 rounded-lg p-1.5 text-center">
+                    <span className="block text-[9px] font-mono text-blue-200">4:00 PM</span>
+                    <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
+                    <span className="block text-[10px] font-bold font-mono">27.35°</span>
                   </div>
                 </div>
               </div>
 
               {/* Daily Forecast Row */}
-              <div className="space-y-1.5 border-t border-blue-400/30 pt-2.5">
-                <h5 className="text-[11px] font-bold uppercase tracking-wider text-blue-200">
+              <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
+                <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
                   Daily Forecast
                 </h5>
                 <div className="space-y-1 text-xs">
                   <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
-                    <span className="font-semibold text-xs">Today</span>
-                    <CloudLightning className="w-4 h-4 text-amber-300" />
-                    <span className="font-mono font-bold text-[11px]">33.0° / 22.0°</span>
+                    <span className="font-semibold text-[11px]">Today</span>
+                    <CloudLightning className="w-3.5 h-3.5 text-amber-300" />
+                    <span className="font-mono font-bold text-[10px]">33.0° / 22.0°</span>
                   </div>
                   <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
-                    <span className="font-semibold text-xs">Tomorrow</span>
-                    <Sun className="w-4 h-4 text-yellow-300" />
-                    <span className="font-mono font-bold text-[11px]">34.0° / 23.0°</span>
+                    <span className="font-semibold text-[11px]">Tomorrow</span>
+                    <Sun className="w-3.5 h-3.5 text-yellow-300" />
+                    <span className="font-mono font-bold text-[10px]">34.0° / 23.0°</span>
                   </div>
                 </div>
               </div>
