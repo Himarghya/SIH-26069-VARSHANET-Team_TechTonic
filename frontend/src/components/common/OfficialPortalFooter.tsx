@@ -19,15 +19,15 @@ import { useLanguage } from '../../context/LanguageContext';
 export const OfficialPortalFooter: React.FC = () => {
   const { t } = useLanguage();
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [todayCount, setTodayCount] = useState(482);
-  const [totalCount, setTotalCount] = useState(701594);
+  const [todayCount, setTodayCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
-  // Increment counter slightly to simulate live dynamic traffic
+  // Automatically and continuously increase visitor count from zero
   useEffect(() => {
     const timer = setInterval(() => {
       setTodayCount(prev => prev + 1);
       setTotalCount(prev => prev + 1);
-    }, 15000);
+    }, 2500);
     return () => clearInterval(timer);
   }, []);
 
