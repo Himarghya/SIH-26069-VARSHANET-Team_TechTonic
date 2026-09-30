@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { submitCitizenReport, trackCitizenReport, analyzeMedia, analyzeObservationText, TextAnalysisResult } from '../../services/api';
 import { WeatherReport, ALL_INDIAN_STATES_UTS } from '../../types';
+import { useLanguage } from '../../context/LanguageContext';
+import { CITIZEN_TRANSLATIONS } from './citizenTranslations';
 
 export interface MediaAnalysisResult {
   status: 'analyzing' | 'done' | 'error';
@@ -32,6 +34,9 @@ export interface MediaAnalysisResult {
 }
 
 export const CitizenReportForm: React.FC = () => {
+  const { language } = useLanguage();
+  const ct = CITIZEN_TRANSLATIONS[language] || CITIZEN_TRANSLATIONS['English'];
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [eventType, setEventType] = useState('Urban Flooding');
@@ -269,8 +274,6 @@ export const CitizenReportForm: React.FC = () => {
     }
   };
 
-
-
   const handleRemovePhoto = (index: number) => {
     setPhotos(prev => prev.filter((_, i) => i !== index));
     setPhotoError(null);
@@ -362,7 +365,7 @@ export const CitizenReportForm: React.FC = () => {
       const res = await trackCitizenReport(trackingId.trim());
       setTrackedReport(res);
     } catch (err) {
-      setTrackError('Ticket ID not found. Please verify your VR tracking code.');
+      setTrackError(ct.ticketNotFound);
       setTrackedReport(null);
     }
   };
@@ -376,9 +379,9 @@ export const CitizenReportForm: React.FC = () => {
             <CloudRain className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Citizen Weather Intelligence & Ground Report Portal</h2>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">{ct.portalTitle}</h2>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Submit real-time ground observations, localized flood hotspots, or storm damage with photo/video proofs.
+              {ct.portalSubtitle}
             </p>
           </div>
         </div>
@@ -387,29 +390,29 @@ export const CitizenReportForm: React.FC = () => {
           <div className="p-6 rounded-2xl bg-slate-950/90 border border-slate-800 text-center space-y-4 animate-fade-in">
             <div className="flex items-center justify-center gap-2">
               <CheckCircle2 className="w-8 h-8 text-emerald-400" />
-              <h3 className="text-base font-bold text-white">Report Successfully Submitted to National Grid</h3>
+              <h3 className="text-base font-bold text-white">{ct.reportSubmittedTitle}</h3>
             </div>
             
             <p className="text-xs text-emerald-300 font-mono">
-              Official Tracking Ticket: <strong className="text-white text-sm underline">{submittedReport.source_id}</strong>
+              {ct.officialTicket} <strong className="text-white text-sm underline">{submittedReport.source_id}</strong>
             </p>
 
-            {/* Official Citizen Confirmation Receipt (No AI internal percentages shown to user) */}
+            {/* Official Citizen Confirmation Receipt */}
             <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-left space-y-2.5 font-mono text-xs text-slate-300">
               <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span className="text-slate-400 uppercase text-[10px]">Transmission Status</span>
+                <span className="text-slate-400 uppercase text-[10px]">{ct.transmissionStatus}</span>
                 <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold text-[10px]">
-                  DISPATCHED TO OPERATIONS
+                  {ct.dispatchedToOps}
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <div>Hazard Category: <strong className="text-white font-sans">{submittedReport.event_type}</strong></div>
-                <div>Location: <strong className="text-cyan-300 font-sans">{submittedReport.city}, {submittedReport.state}</strong></div>
-                <div>Time Logged: <strong className="text-slate-300">{new Date(submittedReport.timestamp).toLocaleTimeString()}</strong></div>
-                <div>Assigned Grid Sector: <strong className="text-slate-300">{submittedReport.event_cluster_id || 'Active Incident Unit'}</strong></div>
+                <div>{ct.receiptHazard} <strong className="text-white font-sans">{submittedReport.event_type}</strong></div>
+                <div>{ct.receiptLocation} <strong className="text-cyan-300 font-sans">{submittedReport.city}, {submittedReport.state}</strong></div>
+                <div>{ct.receiptTime} <strong className="text-slate-300">{new Date(submittedReport.timestamp).toLocaleTimeString()}</strong></div>
+                <div>{ct.receiptSector} <strong className="text-slate-300">{submittedReport.event_cluster_id || 'Active Incident Unit'}</strong></div>
               </div>
               <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400 font-sans">
-                Observation: "{submittedReport.text}"
+                {ct.receiptObservation} "{submittedReport.text}"
               </div>
             </div>
 
@@ -417,7 +420,7 @@ export const CitizenReportForm: React.FC = () => {
             {photos.length > 0 && (
               <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-left">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2 font-mono">
-                  Attached Ground Proof Photos ({photos.length})
+                  {ct.attachedPhotosTitle} ({photos.length})
                 </span>
                 <div className="flex gap-2">
                   {photos.map((p, i) => (
@@ -433,7 +436,7 @@ export const CitizenReportForm: React.FC = () => {
             )}
 
             <div className="p-3.5 rounded-xl bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/40 text-xs text-slate-800 dark:text-cyan-200 text-left font-medium">
-              <span>Thank you for contributing to national life-safety intelligence. Operational units have been notified.</span>
+              <span>{ct.thankYouMessage}</span>
             </div>
 
             <button
@@ -443,33 +446,33 @@ export const CitizenReportForm: React.FC = () => {
               }}
               className="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md"
             >
-              Submit Another Ground Report
+              {ct.submitAnotherBtn}
             </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Event Category</label>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">{ct.eventCategory}</label>
                 <select
                   value={eventType}
                   onChange={(e) => setEventType(e.target.value)}
                   className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 cursor-pointer"
                 >
-                  <option value="Urban Flooding">Urban Flooding (Waterlogging)</option>
-                  <option value="Heavy Rainfall">Heavy Rainfall</option>
-                  <option value="Flash Flood">Flash Flood</option>
-                  <option value="Thunderstorm">Thunderstorm & Lightning</option>
-                  <option value="Hailstorm">Hailstorm</option>
-                  <option value="Cloudburst">Cloudburst</option>
-                  <option value="Landslide">Landslide</option>
-                  <option value="Heatwave">Heatwave</option>
-                  <option value="Fog">Dense Fog</option>
+                  <option value="Urban Flooding">{ct.categories.urbanFlooding}</option>
+                  <option value="Heavy Rainfall">{ct.categories.heavyRainfall}</option>
+                  <option value="Flash Flood">{ct.categories.flashFlood}</option>
+                  <option value="Thunderstorm">{ct.categories.thunderstorm}</option>
+                  <option value="Hailstorm">{ct.categories.hailstorm}</option>
+                  <option value="Cloudburst">{ct.categories.cloudburst}</option>
+                  <option value="Landslide">{ct.categories.landslide}</option>
+                  <option value="Heatwave">{ct.categories.heatwave}</option>
+                  <option value="Fog">{ct.categories.fog}</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">State / UT</label>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">{ct.stateUt}</label>
                 <select
                   value={state}
                   onChange={(e) => setState(e.target.value)}
@@ -485,10 +488,10 @@ export const CitizenReportForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">City / District / Landmark</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">{ct.cityDistrictLandmark}</label>
               <input
                 type="text"
-                placeholder="e.g. MP Nagar Zone-2 Bhopal, Dadar Hindmata Mumbai..."
+                placeholder={ct.cityPlaceholder}
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-cyan-500"
@@ -497,17 +500,17 @@ export const CitizenReportForm: React.FC = () => {
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">Observation Details (English, Hindi, or Hinglish)</label>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">{ct.observationDetails}</label>
                 {isAnalyzingText && (
                   <span className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5 animate-pulse">
-                    Scanning NLP Threat...
+                    {ct.scanningThreat}
                   </span>
                 )}
               </div>
               <textarea
                 rows={3}
                 required
-                placeholder="Describe road water depth, traffic halts, river overflowing, power outage..."
+                placeholder={ct.observationPlaceholder}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className={`w-full bg-slate-50 dark:bg-slate-950 border rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all ${
@@ -519,7 +522,7 @@ export const CitizenReportForm: React.FC = () => {
                 }`}
               />
 
-              {/* 🧠 Real-Time NLP Text Threat Feedback (Green: Disaster Related | Red: Non-Disaster) */}
+              {/* 🧠 Real-Time NLP Text Threat Feedback */}
               {textAnalysis && description.trim().length >= 3 && (
                 <div className={`mt-2 p-2.5 rounded-xl border flex items-center justify-between gap-3 text-xs transition-all animate-fade-in ${
                   textAnalysis.is_disaster
@@ -533,25 +536,25 @@ export const CitizenReportForm: React.FC = () => {
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <strong className="text-xs font-mono font-bold uppercase tracking-wider">
-                          {textAnalysis.is_disaster ? 'Disaster Threat Detected' : 'Non-Disaster / Normal Text'}
+                          {textAnalysis.is_disaster ? ct.threatDetected : ct.normalText}
                         </strong>
                         <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border ${
                           textAnalysis.is_disaster
                             ? 'bg-emerald-100 dark:bg-emerald-900/80 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700'
                             : 'bg-rose-100 dark:bg-rose-900/80 text-rose-800 dark:text-rose-200 border-rose-300 dark:border-rose-700'
                         }`}>
-                          {textAnalysis.disaster_score_pct ?? Math.round(textAnalysis.disaster_prob * 100)}% Threat Probability
+                          {textAnalysis.disaster_score_pct ?? Math.round(textAnalysis.disaster_prob * 100)}% {ct.threatProbability}
                         </span>
                       </div>
                       <p className="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5 font-sans">
                         {textAnalysis.is_disaster
-                          ? 'Observation identifies active hazard or emergency condition. Color: Green (Disaster-related).'
-                          : 'Observation describes non-hazard or routine activity. Color: Red (Not disaster-related).'}
+                          ? ct.threatDescDisaster
+                          : ct.threatDescNormal}
                       </p>
                     </div>
                   </div>
                   <span className="text-[9px] font-mono text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-black/50 px-2 py-1 rounded border border-slate-200 dark:border-slate-800 shrink-0 hidden sm:inline-block">
-                    TextGuard Multilingual NLP
+                    {ct.nlpBadge}
                   </span>
                 </div>
               )}
@@ -562,15 +565,15 @@ export const CitizenReportForm: React.FC = () => {
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 font-mono uppercase">
                   <Camera className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                  <span>Attach Photo / Video Proofs (Ground Evidence)</span>
+                  <span>{ct.attachProofTitle}</span>
                 </label>
                 <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-cyan-700 dark:text-cyan-300 border border-slate-200 dark:border-slate-800">
-                  {photos.length} / 3 Media Attached
+                  {photos.length} / 3 {ct.mediaAttachedSuffix}
                 </span>
               </div>
 
               <p className="text-[11px] text-slate-600 dark:text-slate-400">
-                Upload photos or videos (MP4, WebM, MOV) of flood water depth, traffic disruption, or storm damage. Media is filtered in real-time by <span className="text-purple-700 dark:text-purple-300 font-semibold">VARSHANET-VisionGuard-v2.1</span>.
+                {ct.mediaDesc}
               </p>
 
               {/* Photo & Video Previews with Per-Media ML Forensics */}
@@ -607,7 +610,7 @@ export const CitizenReportForm: React.FC = () => {
                             </button>
                             
                             <span className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/80 text-[9px] font-mono text-cyan-300 pointer-events-none">
-                              {isVid ? '🎥 Field Video' : `Photo #${idx + 1}`}
+                              {isVid ? ct.fieldVideo : `${ct.photoPrefix}${idx + 1}`}
                             </span>
                           </div>
 
@@ -615,47 +618,47 @@ export const CitizenReportForm: React.FC = () => {
                           <div className="p-2.5 space-y-1 font-mono text-left bg-slate-50 dark:bg-slate-950/60 border-t border-slate-200 dark:border-slate-800/80">
                             {isAnalyzing ? (
                               <div className="flex items-center gap-1.5 text-cyan-600 dark:text-cyan-300 text-[10px]">
-                                <span className="font-bold">Scanning ML Models...</span>
+                                <span className="font-bold">{ct.scanningModels}</span>
                               </div>
                             ) : isNotDisaster ? (
                               <div className="space-y-1">
                                 <div className="text-[10px] font-black text-rose-700 dark:text-rose-300 flex items-center gap-1 bg-rose-100 dark:bg-rose-950/80 px-2 py-0.5 rounded border border-rose-300 dark:border-rose-800">
                                   <AlertCircle className="w-3 h-3 text-rose-600 dark:text-rose-400 shrink-0" />
-                                  <span>FALSE: NOT DISASTER</span>
+                                  <span>{ct.falseNotDisaster}</span>
                                 </div>
                                 <div className="text-[9px] text-rose-700 dark:text-rose-300/90 truncate">
-                                  {analysis?.detected_category || 'Normal Everyday Scene'}
+                                  {analysis?.detected_category || ct.normalScene}
                                 </div>
                                 <div className="text-[9px] font-bold text-rose-600 dark:text-rose-400">
-                                  {analysis?.admin_recommendation || '❌ RECOMMEND REJECT'}
+                                  {analysis?.admin_recommendation || ct.recommendReject}
                                 </div>
                                 <div className="text-[8px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between pt-0.5 border-t border-slate-200 dark:border-slate-800/60">
-                                  <span className="truncate">Dataset: Kaggle CDD</span>
-                                  <span className="text-slate-500 font-bold shrink-0">Negative Baseline</span>
+                                  <span className="truncate">{ct.datasetLabel}</span>
+                                  <span className="text-slate-500 font-bold shrink-0">Negative</span>
                                 </div>
                               </div>
                             ) : isDisaster ? (
                               <div className="space-y-1">
                                 <div className="text-[10px] font-black text-emerald-800 dark:text-emerald-300 flex items-center gap-1 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-300 dark:border-emerald-800">
                                   <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                                  <span>TRUE: DISASTER GROUND PROOF</span>
+                                  <span>{ct.trueDisasterProof}</span>
                                 </div>
                                 <div className="text-[9px] text-emerald-700 dark:text-emerald-300/90 truncate">
-                                  {analysis?.detected_category || 'Disaster Ground Evidence'}
+                                  {analysis?.detected_category || ct.disasterEvidence}
                                 </div>
                                 <div className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400">
-                                  {analysis?.admin_recommendation || '✅ RECOMMEND VERIFY'}
+                                  {analysis?.admin_recommendation || ct.recommendVerify}
                                 </div>
                                 <div className="text-[8px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between pt-0.5 border-t border-slate-200 dark:border-slate-800/60">
-                                  <span className="truncate">Dataset: Kaggle CDD</span>
+                                  <span className="truncate">{ct.datasetLabel}</span>
                                   <span className="text-emerald-600 dark:text-emerald-400 font-bold shrink-0">
-                                    {((analysis?.disaster_prob || 1) * 100).toFixed(0)}% Conf
+                                    {((analysis?.disaster_prob || 1) * 100).toFixed(0)}% {ct.confidence}
                                   </span>
                                 </div>
                               </div>
                             ) : (
                               <div className="flex items-center gap-1.5 text-slate-400 text-[10px]">
-                                <span>Awaiting Analysis...</span>
+                                <span>{ct.awaitingAnalysis}</span>
                               </div>
                             )}
                           </div>
@@ -680,7 +683,7 @@ export const CitizenReportForm: React.FC = () => {
                       return (
                         <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/80 text-[11px] font-mono text-purple-900 dark:text-purple-200 flex items-center justify-between gap-2 shadow-sm">
                           <span className="flex items-center gap-2 font-bold text-purple-800 dark:text-purple-300">
-                            <span>🔬 VARSHANET DisasterGuard (Trained Kaggle CDD Dataset) analyzing photo evidence in real time...</span>
+                            <span>{ct.mlAnalyzingBanner}</span>
                           </span>
                         </div>
                       );
@@ -691,10 +694,10 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800/80 text-[11px] font-mono text-rose-900 dark:text-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
                           <span className="flex items-center gap-2 font-black text-rose-700 dark:text-rose-300">
                             <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
-                            <span>❌ ML PRE-SCREEN: FALSE (NOT DISASTER RELATED - REJECTED VIA KAGGLE CDD BASELINE)</span>
+                            <span>{ct.mlRejectBanner}</span>
                           </span>
                           <span className="text-rose-800 dark:text-rose-200 font-bold bg-rose-100 dark:bg-rose-900/90 px-2.5 py-0.5 rounded border border-rose-300 dark:border-rose-700 text-right shrink-0">
-                            ⚠️ Flagged For Immediate Admin Rejection
+                            {ct.mlFlaggedAdmin}
                           </span>
                         </div>
                       );
@@ -705,10 +708,10 @@ export const CitizenReportForm: React.FC = () => {
                         <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800/80 text-[11px] font-mono text-emerald-900 dark:text-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
                           <span className="flex items-center gap-2 font-black text-emerald-800 dark:text-emerald-300">
                             <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                            <span>✅ ML PRE-SCREEN: TRUE (DISASTER GROUND PROOF CONFIRMED BY TRAINED KAGGLE CDD MODEL)</span>
+                            <span>{ct.mlApprovedBanner}</span>
                           </span>
                           <span className="text-emerald-800 dark:text-emerald-200 font-bold bg-emerald-100 dark:bg-emerald-900/90 px-2.5 py-0.5 rounded border border-emerald-300 dark:border-emerald-700 text-right shrink-0">
-                            ✓ Validated For Transmission
+                            {ct.mlValidatedTransmission}
                           </span>
                         </div>
                       );
@@ -737,16 +740,16 @@ export const CitizenReportForm: React.FC = () => {
                       {isDragging ? (
                         <div className="flex flex-col items-center gap-1.5 text-cyan-700 dark:text-cyan-300 animate-bounce">
                           <ArrowDownCircle className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
-                          <span className="text-xs font-bold font-mono">Drop photo(s) or video(s) here!</span>
+                          <span className="text-xs font-bold font-mono">{ct.dropHere}</span>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center gap-1.5 text-slate-700 dark:text-slate-300 text-center">
                           <Upload className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                           <span className="text-xs font-semibold">
-                            <strong>Drag &amp; Drop photos or videos here</strong>, or <span className="text-cyan-600 dark:text-cyan-400 underline">browse files</span>
+                            <strong>{ct.dragDropTitle}</strong>, or <span className="text-cyan-600 dark:text-cyan-400 underline">{ct.browseFiles}</span>
                           </span>
                           <span className="text-[10px] text-slate-500 font-mono">
-                            Supports MP4, WebM, MOV, JPG, PNG, WebP (or paste with Ctrl+V)
+                            {ct.supportsMedia}
                           </span>
                         </div>
                       )}
@@ -772,7 +775,7 @@ export const CitizenReportForm: React.FC = () => {
               <div className="flex items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
                 <MapPin className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                 <span>
-                  {latitude ? `${latitude.toFixed(4)}° N, ${longitude?.toFixed(4)}° E` : 'GPS not captured yet'}
+                  {latitude ? `${latitude.toFixed(4)}° N, ${longitude?.toFixed(4)}° E` : ct.gpsNotCaptured}
                 </span>
               </div>
               <button
@@ -781,7 +784,7 @@ export const CitizenReportForm: React.FC = () => {
                 disabled={isLocating}
                 className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-cyan-700 dark:text-cyan-300 text-xs font-bold border border-slate-300 dark:border-slate-700 transition-all cursor-pointer"
               >
-                {isLocating ? 'Detecting...' : 'Auto-Locate GPS'}
+                {isLocating ? ct.detectingGps : ct.autoLocateGps}
               </button>
             </div>
 
@@ -796,12 +799,12 @@ export const CitizenReportForm: React.FC = () => {
                   {isAllGreen ? (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                      <span className="text-emerald-900 dark:text-emerald-300 font-bold">ALL PRE-SCREENS VERIFIED (GREEN) | READY TO TRANSMIT</span>
+                      <span className="text-emerald-900 dark:text-emerald-300 font-bold">{ct.allScreensVerified}</span>
                     </>
                   ) : (
                     <>
                       <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-                      <span className="text-amber-900 dark:text-amber-300 font-bold">SUBMISSION LOCKED | REQUIRES ALL GREEN PRE-SCREENS</span>
+                      <span className="text-amber-900 dark:text-amber-300 font-bold">{ct.submissionLocked}</span>
                     </>
                   )}
                 </span>
@@ -810,7 +813,7 @@ export const CitizenReportForm: React.FC = () => {
                     ? 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-900/90 dark:text-emerald-200 dark:border-emerald-700'
                     : 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-800'
                 }`}>
-                  {isAllGreen ? 'ENABLED' : 'DISABLED'}
+                  {isAllGreen ? ct.enabledBadge : ct.disabledBadge}
                 </span>
               </div>
 
@@ -832,12 +835,12 @@ export const CitizenReportForm: React.FC = () => {
                   ) : null}
                   <span className="truncate">
                     {isTextGreen
-                      ? 'Text: Disaster Threat (Green)'
+                      ? ct.textDisasterGreen
                       : isAnalyzingText
-                      ? 'Text: Analyzing NLP Threat...'
+                      ? ct.textAnalyzing
                       : textAnalysis && !textAnalysis.is_disaster
-                      ? 'Text: Non-Disaster (Red)'
-                      : 'Text: Enter Disaster Details'}
+                      ? ct.textNonDisasterRed
+                      : ct.textEnterDetails}
                   </span>
                 </div>
 
@@ -858,14 +861,14 @@ export const CitizenReportForm: React.FC = () => {
                   ) : null}
                   <span className="truncate">
                     {isMediaGreen
-                      ? `Media: ${photos.length} Proof(s) Confirmed (Green)`
+                      ? `${ct.mediaConfirmedGreen} (${photos.length})`
                       : isAnyPhotoAnalyzing
-                      ? 'Media: Scanning Forensics...'
+                      ? ct.mediaScanning
                       : isAnyPhotoNonDisaster
-                      ? 'Media: Flagged Non-Disaster (Red)'
+                      ? ct.mediaFlaggedRed
                       : hasPhotos
-                      ? 'Media: Verification Pending'
-                      : 'Media: Attach Disaster Photo Proof'}
+                      ? ct.mediaPending
+                      : ct.mediaAttachProof}
                   </span>
                 </div>
               </div>
@@ -883,10 +886,10 @@ export const CitizenReportForm: React.FC = () => {
             >
               <Send className={`w-4 h-4 ${isAllGreen ? 'text-white' : 'text-slate-400 dark:text-slate-500'} ${isSubmitting ? 'animate-spin' : ''}`} />
               {isSubmitting
-                ? 'Transmitting to State Disaster Command...'
+                ? ct.submittingText
                 : isAllGreen
-                ? 'Submit Ground Observation & Photos'
-                : 'Submit Ground Observation & Photos (Disabled — Awaiting All Green)'}
+                ? ct.submitBtnEnabled
+                : ct.submitBtnDisabled}
             </button>
           </form>
         )}
@@ -895,15 +898,15 @@ export const CitizenReportForm: React.FC = () => {
       {/* Tracking Portal */}
       <div className="lg:col-span-5 bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm dark:shadow-2xl space-y-4 flex flex-col justify-between font-sans">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">Track Citizen Submission</h3>
+          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">{ct.trackTitle}</h3>
           <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
-            Enter your official VR tracking code to view verification and meteorological dispatch status.
+            {ct.trackSubtitle}
           </p>
 
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="e.g. VR-2026-AB12CD"
+              placeholder={ct.trackPlaceholder}
               value={trackingId}
               onChange={(e) => setTrackingId(e.target.value)}
               className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white uppercase placeholder-slate-400 dark:placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500"
@@ -912,7 +915,7 @@ export const CitizenReportForm: React.FC = () => {
               onClick={handleTrack}
               className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-cyan-700 dark:text-cyan-300 text-xs font-bold border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
             >
-              Track
+              {ct.trackBtn}
             </button>
           </div>
 
@@ -928,8 +931,8 @@ export const CitizenReportForm: React.FC = () => {
                   trackedReport.verification_status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800' :
                   trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-800' : 'bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800'
                 }`}>
-                  {trackedReport.verification_status === 'VERIFIED' ? 'VERIFIED OFFICIAL' :
-                   trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'FLAGGED / REJECTED' : 'UNDER OPERATIONAL REVIEW'}
+                  {trackedReport.verification_status === 'VERIFIED' ? ct.statusVerified :
+                   trackedReport.verification_status === 'LIKELY_MISLEADING' ? ct.statusFlagged : ct.statusUnderReview}
                 </span>
               </div>
               <p className="text-slate-700 dark:text-slate-300 font-sans text-xs py-1">{trackedReport.text}</p>
@@ -937,7 +940,7 @@ export const CitizenReportForm: React.FC = () => {
               {/* Image Proof Inspection in Tracking */}
               {trackedReport.media_urls && trackedReport.media_urls.length > 0 && (
                 <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block mb-1.5 font-semibold">Submitted Photo Evidence ({trackedReport.media_urls.length}):</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block mb-1.5 font-semibold">{ct.trackedEvidenceTitle} ({trackedReport.media_urls.length}):</span>
                   <div className="flex gap-2">
                     {trackedReport.media_urls.map((p, i) => (
                       <img key={i} src={p} alt="Tracked Proof" className="w-14 h-14 rounded-lg object-cover border border-slate-200 dark:border-slate-700" />
@@ -947,8 +950,8 @@ export const CitizenReportForm: React.FC = () => {
               )}
 
               <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-800/80 text-[11px]">
-                <div>Location: <strong className="text-slate-900 dark:text-white">{trackedReport.city || 'District'}, {trackedReport.state}</strong></div>
-                <div>Status: <strong className="text-cyan-700 dark:text-cyan-300">{trackedReport.verification_status}</strong></div>
+                <div>{ct.trackedLocation} <strong className="text-slate-900 dark:text-white">{trackedReport.city || 'District'}, {trackedReport.state}</strong></div>
+                <div>{ct.trackedStatus} <strong className="text-cyan-700 dark:text-cyan-300">{trackedReport.verification_status}</strong></div>
               </div>
             </div>
           )}
@@ -956,9 +959,9 @@ export const CitizenReportForm: React.FC = () => {
 
         {/* Public Service Notice (High contrast in both Light & Dark modes) */}
         <div className="p-4 rounded-xl bg-cyan-50/90 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/40 text-xs space-y-1.5 shadow-xs">
-          <strong className="block font-bold text-cyan-950 dark:text-cyan-200 text-xs">National Safety Directive:</strong>
+          <strong className="block font-bold text-cyan-950 dark:text-cyan-200 text-xs">{ct.directiveTitle}</strong>
           <p className="text-[12px] leading-relaxed text-slate-800 dark:text-cyan-100 font-medium">
-            For active life-threatening emergencies, call State Disaster Management Authority (SDMA: 1070) or National Emergency Number 112 immediately.
+            {ct.directiveText}
           </p>
         </div>
       </div>
