@@ -106,28 +106,28 @@ export const malayalamContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#നഗരവെള്ളപ്പൊക്കം | കാലവർഷ ഡ്രെയിനേജ് പരിപാലനം',
-        duration: '4:05',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | നഗര വെള്ളപ്പൊക്ക സമയത്ത് ചെയ്യേണ്ട കാര്യങ്ങൾ | NDMA',
+        duration: '0:56',
+        youtubeId: 'E_hdGy-aelE',
+        thumbnailUrl: 'https://img.youtube.com/vi/E_hdGy-aelE/hqdefault.jpg'
       },
       {
-        title: '#നഗരവെള്ളപ്പൊക്കം | ഷോക്കേൽക്കാനുള്ള സാധ്യതകളും ഓടകളും ഒഴിവാക്കൽ',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | നഗര വെള്ളപ്പൊക്കത്തിന് മുൻപ് എന്തെല്ലാം ചെയ്യണം | NDMA',
+        duration: '0:57',
+        youtubeId: 'U214kruEUJA',
+        thumbnailUrl: 'https://img.youtube.com/vi/U214kruEUJA/hqdefault.jpg'
       },
       {
-        title: '#നഗരവെള്ളപ്പൊക്കം | അണ്ടർപാസ് സുരക്ഷാ മാർഗ്ഗനിർദ്ദേശങ്ങൾ',
-        duration: '3:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | നഗര വെള്ളപ്പൊക്ക സമയത്തെ സുരക്ഷാ മുൻകരുതലുകൾ | NDMA',
+        duration: '0:56',
+        youtubeId: 'VKzhHC1H8j0',
+        thumbnailUrl: 'https://img.youtube.com/vi/VKzhHC1H8j0/hqdefault.jpg'
       },
       {
-        title: '#നഗരവെള്ളപ്പൊക്കം | ഡ്രെയിനേജ് മലിനജലം തിരിച്ചു വരുന്നത് തടയൽ',
-        duration: '4:45',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | നഗര വെള്ളപ്പൊക്കത്തിന് ശേഷം ചെയ്യേണ്ടവ | NDMA',
+        duration: '0:56',
+        youtubeId: 'spNyX6M5I2A',
+        thumbnailUrl: 'https://img.youtube.com/vi/spNyX6M5I2A/hqdefault.jpg'
       }
     ]
   },

@@ -106,28 +106,28 @@ export const tamilContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#நகர்ப்புறவெள்ளம் | பருவமழை வடிகால் மற்றும் பேஸ்மென்ட் பாதுகாப்பு',
-        duration: '4:05',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | நகர்ப்புற வெள்ளத்தின் போது என்ன செய்ய வேண்டும் | NDMA',
+        duration: '0:56',
+        youtubeId: 'E_hdGy-aelE',
+        thumbnailUrl: 'https://img.youtube.com/vi/E_hdGy-aelE/hqdefault.jpg'
       },
       {
-        title: '#நகர்ப்புறவெள்ளம் | மின்கசிவு மற்றும் திறந்த கால்வாய் ஆபத்துகள்',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | நகர்ப்புற வெள்ளத்திற்கு முன் என்ன செய்ய வேண்டும் | NDMA',
+        duration: '0:57',
+        youtubeId: 'U214kruEUJA',
+        thumbnailUrl: 'https://img.youtube.com/vi/U214kruEUJA/hqdefault.jpg'
       },
       {
-        title: '#நகர்ப்புறவெள்ளம் | சுரங்கப்பாதை பயணப் பாதுகாப்பு விதிகள்',
-        duration: '3:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | நகர்ப்புற வெள்ளத்தின் போது பாதுகாப்பு நடவடிக்கைகள் | NDMA',
+        duration: '0:56',
+        youtubeId: 'VKzhHC1H8j0',
+        thumbnailUrl: 'https://img.youtube.com/vi/VKzhHC1H8j0/hqdefault.jpg'
       },
       {
-        title: '#நகர்ப்புறவெள்ளம் | கழிவுநீர் பின்னோக்கிப் பாய்வதைத் தடுக்கும் முறை',
-        duration: '4:45',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | நகர்ப்புற வெள்ளத்திற்குப் பிறகு என்ன செய்ய வேண்டும் | NDMA',
+        duration: '0:56',
+        youtubeId: 'spNyX6M5I2A',
+        thumbnailUrl: 'https://img.youtube.com/vi/spNyX6M5I2A/hqdefault.jpg'
       }
     ]
   },

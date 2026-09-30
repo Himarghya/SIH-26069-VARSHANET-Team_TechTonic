@@ -106,28 +106,28 @@ export const punjabiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ਸ਼ਹਿਰੀਹੜ੍ਹ | ਮਾਨਸੂਨ ਡਰੇਨੇਜ ਅਤੇ ਬੇਸਮੈਂਟ ਸੁਰੱਖਿਆ',
-        duration: '4:05',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | ਸ਼ਹਿਰੀ ਹੜ੍ਹਾਂ ਦੌਰਾਨ ਕੀ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ | NDMA',
+        duration: '0:56',
+        youtubeId: 'E_hdGy-aelE',
+        thumbnailUrl: 'https://img.youtube.com/vi/E_hdGy-aelE/hqdefault.jpg'
       },
       {
-        title: '#ਸ਼ਹਿਰੀਹੜ੍ਹ | ਕਰੰਟ ਲੱਗਣ ਅਤੇ ਖੁੱਲ੍ਹੇ ਨਾਲਿਆਂ ਦੇ ਖ਼ਤਰੇ ਤੋਂ ਬਚਾਅ',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | ਸ਼ਹਿਰੀ ਹੜ੍ਹਾਂ ਤੋਂ ਪਹਿਲਾਂ ਕੀ ਤਿਆਰੀ ਰੱਖੀਏ | NDMA',
+        duration: '0:57',
+        youtubeId: 'U214kruEUJA',
+        thumbnailUrl: 'https://img.youtube.com/vi/U214kruEUJA/hqdefault.jpg'
       },
       {
-        title: '#ਸ਼ਹਿਰੀਹੜ੍ਹ | ਅੰਡਰਪਾਸ ਅਤੇ ਸ਼ਹਿਰ ਵਿੱਚ ਸਫ਼ਰ ਦੇ ਸੁਰੱਖਿਆ ਨਿਯਮ',
-        duration: '3:50',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | ਸ਼ਹਿਰੀ ਹੜ੍ਹਾਂ ਦੌਰਾਨ ਸੁਰੱਖਿਆ ਉਪਾਅ | NDMA',
+        duration: '0:56',
+        youtubeId: 'VKzhHC1H8j0',
+        thumbnailUrl: 'https://img.youtube.com/vi/VKzhHC1H8j0/hqdefault.jpg'
       },
       {
-        title: '#ਸ਼ਹਿਰੀਹੜ੍ਹ | ਸੀਵਰੇਜ ਪਾਣੀ ਬੈਕਫਲੋ ਰੋਕਣ ਦਾ ਤਰੀਕਾ',
-        duration: '4:45',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#UrbanFlood | ਸ਼ਹਿਰੀ ਹੜ੍ਹਾਂ ਤੋਂ ਬਾਅਦ ਕੀ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ | NDMA',
+        duration: '0:56',
+        youtubeId: 'spNyX6M5I2A',
+        thumbnailUrl: 'https://img.youtube.com/vi/spNyX6M5I2A/hqdefault.jpg'
       }
     ]
   },
