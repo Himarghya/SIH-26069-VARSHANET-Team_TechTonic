@@ -1,0 +1,17 @@
+name: Keep Render Alive
+
+on:
+  schedule:
+    # Ping every 10 minutes (Cron format: minute hour day month day-of-week)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions UI
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping VARSHANET Live Website & API
+        run: |
+          echo "Pinging VARSHANET 2.0 on Render..."
+          curl -s -f "https://sih-26069-varshanet-team-techtonic.onrender.com/api/v1/system/health" || curl -s "https://sih-26069-varshanet-team-techtonic.onrender.com/"
+          echo "Ping successful! Instance kept warm."
