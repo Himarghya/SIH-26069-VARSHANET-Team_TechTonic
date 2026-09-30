@@ -163,7 +163,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const CurrentRoleIcon = currentRoleConfig.icon;
 
   return (
-    <header className="bg-[#18447e] dark:bg-slate-900/95 backdrop-blur-md border-b-2 border-[#123666] dark:border-slate-800 sticky top-0 z-50 px-3 sm:px-6 lg:px-8 xl:px-10 py-2 w-full font-sans transition-colors text-white shadow-md">
+    <header className="bg-[#18447e] dark:bg-slate-900/95 backdrop-blur-md border-b-2 border-[#123666] dark:border-slate-800 sticky top-0 z-[9999] px-3 sm:px-6 lg:px-8 xl:px-10 py-2 w-full font-sans transition-colors text-white shadow-md">
       <div className="flex items-center justify-between gap-3 lg:gap-6 w-full mx-auto">
         {/* Brand with Devanagari 'सचेत' & National Disaster Alert Portal Tagline */}
         <div

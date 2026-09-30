@@ -126,7 +126,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   // Layer states
   const [showInundationZones, setShowInundationZones] = useState(true);
   const [showVerifiedReports, setShowVerifiedReports] = useState(true);
-  const [showDwrRadarEchoes, setShowDwrRadarEchoes] = useState(true);
+  const [showDwrRadarEchoes, setShowDwrRadarEchoes] = useState(false);
   const [showNewsPinpoints, setShowNewsPinpoints] = useState(true);
   const [showNdrfDepots, setShowNdrfDepots] = useState(true);
   const [showRiverCorridors, setShowRiverCorridors] = useState(true);
@@ -772,14 +772,14 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       const pulseColor = isCritical ? 'bg-rose-500' : isHigh ? 'bg-amber-500' : 'bg-cyan-400';
 
       if (showInundationZones) {
-        const zoneRadius = radarTimeline === 'T-1h' ? 12000 : radarTimeline === 'LIVE' ? 15000 : radarTimeline === '+1h' ? 20000 : 26000;
+        const zoneRadius = 6000;
         const circle = L.circle([evt.latitude, evt.longitude], {
           radius: zoneRadius,
           color: color,
           fillColor: color,
-          fillOpacity: isSelected ? 0.32 : radarTimeline === 'LIVE' ? 0.18 : 0.12,
-          weight: isSelected ? 2.5 : 1.2,
-          dashArray: isSelected ? undefined : radarTimeline !== 'LIVE' ? '4, 4' : undefined,
+          fillOpacity: isSelected ? 0.25 : 0.08,
+          weight: isSelected ? 2 : 1,
+          dashArray: isSelected ? undefined : '3, 3',
         });
         zonesLayerRef.current?.addLayer(circle);
       }
@@ -894,7 +894,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   }, [dashboardFilter, events]);
 
   return (
-    <div className="relative w-full h-full min-h-[580px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/80 shadow-2xl bg-slate-100 dark:bg-slate-950 flex flex-col font-sans">
+    <div className="relative isolate z-0 w-full h-full min-h-[580px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/80 shadow-2xl bg-slate-100 dark:bg-slate-950 flex flex-col font-sans">
       {/* Tactical Quick-Jump City Bar */}
       <div className="bg-slate-100/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 py-2 flex items-center justify-between gap-2 overflow-x-auto z-10 shrink-0">
         <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-700 dark:text-cyan-300 shrink-0 font-mono">
