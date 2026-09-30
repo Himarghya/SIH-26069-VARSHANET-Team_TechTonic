@@ -16,9 +16,13 @@ import {
   Wind,
   Droplets,
   Calendar,
-  Clock
+  Clock,
+  ArrowRight,
+  List,
+  Filter
 } from 'lucide-react';
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
+import { CapAlertDetailModal, OfficialCapAlert } from '../components/map/CapAlertDetailModal';
 import { EventCluster, WeatherReport, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -57,79 +61,215 @@ const RECENT_EARTHQUAKES = [
   }
 ];
 
-// Pre-curated Official CAP Alerts matching NDMA SACHET
-const DEFAULT_CAP_ALERTS = [
+// Official NDMA SACHET Common Alerting Protocol (CAP) Alerts
+export const OFFICIAL_CAP_ALERTS: OfficialCapAlert[] = [
   {
-    id: 'cap-1',
-    type: 'Thunderstorm with Lightning',
-    location: 'Nainital and Almora, Uttarakhand',
-    severity: 'MODERATE',
-    color: 'yellow',
+    id: 'cap-uttarakhand-1',
+    issuedBy: 'Govt. of Uttarakhand',
+    state: 'Uttarakhand',
+    event: 'Thunderstorm with Lightning',
+    warningLevel: 'Low',
+    warningColor: 'yellow',
+    location: 'Nainital and Almora',
+    validUpto: '30 Sep 2026 4:07 PM',
+    issuedAt: '2026/09/30 13:07',
     lat: 29.3803,
     lon: 79.4636,
+    radiusKm: 30,
+    descriptionHi: '[2026/09/30 13:07] अगले 3 घंटो के दौरान, आपके क्षेत्र में, कहीं-कहीं गर्जन के साथ आकाशीय बिजली चमकने/वर्षा के तीव्र दौर होने की संभावना हैं।',
+    descriptionEn: '[2026/09/30 13:07] During the next 3 hours, thunderstorm accompanied with lightning and intense spells of rainfall are likely at isolated places over your region.',
+    dos: [
+      { text: 'Stay Indoors.', icon: '🏠' },
+      { text: 'Avoid natural lightning rods.', icon: '🌲' },
+      { text: 'Stay away from large groups.', icon: '👥' }
+    ],
+    donts: [
+      { text: 'Do not keep contact with electrical item.', icon: '🔌' },
+      { text: 'Do not keep contact with metal surfaces.', icon: '🪟' },
+      { text: 'Do not let animals out of control.', icon: '🐕' }
+    ]
   },
   {
-    id: 'cap-2',
-    type: 'Low Cloud to Ground Lightning',
-    location: '7 districts of Maharashtra',
-    severity: 'MODERATE',
-    color: 'yellow',
+    id: 'cap-maharashtra-1',
+    issuedBy: 'Govt. of Maharashtra',
+    state: 'Maharashtra',
+    event: 'Low Cloud to Ground Lightning',
+    warningLevel: 'Low',
+    warningColor: 'yellow',
+    location: '7 districts of Maharashtra (Pune, Thane, Raigad, Nashik, Satara, Kolhapur, Ratnagiri)',
+    validUpto: '30 Sep 2026 5:30 PM',
+    issuedAt: '2026/09/30 13:15',
     lat: 19.0760,
     lon: 72.8777,
+    radiusKm: 40,
+    descriptionHi: '[2026/09/30 13:15] अगले 4 घंटों में मेघगर्जन एवं बिजली गिरने के साथ मध्यम वर्षा होने की संभावना है। खुले स्थानों में न जाएं।',
+    descriptionEn: '[2026/09/30 13:15] Moderate rainfall accompanied by thunderstorm and cloud-to-ground lightning likely during next 4 hours. Stay in safe shelters.',
+    dos: [
+      { text: 'Unplug sensitive electronics.', icon: '🔌' },
+      { text: 'Seek sturdy shelter immediately.', icon: '🏢' },
+      { text: 'Keep emergency kit accessible.', icon: '🎒' }
+    ],
+    donts: [
+      { text: 'Do not take shelter under isolated trees.', icon: '🌳' },
+      { text: 'Do not use wired landline phones.', icon: '📞' },
+      { text: 'Avoid water bodies and open grounds.', icon: '🏊' }
+    ]
   },
   {
-    id: 'cap-3',
-    type: 'Light Thunderstorm with surface wind',
+    id: 'cap-wb-1',
+    issuedBy: 'Govt. of West Bengal',
+    state: 'West Bengal',
+    event: 'Light Thunderstorm with surface wind',
+    warningLevel: 'Low',
+    warningColor: 'yellow',
     location: 'South 24 Parganas, West Bengal',
-    severity: 'MODERATE',
-    color: 'yellow',
+    validUpto: '30 Sep 2026 6:00 PM',
+    issuedAt: '2026/09/30 13:20',
     lat: 22.1352,
     lon: 88.5434,
+    radiusKm: 35,
+    descriptionHi: '[2026/09/30 13:20] सुंदरबन एवं तटीय क्षेत्रों में 30-40 किमी/घंटा की गति से तेज हवाओं और गरज के साथ हल्की बारिश का अनुमान।',
+    descriptionEn: '[2026/09/30 13:20] Gusty surface winds (30-40 kmph) with light to moderate thunder showers likely over coastal delta areas.',
+    dos: [
+      { text: 'Secure loose roof sheets and banners.', icon: '🏠' },
+      { text: 'Fishermen should heed coastal advisories.', icon: '⛵' },
+      { text: 'Keep mobile phones fully charged.', icon: '📱' }
+    ],
+    donts: [
+      { text: 'Do not venture into open sea/creeks.', icon: '🌊' },
+      { text: 'Do not park vehicles under unstable trees.', icon: '🚗' },
+      { text: 'Do not touch fallen electric wires.', icon: '⚡' }
+    ]
   },
   {
-    id: 'cap-4',
-    type: 'Flood',
+    id: 'cap-bihar-1',
+    issuedBy: 'CWC',
+    state: 'Bihar',
+    event: 'Flood',
+    warningLevel: 'Low',
+    warningColor: 'yellow',
     location: 'Ganga, Bhagalpur, Bhagalpur, Bihar',
-    severity: 'MODERATE',
-    color: 'yellow',
+    validUpto: '01 Oct 2026 8:00 AM',
+    issuedAt: '2026/09/30 12:45',
     lat: 25.2425,
     lon: 86.9842,
+    radiusKm: 35,
+    descriptionHi: '[2026/09/30 12:45] भागलपुर में गंगा नदी का जलस्तर चेतावनी स्तर से 0.45 मीटर ऊपर प्रवाहित हो रहा है। निचले इलाकों में निगरानी तेज की गई।',
+    descriptionEn: '[2026/09/30 12:45] River Ganga at Bhagalpur is flowing 0.45m above Warning Level with steady trend. Low-lying embankments on high alert.',
+    dos: [
+      { text: 'Move to designated higher relief camps.', icon: '🏕️' },
+      { text: 'Keep drinking water in boiled/sealed cans.', icon: '💧' },
+      { text: 'Preserve ID cards in waterproof bags.', icon: '📁' }
+    ],
+    donts: [
+      { text: 'Do not cross submerged culverts or bridges.', icon: '🚫' },
+      { text: 'Do not consume contaminated flood water.', icon: '🚰' },
+      { text: 'Avoid approaching weakening river dykes.', icon: '🌊' }
+    ]
   },
   {
-    id: 'cap-5',
-    type: 'Flood',
+    id: 'cap-bihar-2',
+    issuedBy: 'CWC',
+    state: 'Bihar',
+    event: 'Flood',
+    warningLevel: 'Low',
+    warningColor: 'yellow',
     location: 'Ganga, Kahalgaon, Bhagalpur, Bihar',
-    severity: 'MODERATE',
-    color: 'yellow',
+    validUpto: '01 Oct 2026 10:00 AM',
+    issuedAt: '2026/09/30 12:50',
     lat: 25.2630,
     lon: 87.2340,
+    radiusKm: 30,
+    descriptionHi: '[2026/09/30 12:50] कहलगांव में गंगा का जलस्तर चेतावनी निशान के करीब। नाव एवं राहत दलों को सतर्क किया गया।',
+    descriptionEn: '[2026/09/30 12:50] River Ganga at Kahalgaon approaching Warning Stage. SDRF motorized boats stationed at ghats.',
+    dos: [
+      { text: 'Listen to district disaster announcements.', icon: '📢' },
+      { text: 'Stock essential medications and baby food.', icon: '💊' },
+      { text: 'Assist elderly and disabled neighbors.', icon: '🤝' }
+    ],
+    donts: [
+      { text: 'Do not allow children near flood banks.', icon: '🚸' },
+      { text: 'Do not spread unverified water-level rumors.', icon: '📵' },
+      { text: 'Do not drive vehicles through floodwaters.', icon: '🚙' }
+    ]
   },
   {
-    id: 'cap-6',
-    type: 'Flood',
+    id: 'cap-up-1',
+    issuedBy: 'Govt. of Uttar Pradesh',
+    state: 'Uttar Pradesh',
+    event: 'Flood',
+    warningLevel: 'Moderate',
+    warningColor: 'orange',
     location: 'Ganga, Dabri, Shahjahanpur, Uttar Pradesh',
-    severity: 'SEVERE',
-    color: 'orange',
+    validUpto: '01 Oct 2026 12:00 PM',
+    issuedAt: '2026/09/30 11:30',
     lat: 27.8805,
     lon: 79.9120,
+    radiusKm: 35,
+    descriptionHi: '[2026/09/30 11:30] शाहजहांपुर दाबरी क्षेत्र में गंगा का जलस्तर खतरे के निशान के निकट। 12 गांवों में सतर्कता अलर्ट जारी।',
+    descriptionEn: '[2026/09/30 11:30] Severe flood alert for Shahjahanpur Dabri corridor. River Ganga nearing danger mark. 12 villages placed on evacuation standby.',
+    dos: [
+      { text: 'Evacuate immediately if advised by NDRF.', icon: '🏃' },
+      { text: 'Disconnect main electrical power switches.', icon: '⚡' },
+      { text: 'Untie cattle and move to high ground shelters.', icon: '🐄' }
+    ],
+    donts: [
+      { text: 'Do not stay in dilapidated kachha houses.', icon: '🏚️' },
+      { text: 'Do not enter swift water currents.', icon: '🏊' },
+      { text: 'Avoid using elevators or basements.', icon: '🏢' }
+    ]
   },
   {
-    id: 'cap-7',
-    type: 'Flood',
+    id: 'cap-up-2',
+    issuedBy: 'Govt. of Uttar Pradesh',
+    state: 'Uttar Pradesh',
+    event: 'Flood',
+    warningLevel: 'Low',
+    warningColor: 'yellow',
     location: 'Ganga, Fatehgarh, Farrukhabad, Uttar Pradesh',
-    severity: 'MODERATE',
-    color: 'yellow',
+    validUpto: '01 Oct 2026 2:00 PM',
+    issuedAt: '2026/09/30 11:45',
     lat: 27.3688,
     lon: 79.6247,
+    radiusKm: 25,
+    descriptionHi: '[2026/09/30 11:45] फर्रुखाबाद फतेहगढ़ में गंगा का जलस्तर चेतावनी स्तर पर स्थिर। तटवर्ती क्षेत्रों में गश्त जारी।',
+    descriptionEn: '[2026/09/30 11:45] Water level at Fatehgarh Farrukhabad steady at warning mark. Constant 24x7 monitoring deployed.',
+    dos: [
+      { text: 'Keep torches and dry battery cells ready.', icon: '🔦' },
+      { text: 'Follow official updates on SACHET / VARSHANET.', icon: '📱' },
+      { text: 'Store dry food rations.', icon: '🍞' }
+    ],
+    donts: [
+      { text: 'Do not walk along crumbling river bunds.', icon: '⚠️' },
+      { text: 'Do not operate damaged electrical motors.', icon: '⚙️' },
+      { text: 'Avoid night travel in submerged roads.', icon: '🌙' }
+    ]
   },
   {
-    id: 'cap-8',
-    type: 'Flood',
-    location: 'Ganga, Kannauj, Kannauj, Uttar Pradesh',
-    severity: 'MODERATE',
-    color: 'yellow',
-    lat: 27.0549,
-    lon: 79.9168,
+    id: 'cap-odisha-1',
+    issuedBy: 'IMD Cyclone Warning Centre',
+    state: 'Odisha',
+    event: 'Cyclonic Storm Advisory',
+    warningLevel: 'Moderate',
+    warningColor: 'orange',
+    location: 'Puri, Jagatsinghpur, Kendrapara, Ganjam',
+    validUpto: '01 Oct 2026 6:00 PM',
+    issuedAt: '2026/09/30 12:00',
+    lat: 19.8135,
+    lon: 85.8312,
+    radiusKm: 50,
+    descriptionHi: '[2026/09/30 12:00] बंगाल की खाड़ी में चक्रवात के प्रभाव से ओडिशा तट पर 80-90 किमी/घंटे की रफ्तार से आंधी और भारी वर्षा की चेतावनी।',
+    descriptionEn: '[2026/09/30 12:00] Squally winds speed reaching 80-90 kmph gusting to 100 kmph and heavy to very heavy rainfall along Odisha coast.',
+    dos: [
+      { text: 'Move to Pucca Cyclone Shelters.', icon: '🏢' },
+      { text: 'Board up glass windows and secure roofs.', icon: '🔨' },
+      { text: 'Keep first-aid kit and emergency cash.', icon: '🩺' }
+    ],
+    donts: [
+      { text: 'Do not venture into the sea under any circumstance.', icon: '⛵' },
+      { text: 'Do not stand near loose electric poles.', icon: '⚡' },
+      { text: 'Do not leave shelters until all clear is announced.', icon: '🛑' }
+    ]
   }
 ];
 
@@ -141,32 +281,41 @@ export const MapPage: React.FC<MapPageProps> = ({
 }) => {
   const { t } = useLanguage();
   const [activeTabMode, setActiveTabMode] = useState<'CURRENT' | 'ALL' | 'STATE' | 'FORECAST'>('ALL');
-  const [selectedState, setSelectedState] = useState<string>('All');
+  const [locationSubTab, setLocationSubTab] = useState<'STATE' | 'LOCATION'>('STATE');
+  const [selectedPanState, setSelectedPanState] = useState<string>('PAN INDIA');
+  const [searchLocationQuery, setSearchLocationQuery] = useState<string>('');
   const [searchCity, setSearchCity] = useState('Chakdehi');
-  const [isStateDropdownOpen, setIsStateDropdownOpen] = useState(false);
+  const [selectedCapAlertForModal, setSelectedCapAlertForModal] = useState<OfficialCapAlert | null>(null);
 
-  // Dynamic CAP alerts from incoming live reports + curated SACHET CAP items
-  const displayCapAlerts = useMemo(() => {
-    if (activeTabMode === 'STATE' && selectedState !== 'All') {
-      const filtered = reports.filter(r => r.state && r.state.toLowerCase() === selectedState.toLowerCase());
-      if (filtered.length > 0) {
-        return filtered.map(r => ({
-          id: r.id,
-          type: r.event_type || 'Weather Advisory',
-          location: `${r.city || 'District'}, ${r.state}`,
-          severity: r.risk_level || 'MODERATE',
-          color: r.risk_level === 'CRITICAL' || r.risk_level === 'HIGH' ? 'orange' : 'yellow',
-          lat: r.latitude,
-          lon: r.longitude,
-          rawReport: r
-        }));
-      }
-    }
-    return DEFAULT_CAP_ALERTS;
-  }, [activeTabMode, selectedState, reports]);
+  // Filtered CAP Alerts for the Table in STATE mode
+  const filteredTableAlerts = useMemo(() => {
+    return OFFICIAL_CAP_ALERTS.filter(alert => {
+      // 1. State Filter
+      const matchesState = 
+        selectedPanState === 'PAN INDIA' || 
+        selectedPanState === 'All' || 
+        alert.state.toLowerCase() === selectedPanState.toLowerCase();
 
-  const handleAlertClick = (alertItem: any) => {
-    if (alertItem.rawReport && onSelectReport) {
+      // 2. Search query filter (for Location Wise sub-tab)
+      const matchesSearch = 
+        !searchLocationQuery.trim() ||
+        alert.location.toLowerCase().includes(searchLocationQuery.toLowerCase()) ||
+        alert.state.toLowerCase().includes(searchLocationQuery.toLowerCase()) ||
+        alert.event.toLowerCase().includes(searchLocationQuery.toLowerCase());
+
+      return matchesState && matchesSearch;
+    });
+  }, [selectedPanState, searchLocationQuery]);
+
+  const handleOpenAlertModal = (alertItem: OfficialCapAlert) => {
+    setSelectedCapAlertForModal(alertItem);
+  };
+
+  const handleAlertFromListClick = (alertItem: any) => {
+    const fullCap = OFFICIAL_CAP_ALERTS.find(a => a.id === alertItem.id || a.location.toLowerCase().includes(alertItem.location.toLowerCase()));
+    if (fullCap) {
+      setSelectedCapAlertForModal(fullCap);
+    } else if (alertItem.rawReport && onSelectReport) {
       onSelectReport(alertItem.rawReport);
     } else if (events.length > 0) {
       const match = events.find(e => 
@@ -179,16 +328,10 @@ export const MapPage: React.FC<MapPageProps> = ({
     }
   };
 
-  const handleSelectState = (stateName: string) => {
-    setSelectedState(stateName);
-    setActiveTabMode('STATE');
-    setIsStateDropdownOpen(false);
-  };
-
   return (
     <div className="space-y-4 font-sans select-none animate-fade-in pr-0 lg:pr-10 xl:pr-12">
       
-      {/* 1. Top 4 Action / Filter Cards (Matching Screenshot Top Bar) */}
+      {/* 1. Top 4 Action / Filter Cards (Matching Screenshot 1 Top Bar) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         
         {/* Card 1: CURRENT LOCATION CAP ALERT */}
@@ -222,7 +365,7 @@ export const MapPage: React.FC<MapPageProps> = ({
         <button
           onClick={() => {
             setActiveTabMode('ALL');
-            setSelectedState('All');
+            setSelectedPanState('PAN INDIA');
           }}
           className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
             activeTabMode === 'ALL'
@@ -238,48 +381,26 @@ export const MapPage: React.FC<MapPageProps> = ({
           </span>
         </button>
 
-        {/* Card 3: STATE WISE CAP ALERT */}
-        <div className="relative">
-          <button
-            onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
-            className={`w-full h-full p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
-              activeTabMode === 'STATE'
-                ? 'border-[#18447e] bg-blue-50/70 dark:bg-blue-950/40 shadow-md scale-[1.01]'
-                : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
-            }`}
-          >
-            <div className="w-10 h-10 rounded-full border-2 border-amber-500 bg-white dark:bg-slate-950 flex items-center justify-center text-amber-500 mb-2 shadow-sm group-hover:scale-110 transition-transform">
-              <AlertTriangle className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-black tracking-wider uppercase text-slate-900 dark:text-white font-heading">
-              {selectedState !== 'All' ? `${selectedState} CAP ALERT` : 'STATE WISE CAP ALERT'}
-            </span>
-          </button>
-
-          {/* State Selection Dropdown Popover */}
-          {isStateDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-slate-950 border-2 border-[#18447e] rounded-xl shadow-2xl p-2 max-h-60 overflow-y-auto custom-scrollbar">
-              <div className="p-1 font-bold text-xs text-[#18447e] dark:text-cyan-400 border-b dark:border-slate-800 mb-1">
-                Select Indian State / UT:
-              </div>
-              <button
-                onClick={() => handleSelectState('All')}
-                className="w-full text-left px-2.5 py-1 text-xs rounded hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold"
-              >
-                All States &amp; UTs
-              </button>
-              {ALL_INDIAN_STATES_UTS.map((st) => (
-                <button
-                  key={st}
-                  onClick={() => handleSelectState(st)}
-                  className="w-full text-left px-2.5 py-1 text-xs rounded hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-                >
-                  {st}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Card 3: STATE WISE CAP ALERT (Matching Screenshot 1 Active State) */}
+        <button
+          onClick={() => {
+            setActiveTabMode('STATE');
+          }}
+          className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
+            activeTabMode === 'STATE'
+              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
+              : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
+          }`}
+        >
+          <div className="w-10 h-10 rounded-full border-2 border-amber-500 bg-white dark:bg-slate-950 flex items-center justify-center text-amber-500 mb-2 shadow-sm group-hover:scale-110 transition-transform">
+            <AlertTriangle className="w-5 h-5" />
+          </div>
+          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'STATE' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          }`}>
+            STATE WISE CAP ALERT
+          </span>
+        </button>
 
         {/* Card 4: FORECAST */}
         <button
@@ -299,186 +420,352 @@ export const MapPage: React.FC<MapPageProps> = ({
         </button>
       </div>
 
-      {/* 2. Main 3-Column Layout: Map (Left 6 cols) + ALERT LIST (Center 3 cols) + Earthquakes & Weather (Right 3 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[680px]">
-        
-        {/* Column A: Interactive Leaflet Map (6 cols on lg) */}
-        <div className="lg:col-span-6 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
-          <div className="flex-1 w-full h-full relative">
-            <IndiaWeatherMap
-              events={events}
-              reports={reports}
-              onSelectEvent={onSelectEvent}
-              onSelectReport={onSelectReport}
-            />
-          </div>
-        </div>
-
-        {/* Column B: ALERT LIST (Vertical Colored Cards Feed - 3 cols on lg) */}
-        <div className="lg:col-span-3 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
-          {/* Blue Official Header */}
-          <div className="bg-[#18447e] text-white px-4 py-2.5 text-center font-heading font-black text-sm uppercase tracking-wider shadow-xs shrink-0">
-            ALERT LIST
-          </div>
-
-          {/* Scrollable Alert List Items */}
-          <div className="flex-1 overflow-y-auto p-2.5 space-y-2.5 bg-slate-50/50 dark:bg-slate-950/40 custom-scrollbar">
-            {displayCapAlerts.map((item, idx) => (
-              <div
-                key={item.id || idx}
-                onClick={() => handleAlertClick(item)}
-                className={`p-3 rounded-xl cursor-pointer transition-all hover:scale-[1.02] shadow-sm flex flex-col justify-center text-center border ${
-                  item.color === 'orange'
-                    ? 'bg-[#ff9800] text-white border-amber-600 font-bold'
-                    : 'bg-[#ffeb3b] text-slate-950 border-yellow-400 font-bold'
-                }`}
-              >
-                <h4 className="text-xs font-black tracking-tight leading-tight uppercase">
-                  {item.type}
-                </h4>
-                <p className={`text-[11px] font-semibold mt-1 leading-snug ${
-                  item.color === 'orange' ? 'text-white/95' : 'text-slate-800'
-                }`}>
-                  {item.location}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Column C: Right Sidebar (Earthquakes + Weather Overview - 3 cols on lg) */}
-        <div className="lg:col-span-3 flex flex-col gap-3 h-auto lg:h-full">
+      {/* 2. CONDITIONAL VIEW: If STATE mode is active -> Show LOCATION SPECIFIC ALERTS Table (Screenshot 1) */}
+      {activeTabMode === 'STATE' ? (
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg animate-fade-in">
           
-          {/* Card 1: Recent Earthquakes Widget */}
-          <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[270px] shrink-0">
-            <div className="bg-[#18447e] text-white px-4 py-2 flex items-center justify-between font-heading font-black text-xs uppercase tracking-wider shrink-0">
-              <span>Recent Earthquakes</span>
-              <Activity className="w-4 h-4 text-amber-300" />
+          {/* Blue Header: LOCATION SPECIFIC ALERTS (Screenshot 1) */}
+          <div className="bg-[#1e5aa8] dark:bg-[#18447e] text-white py-3.5 px-4 text-center font-black text-base sm:text-lg uppercase tracking-wider font-heading shadow-md">
+            LOCATION SPECIFIC ALERTS
+          </div>
+
+          {/* Sub-Tabs: State Wise vs Location Wise */}
+          <div className="flex items-center justify-center border-b border-slate-200 dark:border-slate-800 text-sm font-bold">
+            <button
+              onClick={() => setLocationSubTab('STATE')}
+              className={`flex-1 py-3 px-4 text-center transition-all cursor-pointer ${
+                locationSubTab === 'STATE'
+                  ? 'text-purple-700 dark:text-purple-400 border-b-2 border-purple-600 bg-purple-50/30 dark:bg-purple-950/20 font-black'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-purple-600 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+              }`}
+            >
+              State Wise
+            </button>
+            <button
+              onClick={() => setLocationSubTab('LOCATION')}
+              className={`flex-1 py-3 px-4 text-center transition-all cursor-pointer ${
+                locationSubTab === 'LOCATION'
+                  ? 'text-purple-700 dark:text-purple-400 border-b-2 border-purple-600 bg-purple-50/30 dark:bg-purple-950/20 font-black'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-purple-600 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+              }`}
+            >
+              Location Wise
+            </button>
+          </div>
+
+          {/* Filters Row: State Selector & Search Box */}
+          <div className="p-4 bg-slate-50/50 dark:bg-slate-950/30 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <select
+                value={selectedPanState}
+                onChange={(e) => setSelectedPanState(e.target.value)}
+                className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-2 border-blue-600 dark:border-blue-500 rounded-md px-3 py-1.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm cursor-pointer min-w-[150px]"
+              >
+                <option value="PAN INDIA">PAN INDIA</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Assam">Assam</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+              </select>
+
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-400 font-mono">
+                Showing {filteredTableAlerts.length} Official CAP Bulletins
+              </span>
             </div>
 
-            <div className="flex-1 p-2.5 space-y-2 bg-slate-50/50 dark:bg-slate-950/40 overflow-y-auto custom-scrollbar">
-              {RECENT_EARTHQUAKES.map((eq, i) => (
+            {locationSubTab === 'LOCATION' && (
+              <div className="relative min-w-[220px]">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchLocationQuery}
+                  onChange={(e) => setSearchLocationQuery(e.target.value)}
+                  placeholder="Filter district or city..."
+                  className="w-full pl-8 pr-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-md text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Table Container (Matching Screenshot 1) */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-black text-xs uppercase tracking-wider bg-slate-50 dark:bg-slate-950/60">
+                  <th className="py-3 px-4">Issued By</th>
+                  <th className="py-3 px-4">State</th>
+                  <th className="py-3 px-4">Event</th>
+                  <th className="py-3 px-4 text-center">Warning Type</th>
+                  <th className="py-3 px-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium">
+                {filteredTableAlerts.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-slate-500 font-semibold">
+                      No active CAP alerts found for this state filter.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredTableAlerts.map((alertItem) => (
+                    <tr 
+                      key={alertItem.id}
+                      className="hover:bg-blue-50/40 dark:hover:bg-slate-800/40 transition-colors group cursor-pointer"
+                      onClick={() => handleOpenAlertModal(alertItem)}
+                    >
+                      {/* Issued By */}
+                      <td className="py-3.5 px-4 text-slate-800 dark:text-slate-200 font-semibold">
+                        {alertItem.issuedBy}
+                      </td>
+
+                      {/* State */}
+                      <td className="py-3.5 px-4 text-slate-800 dark:text-slate-200 font-bold">
+                        {alertItem.state}
+                      </td>
+
+                      {/* Event */}
+                      <td className="py-3.5 px-4 text-slate-900 dark:text-white font-bold">
+                        {alertItem.event}
+                      </td>
+
+                      {/* Warning Type Bar (Colored bar with Low/Moderate text underneath) */}
+                      <td className="py-3.5 px-4 text-center">
+                        <div className="flex flex-col items-center justify-center gap-0.5">
+                          <div
+                            className={`h-3.5 w-28 sm:w-32 rounded-xs shadow-xs ${
+                              alertItem.warningColor === 'yellow'
+                                ? 'bg-[#ffff00]'
+                                : alertItem.warningColor === 'orange'
+                                ? 'bg-[#ff9800]'
+                                : 'bg-[#f44336]'
+                            }`}
+                          />
+                          <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                            {alertItem.warningLevel}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* Action Button: ->= (Clicking opens Detail Modal Screenshot 2) */}
+                      <td className="py-3.5 px-4 text-center">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenAlertModal(alertItem);
+                          }}
+                          className="px-3.5 py-1.5 rounded bg-[#1e70bf] hover:bg-[#155a9e] text-white font-bold text-xs shadow-sm flex items-center justify-center gap-1.5 mx-auto transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                          title="View complete CAP warning details & actionable safety steps"
+                        >
+                          <ArrowRight className="w-3.5 h-3.5" />
+                          <List className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      ) : (
+        /* 3. DEFAULT 3-COLUMN VIEW: Map (Left) + ALERT LIST (Center) + Earthquakes & Weather (Right) */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[680px]">
+          
+          {/* Column A: Interactive Leaflet Map (6 cols on lg) */}
+          <div className="lg:col-span-6 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
+            <div className="flex-1 w-full h-full relative">
+              <IndiaWeatherMap
+                events={events}
+                reports={reports}
+                onSelectEvent={onSelectEvent}
+                onSelectReport={onSelectReport}
+              />
+            </div>
+          </div>
+
+          {/* Column B: ALERT LIST (Vertical Colored Cards Feed - 3 cols on lg) */}
+          <div className="lg:col-span-3 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
+            {/* Blue Official Header */}
+            <div className="bg-[#18447e] text-white px-4 py-2.5 text-center font-heading font-black text-sm uppercase tracking-wider shadow-xs shrink-0">
+              ALERT LIST
+            </div>
+
+            {/* Scrollable Alert List Items */}
+            <div className="flex-1 overflow-y-auto p-2.5 space-y-2.5 bg-slate-50/50 dark:bg-slate-950/40 custom-scrollbar">
+              {OFFICIAL_CAP_ALERTS.map((item, idx) => (
                 <div
-                  key={i}
-                  className={`p-2.5 rounded-xl border shadow-xs transition-transform hover:scale-[1.01] ${
-                    eq.colorTheme === 'yellow'
-                      ? 'bg-[#fff59d] dark:bg-amber-950/40 text-slate-900 dark:text-amber-100 border-amber-300 dark:border-amber-700/60'
-                      : 'bg-[#a5d6a7] dark:bg-emerald-950/40 text-slate-900 dark:text-emerald-100 border-emerald-300 dark:border-emerald-700/60'
+                  key={item.id || idx}
+                  onClick={() => handleOpenAlertModal(item)}
+                  className={`p-3 rounded-xl cursor-pointer transition-all hover:scale-[1.02] shadow-sm flex flex-col justify-center text-center border ${
+                    item.warningColor === 'orange'
+                      ? 'bg-[#ff9800] text-white border-amber-600 font-bold'
+                      : item.warningColor === 'red'
+                      ? 'bg-[#f44336] text-white border-rose-600 font-bold'
+                      : 'bg-[#ffeb3b] text-slate-950 border-yellow-400 font-bold'
                   }`}
                 >
-                  <div className="flex items-center justify-between font-bold">
-                    <span className="text-[11px] font-black uppercase tracking-wide">
-                      {eq.magnitude} Magnitude
-                    </span>
-                    <span className="text-[9px] font-mono opacity-80">
-                      Depth: {eq.depth}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-1 text-[10px] font-semibold mt-0.5">
-                    <MapPin className="w-3 h-3 text-red-600 shrink-0" />
-                    <span className="truncate">{eq.location}</span>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-[8.5px] font-mono opacity-75 mt-1 pt-0.5 border-t border-black/10 dark:border-white/10">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-2.5 h-2.5" />
-                      {eq.date}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-2.5 h-2.5" />
-                      {eq.time}
-                    </span>
-                  </div>
+                  <h4 className="text-xs font-black tracking-tight leading-tight uppercase">
+                    {item.event}
+                  </h4>
+                  <p className={`text-[11px] font-semibold mt-1 leading-snug ${
+                    item.warningColor === 'orange' || item.warningColor === 'red' ? 'text-white/95' : 'text-slate-800'
+                  }`}>
+                    {item.location}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Card 2: Weather Overview & Live Nowcast Forecast */}
-          <div className="bg-[#18447e] text-white rounded-2xl overflow-hidden shadow-md flex flex-col flex-1 min-h-[380px] lg:min-h-0">
-            <div className="px-4 py-2 font-heading font-black text-xs uppercase tracking-wider border-b border-blue-400/30 shrink-0">
-              Weather Overview
+          {/* Column C: Right Sidebar (Earthquakes + Weather Overview - 3 cols on lg) */}
+          <div className="lg:col-span-3 flex flex-col gap-3 h-auto lg:h-full">
+            
+            {/* Card 1: Recent Earthquakes Widget */}
+            <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[270px] shrink-0">
+              <div className="bg-[#18447e] text-white px-4 py-2 flex items-center justify-between font-heading font-black text-xs uppercase tracking-wider shrink-0">
+                <span>Recent Earthquakes</span>
+                <Activity className="w-4 h-4 text-amber-300" />
+              </div>
+
+              <div className="flex-1 p-2.5 space-y-2 bg-slate-50/50 dark:bg-slate-950/40 overflow-y-auto custom-scrollbar">
+                {RECENT_EARTHQUAKES.map((eq, i) => (
+                  <div
+                    key={i}
+                    className={`p-2.5 rounded-xl border shadow-xs transition-transform hover:scale-[1.01] ${
+                      eq.colorTheme === 'yellow'
+                        ? 'bg-[#fff59d] dark:bg-amber-950/40 text-slate-900 dark:text-amber-100 border-amber-300 dark:border-amber-700/60'
+                        : 'bg-[#a5d6a7] dark:bg-emerald-950/40 text-slate-900 dark:text-emerald-100 border-emerald-300 dark:border-emerald-700/60'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between font-bold">
+                      <span className="text-[11px] font-black uppercase tracking-wide">
+                        {eq.magnitude} Magnitude
+                      </span>
+                      <span className="text-[9px] font-mono opacity-80">
+                        Depth: {eq.depth}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-1 text-[10px] font-semibold mt-0.5">
+                      <MapPin className="w-3 h-3 text-red-600 shrink-0" />
+                      <span className="truncate">{eq.location}</span>
+                    </div>
+
+                    <div className="flex items-center gap-3 text-[8.5px] font-mono opacity-75 mt-1 pt-0.5 border-t border-black/10 dark:border-white/10">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-2.5 h-2.5" />
+                        {eq.date}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-2.5 h-2.5" />
+                        {eq.time}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="flex-1 p-3 flex flex-col justify-between overflow-y-auto custom-scrollbar space-y-2">
-              {/* Location Search Bar */}
-              <div className="relative shrink-0">
-                <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  value={searchCity}
-                  onChange={(e) => setSearchCity(e.target.value)}
-                  placeholder="Search city / district..."
-                  className="w-full pl-8 pr-8 py-1.5 bg-white text-slate-900 placeholder-slate-400 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-300"
-                />
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2" />
+            {/* Card 2: Weather Overview & Live Nowcast Forecast */}
+            <div className="bg-[#18447e] text-white rounded-2xl overflow-hidden shadow-md flex flex-col flex-1 min-h-[380px] lg:min-h-0">
+              <div className="px-4 py-2 font-heading font-black text-xs uppercase tracking-wider border-b border-blue-400/30 shrink-0">
+                Weather Overview
               </div>
 
-              {/* Current Temperature & Sky condition banner */}
-              <div className="flex items-center justify-between px-2 py-0.5 shrink-0">
-                <div className="flex items-center gap-2">
-                  <Moon className="w-7 h-7 text-cyan-200 fill-cyan-200/40" />
-                  <span className="text-2xl sm:text-3xl font-black font-mono">
-                    31.4<span className="text-lg">°C</span>
-                  </span>
+              <div className="flex-1 p-3 flex flex-col justify-between overflow-y-auto custom-scrollbar space-y-2">
+                {/* Location Search Bar */}
+                <div className="relative shrink-0">
+                  <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchCity}
+                    onChange={(e) => setSearchCity(e.target.value)}
+                    placeholder="Search city / district..."
+                    className="w-full pl-8 pr-8 py-1.5 bg-white text-slate-900 placeholder-slate-400 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-300"
+                  />
+                  <Search className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2" />
                 </div>
-                <div className="text-right">
-                  <p className="text-[11px] font-bold text-white lowercase leading-tight">mainly</p>
-                  <p className="text-[11px] font-bold text-white lowercase leading-tight">clear</p>
-                  <p className="text-[11px] font-bold text-white lowercase leading-tight">sky</p>
-                </div>
-              </div>
 
-              {/* Hourly Forecast Row */}
-              <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
-                <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
-                  Hourly Forecast
-                </h5>
-                <div className="grid grid-cols-3 gap-1.5">
-                  <div className="bg-white/10 rounded-lg p-1.5 text-center">
-                    <span className="block text-[9px] font-mono text-blue-200">2:00 PM</span>
-                    <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
-                    <span className="block text-[10px] font-bold font-mono">24.01°</span>
+                {/* Current Temperature & Sky condition banner */}
+                <div className="flex items-center justify-between px-2 py-0.5 shrink-0">
+                  <div className="flex items-center gap-2">
+                    <Moon className="w-7 h-7 text-cyan-200 fill-cyan-200/40" />
+                    <span className="text-2xl sm:text-3xl font-black font-mono">
+                      31.4<span className="text-lg">°C</span>
+                    </span>
                   </div>
-                  <div className="bg-white/10 rounded-lg p-1.5 text-center">
-                    <span className="block text-[9px] font-mono text-blue-200">3:00 PM</span>
-                    <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
-                    <span className="block text-[10px] font-bold font-mono">25.55°</span>
-                  </div>
-                  <div className="bg-white/10 rounded-lg p-1.5 text-center">
-                    <span className="block text-[9px] font-mono text-blue-200">4:00 PM</span>
-                    <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
-                    <span className="block text-[10px] font-bold font-mono">27.35°</span>
+                  <div className="text-right">
+                    <p className="text-[11px] font-bold text-white lowercase leading-tight">mainly</p>
+                    <p className="text-[11px] font-bold text-white lowercase leading-tight">clear</p>
+                    <p className="text-[11px] font-bold text-white lowercase leading-tight">sky</p>
                   </div>
                 </div>
-              </div>
 
-              {/* Daily Forecast Row */}
-              <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
-                <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
-                  Daily Forecast
-                </h5>
-                <div className="space-y-1 text-xs">
-                  <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
-                    <span className="font-semibold text-[11px]">Today</span>
-                    <CloudLightning className="w-3.5 h-3.5 text-amber-300" />
-                    <span className="font-mono font-bold text-[10px]">33.0° / 22.0°</span>
-                  </div>
-                  <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
-                    <span className="font-semibold text-[11px]">Tomorrow</span>
-                    <Sun className="w-3.5 h-3.5 text-yellow-300" />
-                    <span className="font-mono font-bold text-[10px]">34.0° / 23.0°</span>
+                {/* Hourly Forecast Row */}
+                <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
+                  <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
+                    Hourly Forecast
+                  </h5>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    <div className="bg-white/10 rounded-lg p-1.5 text-center">
+                      <span className="block text-[9px] font-mono text-blue-200">2:00 PM</span>
+                      <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
+                      <span className="block text-[10px] font-bold font-mono">24.01°</span>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-1.5 text-center">
+                      <span className="block text-[9px] font-mono text-blue-200">3:00 PM</span>
+                      <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
+                      <span className="block text-[10px] font-bold font-mono">25.55°</span>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-1.5 text-center">
+                      <span className="block text-[9px] font-mono text-blue-200">4:00 PM</span>
+                      <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
+                      <span className="block text-[10px] font-bold font-mono">27.35°</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
+                {/* Daily Forecast Row */}
+                <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
+                  <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
+                    Daily Forecast
+                  </h5>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
+                      <span className="font-semibold text-[11px]">Today</span>
+                      <CloudLightning className="w-3.5 h-3.5 text-amber-300" />
+                      <span className="font-mono font-bold text-[10px]">33.0° / 22.0°</span>
+                    </div>
+                    <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
+                      <span className="font-semibold text-[11px]">Tomorrow</span>
+                      <Sun className="w-3.5 h-3.5 text-yellow-300" />
+                      <span className="font-mono font-bold text-[10px]">34.0° / 23.0°</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
+
           </div>
 
         </div>
+      )}
 
-      </div>
+      {/* 4. Interactive CAP Alert Detail Action Modal (Matching Screenshot 2) */}
+      {selectedCapAlertForModal && (
+        <CapAlertDetailModal
+          alert={selectedCapAlertForModal}
+          onClose={() => setSelectedCapAlertForModal(null)}
+        />
+      )}
 
     </div>
   );
