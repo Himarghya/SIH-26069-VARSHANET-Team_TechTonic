@@ -140,16 +140,6 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
           )}
         </div>
 
-        {/* Live Indicator Dot */}
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-            isCritical ? 'bg-red-500' : isHigh ? 'bg-amber-500' : 'bg-cyan-500'
-          }`} />
-          <span className={`relative inline-flex rounded-full h-2 w-2 ${
-            isCritical ? 'bg-red-600' : isHigh ? 'bg-amber-500' : 'bg-cyan-500'
-          }`} />
-        </span>
-
         {/* Headline & Directive Message */}
         <div className="font-sans flex items-center gap-2 truncate text-xs sm:text-[13px] min-w-0">
           <strong className="text-slate-900 dark:text-white font-extrabold uppercase tracking-tight shrink-0">
