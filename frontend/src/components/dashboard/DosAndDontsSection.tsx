@@ -12,6 +12,20 @@ import {
 import { DISASTER_CONTENT } from './translations';
 import { useLanguage, LanguageCode as GlobalLanguageCode } from '../../context/LanguageContext';
 
+const CATEGORY_ICONS: Record<DisasterCategory, string> = {
+  'Cyclones': '🌀',
+  'Tsunamis': '🌊',
+  'Avalanches': '🏔️',
+  'Cold Wave': '❄️',
+  'Heat Waves': '☀️',
+  'Lightning': '⚡',
+  'Floods': '🌊',
+  'Earthquakes': '🏚️',
+  'Urban Floods': '🏙️',
+  'Landslides': '⛰️',
+  'Cloudbursts': '🌧️'
+};
+
 export const DosAndDontsSection: React.FC = () => {
   const { language: globalLanguage, setLanguage: setGlobalLanguage } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<DisasterCategory>('Cyclones');
@@ -56,30 +70,42 @@ export const DosAndDontsSection: React.FC = () => {
 
   return (
     <div className="w-full space-y-4 font-sans select-none animate-fade-in">
-      {/* 1. Header Tab Pill */}
-      <div className="flex items-center">
-        <div className="bg-[#18447e] text-white px-6 py-2.5 rounded-t-2xl font-black text-sm tracking-wider uppercase font-heading flex items-center gap-2 shadow-sm">
-          <BookOpen className="w-4 h-4 text-amber-300" />
-          <span>{ui.dosAndDonts}</span>
+      {/* 1. Header Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-2xl p-3.5 px-5 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 font-bold">
+            <BookOpen className="w-5 h-5 text-amber-300" />
+          </div>
+          <div>
+            <h2 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight">
+              {ui.dosAndDonts}
+            </h2>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+              NDMA &amp; IMD Standard Operating Procedures (12 Disaster Hazards)
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-cyan-50 dark:bg-cyan-950/80 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800">
+            <span>🛡️</span> NDMA Verified Protocol
+          </span>
         </div>
       </div>
 
       {/* 2. Controls Ribbon: Search + Category Pills + Language Selector */}
-      <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xs dark:shadow-xl space-y-4">
-        {/* Top Filter Row: Search & Events Pills */}
+      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5">
+        
+        {/* Top Filter Row: Search & Category Pills */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-3">
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-sans">
-              {ui.eventsLabel}
-            </span>
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={ui.searchPlaceholder}
-                className="w-36 sm:w-44 pl-8 pr-3 py-1 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-full text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#18447e]"
+                className="w-40 sm:w-48 pl-8 pr-3 py-1.5 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500 transition-all font-medium"
               />
             </div>
           </div>
@@ -89,17 +115,19 @@ export const DosAndDontsSection: React.FC = () => {
             {filteredCategories.map((cat) => {
               const isSelected = selectedCategory === cat;
               const displayName = CATEGORY_NAMES[cat]?.[selectedLanguage] || cat;
+              const icon = CATEGORY_ICONS[cat] || '⚠️';
               return (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer border ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer border flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-[#1b6b3e] text-white border-[#1b6b3e] shadow-xs'
-                      : 'bg-[#1e88e5] text-white border-[#1e88e5] hover:bg-[#1565c0]'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-transparent shadow-sm font-bold shadow-blue-900/20'
+                      : 'bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200/90 dark:border-slate-700/80 hover:bg-slate-200/80 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  {displayName}
+                  <span>{icon}</span>
+                  <span>{displayName}</span>
                 </button>
               );
             })}
@@ -107,23 +135,29 @@ export const DosAndDontsSection: React.FC = () => {
         </div>
 
         {/* Multi-Language Selector Pills */}
-        <div className="flex items-center gap-1.5 flex-wrap border-t border-slate-100 dark:border-slate-800 pt-3">
-          {LANGUAGES.map((lang) => {
-            const isSelected = selectedLanguage === lang;
-            return (
-              <button
-                key={lang}
-                onClick={() => handleLanguageChange(lang)}
-                className={`px-3 py-0.8 rounded-full text-xs font-medium transition-all cursor-pointer border ${
-                  isSelected
-                    ? 'bg-[#1b6b3e] text-white border-[#1b6b3e] shadow-xs'
-                    : 'bg-[#1e88e5] text-white border-[#1e88e5] hover:bg-[#1565c0]'
-                }`}
-              >
-                {lang}
-              </button>
-            );
-          })}
+        <div className="flex items-center gap-2 flex-wrap border-t border-slate-200/60 dark:border-slate-800/80 pt-3">
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-semibold shrink-0 pr-1">
+            <Globe className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+            <span>Languages:</span>
+          </div>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {LANGUAGES.map((lang) => {
+              const isSelected = selectedLanguage === lang;
+              return (
+                <button
+                  key={lang}
+                  onClick={() => handleLanguageChange(lang)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer border ${
+                    isSelected
+                      ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-slate-900 dark:border-white shadow-xs'
+                      : 'bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-slate-700/60'
+                  }`}
+                >
+                  {lang}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -137,17 +171,17 @@ export const DosAndDontsSection: React.FC = () => {
 
             {/* Left Page: BEFORE DISASTER */}
             <div className="space-y-3.5 md:pr-4">
-              <div className="text-center pb-2 border-b-2 border-slate-300 dark:border-slate-700">
-                <h3 className="text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white font-heading">
+              <div className="text-center pb-2.5 border-b border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/50 dark:bg-emerald-950/20 p-2.5 rounded-xl">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block">
                   {currentContent.title}
-                </h3>
+                </span>
+                <h4 className="text-xs sm:text-[13px] font-extrabold uppercase tracking-wide text-emerald-950 dark:text-emerald-200 mt-0.5 flex items-center justify-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>{currentContent.beforeTitle || `${ui.beforePrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}</span>
+                </h4>
               </div>
 
               <div className="pt-1">
-                <h4 className="text-xs font-black uppercase tracking-wide text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5">
-                  {currentContent.beforeTitle || `${ui.beforePrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}
-                </h4>
-
                 <ul className="space-y-2 text-xs text-slate-800 dark:text-slate-300 leading-relaxed list-disc list-outside pl-4 font-sans">
                   {currentContent.before.map((point, i) => (
                     <li key={i} className="pl-1">
@@ -160,17 +194,17 @@ export const DosAndDontsSection: React.FC = () => {
 
             {/* Right Page: DURING & AFTER DISASTER */}
             <div className="space-y-3.5 md:pl-4">
-              <div className="text-center pb-2 border-b-2 border-slate-300 dark:border-slate-700">
-                <h3 className="text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white font-heading">
+              <div className="text-center pb-2.5 border-b border-rose-200 dark:border-rose-800/60 bg-rose-50/50 dark:bg-rose-950/20 p-2.5 rounded-xl">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400 block">
                   {currentContent.title}
-                </h3>
+                </span>
+                <h4 className="text-xs sm:text-[13px] font-extrabold uppercase tracking-wide text-rose-950 dark:text-rose-200 mt-0.5 flex items-center justify-center gap-1.5">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+                  <span>{currentContent.duringAfterTitle || `${ui.duringAfterPrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}</span>
+                </h4>
               </div>
 
               <div className="pt-1">
-                <h4 className="text-xs font-black uppercase tracking-wide text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5">
-                  {currentContent.duringAfterTitle || `${ui.duringAfterPrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}
-                </h4>
-
                 <ul className="space-y-2 text-xs text-slate-800 dark:text-slate-300 leading-relaxed list-disc list-outside pl-4 font-sans">
                   {currentContent.duringAfter.map((point, i) => (
                     <li key={i} className="pl-1">
