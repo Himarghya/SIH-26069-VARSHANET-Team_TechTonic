@@ -27,62 +27,91 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 }) => {
   const { isDark } = useTheme();
 
-  const colorMap = {
-    cyan: 'bg-cyan-50/80 dark:bg-cyan-950/20 border-cyan-300 dark:border-cyan-500/30 hover:border-cyan-500/60 shadow-xs',
-    blue: 'bg-blue-50/80 dark:bg-blue-950/20 border-blue-300 dark:border-blue-500/30 hover:border-blue-500/60 shadow-xs',
-    emerald: 'bg-emerald-50/80 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-500/30 hover:border-emerald-500/60 shadow-xs',
-    rose: 'bg-rose-50/80 dark:bg-rose-950/20 border-rose-300 dark:border-rose-500/30 hover:border-rose-500/60 shadow-xs',
-    amber: 'bg-amber-50/80 dark:bg-amber-950/20 border-amber-300 dark:border-amber-500/30 hover:border-amber-500/60 shadow-xs',
-    purple: 'bg-purple-50/80 dark:bg-purple-950/20 border-purple-300 dark:border-purple-500/30 hover:border-purple-500/60 shadow-xs',
+  // Subtle theme accents that maintain a unified, clean card background
+  const themeStyles = {
+    cyan: {
+      topBar: 'from-sky-500 to-cyan-400',
+      iconBox: 'bg-sky-500/10 text-sky-600 dark:bg-sky-500/15 dark:text-sky-400 border-sky-500/20',
+      hoverBorder: 'hover:border-sky-300/80 dark:hover:border-sky-600/50',
+      trendPill: 'bg-sky-50 text-sky-700 border-sky-200/60 dark:bg-sky-950/40 dark:text-sky-300 dark:border-sky-800/40'
+    },
+    blue: {
+      topBar: 'from-blue-600 to-indigo-500',
+      iconBox: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400 border-blue-500/20',
+      hoverBorder: 'hover:border-blue-300/80 dark:hover:border-blue-600/50',
+      trendPill: 'bg-blue-50 text-blue-700 border-blue-200/60 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/40'
+    },
+    emerald: {
+      topBar: 'from-emerald-600 to-teal-500',
+      iconBox: 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400 border-emerald-500/20',
+      hoverBorder: 'hover:border-emerald-300/80 dark:hover:border-emerald-600/50',
+      trendPill: 'bg-emerald-50 text-emerald-700 border-emerald-200/60 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/40'
+    },
+    rose: {
+      topBar: 'from-rose-600 to-red-500',
+      iconBox: 'bg-rose-500/10 text-rose-600 dark:bg-rose-500/15 dark:text-rose-400 border-rose-500/20',
+      hoverBorder: 'hover:border-rose-300/80 dark:hover:border-rose-600/50',
+      trendPill: 'bg-rose-50 text-rose-700 border-rose-200/60 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/40'
+    },
+    amber: {
+      topBar: 'from-amber-500 to-orange-500',
+      iconBox: 'bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400 border-amber-500/20',
+      hoverBorder: 'hover:border-amber-300/80 dark:hover:border-amber-600/50',
+      trendPill: 'bg-amber-50 text-amber-700 border-amber-200/60 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/40'
+    },
+    purple: {
+      topBar: 'from-indigo-600 to-purple-500',
+      iconBox: 'bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-400 border-indigo-500/20',
+      hoverBorder: 'hover:border-indigo-300/80 dark:hover:border-indigo-600/50',
+      trendPill: 'bg-indigo-50 text-indigo-700 border-indigo-200/60 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800/40'
+    },
   };
 
-  const iconBgMap = {
-    cyan: 'bg-cyan-600 text-white dark:bg-cyan-950/80 dark:text-cyan-400 border border-cyan-500 dark:border-cyan-700/50',
-    blue: 'bg-blue-600 text-white dark:bg-blue-950/80 dark:text-blue-400 border border-blue-500 dark:border-blue-700/50',
-    emerald: 'bg-emerald-600 text-white dark:bg-emerald-950/80 dark:text-emerald-400 border border-emerald-500 dark:border-emerald-700/50',
-    rose: 'bg-rose-600 text-white dark:bg-rose-950/80 dark:text-rose-400 border border-rose-500 dark:border-rose-700/50',
-    amber: 'bg-amber-600 text-white dark:bg-amber-950/80 dark:text-amber-400 border border-amber-500 dark:border-amber-700/50',
-    purple: 'bg-purple-600 text-white dark:bg-purple-950/80 dark:text-purple-400 border border-purple-500 dark:border-purple-700/50',
-  };
+  const style = themeStyles[colorTheme] || themeStyles.cyan;
 
   return (
     <div
       onClick={onClick}
-      className={`p-3 sm:p-3.5 rounded-xl ${colorMap[colorTheme]} border backdrop-blur-sm shadow-xs flex flex-col justify-between transition-all select-none active:scale-[0.99] font-sans overflow-hidden relative w-full ${
-        onClick ? 'cursor-pointer group' : ''
+      className={`group relative p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xs hover:shadow-md ${style.hoverBorder} flex flex-col justify-between transition-all duration-200 select-none active:scale-[0.99] font-sans overflow-hidden w-full ${
+        onClick ? 'cursor-pointer hover:-translate-y-0.5' : ''
       }`}
       title={onClick ? (actionLabel || `Click to inspect ${title}`) : undefined}
     >
-      <div className="flex items-start justify-between gap-1.5 mb-2 w-full min-w-0">
-        <div className="flex items-center gap-1 min-w-0 flex-1 text-[11px] font-bold text-slate-700 dark:text-slate-400 tracking-wider uppercase group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+      {/* Refined Top Color Accent Indicator */}
+      <div className={`absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r ${style.topBar} opacity-90 group-hover:opacity-100 transition-opacity`} />
+
+      {/* Header: Title & Refined Glass Icon */}
+      <div className="flex items-start justify-between gap-1.5 mb-2.5 w-full min-w-0 pt-0.5">
+        <div className="flex items-center gap-1 min-w-0 flex-1 text-[11px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors">
           <span className="truncate leading-tight">{title}</span>
           {onClick && (
-            <ArrowUpRight className="w-3 h-3 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+            <ArrowUpRight className="w-3 h-3 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
           )}
         </div>
-        <div className={`p-1.5 rounded-lg ${iconBgMap[colorTheme]} group-hover:scale-105 transition-transform shrink-0 shadow-xs flex items-center justify-center`}>
+        <div className={`p-1.5 rounded-lg ${style.iconBox} border group-hover:scale-105 transition-transform shrink-0 flex items-center justify-center`}>
           <Icon className="w-3.5 h-3.5" />
         </div>
       </div>
 
-      <div className="mt-0.5 w-full min-w-0">
+      {/* Metric Value & Subtext */}
+      <div className="w-full min-w-0">
         <div 
-          className="text-2xl sm:text-3xl font-black tracking-tight tabular-nums font-sans truncate"
-          style={{ color: isDark ? '#ffffff' : '#0f172a' }}
+          className="text-2xl sm:text-[26px] font-extrabold tracking-tight tabular-nums font-sans truncate text-slate-900 dark:text-white"
         >
           {value}
         </div>
-        <div className="flex items-center justify-between mt-1 text-[11px] sm:text-xs gap-1.5 font-sans w-full min-w-0">
+        
+        <div className="flex items-center justify-between mt-1.5 text-[11px] sm:text-xs gap-1.5 font-sans w-full min-w-0">
           {subtext && (
-            <span className="text-slate-600 dark:text-slate-400 font-semibold truncate flex-1 min-w-0" title={subtext}>
+            <span className="text-slate-500 dark:text-slate-400 font-medium truncate flex-1 min-w-0" title={subtext}>
               {subtext}
             </span>
           )}
           {trend && (
-            <span className={`font-bold whitespace-nowrap shrink-0 text-[10px] sm:text-[11px] ${
+            <span className={`font-semibold whitespace-nowrap shrink-0 text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded-md border ${
               trendPositive
-                ? 'text-emerald-700 dark:text-emerald-400'
-                : 'text-rose-700 dark:text-rose-400'
+                ? style.trendPill
+                : 'bg-rose-50 text-rose-700 border-rose-200/60 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/40'
             }`}>
               {trend}
             </span>
