@@ -153,6 +153,14 @@ export const AllIndiaCapMapView: React.FC<AllIndiaCapMapViewProps> = ({
     }
   };
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredAlerts = alerts.filter(item => {
+    if (!searchTerm.trim()) return true;
+    const q = searchTerm.toLowerCase();
+    return item.event.toLowerCase().includes(q) || item.location.toLowerCase().includes(q) || item.state.toLowerCase().includes(q);
+  });
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[680px] animate-fade-in font-sans">
       
@@ -168,34 +176,53 @@ export const AllIndiaCapMapView: React.FC<AllIndiaCapMapViewProps> = ({
       <div className="lg:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
         
         {/* Blue Header: ALERT LIST */}
-        <div className="bg-[#18447e] text-white py-2.5 px-4 text-center font-black text-sm uppercase tracking-wider font-heading shadow-xs shrink-0">
-          ALERT LIST
+        <div className="bg-[#18447e] text-white py-2.5 px-3 flex items-center justify-between font-black text-sm uppercase tracking-wider font-heading shadow-xs shrink-0">
+          <span className="text-center w-full">ALERT LIST ({alerts.length})</span>
+        </div>
+
+        {/* Quick Search Filter */}
+        <div className="p-2 bg-slate-100 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 shrink-0">
+          <input
+            type="text"
+            placeholder="Search alerts / location..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-2.5 py-1 text-xs rounded-md bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
         </div>
 
         {/* Scrollable Alert List Items */}
-        <div className="flex-1 overflow-y-auto p-3 space-y-2.5 bg-slate-50/50 dark:bg-slate-950/40 custom-scrollbar">
-          {alerts.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => handleAlertCardClick(item)}
-              className={`p-3 rounded-xl cursor-pointer transition-all duration-150 text-center shadow-xs border ${
-                item.warningColor === 'orange'
-                  ? 'bg-[#ff9800] text-white border-amber-600 font-bold hover:scale-[1.01]'
-                  : item.warningColor === 'red'
-                  ? 'bg-[#f44336] text-white border-rose-600 font-bold hover:scale-[1.01]'
-                  : 'bg-[#ffff00] dark:bg-[#ffea00] text-slate-950 border-yellow-400 font-bold hover:scale-[1.01]'
-              } ${selectedAlertId === item.id ? 'ring-2 ring-blue-600 scale-[1.02] shadow-md' : ''}`}
-            >
-              <h4 className="text-xs font-black tracking-tight uppercase leading-tight">
-                {item.event}
-              </h4>
-              <p className={`text-[11px] font-semibold mt-1 leading-snug ${
-                item.warningColor === 'orange' || item.warningColor === 'red' ? 'text-white/95' : 'text-slate-800'
-              }`}>
-                {item.location}
-              </p>
+        <div className="flex-1 overflow-y-auto p-2.5 space-y-2 bg-slate-50/50 dark:bg-slate-950/40 custom-scrollbar">
+          {filteredAlerts.length === 0 ? (
+            <div className="p-4 text-center text-xs text-slate-500 font-semibold">
+              No matching alerts found.
             </div>
-          ))}
+          ) : (
+            filteredAlerts.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => handleAlertCardClick(item)}
+                className={`p-3 rounded-xl cursor-pointer transition-all duration-150 text-center shadow-xs border ${
+                  item.warningColor === 'orange'
+                    ? 'bg-[#ff9800] text-white border-amber-600 font-bold hover:scale-[1.01]'
+                    : item.warningColor === 'red'
+                    ? 'bg-[#f44336] text-white border-rose-600 font-bold hover:scale-[1.01]'
+                    : 'bg-[#ffff00] text-[#000000] border-yellow-400 font-bold hover:scale-[1.01]'
+                } ${selectedAlertId === item.id ? 'ring-2 ring-blue-600 scale-[1.02] shadow-md' : ''}`}
+              >
+                <h4 className={`text-xs font-black tracking-tight uppercase leading-tight ${
+                  item.warningColor === 'orange' || item.warningColor === 'red' ? 'text-white' : 'text-[#000000]'
+                }`}>
+                  {item.event}
+                </h4>
+                <p className={`text-[11px] font-bold mt-1 leading-snug ${
+                  item.warningColor === 'orange' || item.warningColor === 'red' ? 'text-white/95' : 'text-[#000000]/90'
+                }`}>
+                  {item.location}
+                </p>
+              </div>
+            ))
+          )}
         </div>
 
       </div>

@@ -275,6 +275,123 @@ export const OFFICIAL_CAP_ALERTS: OfficialCapAlert[] = [
   }
 ];
 
+// Helper to generate dynamic Do's & Don'ts based on event type
+const getDosAndDontsForEvent = (eventType: string) => {
+  const ev = (eventType || '').toLowerCase();
+  if (ev.includes('flood') || ev.includes('inundat') || ev.includes('waterlog')) {
+    return {
+      dos: [
+        { text: 'Move immediately to designated higher relief camps.', icon: '🏕️' },
+        { text: 'Store drinking water in clean sealed containers.', icon: '💧' },
+        { text: 'Preserve ID cards and medicine in waterproof pouches.', icon: '📁' }
+      ],
+      donts: [
+        { text: 'Do not cross submerged roads, culverts, or bridges.', icon: '🚫' },
+        { text: 'Do not consume contaminated flood water.', icon: '🚰' },
+        { text: 'Avoid approaching weakening river dykes or bunds.', icon: '🌊' }
+      ]
+    };
+  }
+  if (ev.includes('lightning') || ev.includes('thunder')) {
+    return {
+      dos: [
+        { text: 'Stay indoors inside a sturdy building.', icon: '🏠' },
+        { text: 'Unplug sensitive electrical devices.', icon: '🔌' },
+        { text: 'Stay away from open windows and metal fixtures.', icon: '🪟' }
+      ],
+      donts: [
+        { text: 'Do not take shelter under tall or isolated trees.', icon: '🌲' },
+        { text: 'Do not use corded landline phones during storm.', icon: '📞' },
+        { text: 'Avoid open bodies of water and metal fencing.', icon: '🏊' }
+      ]
+    };
+  }
+  if (ev.includes('cyclon') || ev.includes('wind') || ev.includes('storm')) {
+    return {
+      dos: [
+        { text: 'Secure loose roof sheets, solar panels, and banners.', icon: '🏠' },
+        { text: 'Fishermen should heed coastal advisories strictly.', icon: '⛵' },
+        { text: 'Keep mobile phones and emergency torches fully charged.', icon: '🔦' }
+      ],
+      donts: [
+        { text: 'Do not venture outside during the eye of the storm.', icon: '🛑' },
+        { text: 'Do not touch fallen electric wires or poles.', icon: '⚡' },
+        { text: 'Avoid parking vehicles under trees.', icon: '🚗' }
+      ]
+    };
+  }
+  return {
+    dos: [
+      { text: 'Follow official updates on SACHET & VARSHANET.', icon: '📱' },
+      { text: 'Keep emergency 112 helpline accessible.', icon: '🚨' },
+      { text: 'Assist vulnerable elders and children.', icon: '🤝' }
+    ],
+    donts: [
+      { text: 'Do not spread unverified rumors on social media.', icon: '📵' },
+      { text: 'Do not ignore official disaster alerts.', icon: '⚠️' },
+      { text: 'Avoid unnecessary travel during peak warning hours.', icon: '🚗' }
+    ]
+  };
+};
+
+// Convert live WeatherReport to full OfficialCapAlert format
+export const convertReportToCapAlert = (report: WeatherReport): OfficialCapAlert => {
+  const safety = getDosAndDontsForEvent(report.event_type || report.text);
+  const locationParts = [report.city, report.district, report.state].filter(Boolean);
+  const locationStr = locationParts.length > 0 ? locationParts.join(', ') : (report.state || 'Pan India');
+
+  const isCritical = report.risk_level === 'CRITICAL';
+  const isHigh = report.risk_level === 'HIGH';
+  const isMod = report.risk_level === 'MODERATE';
+
+  const warningColor: 'yellow' | 'orange' | 'red' = isCritical ? 'red' : (isHigh || isMod) ? 'orange' : 'yellow';
+  const warningLevel: 'Low' | 'Moderate' | 'Severe' | 'Critical' = isCritical ? 'Critical' : isHigh ? 'Severe' : isMod ? 'Moderate' : 'Low';
+
+  let eventTitle = (report.event_type || '').trim().toUpperCase();
+  if (!eventTitle || eventTitle === 'WEATHER' || eventTitle === 'OTHER') {
+    eventTitle = isCritical ? 'SEVERE FLOOD & CYCLONIC WARNING' : isHigh ? 'HEAVY RAINFALL & THUNDERSTORM' : 'WEATHER ADVISORY';
+  } else if (eventTitle === 'RAIN' || eventTitle === 'HEAVY_RAIN') {
+    eventTitle = isHigh || isCritical ? 'HEAVY RAINFALL WARNING' : 'LIGHT TO MODERATE RAIN';
+  } else if (eventTitle === 'LIGHTNING' || eventTitle === 'THUNDER') {
+    eventTitle = 'THUNDERSTORM WITH LIGHTNING';
+  } else if (eventTitle === 'FLOOD' || eventTitle === 'INUNDATION') {
+    eventTitle = 'FLOOD';
+  } else if (eventTitle === 'CYCLONE') {
+    eventTitle = 'CYCLONIC STORM ADVISORY';
+  }
+
+  // Format valid timestamp
+  const dateObj = report.timestamp ? new Date(report.timestamp) : new Date();
+  const validDate = new Date(dateObj.getTime() + 4 * 3600 * 1000);
+  const validUptoStr = `${validDate.getDate()} ${validDate.toLocaleString('en-US', { month: 'short' })} ${validDate.getFullYear()} ${validDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+
+  const issuer = report.source_name || (
+    report.source_type === 'government_open_data' ? 'IMD / CWC' :
+    report.source_type === 'rss_news' ? 'State Disaster Management Authority' :
+    report.source_type === 'citizen_report' ? 'Citizen Verified Spotter' :
+    `Govt. of ${report.state || 'India'}`
+  );
+
+  return {
+    id: `report-cap-${report.id}`,
+    issuedBy: issuer,
+    state: report.state || 'National',
+    event: eventTitle,
+    warningLevel,
+    warningColor,
+    location: locationStr,
+    validUpto: validUptoStr,
+    issuedAt: dateObj.toLocaleString(),
+    lat: report.latitude || 20.5937,
+    lon: report.longitude || 78.9629,
+    radiusKm: isCritical ? 45 : isHigh ? 35 : 25,
+    descriptionHi: `[${report.state || 'क्षेत्र'}] ${report.normalized_text || report.text || 'मौसम चेतावनी जारी। सतर्क रहें एवं आपदा प्रबंधन दिशा-निर्देशों का पालन करें।'}`,
+    descriptionEn: report.text || report.normalized_text || `Official alert issued for ${locationStr}. Stay indoors and follow safety instructions.`,
+    dos: safety.dos,
+    donts: safety.donts
+  };
+};
+
 export const MapPage: React.FC<MapPageProps> = ({
   events = [],
   reports = [],
@@ -289,9 +406,27 @@ export const MapPage: React.FC<MapPageProps> = ({
   const [searchCity, setSearchCity] = useState('Chakdehi');
   const [selectedCapAlertForModal, setSelectedCapAlertForModal] = useState<OfficialCapAlert | null>(null);
 
+  // Dynamically merge all live WeatherReport items with official CAP seed alerts
+  const allCapAlerts = useMemo<OfficialCapAlert[]>(() => {
+    const baseAlerts = [...OFFICIAL_CAP_ALERTS];
+    const convertedReports = (reports || []).map(convertReportToCapAlert);
+
+    const combined: OfficialCapAlert[] = [...baseAlerts];
+    const existingLocations = new Set(baseAlerts.map(a => a.location.toLowerCase().trim()));
+
+    convertedReports.forEach(repAlert => {
+      if (!existingLocations.has(repAlert.location.toLowerCase().trim())) {
+        combined.push(repAlert);
+        existingLocations.add(repAlert.location.toLowerCase().trim());
+      }
+    });
+
+    return combined;
+  }, [reports]);
+
   // Filtered CAP Alerts for the Table in STATE mode
   const filteredTableAlerts = useMemo(() => {
-    return OFFICIAL_CAP_ALERTS.filter(alert => {
+    return allCapAlerts.filter(alert => {
       // 1. State Filter
       const matchesState = 
         selectedPanState === 'PAN INDIA' || 
@@ -307,7 +442,7 @@ export const MapPage: React.FC<MapPageProps> = ({
 
       return matchesState && matchesSearch;
     });
-  }, [selectedPanState, searchLocationQuery]);
+  }, [allCapAlerts, selectedPanState, searchLocationQuery]);
 
   const handleOpenAlertModal = (alertItem: OfficialCapAlert) => {
     setSelectedCapAlertForModal(alertItem);
@@ -588,7 +723,7 @@ export const MapPage: React.FC<MapPageProps> = ({
       ) : (
         /* 4. ALL INDIA CAP ALERT & CURRENT LOCATION VIEW (Matching Screenshot 2-Column Map + Alert List) */
         <AllIndiaCapMapView
-          alerts={OFFICIAL_CAP_ALERTS}
+          alerts={allCapAlerts}
           onSelectAlert={handleOpenAlertModal}
         />
       )}
