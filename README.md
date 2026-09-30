@@ -53,7 +53,7 @@
 
 | 🌐 **LIVE DEPLOYED WEBSITE** | 📊 **INTERACTIVE SYSTEM WORKFLOW** |
 | :---: | :---: |
-| [![Live Website](https://img.shields.io/badge/🌐_LIVE_WEBSITE-VISIT_NOW-00C49F?style=for-the-badge&logo=googlechrome&logoColor=white)](https://varshanet-backend.onrender.com) | [![Workflow Diagram](https://img.shields.io/badge/📊_WORKFLOW_DIAGRAM-DIAGRAMS.NET-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white)](https://app.diagrams.net/) |
+| [![Live Website](https://img.shields.io/badge/🌐_LIVE_WEBSITE-VISIT_NOW-00C49F?style=for-the-badge&logo=googlechrome&logoColor=white)]([https://varshanet-backend.onrender.com](https://sih-26069-varshanet-team-techtonic.onrender.com/)) | [![Workflow Diagram](https://img.shields.io/badge/📊_WORKFLOW_DIAGRAM-DIAGRAMS.NET-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white)](https://app.diagrams.net/) |
 | <h1><a href="https://varshanet-backend.onrender.com">👉 Open Live Website ↗</a></h1> | <h1><a href="https://app.diagrams.net/">👉 Open diagrams.net Workflow ↗</a></h1> |
 | 🔗 **[`https://varshanet-backend.onrender.com`](https://varshanet-backend.onrender.com)** | 🔗 **[`https://app.diagrams.net/`](https://app.diagrams.net/)** |
 | *Live Deployment on Render • Interactive GIS Map • Real-Time AI Verification* | *Full Interactive Closed-Loop System & Multi-Modal ML Flowchart* |
