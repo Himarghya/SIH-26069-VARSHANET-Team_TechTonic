@@ -65,28 +65,28 @@ export const kannadaContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ಪ್ರವಾಹ | ಪ್ರವಾಹ ಸುರಕ್ಷತೆ ಮತ್ತು ಸ್ಥಳಾಂತರ ಮಾರ್ಗಸೂಚಿಗಳು',
-        duration: '3:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | ಪ್ರವಾಹದ ನಂತರ ಏನು ಮಾಡಬೇಕು ಮತ್ತು ಏನು ಮಾಡಬಾರದು | NDMA',
+        duration: '1:05',
+        youtubeId: 'lJq1FLc5Bqc',
+        thumbnailUrl: 'https://img.youtube.com/vi/lJq1FLc5Bqc/hqdefault.jpg'
       },
       {
-        title: '#ಪ್ರವಾಹ | ವಿದ್ಯುತ್ ಮತ್ತು ಕಲುಷಿತ ನೀರಿನಿಂದ ಮುನ್ನೆಚ್ಚರಿಕೆ',
-        duration: '4:00',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | ಪ್ರವಾಹಕ್ಕೆ ಮುನ್ನ ಯಾವ ಸಿದ್ಧತೆಗಳನ್ನು ಮಾಡಿಕೊಳ್ಳಬೇಕು ? | NDMA',
+        duration: '1:24',
+        youtubeId: '2KwuqolYLO4',
+        thumbnailUrl: 'https://img.youtube.com/vi/2KwuqolYLO4/hqdefault.jpg'
       },
       {
-        title: '#ಪ್ರವಾಹ | ಮಳೆಗಾಲದಲ್ಲಿ ವಾಹನ ಚಾಲನಾ ಸುರಕ್ಷತೆ',
-        duration: '2:50',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | ಪ್ರವಾಹದ ಸಮಯದಲ್ಲಿ ಜಾನುವಾರುಗಳನ್ನು ಹೇಗೆ ರಕ್ಷಿಸುವುದು ? | NDMA',
+        duration: '0:58',
+        youtubeId: 'jWfzk90K8uI',
+        thumbnailUrl: 'https://img.youtube.com/vi/jWfzk90K8uI/hqdefault.jpg'
       },
       {
-        title: '#ಪ್ರವಾಹ | ಪ್ರವಾಹದ ನಂತರ ಶುಚಿಗೊಳಿಸುವಿಕೆ ವಿಧಾನಗಳು',
-        duration: '5:10',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | ಪ್ರವಾಹದ ಸಮಯದಲ್ಲಿ ಏನು ಮಾಡಬೇಕು ಮತ್ತು ಏನು ಮಾಡಬಾರದು | NDMA',
+        duration: '1:04',
+        youtubeId: '0b0yrwHvCdc',
+        thumbnailUrl: 'https://img.youtube.com/vi/0b0yrwHvCdc/hqdefault.jpg'
       }
     ]
   },

@@ -65,28 +65,28 @@ export const malayalamContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#വെള്ളപ്പൊക്കം | സുരക്ഷാ നിർദ്ദേശങ്ങളും ഒഴിപ്പിക്കൽ പ്രോട്ടോക്കോളും',
-        duration: '3:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | പ്രളയത്തിന് ശേഷം ചെയ്യേണ്ടതും ചെയ്യാൻ പാടില്ലാത്തതും | NDMA',
+        duration: '1:05',
+        youtubeId: 'lJq1FLc5Bqc',
+        thumbnailUrl: 'https://img.youtube.com/vi/lJq1FLc5Bqc/hqdefault.jpg'
       },
       {
-        title: '#വെള്ളപ്പൊക്കം | വൈദ്യുതി അപകടങ്ങളും ജലമലിനീകരണവും തടയൽ',
-        duration: '4:00',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | പ്രളയത്തിന് മുൻപ് എന്തെല്ലാം തയ്യാറെടുപ്പുകൾ നടത്തണം ? | NDMA',
+        duration: '1:24',
+        youtubeId: '2KwuqolYLO4',
+        thumbnailUrl: 'https://img.youtube.com/vi/2KwuqolYLO4/hqdefault.jpg'
       },
       {
-        title: '#വെള്ളപ്പൊക്കം | മഴക്കാലത്തെ സുരക്ഷിത ഡ്രൈവിംഗ് നിയമങ്ങൾ',
-        duration: '2:50',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | പ്രളയസമയത്ത് വളർത്തുമൃഗങ്ങളെ എങ്ങനെ സംരക്ഷിക്കാം ? | NDMA',
+        duration: '0:58',
+        youtubeId: 'jWfzk90K8uI',
+        thumbnailUrl: 'https://img.youtube.com/vi/jWfzk90K8uI/hqdefault.jpg'
       },
       {
-        title: '#വെള്ളപ്പൊക്കം | പ്രളയാനന്തര ശുചീകരണവും അണുനശീകരണവും',
-        duration: '5:10',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | പ്രളയസമയത്ത് ചെയ്യേണ്ടതും ചെയ്യാൻ പാടില്ലാത്തതും | NDMA',
+        duration: '1:04',
+        youtubeId: '0b0yrwHvCdc',
+        thumbnailUrl: 'https://img.youtube.com/vi/0b0yrwHvCdc/hqdefault.jpg'
       }
     ]
   },

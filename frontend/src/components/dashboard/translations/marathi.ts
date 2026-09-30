@@ -65,28 +65,28 @@ export const marathiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#पूर | पूर सुरक्षा आणि तत्काळ स्थलांतर मार्गदर्शक तत्त्वे',
-        duration: '3:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | पूर ओसरल्यानंतर काय करावे आणि काय करू नये | NDMA',
+        duration: '1:05',
+        youtubeId: 'lJq1FLc5Bqc',
+        thumbnailUrl: 'https://img.youtube.com/vi/lJq1FLc5Bqc/hqdefault.jpg'
       },
       {
-        title: '#पूर | वीज आणि दूषित पाण्यापासून सुरक्षेचे उपाय',
-        duration: '4:00',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | पुरापूर्वी काय पूर्वतयारी करावी ? | NDMA',
+        duration: '1:24',
+        youtubeId: '2KwuqolYLO4',
+        thumbnailUrl: 'https://img.youtube.com/vi/2KwuqolYLO4/hqdefault.jpg'
       },
       {
-        title: '#पूर | मुसळधार पावसात सुरक्षित वाहन चालवण्याचे नियम',
-        duration: '2:50',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | पुरादरम्यान जनावरांचे रक्षण कसे करावे ? | NDMA',
+        duration: '0:58',
+        youtubeId: 'jWfzk90K8uI',
+        thumbnailUrl: 'https://img.youtube.com/vi/jWfzk90K8uI/hqdefault.jpg'
       },
       {
-        title: '#पूर | पुरानंतर स्वच्छता आणि निर्जंतुकीकरण पद्धती',
-        duration: '5:10',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | पुरादरम्यान काय करावे आणि काय करू नये | NDMA',
+        duration: '1:04',
+        youtubeId: '0b0yrwHvCdc',
+        thumbnailUrl: 'https://img.youtube.com/vi/0b0yrwHvCdc/hqdefault.jpg'
       }
     ]
   },

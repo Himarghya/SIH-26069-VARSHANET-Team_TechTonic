@@ -65,28 +65,28 @@ export const bengaliContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#বন্যা | বন্যা সুরক্ষা ও আগাম স্থানান্তর নির্দেশিকা',
-        duration: '3:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | বন্যার পর কী করবেন এবং কী করবেন না | NDMA',
+        duration: '1:05',
+        youtubeId: 'lJq1FLc5Bqc',
+        thumbnailUrl: 'https://img.youtube.com/vi/lJq1FLc5Bqc/hqdefault.jpg'
       },
       {
-        title: '#বন্যা | বিদ্যুৎ ও জল দূষণ থেকে আত্মরক্ষা',
-        duration: '4:00',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | বন্যার আগে কী প্রস্তুতি নেবেন ? | NDMA',
+        duration: '1:24',
+        youtubeId: '2KwuqolYLO4',
+        thumbnailUrl: 'https://img.youtube.com/vi/2KwuqolYLO4/hqdefault.jpg'
       },
       {
-        title: '#বন্যা | প্লাবিত রাস্তায় নিরাপদ যান চলাচল নিয়মাবলী',
-        duration: '2:50',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | বন্যার সময় পশুপাখিদের কীভাবে সুরক্ষিত রাখবেন ? | NDMA',
+        duration: '0:58',
+        youtubeId: 'jWfzk90K8uI',
+        thumbnailUrl: 'https://img.youtube.com/vi/jWfzk90K8uI/hqdefault.jpg'
       },
       {
-        title: '#বন্যা | বন্যা পরবর্তী ঘরবাড়ি জীবাণুমুক্তকরণ পদ্ধতি',
-        duration: '5:10',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        title: '#Flood | বন্যার সময় কী করবেন এবং কী করবেন না | NDMA',
+        duration: '1:04',
+        youtubeId: '0b0yrwHvCdc',
+        thumbnailUrl: 'https://img.youtube.com/vi/0b0yrwHvCdc/hqdefault.jpg'
       }
     ]
   },
