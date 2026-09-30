@@ -19,16 +19,41 @@ import { useLanguage } from '../../context/LanguageContext';
 export const OfficialPortalFooter: React.FC = () => {
   const { t } = useLanguage();
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [todayCount, setTodayCount] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
+  const [todayCount, setTodayCount] = useState<number>(45);
+  const [totalCount, setTotalCount] = useState<number>(42185);
 
-  // Automatically and continuously increase visitor count from zero
+  // Increment visitor count ONCE per visitor session (not on a timer)
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTodayCount(prev => prev + 1);
-      setTotalCount(prev => prev + 1);
-    }, 2500);
-    return () => clearInterval(timer);
+    try {
+      const todayDateStr = new Date().toISOString().slice(0, 10);
+      const storedDate = localStorage.getItem('varshanet_visit_date');
+      let storedToday = parseInt(localStorage.getItem('varshanet_today_visitors') || '45', 10);
+      let storedTotal = parseInt(localStorage.getItem('varshanet_total_visitors') || '42185', 10);
+
+      // If it's a new day, reset today's count
+      if (storedDate !== todayDateStr) {
+        storedToday = 45;
+        localStorage.setItem('varshanet_visit_date', todayDateStr);
+      }
+
+      const hasCountedSession = sessionStorage.getItem('varshanet_session_counted');
+      if (!hasCountedSession) {
+        // Increment once for this new visit
+        storedToday += 1;
+        storedTotal += 1;
+        sessionStorage.setItem('varshanet_session_counted', 'true');
+        localStorage.setItem('varshanet_today_visitors', String(storedToday));
+        localStorage.setItem('varshanet_total_visitors', String(storedTotal));
+        localStorage.setItem('varshanet_visit_date', todayDateStr);
+      }
+
+      setTodayCount(storedToday);
+      setTotalCount(storedTotal);
+    } catch (e) {
+      console.warn('Visitor counter storage error', e);
+      setTodayCount(45);
+      setTotalCount(42185);
+    }
   }, []);
 
   const scrollToTop = () => {
