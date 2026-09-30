@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { OfficialCapAlert } from './CapAlertDetailModal';
+import { WeatherOverviewWidget } from './WeatherOverviewWidget';
 import { MapPin, Maximize2, ShieldAlert, ArrowRight, ExternalLink } from 'lucide-react';
 
 interface AllIndiaCapMapViewProps {
@@ -146,22 +147,28 @@ export const AllIndiaCapMapView: React.FC<AllIndiaCapMapViewProps> = ({
     onSelectAlert(alert);
   };
 
+  const handleCitySearchFlyTo = (cityName: string, lat: number, lon: number) => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.flyTo([lat, lon], 8, { duration: 1.2 });
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[660px] animate-fade-in font-sans">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[680px] animate-fade-in font-sans">
       
-      {/* Left: Full Interactive Leaflet All India CAP Map (lg:col-span-8 or 9) */}
-      <div className="lg:col-span-8 xl:col-span-9 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full relative">
+      {/* Column 1: Full Interactive Leaflet All India CAP Map (6 cols on lg) */}
+      <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full relative">
         <div
           ref={mapContainerRef}
           className="w-full h-full min-h-[480px] relative z-0"
         />
       </div>
 
-      {/* Right: ALERT LIST (lg:col-span-4 or 3) (Matching Screenshot) */}
-      <div className="lg:col-span-4 xl:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
+      {/* Column 2: ALERT LIST (3 cols on lg) (Matching Screenshot) */}
+      <div className="lg:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
         
         {/* Blue Header: ALERT LIST */}
-        <div className="bg-[#1e5aa8] dark:bg-[#18447e] text-white py-2.5 px-4 text-center font-black text-sm uppercase tracking-wider font-heading shadow-xs shrink-0">
+        <div className="bg-[#18447e] text-white py-2.5 px-4 text-center font-black text-sm uppercase tracking-wider font-heading shadow-xs shrink-0">
           ALERT LIST
         </div>
 
@@ -191,6 +198,11 @@ export const AllIndiaCapMapView: React.FC<AllIndiaCapMapViewProps> = ({
           ))}
         </div>
 
+      </div>
+
+      {/* Column 3: Weather Overview Widget (3 cols on lg) (Matching Screenshot media_1790757655868.png) */}
+      <div className="lg:col-span-3 h-[540px] lg:h-full">
+        <WeatherOverviewWidget onCitySearch={handleCitySearchFlyTo} />
       </div>
 
     </div>
