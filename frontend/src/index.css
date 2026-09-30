@@ -193,10 +193,10 @@ body.light .text-slate-400 {
 }
 
 /* Metric / Stat Values in Light Mode (High-contrast slate-900) */
-html.light .tabular-nums:not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *):not(.text-emerald-700):not(.text-rose-700):not(.text-cyan-700):not(.text-blue-700),
-body.light .tabular-nums:not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *):not(.text-emerald-700):not(.text-rose-700):not(.text-cyan-700):not(.text-blue-700),
-html.light .text-3xl:not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *),
-body.light .text-3xl:not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *) {
+html.light .tabular-nums:not(header *):not(.text-white):not(.text-white *):not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *):not(.text-emerald-700):not(.text-rose-700):not(.text-cyan-700):not(.text-blue-700),
+body.light .tabular-nums:not(header *):not(.text-white):not(.text-white *):not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *):not(.text-emerald-700):not(.text-rose-700):not(.text-cyan-700):not(.text-blue-700),
+html.light .text-3xl:not(header *):not(.text-white):not(.text-white *):not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *),
+body.light .text-3xl:not(header *):not(.text-white):not(.text-white *):not(.bg-cyan-600 *):not(.bg-rose-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *):not(.bg-indigo-600 *) {
   color: #0f172a;
 }
 
