@@ -145,7 +145,6 @@ export const DosAndDontsSection: React.FC = () => {
 
               <div className="pt-1">
                 <h4 className="text-xs font-black uppercase tracking-wide text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-600 inline-block" />
                   {currentContent.beforeTitle || `${ui.beforePrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}
                 </h4>
 
@@ -169,7 +168,6 @@ export const DosAndDontsSection: React.FC = () => {
 
               <div className="pt-1">
                 <h4 className="text-xs font-black uppercase tracking-wide text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
                   {currentContent.duringAfterTitle || `${ui.duringAfterPrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}
                 </h4>
 

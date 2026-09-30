@@ -82,7 +82,6 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
         </div>
 
         <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span className="text-[11px] font-mono font-bold text-white uppercase tracking-wider">{t('live_fresh')}</span>
         </div>
       </div>

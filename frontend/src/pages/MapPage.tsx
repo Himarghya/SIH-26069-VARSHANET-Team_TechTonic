@@ -574,8 +574,7 @@ export const MapPage: React.FC<MapPageProps> = ({
             {activeTabMode === 'FORECAST' && '🌧️ Synoptic Forecast, Nowcasting & Multiday Meteorology'}
           </span>
         </div>
-        <div className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-slate-600 dark:text-slate-400">
-          <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <div className="hidden sm:flex items-center gap-1 text-[11px] font-mono text-slate-600 dark:text-slate-400 font-semibold">
           <span>Realtime Stream Active</span>
         </div>
       </div>

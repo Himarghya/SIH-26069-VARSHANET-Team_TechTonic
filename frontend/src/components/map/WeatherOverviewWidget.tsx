@@ -283,7 +283,6 @@ export const WeatherOverviewWidget: React.FC<WeatherOverviewWidgetProps> = ({
       <div className="bg-[#18447e] text-white px-4 py-2.5 font-heading font-black text-sm uppercase tracking-wider shrink-0 border-b border-blue-300/30 shadow-xs flex items-center justify-between">
         <span>Weather Overview</span>
         <div className="flex items-center gap-1 text-[10px] font-mono text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/50">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-0.5"></span>
           <span>LIVE</span>
         </div>
       </div>
