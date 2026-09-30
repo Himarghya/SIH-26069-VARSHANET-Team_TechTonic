@@ -229,13 +229,21 @@ export const ForecastWeatherView: React.FC = () => {
     }
 
     try {
+      const indiaSouthWest = L.latLng(6.5, 68.0);
+      const indiaNorthEast = L.latLng(37.2, 97.5);
+      const indiaBounds = L.latLngBounds(indiaSouthWest, indiaNorthEast);
+
       const map = L.map(mapContainerRef.current, {
-        center: [23.5, 84.0],
+        center: [22.5, 82.5],
         zoom: 5,
-        minZoom: 4,
+        minZoom: 4.8,
         maxZoom: 14,
+        maxBounds: indiaBounds,
+        maxBoundsViscosity: 1.0,
         zoomControl: true,
       });
+
+      map.fitBounds(indiaBounds, { padding: [10, 10] });
 
       // Standard Street OSM Basemap matching screenshot
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

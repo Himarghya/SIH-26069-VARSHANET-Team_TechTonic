@@ -203,13 +203,21 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     }
 
     try {
+      const indiaSouthWest = L.latLng(6.5, 68.0);
+      const indiaNorthEast = L.latLng(37.2, 97.5);
+      const indiaBounds = L.latLngBounds(indiaSouthWest, indiaNorthEast);
+
       const map = L.map(mapContainerRef.current, {
-        center: [22.0, 82.5],
+        center: [22.5, 82.5],
         zoom: 5,
-        minZoom: 4,
+        minZoom: 4.8,
         maxZoom: 16,
+        maxBounds: indiaBounds,
+        maxBoundsViscosity: 1.0, // Hard bounce-back boundary lock to India
         zoomControl: false,
       });
+
+      map.fitBounds(indiaBounds, { padding: [10, 10] });
 
       setTileLayer(map, selectedBaseMap);
 
@@ -1013,7 +1021,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
               setSelectedState(val);
               if (mapInstanceRef.current) {
                 if (val === 'All') {
-                  mapInstanceRef.current.flyTo([22.0, 82.5], 5, { duration: 1.2 });
+                  mapInstanceRef.current.flyTo([22.5, 82.5], 5, { duration: 1.2 });
                 } else if (INDIAN_STATE_COORDINATES[val]) {
                   const target = INDIAN_STATE_COORDINATES[val];
                   mapInstanceRef.current.flyTo([target.lat, target.lon], target.zoom, { duration: 1.2 });
