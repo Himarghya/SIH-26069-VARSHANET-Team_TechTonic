@@ -91,16 +91,6 @@ const CYCLONE_SYSTEM = {
   ]
 };
 
-// Tactical Quick-Jump Cities
-const QUICK_JUMP_CITIES = [
-  { name: 'Mumbai', lat: 19.0760, lon: 72.8777, zoom: 11, tag: 'Red Alert' },
-  { name: 'Delhi NCR', lat: 28.6139, lon: 77.2090, zoom: 11, tag: 'Yamuna Flood' },
-  { name: 'Guwahati', lat: 26.1445, lon: 91.7362, zoom: 11, tag: 'Flash Flood' },
-  { name: 'Bhopal', lat: 23.2599, lon: 77.4126, zoom: 11, tag: 'Cloudburst' },
-  { name: 'Dehradun', lat: 30.3165, lon: 78.0322, zoom: 11, tag: 'Landslide' },
-  { name: 'Odisha Coast', lat: 19.8135, lon: 85.8312, zoom: 8, tag: 'Cyclone Cone' }
-];
-
 export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
   events,
   reports = [],
@@ -852,15 +842,6 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     });
   }, [events, selectedState, selectedEventId, showInundationZones, radarTimeline, onSelectEvent]);
 
-  // Tactical City Quick Jump Handler
-  const handleQuickJump = (city: typeof QUICK_JUMP_CITIES[0]) => {
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo([city.lat, city.lon], city.zoom, {
-        duration: 1.5
-      });
-    }
-  };
-
   // Camera auto-focus when dashboardFilter or events change
   useEffect(() => {
     if (!mapInstanceRef.current) return;
@@ -895,26 +876,8 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
   return (
     <div className="relative isolate z-0 w-full h-full min-h-[580px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/80 shadow-2xl bg-slate-100 dark:bg-slate-950 flex flex-col font-sans">
-      {/* Quick-Jump City Bar */}
-      <div className="bg-slate-100/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 py-2 flex items-center gap-2 overflow-x-auto z-10 shrink-0">
-        <div className="flex items-center gap-1.5 overflow-x-auto">
-          {QUICK_JUMP_CITIES.map((c, i) => (
-            <button
-              key={i}
-              onClick={() => handleQuickJump(c)}
-              className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-cyan-950/80 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/50 text-slate-800 dark:text-slate-300 hover:text-cyan-700 dark:hover:text-cyan-200 text-[11px] font-mono font-semibold transition-all shrink-0 flex items-center gap-1 cursor-pointer shadow-sm"
-            >
-              <span>📍 {c.name}</span>
-              <span className="text-[9px] px-1 py-0.2 rounded bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800 font-bold">
-                {c.tag}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Map Control Bar Overlay */}
-      <div className="absolute top-14 left-3 right-3 z-[400] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+      <div className="absolute top-3 left-3 right-3 z-[400] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
         <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-xs shadow-xl pointer-events-auto">
           <Layers className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
           <span className="font-bold text-slate-800 dark:text-slate-200">National Weather Radar</span>
