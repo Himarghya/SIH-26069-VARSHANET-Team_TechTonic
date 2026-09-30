@@ -10,6 +10,7 @@ import { EventsPage } from './pages/EventsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { CitizenPage } from './pages/CitizenPage';
 import { AdminPage } from './pages/AdminPage';
+import { DosAndDontsPage } from './pages/DosAndDontsPage';
 import { useWeatherWebSocket } from './hooks/useWebSocket';
 import { useTheme } from './context/ThemeContext';
 import { fetchReports, fetchEvents, fetchAlerts, fetchAnalyticsOverview, fetchPendingVerification, fetchSystemHealth } from './services/api';
@@ -152,6 +153,10 @@ export function App() {
             onSelectEvent={handleSelectEvent}
             onNavigateTab={handleNavigateFromMetricCard}
           />
+        )}
+
+        {activeTab === 'dos-donts' && (
+          <DosAndDontsPage />
         )}
 
         {activeTab === 'incident' && (

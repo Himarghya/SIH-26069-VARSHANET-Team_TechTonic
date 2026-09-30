@@ -16,7 +16,9 @@ import {
   Menu,
   X,
   Sun,
-  Moon
+  Moon,
+  Home,
+  ShieldAlert
 } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
 import { useTheme } from '../../context/ThemeContext';
@@ -148,7 +150,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   // Role-filtered navigation items (clean core operational suite)
   const allNavItems = [
-    { id: 'dashboard', label: 'Overview', icon: Activity, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'dashboard', label: 'Home', icon: Home, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'dos-donts', label: "Do's & Don'ts", icon: ShieldAlert, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'reports', label: 'Reports', icon: FileText, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'map', label: 'Map', icon: Map, roles: ['citizen', 'analyst', 'admin'] },
     { id: 'incident', label: 'Incident Room', icon: Command, roles: ['analyst', 'admin'] },
