@@ -196,8 +196,8 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-wide">
                   Flood-Aware 16 NDRF Battalion Tactical Routing &amp; Logistics
                 </h3>
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700/50">
-                  PHASE 2 LOGISTICS EXTENSION
+                <span className="text-[10px] font-sans font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                  Phase 2 Logistics Extension
                 </span>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 flex items-center gap-2 flex-wrap">
@@ -256,26 +256,26 @@ export const EmergencyResourceDispatch: React.FC<ResourceDispatchProps> = ({
 
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">{bn.name}</h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">Base: {bn.baseCity}, {bn.state}</p>
+                <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">Base: {bn.baseCity}, {bn.state}</p>
               </div>
 
-              <div className="p-2.5 rounded-lg bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1 font-mono text-xs shadow-2xs">
-                <div className="flex justify-between text-slate-700 dark:text-slate-300">
-                  <span>Detour Road Distance:</span>
-                  <strong className="text-cyan-700 dark:text-cyan-300">{bn.distanceKm} km</strong>
+              <div className="p-3 rounded-lg bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1.5 text-xs shadow-2xs font-sans">
+                <div className="flex items-center justify-between text-slate-700 dark:text-slate-300">
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Road Distance:</span>
+                  <strong className="text-cyan-700 dark:text-cyan-400 font-bold font-mono">{bn.distanceKm} km</strong>
                 </div>
-                <div className="flex justify-between text-slate-700 dark:text-slate-300">
-                  <span>Estimated Convoy ETA:</span>
-                  <strong className="text-emerald-700 dark:text-emerald-400">~{bn.etaHours} hours</strong>
+                <div className="flex items-center justify-between text-slate-700 dark:text-slate-300">
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Convoy ETA:</span>
+                  <strong className="text-emerald-700 dark:text-emerald-400 font-bold font-mono">~{bn.etaHours} hrs</strong>
                 </div>
-                <div className="flex justify-between text-[11px] text-slate-500">
-                  <span>CWC Detour Factor:</span>
-                  <span>{bn.detourFactor}x flood bypass</span>
+                <div className="flex items-center justify-between text-[11px] text-slate-500">
+                  <span>Flood Bypass:</span>
+                  <span className="font-mono">{bn.detourFactor}x detour</span>
                 </div>
               </div>
 
               <div className="text-[11px] text-slate-600 dark:text-slate-400 space-y-0.5 pt-1">
-                <div>Commandant: <span className="text-slate-800 dark:text-slate-200 font-semibold">{bn.commander}</span></div>
+                <div>Commandant: <span className="text-slate-800 dark:text-slate-200 font-semibold">{bn.commander.replace(/^Commandant\s+/i, '')}</span></div>
                 <div>Specialty: <span className="text-slate-800 dark:text-slate-300 font-medium">{bn.specialization}</span></div>
                 <div className="flex items-center gap-1 text-cyan-700 dark:text-cyan-400 font-mono font-semibold">
                   <PhoneCall className="w-3 h-3" />

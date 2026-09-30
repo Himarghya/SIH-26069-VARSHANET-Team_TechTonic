@@ -16,11 +16,11 @@ export const ResponseRecommendations: React.FC<ResponseRecommendationsProps> = (
   return (
     <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-          <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> AI-Recommended Operational Decisions & SOPs
+        <h3 className="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5 font-sans">
+          <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400" /> AI-Recommended Operational Decisions &amp; SOPs
         </h3>
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950 border border-cyan-200 dark:border-cyan-800/40 text-cyan-800 dark:text-cyan-300 font-semibold">
-          Powered by Google Gemini & NDRF SOP Engine
+        <span className="text-[11px] font-sans px-2.5 py-1 rounded-md bg-cyan-50 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800 font-semibold">
+          Powered by Google Gemini &amp; NDRF SOP Engine
         </span>
       </div>
 
@@ -38,7 +38,7 @@ export const ResponseRecommendations: React.FC<ResponseRecommendationsProps> = (
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                  <span className={`text-[10px] font-sans font-bold px-2 py-0.5 rounded ${
                     rec.priority_label === 'P1' ? 'bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-700/60' :
                     rec.priority_label === 'P2' ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700/60' :
                     'bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-700/60'
@@ -62,14 +62,14 @@ export const ResponseRecommendations: React.FC<ResponseRecommendationsProps> = (
               </div>
 
               <p className="text-xs text-slate-700 dark:text-slate-300 font-sans leading-relaxed">
-                <strong>Operational Reason:</strong> {rec.reason}
+                <strong className="text-slate-900 dark:text-slate-100">Operational Reason:</strong> {rec.reason}
               </p>
 
               {rec.supporting_evidence && rec.supporting_evidence.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 pt-1 border-t border-slate-200 dark:border-slate-800/60">
                   {rec.supporting_evidence.map((ev, i) => (
-                    <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-800 font-medium">
-                      • {ev}
+                    <span key={i} className="text-[11px] font-sans px-2.5 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 font-normal">
+                      {ev}
                     </span>
                   ))}
                 </div>
