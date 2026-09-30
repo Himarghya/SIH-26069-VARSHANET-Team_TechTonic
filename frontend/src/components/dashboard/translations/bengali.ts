@@ -147,28 +147,28 @@ export const bengaliContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#বজ্রপাত | ৩০-৩০ নিরাপত্তা নিয়ম ও আত্মরক্ষা',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্রপাত সম্পর্কিত নানা ভুল ধারণা ও বাস্তব তথ্য | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#বজ্রপাত | বজ্রনিরোধক দণ্ড স্থাপন নির্দেশিকা',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্রপাতে আক্রান্ত ব্যক্তির জীবন কীভাবে বাঁচাবেন | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#বজ্রপাত | কৃষক ও মাঠের সুরক্ষাবিধি',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্রপাতে আঘাতের লক্ষণ ও প্রাথমিক উপসর্গ | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#বজ্রপাত | বজ্রাহত ব্যক্তির জরুরি প্রাথমিক চিকিৎসা (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্রঝড় ও বজ্রপাতের সময় কী করবেন | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

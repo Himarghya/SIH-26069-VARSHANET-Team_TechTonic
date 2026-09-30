@@ -147,28 +147,28 @@ export const marathiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#वीजपडणे | ३०-३० सुरक्षा नियम आणि उघड्यावर घ्यायची काळजी',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | वीज पडण्याबाबतचे गैरसमज आणि वस्तुस्थिती | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#वीजपडणे | वीज वाहक (Lightning Conductor) बसवण्याची माहिती',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | वीज पडलेल्या व्यक्तीचा जीव कसा वाचवावा | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#वीजपडणे | शेतकरी आणि ग्रामीण भागासाठी सुरक्षा नियम',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | वीज पडल्यामुळे होणाऱ्या दुखापतींची लक्षणे आणि चिन्हे | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#वीजपडणे | वीज पडलेल्या व्यक्तीसाठी प्रथमोपचार (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | वीज आणि वादळादरम्यान काय करावे | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

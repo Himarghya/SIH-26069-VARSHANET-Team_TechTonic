@@ -147,28 +147,28 @@ export const assameseContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#বজ্ৰপাত | ৩০-৩০ সুৰক্ষা নিয়ম আৰু মুকলি ঠাইত সাৱধানতা',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্ৰপাত সম্পৰ্কীয় অন্ধবিশ্বাস আৰু বাস্তৱ তথ্য | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#বজ্ৰপাত | বজ্ৰনিৰোধক দণ্ড সংস্থাপন নিৰ্দেশনাৱলী',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্ৰপাতত আঘাতপ্ৰাপ্ত ব্যক্তিৰ জীৱন কেনেকৈ ৰক্ষা কৰিব | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#বজ্ৰপাত | কৃষক আৰু গ্ৰাম্যাঞ্চলৰ বাবে সুৰক্ষা নিয়ম',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্ৰপাতজনিত আঘাতৰ লক্ষণ আৰু সংকেত | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#বজ্ৰপাত | বজ্ৰাঘাত হোৱা ব্যক্তিৰ জৰুৰী প্ৰাথমিক চিকিৎসা (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | বজ্ৰপাত আৰু ধুমুহাৰ সময়ত কি কৰা উচিত | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

@@ -147,28 +147,28 @@ export const tamilContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#மின்னல் | 30-30 பாதுகாப்பு விதி மற்றும் திறந்தவெளி முன்னெச்சரிக்கைகள்',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | இடிமின்னல் பற்றிய கட்டுக்கதைகளும் உண்மைகளும் | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#மின்னல் | மின்னல் கடத்தி (Lightning Conductor) அமைக்கும் முறை',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | மின்னல் தாக்கிய நபரின் உயிரை எவ்வாறு காப்பாற்றுவது | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#மின்னல் | விவசாயிகள் மற்றும் கிராமப்புறங்களுக்கான பாதுகாப்பு வழிகாட்டி',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | மின்னல் காயங்களின் அறிகுறிகள் மற்றும் அடையாளங்கள் | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#மின்னல் | மின்னல் தாக்கியவர்களுக்கு அவசர முதலுதவி (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | இடிமின்னல் மற்றும் புயலின் போது என்ன செய்ய வேண்டும் | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

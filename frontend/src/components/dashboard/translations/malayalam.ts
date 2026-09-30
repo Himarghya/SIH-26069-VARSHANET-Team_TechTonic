@@ -147,28 +147,28 @@ export const malayalamContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ഇടിമിന്നൽ | 30-30 സുരക്ഷാ നിയമവും തുറസ്സായ സ്ഥലത്തെ മുൻകരുതലുകളും',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ഇടിമിന്നലിനെക്കുറിച്ചുള്ള തെറ്റിദ്ധാരണകളും വസ്തുതകളും | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#ഇടിമിന്നൽ | മിന്നൽ ചാലകം (Lightning Conductor) ഇൻസ്റ്റാളേഷൻ',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | മിന്നലേറ്റ വ്യക്തിയുടെ ജീവൻ എങ്ങനെ രക്ഷിക്കാം | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#ഇടിമിന്നൽ | കർഷകർക്കും ഗ്രാമീണ മേഖലകൾക്കുമുള്ള മാർഗ്ഗനിർദ്ദേശങ്ങൾ',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | മിന്നലേറ്റാലുള്ള ലക്ഷണങ്ങളും മുന്നറിയിപ്പുകളും | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#ഇടിമിന്നൽ | മിന്നലേറ്റ വ്യക്തിക്ക് അടിയന്തര പ്രഥമശുശ്രൂഷ (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ഇടിമിന്നലും കാറ്റുമുള്ളപ്പോൾ എന്തുചെയ്യണം | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

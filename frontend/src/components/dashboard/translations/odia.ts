@@ -147,28 +147,28 @@ export const odiaContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ବଜ୍ରପାତ | ୩୦-୩୦ ସୁରକ୍ଷା ନିୟମ ଏବଂ ଖୋଲା ସ୍ଥାନରେ ସାବଧାନତା',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ବଜ୍ରପାତ ସମ୍ପର୍କିତ ଭ୍ରାନ୍ତ ଧାରଣା ଏବଂ ପ୍ରକୃତ ସତ୍ୟ | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#ବଜ୍ରପାତ | ବଜ୍ରନିରୋଧକ ଦଣ୍ଡ (Lightning Conductor) ସ୍ଥାପନ ଗାଇଡ୍',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ବଜ୍ରପାତରେ ଆହତ ବ୍ୟକ୍ତିଙ୍କ ଜୀବନ କିପରି ବଞ୍ଚାଇବେ | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#ବଜ୍ରପାତ | କୃଷକ ଏବଂ ଗ୍ରାମୀଣ କ୍ଷେତ୍ର ପାଇଁ ସୁରକ୍ଷା ନିୟମ',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ବଜ୍ରପାତ ଆଘାତର ଲକ୍ଷଣ ଏବଂ ସଙ୍କେତ | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#ବଜ୍ରପାତ | ବଜ୍ରାଘାତ ପୀଡିତଙ୍କ ପାଇଁ ପ୍ରାଥମିକ ଚିକିତ୍ସା (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ବଜ୍ରପାତ ଓ ଘଡ଼ଘଡ଼ି ସମୟରେ କʼଣ କରିବେ | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

@@ -147,28 +147,28 @@ export const kannadaContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ಸಿಡಿಲು | 30-30 ಸುರಕ್ಷತಾ ನಿಯಮ ಮತ್ತು ಹೊರಾಂಗಣ ಮುನ್ನೆಚ್ಚರಿಕೆ',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ಸಿಡಿಲಿನ ಬಗೆಗಿನ ತಪ್ಪು ಕಲ್ಪನೆಗಳು ಮತ್ತು ಸತ್ಯಗಳು | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#ಸಿಡಿಲು | ಸಿಡಿಲು ವಾಹಕ (Lightning Conductor) ಅಳವಡಿಕೆ ಮಾರ್ಗದರ್ಶಿ',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ಸಿಡಿಲು ಬಡಿದ ವ್ಯಕ್ತಿಯ ಪ್ರಾಣ ಉಳಿಸುವುದು ಹೇಗೆ | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#ಸಿಡಿಲು | ರೈತರು ಮತ್ತು ಗ್ರಾಮೀಣ ಜನರಿಗೆ ಸುರಕ್ಷತಾ ನಿಯಮಗಳು',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ಸಿಡಿಲಿನ ಗಾಯಗಳ ಲಕ್ಷಣಗಳು ಮತ್ತು ಗುರುತುಗಳು | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#ಸಿಡಿಲು | ಸಿಡಿಲು ಬಡಿದವರಿಗೆ ತುರ್ತು ಪ್ರಥಮ ಚಿಕಿತ್ಸೆ (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | ಸಿಡಿಲು ಮತ್ತು ಗುಡುಗು ಸಹಿತ ಮಳೆಯ ಸಮಯದಲ್ಲಿ ಏನು ಮಾಡಬೇಕು | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

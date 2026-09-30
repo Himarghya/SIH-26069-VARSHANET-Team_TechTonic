@@ -147,28 +147,28 @@ export const teluguContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#పిడుగుపాటు | 30-30 భద్రతా నియమం మరియు బహిరంగ ప్రదేశాల్లో రక్షణ',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | పిడుగుపాటుపై అపోహలు మరియు వాస్తవాలు | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#పిడుగుపాటు | పిడుగు వాహకం (Lightning Conductor) అమర్చే విధానం',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | పిడుగుపాటుకు గురైన వ్యక్తి ప్రాణాన్ని ఎలా కాపాడాలి | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#పిడుగుపాటు | రైతులు మరియు గ్రామీణ ప్రజల భద్రతా మార్గదర్శకాలు',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | పిడుగుపాటు గాయాల లక్షణాలు మరియు సంకేతాలు | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#పిడుగుపాటు | పిడుగుపాటుకు గురైన వారికి ప్రథమ చికిత్స (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | పిడుగులు మరియు ఉరుములతో కూడిన తుఫాను సమయంలో ఏమి చేయాలి | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },

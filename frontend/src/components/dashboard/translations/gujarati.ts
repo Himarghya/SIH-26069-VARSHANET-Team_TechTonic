@@ -149,28 +149,28 @@ export const gujaratiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#વીજળીપડવી | ૩૦-૩૦ સુરક્ષા નિયમ અને ખુલ્લામાં સાવચેતી',
-        duration: '2:30',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | વીજળી પડવા અંગેની ગેરમાન્યતાઓ અને વાસ્તવિક તથ્યો | NDMA',
+        duration: '0:56',
+        youtubeId: 'hH6_HyPHhcc',
+        thumbnailUrl: 'https://img.youtube.com/vi/hH6_HyPHhcc/hqdefault.jpg'
       },
       {
-        title: '#વીજળીપડવી | તડિત વાહક (Lightning Conductor) સ્થાપન માર્ગદર્શિકા',
-        duration: '3:45',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | વીજળી પડવાથી ઈજાગ્રસ્ત વ્યક્તિનો જીવ કેવી રીતે બચાવવો | NDMA',
+        duration: '0:52',
+        youtubeId: '0oOzPot-kFQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/0oOzPot-kFQ/hqdefault.jpg'
       },
       {
-        title: '#વીજળીપડવી | ખેડૂતો અને ગ્રામીણ વિસ્તારો માટે સુરક્ષા પ્રોટોકોલ',
-        duration: '4:10',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | વીજળીના આંચકાના લક્ષણો અને ચિહ્નો | NDMA',
+        duration: '0:42',
+        youtubeId: 'NIOtIQsmUfA',
+        thumbnailUrl: 'https://img.youtube.com/vi/NIOtIQsmUfA/hqdefault.jpg'
       },
       {
-        title: '#વીજળીપડવી | વીજળીનો આંચકો લાગેલ વ્યક્તિ માટે પ્રાથમિક સારવાર (CPR)',
-        duration: '5:15',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Lightning | વીજળી અને વાવાઝોડા દરમિયાન શું કરવું | NDMA',
+        duration: '1:00',
+        youtubeId: 't_YKlWDrKcE',
+        thumbnailUrl: 'https://img.youtube.com/vi/t_YKlWDrKcE/hqdefault.jpg'
       }
     ]
   },
