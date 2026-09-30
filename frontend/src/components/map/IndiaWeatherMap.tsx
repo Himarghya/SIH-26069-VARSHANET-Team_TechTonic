@@ -203,22 +203,14 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     }
 
     try {
-      const indiaSouthWest = L.latLng(5.5, 66.0);
-      const indiaNorthEast = L.latLng(37.8, 98.5);
-      const indiaBounds = L.latLngBounds(indiaSouthWest, indiaNorthEast);
-
       const map = L.map(mapContainerRef.current, {
-        center: [21.5, 79.5],
-        zoom: 4.5,
-        minZoom: 4.0,
+        center: [22.0, 82.5],
+        zoom: 4.8,
+        minZoom: 3.5,
         maxZoom: 16,
-        maxBounds: indiaBounds,
-        maxBoundsViscosity: 0.95, // Smooth bounce-back boundary lock to India
-        zoomControl: false,
-        scrollWheelZoom: false, // Prevent accidental zooming when scrolling down the page
+        zoomControl: true,
+        scrollWheelZoom: false,
       });
-
-      map.fitBounds(indiaBounds, { padding: [12, 12] });
 
       setTileLayer(map, selectedBaseMap);
 
@@ -1067,37 +1059,8 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       {/* Leaflet Container */}
       <div ref={mapContainerRef} className="w-full flex-1 min-h-0" />
 
-      {/* Floating Zoom & Pan Controls */}
-      <div className="absolute top-20 right-3 z-[400] flex flex-col gap-1 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-1 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl pointer-events-auto">
-        <button
-          onClick={() => mapInstanceRef.current?.zoomIn()}
-          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer"
-          title="Zoom In"
-        >
-          <Plus className="w-3.5 h-3.5" />
-        </button>
-        <button
-          onClick={() => mapInstanceRef.current?.zoomOut()}
-          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer"
-          title="Zoom Out"
-        >
-          <Minus className="w-3.5 h-3.5" />
-        </button>
-        <button
-          onClick={() => {
-            const indiaSouthWest = L.latLng(5.5, 66.0);
-            const indiaNorthEast = L.latLng(37.8, 98.5);
-            mapInstanceRef.current?.fitBounds(L.latLngBounds(indiaSouthWest, indiaNorthEast), { padding: [12, 12] });
-          }}
-          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer border-t border-slate-200 dark:border-slate-800"
-          title="Reset to Pan-India View"
-        >
-          <Target className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-        </button>
-      </div>
-
       {/* DWR Radar Reflectivity dBZ Scale Legend */}
-      <div className="absolute top-44 sm:top-auto sm:bottom-3 right-3 z-[400] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-[9px] space-y-1 shadow-xl pointer-events-auto">
+      <div className="absolute bottom-3 right-3 z-[400] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-[9px] space-y-1 shadow-xl pointer-events-auto">
         <span className="font-bold text-slate-700 dark:text-slate-300 block uppercase tracking-wider text-[8px]">DWR Radar (dBZ)</span>
         <div className="flex items-center gap-1 font-mono">
           <span className="px-1 py-0.2 rounded bg-emerald-700 text-white font-bold text-[8px] sm:text-[9px]">15-25</span>
