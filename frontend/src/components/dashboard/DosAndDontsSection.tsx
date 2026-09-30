@@ -63,28 +63,28 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#Cyclone | What To Do Before & During A Cyclone',
-          duration: '3:45',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | What To Do Before & During A Cyclone ? | NDMA',
+          duration: '3:15',
+          youtubeId: 'B9qR2e3xyJo',
+          thumbnailUrl: 'https://img.youtube.com/vi/B9qR2e3xyJo/hqdefault.jpg'
         },
         {
-          title: '#Cyclone | Safety Measures & Evacuation Protocols',
-          duration: '4:20',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          title: "#Cyclone | What To Do If You're Outdoors During A Cyclone | NDMA",
+          duration: '2:45',
+          youtubeId: 'CcvOhT7n3y8',
+          thumbnailUrl: 'https://img.youtube.com/vi/CcvOhT7n3y8/hqdefault.jpg'
         },
         {
-          title: '#Cyclone | Secure Your Home & Emergency Kit Preparation',
-          duration: '2:50',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | चक्रवात से पहले क्या तैयारी रखें ?',
+          duration: '3:30',
+          youtubeId: '-vqBNQ0Fhq8',
+          thumbnailUrl: 'https://img.youtube.com/vi/-vqBNQ0Fhq8/hqdefault.jpg'
         },
         {
-          title: '#Cyclone | Community Resilience & Post-Disaster Safety',
-          duration: '5:10',
-          youtubeId: 'kJQP7kiw5Fk',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | Secure Your House | NDMA',
+          duration: '4:10',
+          youtubeId: 'Gm9c9EehO2g',
+          thumbnailUrl: 'https://img.youtube.com/vi/Gm9c9EehO2g/hqdefault.jpg'
         }
       ]
     },
@@ -108,28 +108,28 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#चक्रवात | चक्रवात से पहले और दौरान क्या करें',
-          duration: '3:45',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | What To Do Before & During A Cyclone ? | NDMA',
+          duration: '3:15',
+          youtubeId: 'B9qR2e3xyJo',
+          thumbnailUrl: 'https://img.youtube.com/vi/B9qR2e3xyJo/hqdefault.jpg'
         },
         {
-          title: '#चक्रवात | सुरक्षा उपाय और बचाव प्रोटोकॉल',
-          duration: '4:20',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          title: "#Cyclone | What To Do If You're Outdoors During A Cyclone | NDMA",
+          duration: '2:45',
+          youtubeId: 'CcvOhT7n3y8',
+          thumbnailUrl: 'https://img.youtube.com/vi/CcvOhT7n3y8/hqdefault.jpg'
         },
         {
-          title: '#चक्रवात | आपातकालीन किट और घर की सुरक्षा',
-          duration: '2:50',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | चक्रवात से पहले क्या तैयारी रखें ?',
+          duration: '3:30',
+          youtubeId: '-vqBNQ0Fhq8',
+          thumbnailUrl: 'https://img.youtube.com/vi/-vqBNQ0Fhq8/hqdefault.jpg'
         },
         {
-          title: '#चक्रवात | आपदा के बाद की सावधानियां',
-          duration: '5:10',
-          youtubeId: 'kJQP7kiw5Fk',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | Secure Your House | NDMA',
+          duration: '4:10',
+          youtubeId: 'Gm9c9EehO2g',
+          thumbnailUrl: 'https://img.youtube.com/vi/Gm9c9EehO2g/hqdefault.jpg'
         }
       ]
     },
@@ -152,28 +152,28 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#Cyclone | ঘূর্ণিঝড়ের সময় জরুরি নির্দেশিকা',
-          duration: '3:45',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | What To Do Before & During A Cyclone ? | NDMA',
+          duration: '3:15',
+          youtubeId: 'B9qR2e3xyJo',
+          thumbnailUrl: 'https://img.youtube.com/vi/B9qR2e3xyJo/hqdefault.jpg'
         },
         {
-          title: '#Cyclone | সাইক্লোন আশ্রয়কেন্দ্র ও সুরক্ষা বিধি',
-          duration: '4:20',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          title: "#Cyclone | What To Do If You're Outdoors During A Cyclone | NDMA",
+          duration: '2:45',
+          youtubeId: 'CcvOhT7n3y8',
+          thumbnailUrl: 'https://img.youtube.com/vi/CcvOhT7n3y8/hqdefault.jpg'
         },
         {
-          title: '#Cyclone | জরুরি কিট ও পারিবারিক প্রস্তুতি',
-          duration: '2:50',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | चक्रवात से पहले क्या तैयारी रखें ?',
+          duration: '3:30',
+          youtubeId: '-vqBNQ0Fhq8',
+          thumbnailUrl: 'https://img.youtube.com/vi/-vqBNQ0Fhq8/hqdefault.jpg'
         },
         {
-          title: '#Cyclone | পুনর্বাসন ও বিদ্যুৎ সুরক্ষা নির্দেশিকা',
-          duration: '5:10',
-          youtubeId: 'kJQP7kiw5Fk',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: '#Cyclone | Secure Your House | NDMA',
+          duration: '4:10',
+          youtubeId: 'Gm9c9EehO2g',
+          thumbnailUrl: 'https://img.youtube.com/vi/Gm9c9EehO2g/hqdefault.jpg'
         }
       ]
     }
