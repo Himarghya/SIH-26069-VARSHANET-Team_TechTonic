@@ -3,6 +3,7 @@ import { Activity, AlertTriangle, ShieldCheck, MapPin, Radio, Shield, Filter, Ey
 import { MetricCard } from '../components/common/MetricCard';
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { LiveFeed } from '../components/dashboard/LiveFeed';
+import { DosAndDontsSection } from '../components/dashboard/DosAndDontsSection';
 import { WeatherReport, EventCluster, Alert, AnalyticsOverview } from '../types';
 
 interface DashboardPageProps {
@@ -310,6 +311,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             onClearDashboardFilter={() => setDashboardFilter('ALL')}
           />
         </div>
+      </div>
+
+      {/* Official SACHET / NDMA Citizen Dos & Don'ts Section */}
+      <div className="pt-2">
+        <DosAndDontsSection />
       </div>
     </div>
   );
