@@ -24,6 +24,7 @@ import {
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { CapAlertDetailModal, OfficialCapAlert } from '../components/map/CapAlertDetailModal';
 import { ForecastWeatherView } from '../components/map/ForecastWeatherView';
+import { AllIndiaCapMapView } from '../components/map/AllIndiaCapMapView';
 import { EventCluster, WeatherReport, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -350,19 +351,21 @@ export const MapPage: React.FC<MapPageProps> = ({
           }}
           className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
             activeTabMode === 'CURRENT'
-              ? 'border-[#18447e] bg-blue-50/70 dark:bg-blue-950/40 shadow-md scale-[1.01]'
+              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
               : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
           }`}
         >
           <div className="w-10 h-10 rounded-full border-2 border-red-500 bg-white dark:bg-slate-950 flex items-center justify-center text-red-600 mb-2 shadow-sm group-hover:scale-110 transition-transform">
             <MapPin className="w-5 h-5 fill-red-600 text-white" />
           </div>
-          <span className="text-xs font-black tracking-wider uppercase text-slate-900 dark:text-white font-heading">
+          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'CURRENT' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          }`}>
             CURRENT LOCATION CAP ALERT
           </span>
         </button>
 
-        {/* Card 2: ALL INDIA CAP ALERT */}
+        {/* Card 2: ALL INDIA CAP ALERT (Matching Screenshot Active State) */}
         <button
           onClick={() => {
             setActiveTabMode('ALL');
@@ -370,14 +373,16 @@ export const MapPage: React.FC<MapPageProps> = ({
           }}
           className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
             activeTabMode === 'ALL'
-              ? 'border-[#18447e] bg-blue-50/70 dark:bg-blue-950/40 shadow-md scale-[1.01]'
+              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
               : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
           }`}
         >
           <div className="w-10 h-10 rounded-full border-2 border-slate-700 dark:border-slate-400 bg-white dark:bg-slate-950 flex items-center justify-center text-slate-800 dark:text-slate-200 mb-2 shadow-sm group-hover:scale-110 transition-transform">
             <Target className="w-5 h-5" />
           </div>
-          <span className="text-xs font-black tracking-wider uppercase text-slate-900 dark:text-white font-heading">
+          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'ALL' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          }`}>
             ALL INDIA CAP ALERT
           </span>
         </button>
@@ -581,191 +586,14 @@ export const MapPage: React.FC<MapPageProps> = ({
         /* 3. FORECAST VIEW (Matching Screenshot) */
         <ForecastWeatherView />
       ) : (
-        /* 4. DEFAULT 3-COLUMN VIEW: Map (Left) + ALERT LIST (Center) + Earthquakes & Weather (Right) */
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch lg:h-[680px]">
-          
-          {/* Column A: Interactive Leaflet Map (6 cols on lg) */}
-          <div className="lg:col-span-6 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
-            <div className="flex-1 w-full h-full relative">
-              <IndiaWeatherMap
-                events={events}
-                reports={reports}
-                onSelectEvent={onSelectEvent}
-                onSelectReport={onSelectReport}
-              />
-            </div>
-          </div>
-
-          {/* Column B: ALERT LIST (Vertical Colored Cards Feed - 3 cols on lg) */}
-          <div className="lg:col-span-3 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[540px] lg:h-full">
-            {/* Blue Official Header */}
-            <div className="bg-[#18447e] text-white px-4 py-2.5 text-center font-heading font-black text-sm uppercase tracking-wider shadow-xs shrink-0">
-              ALERT LIST
-            </div>
-
-            {/* Scrollable Alert List Items */}
-            <div className="flex-1 overflow-y-auto p-2.5 space-y-2.5 bg-slate-50/50 dark:bg-slate-950/40 custom-scrollbar">
-              {OFFICIAL_CAP_ALERTS.map((item, idx) => (
-                <div
-                  key={item.id || idx}
-                  onClick={() => handleOpenAlertModal(item)}
-                  className={`p-3 rounded-xl cursor-pointer transition-all hover:scale-[1.02] shadow-sm flex flex-col justify-center text-center border ${
-                    item.warningColor === 'orange'
-                      ? 'bg-[#ff9800] text-white border-amber-600 font-bold'
-                      : item.warningColor === 'red'
-                      ? 'bg-[#f44336] text-white border-rose-600 font-bold'
-                      : 'bg-[#ffeb3b] text-slate-950 border-yellow-400 font-bold'
-                  }`}
-                >
-                  <h4 className="text-xs font-black tracking-tight leading-tight uppercase">
-                    {item.event}
-                  </h4>
-                  <p className={`text-[11px] font-semibold mt-1 leading-snug ${
-                    item.warningColor === 'orange' || item.warningColor === 'red' ? 'text-white/95' : 'text-slate-800'
-                  }`}>
-                    {item.location}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Column C: Right Sidebar (Earthquakes + Weather Overview - 3 cols on lg) */}
-          <div className="lg:col-span-3 flex flex-col gap-3 h-auto lg:h-full">
-            
-            {/* Card 1: Recent Earthquakes Widget */}
-            <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md flex flex-col h-[270px] shrink-0">
-              <div className="bg-[#18447e] text-white px-4 py-2 flex items-center justify-between font-heading font-black text-xs uppercase tracking-wider shrink-0">
-                <span>Recent Earthquakes</span>
-                <Activity className="w-4 h-4 text-amber-300" />
-              </div>
-
-              <div className="flex-1 p-2.5 space-y-2 bg-slate-50/50 dark:bg-slate-950/40 overflow-y-auto custom-scrollbar">
-                {RECENT_EARTHQUAKES.map((eq, i) => (
-                  <div
-                    key={i}
-                    className={`p-2.5 rounded-xl border shadow-xs transition-transform hover:scale-[1.01] ${
-                      eq.colorTheme === 'yellow'
-                        ? 'bg-[#fff59d] dark:bg-amber-950/40 text-slate-900 dark:text-amber-100 border-amber-300 dark:border-amber-700/60'
-                        : 'bg-[#a5d6a7] dark:bg-emerald-950/40 text-slate-900 dark:text-emerald-100 border-emerald-300 dark:border-emerald-700/60'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between font-bold">
-                      <span className="text-[11px] font-black uppercase tracking-wide">
-                        {eq.magnitude} Magnitude
-                      </span>
-                      <span className="text-[9px] font-mono opacity-80">
-                        Depth: {eq.depth}
-                      </span>
-                    </div>
-                    
-                    <div className="flex items-center gap-1 text-[10px] font-semibold mt-0.5">
-                      <MapPin className="w-3 h-3 text-red-600 shrink-0" />
-                      <span className="truncate">{eq.location}</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 text-[8.5px] font-mono opacity-75 mt-1 pt-0.5 border-t border-black/10 dark:border-white/10">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-2.5 h-2.5" />
-                        {eq.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-2.5 h-2.5" />
-                        {eq.time}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Card 2: Weather Overview & Live Nowcast Forecast */}
-            <div className="bg-[#18447e] text-white rounded-2xl overflow-hidden shadow-md flex flex-col flex-1 min-h-[380px] lg:min-h-0">
-              <div className="px-4 py-2 font-heading font-black text-xs uppercase tracking-wider border-b border-blue-400/30 shrink-0">
-                Weather Overview
-              </div>
-
-              <div className="flex-1 p-3 flex flex-col justify-between overflow-y-auto custom-scrollbar space-y-2">
-                {/* Location Search Bar */}
-                <div className="relative shrink-0">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    value={searchCity}
-                    onChange={(e) => setSearchCity(e.target.value)}
-                    placeholder="Search city / district..."
-                    className="w-full pl-8 pr-8 py-1.5 bg-white text-slate-900 placeholder-slate-400 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-300"
-                  />
-                  <Search className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2" />
-                </div>
-
-                {/* Current Temperature & Sky condition banner */}
-                <div className="flex items-center justify-between px-2 py-0.5 shrink-0">
-                  <div className="flex items-center gap-2">
-                    <Moon className="w-7 h-7 text-cyan-200 fill-cyan-200/40" />
-                    <span className="text-2xl sm:text-3xl font-black font-mono">
-                      31.4<span className="text-lg">°C</span>
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[11px] font-bold text-white lowercase leading-tight">mainly</p>
-                    <p className="text-[11px] font-bold text-white lowercase leading-tight">clear</p>
-                    <p className="text-[11px] font-bold text-white lowercase leading-tight">sky</p>
-                  </div>
-                </div>
-
-                {/* Hourly Forecast Row */}
-                <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
-                  <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
-                    Hourly Forecast
-                  </h5>
-                  <div className="grid grid-cols-3 gap-1.5">
-                    <div className="bg-white/10 rounded-lg p-1.5 text-center">
-                      <span className="block text-[9px] font-mono text-blue-200">2:00 PM</span>
-                      <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
-                      <span className="block text-[10px] font-bold font-mono">24.01°</span>
-                    </div>
-                    <div className="bg-white/10 rounded-lg p-1.5 text-center">
-                      <span className="block text-[9px] font-mono text-blue-200">3:00 PM</span>
-                      <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
-                      <span className="block text-[10px] font-bold font-mono">25.55°</span>
-                    </div>
-                    <div className="bg-white/10 rounded-lg p-1.5 text-center">
-                      <span className="block text-[9px] font-mono text-blue-200">4:00 PM</span>
-                      <Sun className="w-3.5 h-3.5 mx-auto my-0.5 text-yellow-300" />
-                      <span className="block text-[10px] font-bold font-mono">27.35°</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Daily Forecast Row */}
-                <div className="space-y-1 border-t border-blue-400/30 pt-1.5 shrink-0">
-                  <h5 className="text-[10px] font-bold uppercase tracking-wider text-blue-200">
-                    Daily Forecast
-                  </h5>
-                  <div className="space-y-1 text-xs">
-                    <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
-                      <span className="font-semibold text-[11px]">Today</span>
-                      <CloudLightning className="w-3.5 h-3.5 text-amber-300" />
-                      <span className="font-mono font-bold text-[10px]">33.0° / 22.0°</span>
-                    </div>
-                    <div className="flex items-center justify-between p-1.5 rounded-lg bg-white/5">
-                      <span className="font-semibold text-[11px]">Tomorrow</span>
-                      <Sun className="w-3.5 h-3.5 text-yellow-300" />
-                      <span className="font-mono font-bold text-[10px]">34.0° / 23.0°</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-
-        </div>
+        /* 4. ALL INDIA CAP ALERT & CURRENT LOCATION VIEW (Matching Screenshot 2-Column Map + Alert List) */
+        <AllIndiaCapMapView
+          alerts={OFFICIAL_CAP_ALERTS}
+          onSelectAlert={handleOpenAlertModal}
+        />
       )}
 
-      {/* 4. Interactive CAP Alert Detail Action Modal (Matching Screenshot 2) */}
+      {/* 5. Interactive CAP Alert Detail Action Modal (Matching Screenshot 2) */}
       {selectedCapAlertForModal && (
         <CapAlertDetailModal
           alert={selectedCapAlertForModal}
