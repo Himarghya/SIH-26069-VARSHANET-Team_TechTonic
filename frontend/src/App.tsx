@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { AlertsBanner } from './components/common/AlertsBanner';
+import { EmergencyCallWidget } from './components/common/EmergencyCallWidget';
 import { ReportDetailModal } from './components/reports/ReportDetailModal';
 import { DashboardPage } from './pages/DashboardPage';
 import { IncidentCommandRoomPage } from './pages/IncidentCommandRoomPage';
@@ -222,6 +223,9 @@ export function App() {
         onOpenIncidentRoom={handleOpenIncidentRoom}
         userRole={userRole}
       />
+
+      {/* Floating 112 Disaster Emergency Call Widget (Fixed Right Edge) */}
+      <EmergencyCallWidget />
 
       {/* National Platform Footer (Full Width) */}
       <footer className="border-t border-slate-200 dark:border-slate-900 bg-white/80 dark:bg-slate-950/80 py-4 px-3 sm:px-6 lg:px-8 xl:px-10 text-xs text-slate-500 font-mono flex flex-wrap items-center justify-between gap-3">
