@@ -18,10 +18,12 @@ import {
   Sun,
   Moon,
   Home,
-  ShieldAlert
+  ShieldAlert,
+  Languages
 } from 'lucide-react';
 import { triggerLiveSync } from '../../services/api';
 import { useTheme } from '../../context/ThemeContext';
+import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../../context/LanguageContext';
 
 interface NavbarProps {
   activeTab: string;
@@ -70,25 +72,34 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLiveSyncDone
 }) => {
   const { theme, toggleTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [countdownSeconds, setCountdownSeconds] = useState(300);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const roleDropdownRef = useRef<HTMLDivElement | null>(null);
+  const langDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // Close role dropdown on outside click or Escape key
+  // Close dropdowns on outside click or Escape key
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (roleDropdownRef.current && !roleDropdownRef.current.contains(event.target as Node)) {
         setIsRoleDropdownOpen(false);
       }
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+        setIsLangDropdownOpen(false);
+      }
     };
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsRoleDropdownOpen(false);
+      if (e.key === 'Escape') {
+        setIsRoleDropdownOpen(false);
+        setIsLangDropdownOpen(false);
+      }
     };
 
-    if (isRoleDropdownOpen) {
+    if (isRoleDropdownOpen || isLangDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('touchstart', handleClickOutside);
       document.addEventListener('keydown', handleKeyDown);
@@ -98,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       document.removeEventListener('touchstart', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isRoleDropdownOpen]);
+  }, [isRoleDropdownOpen, isLangDropdownOpen]);
 
   // 5-Minute Auto-Sync Countdown Timer
   useEffect(() => {
@@ -120,7 +131,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     try {
       const res = await triggerLiveSync();
       const count = res.new_reports_count || 0;
-      setSyncMessage(count > 0 ? `+${count} New` : 'Live Fresh');
+      setSyncMessage(count > 0 ? `+${count} New` : t('live_fresh'));
       setCountdownSeconds(300);
       if (onLiveSyncDone) onLiveSyncDone();
       setTimeout(() => setSyncMessage(null), 3500);
@@ -150,20 +161,21 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   // Role-filtered navigation items (clean core operational suite)
   const allNavItems = [
-    { id: 'dashboard', label: 'Home', icon: Home, roles: ['citizen', 'analyst', 'admin'] },
-    { id: 'dos-donts', label: "Do's & Don'ts", icon: ShieldAlert, roles: ['citizen', 'analyst', 'admin'] },
-    { id: 'reports', label: 'Reports', icon: FileText, roles: ['citizen', 'analyst', 'admin'] },
-    { id: 'map', label: 'Map', icon: Map, roles: ['citizen', 'analyst', 'admin'] },
-    { id: 'incident', label: 'Incident Room', icon: Command, roles: ['analyst', 'admin'] },
-    { id: 'events', label: 'Events', icon: Radio, roles: ['citizen', 'analyst', 'admin'] },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3, roles: ['analyst', 'admin'] },
-    { id: 'citizen', label: 'Citizen Portal', icon: CloudRain, roles: ['citizen'] },
-    { id: 'admin', label: 'Admin Ops', icon: Shield, badge: alertCount > 0 ? alertCount : undefined, roles: ['admin'] },
+    { id: 'dashboard', label: t('nav_home'), icon: Home, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'dos-donts', label: t('nav_dos_donts'), icon: ShieldAlert, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'reports', label: t('nav_reports'), icon: FileText, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'map', label: t('nav_map'), icon: Map, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'incident', label: t('nav_incident'), icon: Command, roles: ['analyst', 'admin'] },
+    { id: 'events', label: t('nav_events'), icon: Radio, roles: ['citizen', 'analyst', 'admin'] },
+    { id: 'analytics', label: t('nav_analytics'), icon: BarChart3, roles: ['analyst', 'admin'] },
+    { id: 'citizen', label: t('nav_citizen'), icon: CloudRain, roles: ['citizen'] },
+    { id: 'admin', label: t('nav_admin'), icon: Shield, badge: alertCount > 0 ? alertCount : undefined, roles: ['admin'] },
   ];
 
   const visibleNavItems = allNavItems.filter(item => item.roles.includes(userRole));
   const currentRoleConfig = ROLES_CONFIG.find(r => r.id === userRole) || ROLES_CONFIG[0];
   const CurrentRoleIcon = currentRoleConfig.icon;
+  const currentLanguageOption = SUPPORTED_LANGUAGES.find(l => l.code === language) || SUPPORTED_LANGUAGES[0];
 
   return (
     <header className="bg-[#18447e] dark:bg-slate-900/95 backdrop-blur-md border-b-2 border-[#123666] dark:border-slate-800 sticky top-0 z-[9999] px-3 sm:px-6 lg:px-8 xl:px-10 py-2 w-full font-sans transition-colors text-white shadow-md">
@@ -185,14 +197,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 सचेत
               </span>
               <span className="font-extrabold text-sm sm:text-base tracking-wider text-white font-sans">
-                VARSHANET
+                {t('brand_name')}
               </span>
               <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-900/60 dark:bg-cyan-950/80 text-yellow-300 dark:text-cyan-300 border border-blue-400/40 dark:border-cyan-700/60 font-mono font-bold">
                 SIH'26
               </span>
             </div>
             <div className="text-[8px] sm:text-[9px] text-blue-200 dark:text-slate-400 font-mono tracking-widest uppercase -mt-0.5 font-bold">
-              National Disaster Alert Portal &amp; Radar
+              {t('tagline')}
             </div>
           </div>
         </div>
@@ -241,6 +253,60 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
+          {/* Indian Languages Selector Dropdown (16 Languages) */}
+          <div className="relative" ref={langDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsLangDropdownOpen(prev => !prev)}
+              className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/60 text-white transition-all shadow-xs cursor-pointer text-xs font-bold"
+              aria-haspopup="true"
+              aria-expanded={isLangDropdownOpen}
+              title="Change platform language (16 Indian languages supported)"
+            >
+              <Languages className="w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400" />
+              <span className="truncate max-w-[85px] sm:max-w-none">{currentLanguageOption?.nativeName || language}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-blue-200 transition-transform duration-200 ${
+                isLangDropdownOpen ? 'rotate-180 text-yellow-300' : ''
+              }`} />
+            </button>
+
+            {/* Language Selection Popover */}
+            {isLangDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-52 max-h-80 overflow-y-auto rounded-lg bg-white dark:bg-slate-950/98 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/90 p-1.5 shadow-xl dark:shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 font-sans divide-y divide-slate-100 dark:divide-slate-800/60 custom-scrollbar">
+                <div className="px-2.5 py-1.5 flex items-center justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
+                  <span>{t('language_select')}</span>
+                  <span className="text-[9px] text-cyan-600 dark:text-cyan-400 font-mono">16 Languages</span>
+                </div>
+                <div className="pt-1 space-y-0.5">
+                  {SUPPORTED_LANGUAGES.map((lang) => {
+                    const isSelected = language === lang.code;
+                    return (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        onClick={() => {
+                          setLanguage(lang.code);
+                          setIsLangDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md text-left transition-all cursor-pointer text-xs font-medium ${
+                          isSelected
+                            ? 'bg-blue-100 dark:bg-blue-950/80 text-blue-900 dark:text-cyan-200 font-bold border border-blue-200 dark:border-blue-800'
+                            : 'hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold">{lang.nativeName}</span>
+                          <span className="text-[10px] text-slate-400 font-mono">({lang.label})</span>
+                        </div>
+                        {isSelected && <Check className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Bright (White) / Dark Mode Toggle Switch */}
           <button
             type="button"
@@ -252,12 +318,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             {theme === 'dark' ? (
               <>
                 <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
-                <span className="text-[11px] font-bold hidden sm:inline text-slate-200">Dark</span>
+                <span className="text-[11px] font-bold hidden sm:inline text-slate-200">{t('theme_dark')}</span>
               </>
             ) : (
               <>
                 <Sun className="w-3.5 h-3.5 text-yellow-300 group-hover:rotate-45 transition-transform" />
-                <span className="text-[11px] font-bold hidden sm:inline text-white">Bright</span>
+                <span className="text-[11px] font-bold hidden sm:inline text-white">{t('theme_bright')}</span>
               </>
             )}
           </button>
@@ -283,7 +349,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {isRoleDropdownOpen && (
               <div className="absolute right-0 mt-2 w-64 rounded-lg bg-white dark:bg-slate-950/98 backdrop-blur-2xl border border-slate-200 dark:border-slate-800/90 p-1.5 shadow-xl dark:shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 font-sans divide-y divide-slate-100 dark:divide-slate-800/60">
                 <div className="px-2.5 py-1.5 flex items-center justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
-                  <span>Operational Persona</span>
+                  <span>{t('select_role')}</span>
                   <span className="text-[9px] text-cyan-600 dark:text-cyan-400 lowercase font-mono">3 roles</span>
                 </div>
 
@@ -351,11 +417,39 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Dropdown Menu Drawer */}
       {isMobileMenuOpen && (
         <div className="lg:hidden mt-2 pt-2 border-t border-slate-800 bg-slate-950/95 rounded-xl p-2 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+          {/* Mobile Language Selector */}
+          <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs space-y-1.5">
+            <div className="flex items-center gap-2 font-semibold text-slate-200">
+              <Languages className="w-4 h-4 text-cyan-400" />
+              <span>{t('language_select')}</span>
+            </div>
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-1 max-h-36 overflow-y-auto custom-scrollbar p-1">
+              {SUPPORTED_LANGUAGES.map((lang) => {
+                const isSelected = language === lang.code;
+                return (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setLanguage(lang.code);
+                    }}
+                    className={`px-1.5 py-1 rounded text-[11px] font-semibold border transition-all cursor-pointer truncate ${
+                      isSelected
+                        ? 'bg-blue-600 text-white border-blue-400 font-bold'
+                        : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-900'
+                    }`}
+                  >
+                    {lang.nativeName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Mobile Bright / Dark Mode Switcher */}
           <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2 font-semibold text-slate-200">
               {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
-              <span>Theme Mode</span>
+              <span>{t('theme_mode')}</span>
             </div>
             <button
               onClick={toggleTheme}
@@ -365,14 +459,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'bg-amber-100 text-amber-900 border-amber-300'
               }`}
             >
-              {theme === 'dark' ? '🌙 Dark Mode' : '☀️ Bright (White)'}
+              {theme === 'dark' ? `🌙 ${t('theme_dark')}` : `☀️ ${t('theme_bright')}`}
             </button>
           </div>
 
           {/* Mobile Role Switcher */}
           <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs space-y-1.5">
             <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">
-              Select Operational Role
+              {t('select_role')}
             </div>
             <div className="grid grid-cols-3 gap-1.5">
               {ROLES_CONFIG.map((role) => {

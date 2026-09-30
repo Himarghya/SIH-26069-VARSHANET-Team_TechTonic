@@ -13,11 +13,13 @@ import { AdminPage } from './pages/AdminPage';
 import { DosAndDontsPage } from './pages/DosAndDontsPage';
 import { useWeatherWebSocket } from './hooks/useWebSocket';
 import { useTheme } from './context/ThemeContext';
+import { useLanguage } from './context/LanguageContext';
 import { fetchReports, fetchEvents, fetchAlerts, fetchAnalyticsOverview, fetchPendingVerification, fetchSystemHealth } from './services/api';
 import { WeatherReport, EventCluster, Alert, AnalyticsOverview, SystemHealth } from './types';
 
 export function App() {
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [userRole, setUserRole] = useState('citizen');
   const [reports, setReports] = useState<WeatherReport[]>([]);
@@ -224,14 +226,13 @@ export function App() {
       {/* National Platform Footer (Full Width) */}
       <footer className="border-t border-slate-200 dark:border-slate-900 bg-white/80 dark:bg-slate-950/80 py-4 px-3 sm:px-6 lg:px-8 xl:px-10 text-xs text-slate-500 font-mono flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <span>VARSHANET 2.0 National Disaster Decision Support Grid | v2.0.0</span>
+          <span>{t('footer_text')}</span>
         </div>
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-950/20 dark:bg-cyan-950/60 border border-cyan-500/30 text-cyan-600 dark:text-cyan-300 font-bold tracking-wide">
-          <span>Crafted by</span>
-          <span className="text-cyan-700 dark:text-cyan-200">Team Tech_Tonic</span>
+          <span>{t('footer_crafted')}</span>
         </div>
         <div>
-          Ministry of Earth Sciences / IMD AI Impact Nowcasting & Citizen Response Protocol
+          {t('footer_sub')}
         </div>
       </footer>
     </div>

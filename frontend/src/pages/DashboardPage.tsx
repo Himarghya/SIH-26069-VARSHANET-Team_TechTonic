@@ -5,6 +5,7 @@ import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { LiveFeed } from '../components/dashboard/LiveFeed';
 import { DosAndDontsSection } from '../components/dashboard/DosAndDontsSection';
 import { WeatherReport, EventCluster, Alert, AnalyticsOverview } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface DashboardPageProps {
   overview: AnalyticsOverview | null;
@@ -39,6 +40,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   onSelectEvent,
   onNavigateTab
 }) => {
+  const { t } = useLanguage();
   const [dashboardFilter, setDashboardFilter] = useState<'ALL' | 'VERIFIED' | 'CRITICAL' | '24H'>('ALL');
 
   // 1. Live Dynamic Calculations from current datasets
@@ -164,9 +166,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('reports', { status: 'All' })}
         />
         <MetricCard
-          title="Active Clusters"
+          title={t('metric_active_clusters')}
           value={activeEventsCount || events.length}
-          subtext="Spatiotemporal grids"
+          subtext={t('metric_active_sub')}
           icon={Radio}
           trend={`${activeEventsCount} Live`}
           colorTheme="blue"
@@ -174,7 +176,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('events')}
         />
         <MetricCard
-          title="Verified Incidents"
+          title={t('feed_verified')}
           value={verifiedCount}
           subtext="Ground truth confirmed"
           icon={ShieldCheck}
@@ -184,20 +186,20 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('reports', { status: 'VERIFIED' })}
         />
         <MetricCard
-          title="Critical Alerts"
+          title={t('metric_critical_alerts')}
           value={criticalCount}
-          subtext="Emergency red bulletins"
+          subtext={t('metric_critical_sub')}
           icon={AlertTriangle}
-          trend={criticalCount > 0 ? `${criticalCount} Red Warning` : 'Clear'}
+          trend={criticalCount > 0 ? `${criticalCount} Warning` : 'Clear'}
           trendPositive={criticalCount === 0}
           colorTheme="rose"
           actionLabel="Click to open Incident Command Room"
           onClick={() => onNavigateTab && onNavigateTab('incident', { eventId: firstCriticalAlert?.event_cluster_id })}
         />
         <MetricCard
-          title="States Affected"
+          title={t('metric_states_affected')}
           value={statesAffectedCount}
-          subtext="Across Indian Union"
+          subtext={t('metric_states_sub')}
           icon={MapPin}
           trend="Pan-India"
           colorTheme="amber"
@@ -205,9 +207,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('map')}
         />
         <MetricCard
-          title="Mean AI Trust"
+          title={t('metric_trust_score')}
           value={`${avgTrust}%`}
-          subtext="Multi-factor score"
+          subtext={t('metric_trust_sub')}
           icon={Shield}
           trend="High Accuracy"
           colorTheme="purple"
@@ -221,7 +223,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-100 dark:bg-slate-900/80 p-2 px-3 rounded-lg border border-slate-200 dark:border-slate-800 text-xs font-sans">
           <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
             <Filter className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-            <span>Dashboard GIS & Feed Filter:</span>
+            <span>{t('filter_label')}</span>
           </div>
           <div className="flex items-center gap-1.5 flex-wrap">
             <button
@@ -232,7 +234,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              All Reports ({reports.length})
+              {t('filter_all')} ({reports.length})
             </button>
             <button
               onClick={() => setDashboardFilter('VERIFIED')}
@@ -243,7 +245,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              Verified Only ({verifiedCount})
+              {t('filter_verified')} ({verifiedCount})
             </button>
             <button
               onClick={() => setDashboardFilter('CRITICAL')}
@@ -254,7 +256,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               }`}
             >
               <AlertTriangle className="w-3.5 h-3.5 text-rose-500" />
-              Critical Alerts ({criticalCount})
+              {t('filter_critical')} ({criticalCount})
             </button>
             <button
               onClick={() => setDashboardFilter('24H')}
@@ -264,7 +266,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
               }`}
             >
-              Past 24 Hours (+{past24hCount})
+              {t('filter_24h')} (+{past24hCount})
             </button>
           </div>
         </div>
@@ -274,18 +276,18 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950/90 border border-slate-200 dark:border-cyan-500/30 text-[11px] font-mono text-slate-700 dark:text-slate-300">
             <div className="flex items-center gap-2">
               <span>
-                Active Filter: <strong className="text-slate-900 dark:text-white">
-                  {dashboardFilter === 'VERIFIED' && '🛡️ Verified Clusters & Confirmed Incidents'}
-                  {dashboardFilter === 'CRITICAL' && '⚠️ High & Critical Severity Alerts'}
-                  {dashboardFilter === '24H' && '⏱️ Past 24 Hours Real-Time Stream'}
-                </strong> — Synchronized <strong className="text-cyan-700 dark:text-cyan-400">{displayEvents.length}</strong> Map Clusters & <strong className="text-cyan-700 dark:text-cyan-400">{displayReports.length}</strong> Live Feed Reports
+                {t('filter_active_label')} <strong className="text-slate-900 dark:text-white">
+                  {dashboardFilter === 'VERIFIED' && `🛡️ ${t('filter_verified')}`}
+                  {dashboardFilter === 'CRITICAL' && `⚠️ ${t('filter_critical')}`}
+                  {dashboardFilter === '24H' && `⏱️ ${t('filter_24h')}`}
+                </strong> — <strong className="text-cyan-700 dark:text-cyan-400">{displayEvents.length}</strong> {t('map_clusters')} &amp; <strong className="text-cyan-700 dark:text-cyan-400">{displayReports.length}</strong> {t('nav_reports')}
               </span>
             </div>
             <button
               onClick={() => setDashboardFilter('ALL')}
               className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-sans text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1"
             >
-              <span>✕ Reset Filter</span>
+              <span>✕ {t('filter_reset')}</span>
             </button>
           </div>
         )}

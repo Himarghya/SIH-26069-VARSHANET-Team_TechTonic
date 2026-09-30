@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, Radio, ShieldCheck, AlertTriangle, Clock, MapPin, Eye, Flame, Sparkles, Filter, Users, CheckCircle2, Shield, Navigation } from 'lucide-react';
 import { WeatherReport } from '../../types';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface LiveFeedProps {
   reports: WeatherReport[];
@@ -29,6 +30,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
   dashboardFilter = 'ALL',
   onClearDashboardFilter,
 }) => {
+  const { t } = useLanguage();
   const [filterMode, setFilterMode] = useState<'all' | 'verified' | 'citizen' | 'recent'>('all');
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [dismissLocationBanner, setDismissLocationBanner] = useState(false);
@@ -71,17 +73,17 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
           </div>
           <div>
             <h3 className="text-sm font-black tracking-wider uppercase text-white font-heading">
-              ALERT LIST
+              {t('feed_title')}
             </h3>
             <p className="text-[10px] text-blue-200 font-mono tracking-wide">
-              DISASTER &amp; WEATHER BULLETINS ({reports.length})
+              {t('feed_subtitle')} ({reports.length})
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span className="text-[11px] font-mono font-bold text-white uppercase tracking-wider">LIVE</span>
+          <span className="text-[11px] font-mono font-bold text-white uppercase tracking-wider">{t('live_fresh')}</span>
         </div>
       </div>
 
@@ -92,11 +94,11 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
           <div className="flex items-center justify-between px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-cyan-950/40 border border-blue-200 dark:border-cyan-800/60 text-[10px] font-mono text-blue-900 dark:text-cyan-300">
             <span className="flex items-center gap-1.5">
               <span>
-                GIS Synced: <strong className="text-slate-900 dark:text-white">
-                  {dashboardFilter === 'VERIFIED' && 'Verified Incidents'}
-                  {dashboardFilter === 'CRITICAL' && 'Critical Alerts'}
-                  {dashboardFilter === '24H' && 'Past 24h'}
-                </strong> ({reports.length} in stream)
+                {t('filter_active_label')} <strong className="text-slate-900 dark:text-white">
+                  {dashboardFilter === 'VERIFIED' && t('filter_verified')}
+                  {dashboardFilter === 'CRITICAL' && t('filter_critical')}
+                  {dashboardFilter === '24H' && t('filter_24h')}
+                </strong> ({reports.length})
               </span>
             </span>
             {onClearDashboardFilter && (
@@ -104,7 +106,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
                 onClick={onClearDashboardFilter}
                 className="text-blue-700 hover:text-blue-900 dark:text-slate-400 dark:hover:text-white underline cursor-pointer text-[9px] font-bold"
               >
-                Reset
+                {t('filter_reset')}
               </button>
             )}
           </div>
@@ -120,7 +122,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
                 : 'bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800'
             }`}
           >
-            All ({reports.length})
+            {t('filter_all')} ({reports.length})
           </button>
           <button
             onClick={() => setFilterMode('verified')}
@@ -131,7 +133,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
             }`}
           >
             <ShieldCheck className="w-3 h-3" />
-            <span>Verified ({verifiedCount})</span>
+            <span>{t('filter_verified')} ({verifiedCount})</span>
           </button>
           <button
             onClick={() => setFilterMode('citizen')}
@@ -142,7 +144,7 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
             }`}
           >
             <Users className="w-3 h-3" />
-            <span>Citizen ({citizenCount})</span>
+            <span>{t('role_citizen')} ({citizenCount})</span>
           </button>
           <button
             onClick={() => setFilterMode('recent')}
@@ -188,12 +190,12 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
         {displayReports.length === 0 ? (
           <div className="text-center py-12 text-slate-500 text-xs font-mono space-y-2">
             <Clock className="w-6 h-6 mx-auto text-slate-400 dark:text-slate-600 animate-pulse" />
-            <p>No observations found in selected stream filter.</p>
+            <p>{t('feed_no_reports')}</p>
             <button
               onClick={() => setFilterMode('all')}
               className="text-blue-700 dark:text-cyan-400 hover:underline text-[11px] cursor-pointer font-bold"
             >
-              Reset to all feeds
+              {t('filter_reset')}
             </button>
           </div>
         ) : (

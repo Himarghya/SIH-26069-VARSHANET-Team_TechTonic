@@ -10,12 +10,28 @@ import {
   UI_TEXT 
 } from './dosAndDontsTypes';
 import { DISASTER_CONTENT } from './translations';
+import { useLanguage, LanguageCode as GlobalLanguageCode } from '../../context/LanguageContext';
 
 export const DosAndDontsSection: React.FC = () => {
+  const { language: globalLanguage, setLanguage: setGlobalLanguage } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<DisasterCategory>('Cyclones');
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>('English');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeVideo, setActiveVideo] = useState<{ title: string; youtubeId: string } | null>(null);
+
+  // Map global language into DosAndDonts language code
+  const selectedLanguage: LanguageCode = useMemo(() => {
+    if (LANGUAGES.includes(globalLanguage as any)) {
+      return globalLanguage as LanguageCode;
+    }
+    if (globalLanguage === 'संस्कृतम्' || globalLanguage === 'मैथिली' || globalLanguage === 'اردو') {
+      return 'हिन्दी';
+    }
+    return 'English';
+  }, [globalLanguage]);
+
+  const handleLanguageChange = (lang: LanguageCode) => {
+    setGlobalLanguage(lang as GlobalLanguageCode);
+  };
 
   // Dynamic UI labels based on active language
   const ui = useMemo(() => {
@@ -97,7 +113,7 @@ export const DosAndDontsSection: React.FC = () => {
             return (
               <button
                 key={lang}
-                onClick={() => setSelectedLanguage(lang)}
+                onClick={() => handleLanguageChange(lang)}
                 className={`px-3 py-0.8 rounded-full text-xs font-medium transition-all cursor-pointer border ${
                   isSelected
                     ? 'bg-[#1b6b3e] text-white border-[#1b6b3e] shadow-xs'
