@@ -3,9 +3,10 @@ import { VerificationQueue } from '../components/admin/VerificationQueue';
 import { SystemHealthView } from '../components/admin/SystemHealthView';
 import { AdminIncidentPostForm } from '../components/admin/AdminIncidentPostForm';
 import { AdminDosDontsManager } from '../components/admin/AdminDosDontsManager';
+import { AdminSubmissionTracker } from '../components/admin/AdminSubmissionTracker';
 import { ActiveLearningConsole } from '../components/ml/ActiveLearningConsole';
 import { WeatherReport, SystemHealth } from '../types';
-import { ShieldCheck, Activity, Send, RefreshCw, BookOpen } from 'lucide-react';
+import { ShieldCheck, Activity, Send, RefreshCw, BookOpen, Search } from 'lucide-react';
 
 interface AdminPageProps {
   pendingReports: WeatherReport[];
@@ -22,7 +23,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   onSelectReport,
   onNavigateToTab
 }) => {
-  const [adminTab, setAdminTab] = useState<'post' | 'verification' | 'active_learning' | 'dos_donts' | 'health'>('post');
+  const [adminTab, setAdminTab] = useState<'post' | 'tracking' | 'dos_donts' | 'verification' | 'active_learning' | 'health'>('post');
 
   return (
     <div className="space-y-6">
@@ -31,7 +32,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
         <div>
           <h1 className="text-lg font-bold text-slate-900 dark:text-white tracking-wide">National Operations Command &amp; Admin Panel</h1>
           <p className="text-xs text-slate-600 dark:text-slate-400">
-            Publish pre-verified official incidents, author disaster Do's &amp; Don'ts guidelines, review citizen verification queues, inspect active learning feedback loops, and monitor big data telemetry.
+            Publish pre-verified official incidents, track &amp; verify citizen submissions, author disaster Do's &amp; Don'ts guidelines, audit active learning loops, and monitor big data telemetry.
           </p>
         </div>
 
@@ -46,6 +47,18 @@ export const AdminPage: React.FC<AdminPageProps> = ({
           >
             <Send className="w-3.5 h-3.5" />
             Official Incident Post (Pre-Verified)
+          </button>
+
+          <button
+            onClick={() => setAdminTab('tracking')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              adminTab === 'tracking'
+                ? 'bg-cyan-600 text-white shadow-md'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+            }`}
+          >
+            <Search className="w-3.5 h-3.5" />
+            Track Submissions
           </button>
 
           <button
@@ -64,7 +77,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             onClick={() => setAdminTab('verification')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               adminTab === 'verification'
-                ? 'bg-cyan-600 text-white shadow-md'
+                ? 'bg-amber-600 text-white shadow-md'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
@@ -102,6 +115,13 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {adminTab === 'post' && (
         <AdminIncidentPostForm
           onReportPublished={onRefreshData}
+          onNavigateToMap={() => onNavigateToTab && onNavigateToTab('map')}
+        />
+      )}
+
+      {adminTab === 'tracking' && (
+        <AdminSubmissionTracker
+          onSelectReport={onSelectReport}
           onNavigateToMap={() => onNavigateToTab && onNavigateToTab('map')}
         />
       )}

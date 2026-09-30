@@ -20,7 +20,7 @@ export interface WeatherReport {
   ingestion_timestamp: string;
   credibility_score: number;
   risk_level: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
-  verification_status: 'UNVERIFIED' | 'LIKELY_AUTHENTIC' | 'LIKELY_MISLEADING' | 'REQUIRES_REVIEW' | 'VERIFIED' | 'REJECTED' | 'DUPLICATE';
+  verification_status: 'UNVERIFIED' | 'LIKELY_AUTHENTIC' | 'LIKELY_MISLEADING' | 'REQUIRES_REVIEW' | 'VERIFIED' | 'REJECTED' | 'DUPLICATE' | 'DISPATCHED_TO_NDRF' | 'RESOLVED' | string;
   verification_notes?: string;
   duplicate_group_id?: string;
   is_duplicate: boolean;

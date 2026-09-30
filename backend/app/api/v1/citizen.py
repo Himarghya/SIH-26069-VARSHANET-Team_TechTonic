@@ -1,8 +1,10 @@
 import uuid
+from typing import List, Optional
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Query
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
-from sqlalchemy import desc
+from sqlalchemy import desc, or_
 from backend.app.core.database import get_db
 from backend.app.models.models import WeatherReport, EventCluster
 from backend.app.schemas.schemas import CitizenReportCreate, WeatherReportOut
@@ -10,6 +12,10 @@ from backend.app.api.websocket import ws_manager
 from processing.pipeline import pipeline
 
 router = APIRouter(prefix="/citizen", tags=["Citizen Reporting Portal"])
+
+class CitizenStatusUpdateRequest(BaseModel):
+    status: str
+    admin_notes: Optional[str] = None
 
 @router.post("/submit", response_model=WeatherReportOut)
 async def submit_citizen_report(
@@ -73,6 +79,7 @@ async def submit_citizen_report(
     background_tasks.add_task(ws_manager.broadcast, {
         "type": "NEW_CITIZEN_REPORT",
         "ticket_id": ticket_id,
+        "id": new_report.id,
         "city": new_report.city,
         "state": new_report.state,
         "event_type": new_report.event_type,
@@ -81,9 +88,97 @@ async def submit_citizen_report(
     
     return new_report
 
+@router.get("/submissions", response_model=List[WeatherReportOut])
+def list_citizen_submissions(
+    search: Optional[str] = None,
+    status: Optional[str] = None,
+    event_type: Optional[str] = None,
+    state: Optional[str] = None,
+    limit: int = 100,
+    db: Session = Depends(get_db)
+):
+    query = db.query(WeatherReport)
+    
+    # Filter for citizen reports or all reports if needed
+    query = query.filter(
+        or_(
+            WeatherReport.source_type == "citizen_report",
+            WeatherReport.source_name.ilike("%citizen%"),
+            WeatherReport.source_id.ilike("VR-%")
+        )
+    )
+    
+    if search:
+        search_term = f"%{search.strip()}%"
+        query = query.filter(
+            or_(
+                WeatherReport.source_id.ilike(search_term),
+                WeatherReport.id.ilike(search_term),
+                WeatherReport.text.ilike(search_term),
+                WeatherReport.city.ilike(search_term),
+                WeatherReport.state.ilike(search_term),
+                WeatherReport.author.ilike(search_term)
+            )
+        )
+        
+    if status and status != "ALL":
+        query = query.filter(WeatherReport.verification_status == status)
+        
+    if event_type and event_type != "ALL":
+        query = query.filter(WeatherReport.event_type == event_type)
+        
+    if state and state != "ALL":
+        query = query.filter(WeatherReport.state == state)
+        
+    return query.order_by(desc(WeatherReport.timestamp)).limit(limit).all()
+
 @router.get("/track/{ticket_id}", response_model=WeatherReportOut)
 def track_report_status(ticket_id: str, db: Session = Depends(get_db)):
-    report = db.query(WeatherReport).filter(WeatherReport.source_id == ticket_id).first()
+    clean_id = ticket_id.strip()
+    report = db.query(WeatherReport).filter(
+        or_(
+            WeatherReport.source_id == clean_id,
+            WeatherReport.id == clean_id,
+            WeatherReport.source_id.ilike(f"%{clean_id}%"),
+            WeatherReport.id.ilike(f"%{clean_id}%")
+        )
+    ).first()
+    
     if not report:
-        raise HTTPException(status_code=404, detail=f"No submission found for tracking code {ticket_id}")
+        raise HTTPException(status_code=404, detail=f"No submission found for tracking code '{ticket_id}'")
+    return report
+
+@router.patch("/submissions/{report_id}/status", response_model=WeatherReportOut)
+async def update_submission_status(
+    report_id: str,
+    payload: CitizenStatusUpdateRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
+    report = db.query(WeatherReport).filter(
+        or_(
+            WeatherReport.id == report_id,
+            WeatherReport.source_id == report_id
+        )
+    ).first()
+    
+    if not report:
+        raise HTTPException(status_code=404, detail=f"Submission '{report_id}' not found")
+        
+    report.verification_status = payload.status
+    if payload.admin_notes:
+        report.normalized_text = f"[{payload.status}] {payload.admin_notes} | {report.normalized_text or report.text}"
+        
+    db.commit()
+    db.refresh(report)
+    
+    background_tasks.add_task(ws_manager.broadcast, {
+        "type": "CITIZEN_STATUS_UPDATED",
+        "id": report.id,
+        "ticket_id": report.source_id,
+        "status": report.verification_status,
+        "city": report.city,
+        "state": report.state
+    })
+    
     return report

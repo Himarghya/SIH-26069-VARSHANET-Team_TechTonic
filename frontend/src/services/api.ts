@@ -80,6 +80,29 @@ export const trackCitizenReport = async (ticketId: string): Promise<WeatherRepor
   return data;
 };
 
+export const getCitizenSubmissions = async (params?: {
+  search?: string;
+  status?: string;
+  event_type?: string;
+  state?: string;
+  limit?: number;
+}): Promise<WeatherReport[]> => {
+  const { data } = await api.get('/citizen/submissions', { params });
+  return data;
+};
+
+export const updateCitizenSubmissionStatus = async (
+  reportId: string,
+  status: string,
+  adminNotes?: string
+): Promise<WeatherReport> => {
+  const { data } = await api.patch(`/citizen/submissions/${reportId}/status`, {
+    status,
+    admin_notes: adminNotes
+  });
+  return data;
+};
+
 export const analyzeMedia = async (mediaUrl: string) => {
   try {
     const { data } = await api.post('/media/analyze-json', { media_url: mediaUrl });
