@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   AlertTriangle, 
   BellRing, 
@@ -28,13 +28,23 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
   const [prevAlertsLength, setPrevAlertsLength] = useState(alerts.length);
   const [isPostingToX, setIsPostingToX] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
+  const isInitialMount = useRef(true);
 
-  // Detect incoming new live critical alert
+  // Detect incoming new live critical alert (skip on initial load / refresh)
   useEffect(() => {
+    if (isInitialMount.current) {
+      if (alerts.length > 0) {
+        isInitialMount.current = false;
+        setPrevAlertsLength(alerts.length);
+      }
+      return;
+    }
+
     if (alerts.length > prevAlertsLength) {
       setCurrentIndex(0);
       setIsNewAlertFlash(true);
-      setTimeout(() => setIsNewAlertFlash(false), 4500);
+      const timer = setTimeout(() => setIsNewAlertFlash(false), 4500);
+      return () => clearTimeout(timer);
     }
     setPrevAlertsLength(alerts.length);
   }, [alerts.length, prevAlertsLength]);
@@ -120,7 +130,7 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
         {/* Severity Pill Badge */}
         <div className={`font-mono font-black tracking-wider uppercase px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] flex items-center gap-1.5 shrink-0 shadow-sm transition-transform group-hover:scale-105 ${
           isNewAlertFlash
-            ? 'bg-white text-rose-700 shadow-md font-black'
+            ? 'bg-rose-950 text-rose-200 border border-rose-400 shadow-lg font-black'
             : isCritical
             ? 'bg-red-600 text-white shadow-red-900/30'
             : isHigh
@@ -129,23 +139,27 @@ export const AlertsBanner: React.FC<AlertsBannerProps> = ({ alerts = [], onSelec
         }`}>
           {isNewAlertFlash ? (
             <>
-              <Flame className="w-3.5 h-3.5 text-rose-600 animate-bounce" />
-              <span>FLASH ALERT</span>
+              <Flame className="w-3.5 h-3.5 text-rose-300 animate-bounce" />
+              <span className="text-rose-100 font-bold">FLASH ALERT</span>
             </>
           ) : (
             <>
-              <AlertTriangle className={`w-3.5 h-3.5 ${isCritical ? 'animate-bounce' : ''}`} />
-              <span>{severity === 'HIGH' ? 'HIGH ALERT' : severity}</span>
+              <AlertTriangle className={`w-3.5 h-3.5 ${isCritical ? 'animate-bounce text-white' : 'text-white'}`} />
+              <span className="text-white font-bold">{severity === 'HIGH' ? 'HIGH ALERT' : severity}</span>
             </>
           )}
         </div>
 
         {/* Headline & Directive Message */}
         <div className="font-sans flex items-center gap-2 truncate text-xs sm:text-[13px] min-w-0">
-          <strong className="text-slate-900 dark:text-white font-extrabold uppercase tracking-tight shrink-0">
+          <strong className={`font-extrabold uppercase tracking-tight shrink-0 ${
+            isNewAlertFlash ? 'text-white' : 'text-slate-900 dark:text-white'
+          }`}>
             {currentAlert.title}:
           </strong>
-          <span className="text-slate-700 dark:text-slate-200 font-medium truncate">
+          <span className={`font-medium truncate ${
+            isNewAlertFlash ? 'text-rose-100' : 'text-slate-700 dark:text-slate-200'
+          }`}>
             {currentAlert.message}
           </span>
         </div>
