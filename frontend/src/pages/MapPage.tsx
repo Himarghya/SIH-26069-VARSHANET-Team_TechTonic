@@ -468,8 +468,8 @@ export const MapPage: React.FC<MapPageProps> = ({
   return (
     <div className="space-y-4 font-sans select-none animate-fade-in pr-0 lg:pr-10 xl:pr-12">
       
-      {/* 1. Top 4 Action / Filter Cards (Matching Screenshot 1 Top Bar) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* 1. Top 4 Action / Filter Cards (Matching Screenshot media_1790758072081.png) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
         
         {/* Card 1: CURRENT LOCATION CAP ALERT */}
         <button
@@ -484,17 +484,17 @@ export const MapPage: React.FC<MapPageProps> = ({
               }
             );
           }}
-          className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
+          className={`p-4 rounded-xl transition-all duration-200 cursor-pointer flex flex-col items-center justify-center text-center group ${
             activeTabMode === 'CURRENT'
-              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
-              : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
+              ? 'border-2 border-[#18447e] dark:border-cyan-400 bg-white dark:bg-slate-900 shadow-md shadow-blue-900/15 ring-2 ring-[#18447e]/20 scale-[1.015]'
+              : 'border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-[#18447e]/60 hover:shadow-sm shadow-xs'
           }`}
         >
-          <div className="w-10 h-10 rounded-full border-2 border-red-500 bg-white dark:bg-slate-950 flex items-center justify-center text-red-600 mb-2 shadow-sm group-hover:scale-110 transition-transform">
-            <MapPin className="w-5 h-5 fill-red-600 text-white" />
+          <div className="w-11 h-11 rounded-full border-2 border-red-500 bg-white dark:bg-slate-950 flex items-center justify-center text-red-600 mb-2 shadow-xs group-hover:scale-110 transition-transform">
+            <MapPin className="w-5 h-5 fill-red-500 text-white" />
           </div>
-          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
-            activeTabMode === 'CURRENT' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          <span className={`text-[12px] font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'CURRENT' ? 'text-[#18447e] dark:text-cyan-400 font-extrabold' : 'text-slate-900 dark:text-slate-100 font-extrabold'
           }`}>
             CURRENT LOCATION CAP ALERT
           </span>
@@ -506,64 +506,81 @@ export const MapPage: React.FC<MapPageProps> = ({
             setActiveTabMode('ALL');
             setSelectedPanState('PAN INDIA');
           }}
-          className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
+          className={`p-4 rounded-xl transition-all duration-200 cursor-pointer flex flex-col items-center justify-center text-center group ${
             activeTabMode === 'ALL'
-              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
-              : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
+              ? 'border-2 border-[#18447e] dark:border-cyan-400 bg-white dark:bg-slate-900 shadow-md shadow-blue-900/15 ring-2 ring-[#18447e]/20 scale-[1.015]'
+              : 'border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-[#18447e]/60 hover:shadow-sm shadow-xs'
           }`}
         >
-          <div className="w-10 h-10 rounded-full border-2 border-slate-700 dark:border-slate-400 bg-white dark:bg-slate-950 flex items-center justify-center text-slate-800 dark:text-slate-200 mb-2 shadow-sm group-hover:scale-110 transition-transform">
+          <div className="w-11 h-11 rounded-full border-2 border-blue-900 dark:border-blue-400 bg-white dark:bg-slate-950 flex items-center justify-center text-blue-900 dark:text-blue-300 mb-2 shadow-xs group-hover:scale-110 transition-transform">
             <Target className="w-5 h-5" />
           </div>
-          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
-            activeTabMode === 'ALL' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          <span className={`text-[12px] font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'ALL' ? 'text-[#18447e] dark:text-cyan-400 font-extrabold' : 'text-slate-900 dark:text-slate-100 font-extrabold'
           }`}>
             ALL INDIA CAP ALERT
           </span>
         </button>
 
-        {/* Card 3: STATE WISE CAP ALERT (Matching Screenshot 1 Active State) */}
+        {/* Card 3: STATE WISE CAP ALERT (Matching Screenshot Active State) */}
         <button
           onClick={() => {
             setActiveTabMode('STATE');
           }}
-          className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
+          className={`p-4 rounded-xl transition-all duration-200 cursor-pointer flex flex-col items-center justify-center text-center group ${
             activeTabMode === 'STATE'
-              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
-              : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
+              ? 'border-2 border-[#18447e] dark:border-cyan-400 bg-white dark:bg-slate-900 shadow-md shadow-blue-900/15 ring-2 ring-[#18447e]/20 scale-[1.015]'
+              : 'border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-[#18447e]/60 hover:shadow-sm shadow-xs'
           }`}
         >
-          <div className="w-10 h-10 rounded-full border-2 border-amber-500 bg-white dark:bg-slate-950 flex items-center justify-center text-amber-500 mb-2 shadow-sm group-hover:scale-110 transition-transform">
+          <div className="w-11 h-11 rounded-full border-2 border-amber-500 bg-white dark:bg-slate-950 flex items-center justify-center text-amber-500 mb-2 shadow-xs group-hover:scale-110 transition-transform">
             <AlertTriangle className="w-5 h-5" />
           </div>
-          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
-            activeTabMode === 'STATE' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          <span className={`text-[12px] font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'STATE' ? 'text-[#18447e] dark:text-cyan-400 font-extrabold' : 'text-slate-900 dark:text-slate-100 font-extrabold'
           }`}>
             STATE WISE CAP ALERT
           </span>
         </button>
 
-        {/* Card 4: FORECAST (Matching Screenshot 1 Active State) */}
+        {/* Card 4: FORECAST (Matching Screenshot Active State) */}
         <button
           onClick={() => setActiveTabMode('FORECAST')}
-          className={`p-4 rounded-xl border-2 transition-all cursor-pointer shadow-sm flex flex-col items-center justify-center text-center group bg-white dark:bg-slate-900 ${
+          className={`p-4 rounded-xl transition-all duration-200 cursor-pointer flex flex-col items-center justify-center text-center group ${
             activeTabMode === 'FORECAST'
-              ? 'border-[#18447e] bg-blue-50/80 dark:bg-blue-950/50 shadow-md scale-[1.01]'
-              : 'border-[#18447e]/30 dark:border-slate-800 hover:border-[#18447e]'
+              ? 'border-2 border-[#18447e] dark:border-cyan-400 bg-white dark:bg-slate-900 shadow-md shadow-blue-900/15 ring-2 ring-[#18447e]/20 scale-[1.015]'
+              : 'border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-[#18447e]/60 hover:shadow-sm shadow-xs'
           }`}
         >
-          <div className="w-10 h-10 rounded-full border-2 border-emerald-500 bg-white dark:bg-slate-950 flex items-center justify-center text-emerald-600 mb-2 shadow-sm group-hover:scale-110 transition-transform">
+          <div className="w-11 h-11 rounded-full border-2 border-emerald-500 bg-white dark:bg-slate-950 flex items-center justify-center text-emerald-600 mb-2 shadow-xs group-hover:scale-110 transition-transform">
             <CloudRain className="w-5 h-5" />
           </div>
-          <span className={`text-xs font-black tracking-wider uppercase font-heading ${
-            activeTabMode === 'FORECAST' ? 'text-[#18447e] dark:text-cyan-400' : 'text-slate-900 dark:text-white'
+          <span className={`text-[12px] font-black tracking-wider uppercase font-heading ${
+            activeTabMode === 'FORECAST' ? 'text-[#18447e] dark:text-cyan-400 font-extrabold' : 'text-slate-900 dark:text-slate-100 font-extrabold'
           }`}>
             FORECAST
           </span>
         </button>
       </div>
 
-      {/* 2. CONDITIONAL VIEW: If STATE mode is active -> Show LOCATION SPECIFIC ALERTS Table (Screenshot 1) */}
+      {/* 2. Transition Feedback Breadcrumb Bar */}
+      <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-[#18447e]/10 via-[#18447e]/5 to-transparent dark:from-cyan-950/40 dark:via-slate-900 dark:to-transparent rounded-lg border border-[#18447e]/20 dark:border-cyan-800/30 text-xs">
+        <div className="flex items-center gap-2">
+          <span className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px]">Active View:</span>
+          <span className="font-black text-[#18447e] dark:text-cyan-400 uppercase tracking-wide flex items-center gap-1.5">
+            {activeTabMode === 'CURRENT' && '📍 Current Location Live CAP Early Warnings'}
+            {activeTabMode === 'ALL' && '🎯 All India Pan-National Integrated CAP Alert Map & Live Feed'}
+            {activeTabMode === 'STATE' && '⚠️ State-Wise & Location-Specific CAP Hazard Matrix'}
+            {activeTabMode === 'FORECAST' && '🌧️ Synoptic Forecast, Nowcasting & Multiday Meteorology'}
+          </span>
+        </div>
+        <div className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-slate-600 dark:text-slate-400">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Realtime Stream Active</span>
+        </div>
+      </div>
+
+      {/* 3. CONDITIONAL VIEW: If STATE mode is active -> Show LOCATION SPECIFIC ALERTS Table (Screenshot 1) */}
       {activeTabMode === 'STATE' ? (
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg animate-fade-in">
           
