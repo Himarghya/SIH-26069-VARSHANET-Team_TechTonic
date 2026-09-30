@@ -789,28 +789,22 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#Tsunami | Coastal Warning Signs & Immediate Evacuation',
-          duration: '3:50',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          title: '#AapdaKaSaamna | Prevention, Safety & Response When A #Tsunami Strikes',
+          duration: '3:45',
+          youtubeId: 'qhC1GxLLG-M',
+          thumbnailUrl: 'https://img.youtube.com/vi/qhC1GxLLG-M/hqdefault.jpg'
         },
         {
-          title: '#Tsunami | INCOIS Early Warning System & Sirens',
-          duration: '4:20',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          title: 'NDMA INDIA - Tsunami (are you ready)',
+          duration: '2:50',
+          youtubeId: 'wCpjaXPc3eI',
+          thumbnailUrl: 'https://img.youtube.com/vi/wCpjaXPc3eI/hqdefault.jpg'
         },
         {
-          title: '#Tsunami | Maritime & Boat Safety During Tsunami Alerts',
-          duration: '3:10',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#Tsunami | Coastal Community Drill & Survival Tactics',
-          duration: '5:00',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: 'NDMA INDIA Tsunami (Dost Appu- Hindi)',
+          duration: '4:15',
+          youtubeId: 'W7GHpxHpnzk',
+          thumbnailUrl: 'https://img.youtube.com/vi/W7GHpxHpnzk/hqdefault.jpg'
         }
       ]
     },
@@ -831,28 +825,22 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#सुनामी | तटीय चेतावनी संकेत और तत्काल सुरक्षित निकासी',
-          duration: '3:50',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          title: '#AapdaKaSaamna | Prevention, Safety & Response When A #Tsunami Strikes',
+          duration: '3:45',
+          youtubeId: 'qhC1GxLLG-M',
+          thumbnailUrl: 'https://img.youtube.com/vi/qhC1GxLLG-M/hqdefault.jpg'
         },
         {
-          title: '#सुनामी | इनकोइस (INCOIS) पूर्व चेतावनी प्रणाली और सायरन',
-          duration: '4:20',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          title: 'NDMA INDIA - Tsunami (are you ready)',
+          duration: '2:50',
+          youtubeId: 'wCpjaXPc3eI',
+          thumbnailUrl: 'https://img.youtube.com/vi/wCpjaXPc3eI/hqdefault.jpg'
         },
         {
-          title: '#सुनामी | नावों और मछुआरों के लिए समुद्री सुरक्षा निर्देश',
-          duration: '3:10',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#सुनामी | तटीय समुदायों के लिए जीवन रक्षा अभ्यास',
-          duration: '5:00',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: 'NDMA INDIA Tsunami (Dost Appu- Hindi)',
+          duration: '4:15',
+          youtubeId: 'W7GHpxHpnzk',
+          thumbnailUrl: 'https://img.youtube.com/vi/W7GHpxHpnzk/hqdefault.jpg'
         }
       ]
     }
