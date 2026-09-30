@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { AlertsBanner } from './components/common/AlertsBanner';
 import { EmergencyCallWidget } from './components/common/EmergencyCallWidget';
+import { OfficialPortalFooter } from './components/common/OfficialPortalFooter';
 import { ReportDetailModal } from './components/reports/ReportDetailModal';
 import { DashboardPage } from './pages/DashboardPage';
 import { IncidentCommandRoomPage } from './pages/IncidentCommandRoomPage';
@@ -227,18 +228,8 @@ export function App() {
       {/* Floating 112 Disaster Emergency Call Widget (Fixed Right Edge) */}
       <EmergencyCallWidget />
 
-      {/* National Platform Footer (Full Width) */}
-      <footer className="border-t border-slate-200 dark:border-slate-900 bg-white/80 dark:bg-slate-950/80 py-4 px-3 sm:px-6 lg:px-8 xl:px-10 text-xs text-slate-500 font-mono flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span>{t('footer_text')}</span>
-        </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-950/20 dark:bg-cyan-950/60 border border-cyan-500/30 text-cyan-600 dark:text-cyan-300 font-bold tracking-wide">
-          <span>{t('footer_crafted')}</span>
-        </div>
-        <div>
-          {t('footer_sub')}
-        </div>
-      </footer>
+      {/* Official Government & NDMA Portal Footer */}
+      <OfficialPortalFooter />
     </div>
   );
 }
