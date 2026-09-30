@@ -48,33 +48,38 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`p-3.5 sm:p-4 rounded-lg ${colorMap[colorTheme]} border backdrop-blur-sm shadow-xs flex flex-col justify-between transition-all select-none active:scale-[0.99] font-sans ${
+      className={`p-3 sm:p-3.5 rounded-xl ${colorMap[colorTheme]} border backdrop-blur-sm shadow-xs flex flex-col justify-between transition-all select-none active:scale-[0.99] font-sans overflow-hidden relative w-full ${
         onClick ? 'cursor-pointer group' : ''
       }`}
       title={onClick ? (actionLabel || `Click to inspect ${title}`) : undefined}
     >
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-[11px] font-bold text-slate-700 dark:text-slate-400 tracking-wider uppercase flex items-center gap-1 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
-          <span className="truncate">{title}</span>
+      <div className="flex items-start justify-between gap-1.5 mb-2 w-full min-w-0">
+        <div className="flex items-center gap-1 min-w-0 flex-1 text-[11px] font-bold text-slate-700 dark:text-slate-400 tracking-wider uppercase group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+          <span className="truncate leading-tight">{title}</span>
           {onClick && (
-            <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-slate-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+            <ArrowUpRight className="w-3 h-3 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
           )}
-        </span>
-        <div className={`p-1.5 sm:p-2 rounded-md ${iconBgMap[colorTheme]} group-hover:scale-105 transition-transform shrink-0 shadow-xs`}>
-          <Icon className="w-4 h-4" />
+        </div>
+        <div className={`p-1.5 rounded-lg ${iconBgMap[colorTheme]} group-hover:scale-105 transition-transform shrink-0 shadow-xs flex items-center justify-center`}>
+          <Icon className="w-3.5 h-3.5" />
         </div>
       </div>
-      <div className="mt-1">
+
+      <div className="mt-0.5 w-full min-w-0">
         <div 
-          className="text-3xl font-black tracking-tight tabular-nums font-sans"
+          className="text-2xl sm:text-3xl font-black tracking-tight tabular-nums font-sans truncate"
           style={{ color: isDark ? '#ffffff' : '#0f172a' }}
         >
           {value}
         </div>
-        <div className="flex items-center justify-between mt-1 text-xs gap-1 font-sans">
-          {subtext && <span className="text-slate-600 dark:text-slate-400 font-semibold truncate" title={subtext}>{subtext}</span>}
+        <div className="flex items-center justify-between mt-1 text-[11px] sm:text-xs gap-1.5 font-sans w-full min-w-0">
+          {subtext && (
+            <span className="text-slate-600 dark:text-slate-400 font-semibold truncate flex-1 min-w-0" title={subtext}>
+              {subtext}
+            </span>
+          )}
           {trend && (
-            <span className={`font-bold whitespace-nowrap shrink-0 ${
+            <span className={`font-bold whitespace-nowrap shrink-0 text-[10px] sm:text-[11px] ${
               trendPositive
                 ? 'text-emerald-700 dark:text-emerald-400'
                 : 'text-rose-700 dark:text-rose-400'
