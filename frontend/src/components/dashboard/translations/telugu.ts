@@ -189,28 +189,28 @@ export const teluguContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#వడగాల్పులు | వడదెబ్బ లక్షణాలు మరియు ప్రథమ చికిత్స',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | వేసవిలో మీ ఇంటిని చల్లగా ఎలా ఉంచుకోవాలి ? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#వడగాల్పులు | సాంప్రదాయ శీతల పానీయాలు మరియు ఆహార నియమాలు',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | నగరాల్లో వడగాల్పుల తీవ్రతను ఎలా తగ్గించాలి ? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#వడగాల్పులు | కూల్ రూఫ్స్ మరియు ఇంటిని చల్లగా ఉంచే పద్ధతులు',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | తీవ్రమైన ఎండలో నిరాశ్రయులకు ఎలా సహాయం చేయాలి ?',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#వడగాల్పులు | కార్మికులు మరియు శ్రామికుల ఆరోగ్య సూత్రాలు',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | కార్మికులు వడగాల్పుల నుండి తమను తాము ఎలా రక్షించుకోవాలి ? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },

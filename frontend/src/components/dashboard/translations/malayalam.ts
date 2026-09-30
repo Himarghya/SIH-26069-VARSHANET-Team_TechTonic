@@ -189,28 +189,28 @@ export const malayalamContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ഉഷ്ണതരംഗം | സൂര്യാഘാത ലക്ഷണങ്ങളും പ്രഥമശുശ്രൂഷയും',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | വേനൽക്കാലത്ത് വീട് എങ്ങനെ തണുപ്പിച്ചു നിർത്താം ? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#ഉഷ്ണതരംഗം | പരമ്പരാഗത പാനീയങ്ങളും ഭക്ഷണക്രമവും',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | നഗരങ്ങളിൽ ഉഷ്ണതരംഗത്തിന്റെ ആഘാതം എങ്ങനെ കുറയ്ക്കാം ? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#ഉഷ്ണതരംഗം | വീട് തണുപ്പിച്ചു നിർത്താനുള്ള തന്ത്രങ്ങൾ',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | കടുത്ത ചൂടിൽ ഭവനരഹിതരെയും തെരുവിലുള്ളവരെയും എങ്ങനെ സഹായിക്കാം ?',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#ഉഷ്ണതരംഗം | തൊഴിലാളികൾക്കുള്ള തൊഴിൽ സുരക്ഷാ മാർഗ്ഗനിർദ്ദേശങ്ങൾ',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | തൊഴിലാളികൾ ഉഷ്ണതരംഗത്തിൽ നിന്ന് സ്വയം എങ്ങനെ രക്ഷപ്പെടാം ? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },

@@ -189,28 +189,28 @@ export const bengaliContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#তাপপ্রবাহ | হিট স্ট্রোকের লক্ষণ ও প্রাথমিক প্রতিবিধান',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | গ্রীষ্মকালে ঘর কীভাবে ঠান্ডা রাখবেন ? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#তাপপ্রবাহ | শরীর ঠান্ডা রাখার পানীয় ও ডায়েট প্ল্যান',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | শহরে তাপপ্রবাহের প্রভাব কীভাবে হ্রাস করবেন ? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#তাপপ্রবাহ | ঘর প্রাকৃতিক উপায়ে শীতল রাখার পদ্ধতি',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | প্রচণ্ড গরমে গৃহহীন ও যাযাবর মানুষদের সহায়তা',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#তাপপ্রবাহ | শ্রমিক ও কর্মজীবী মানুষের স্বাস্থ্য সুরক্ষাবিধি',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | শ্রমিক ও কর্মজীবী মানুষ তাপপ্রবাহ থেকে কীভাবে বাঁচবেন ? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },

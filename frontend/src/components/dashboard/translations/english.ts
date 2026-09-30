@@ -191,28 +191,28 @@ export const englishContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#HeatWave | Heat Stroke Symptoms & First Aid',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | How To Keep Your House Cool During Summers? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#HeatWave | Traditional Hydration Drinks & Diet Plan',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | How To Reduce The Impact Of A Heatwave In Cities? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#HeatWave | Cool Roofs & Passive Indoor Cooling Techniques',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | How Nomads And Homeless Can Be Helped During A Heatwave?',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#HeatWave | Worker & Laborer Occupational Health Guidelines',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | How Can Outdoor Workers & Labourers Protect Themselves? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },

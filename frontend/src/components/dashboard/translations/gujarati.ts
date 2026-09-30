@@ -191,28 +191,28 @@ export const gujaratiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ગરમીનીલહેર | હીટ સ્ટ્રોકના લક્ષણો અને પ્રાથમિક સારવાર',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | ઉનાળામાં તમારા ઘરને ઠંડુ કેવી રીતે રાખવું ? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#ગરમીનીલહેર | પરંપરાગત પીણાં અને આહાર આયોજન',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | શહેરોમાં હીટવેવની અસર કેવી રીતે ઘટાડવી ? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#ગરમીનીલહેર | કૂલ રૂફ્સ અને ઘરને ઠંડુ રાખવાની પદ્ધતિ',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | ગરમીની લહેરમાં બેઘર અને વિચરતી જાતિઓની મદદ કેવી રીતે કરવી ?',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#ગરમીનીલહેર | શ્રમિકો અને ખેડૂતો માટે આરોગ્ય માર્ગદર્શિકા',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | શ્રમિકો અને કામદારો ગરમીની લહેરથી પોતાનું રક્ષણ કેવી રીતે કરે ? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },

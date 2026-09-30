@@ -189,28 +189,28 @@ export const marathiContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#उष्णतेचीलाट | उष्माघाताची लक्षणे आणि प्रथमोपचार',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | उन्हाळ्यात आपले घर थंड कसे ठेवावे ? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#उष्णतेचीलाट | पारंपरिक शीतपेये आणि आहार नियोजन',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | शहरांमध्ये उष्णतेच्या लाटेचा प्रभाव कसा कमी करावा ? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#उष्णतेचीलाट | कूल रूफ्स आणि नैसर्गिक शीतलता तंत्रे',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | तीव्र उष्णतेत बेघर आणि गरजूंना कशी मदत करावी ?',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#उष्णतेचीलाट | मजूर आणि कामगारांसाठी आरोग्य मार्गदर्शक तत्त्वे',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | कामगार आणि कष्टकरी उन्हापासून स्वतःचे संरक्षण कसे करू शकतात ? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },

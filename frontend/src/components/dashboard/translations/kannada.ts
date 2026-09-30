@@ -189,28 +189,28 @@ export const kannadaContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#ಬಿಸಿಗಾಳಿ | ಹೀಟ್ ಸ್ಟ್ರೋಕ್ ಲಕ್ಷಣಗಳು ಮತ್ತು ಪ್ರಥಮ ಚಿಕಿತ್ಸೆ',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | ಬೇಸಿಗೆಯಲ್ಲಿ ನಿಮ್ಮ ಮನೆಯನ್ನು ತಂಪಾಗಿಡುವುದು ಹೇಗೆ ? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#ಬಿಸಿಗಾಳಿ | ಸಾಂಪ್ರದಾಯಿಕ ತಂಪು ಪಾನೀಯಗಳು ಮತ್ತು ಆಹಾರ ಕ್ರಮ',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | ನಗರಗಳಲ್ಲಿ ಬಿಸಿಗಾಳಿಯ ಪರಿಣಾಮವನ್ನು ಕಡಿಮೆ ಮಾಡುವುದು ಹೇಗೆ ? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#ಬಿಸಿಗಾಳಿ | ಕೂಲ್ ರೂಫ್ಸ್ ಮತ್ತು ಮನೆ ತಂಪಾಗಿಡುವ ತಂತ್ರಗಳು',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | ಬಿಸಿಗಾಳಿಯ ಸಮಯದಲ್ಲಿ ನಿರಾಶ್ರಿತರು ಮತ್ತು ಅಗತ್ಯವಿರುವವರಿಗೆ ಸಹಾಯ',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#ಬಿಸಿಗಾಳಿ | ಕಾರ್ಮಿಕರು ಮತ್ತು ಕೆಲಸಗಾರರಿಗೆ ಆರೋಗ್ಯ ಮಾರ್ಗಸೂಚಿಗಳು',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | ಹೊರಾಂಗಣ ಕಾರ್ಮಿಕರು ಬಿಸಿಗಾಳಿಯಿಂದ ರಕ್ಷಿಸಿಕೊಳ್ಳುವುದು ಹೇಗೆ ? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },

@@ -189,28 +189,28 @@ export const tamilContent: Record<DisasterCategory, DosDontsData> = {
     ],
     videos: [
       {
-        title: '#வெப்பஅலை | வெப்ப பக்கவாத அறிகுறிகள் மற்றும் முதலுதவி',
-        duration: '3:20',
-        youtubeId: 'bA4A-q6u7n4',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | கோடையில் உங்கள் வீட்டை குளிர்ச்சியாக வைப்பது எப்படி ? | NDMA',
+        duration: '0:54',
+        youtubeId: 'PndkLH1tTWQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/PndkLH1tTWQ/hqdefault.jpg'
       },
       {
-        title: '#வெப்பஅலை | பாரம்பரிய குளிர்ச்சி பானங்கள் மற்றும் உணவுமுறை',
-        duration: '2:55',
-        youtubeId: '3eZ9aXo1n6k',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | நகரங்களில் வெப்ப அலையின் தாக்கத்தை குறைப்பது எப்படி ? | NDMA',
+        duration: '0:56',
+        youtubeId: 'W1iqMZC5gUk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W1iqMZC5gUk/hqdefault.jpg'
       },
       {
-        title: '#வெப்பஅலை | கூல் ரூஃப்ஸ் மற்றும் வீட்டை குளிர்ச்சியாக வைக்கும் வழிகள்',
-        duration: '4:40',
-        youtubeId: '43M5mZuz3JA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | கடுமையான வெயிலில் வீடற்ற மக்களுக்கு உதவுவது எப்படி ?',
+        duration: '0:52',
+        youtubeId: 'qBVXhX_xbYQ',
+        thumbnailUrl: 'https://img.youtube.com/vi/qBVXhX_xbYQ/hqdefault.jpg'
       },
       {
-        title: '#வெப்பஅலை | தொழிலாளர்களுக்கான தொழில்சார் சுகாதார நெறிமுறைகள்',
-        duration: '3:50',
-        youtubeId: 'OqjXl4r2GqA',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        title: '#Heatwave | தொழிலாளர்கள் வெப்ப அலையிலிருந்து தங்களை எவ்வாறு பாதுகாத்துக் கொள்வது ? | NDMA',
+        duration: '0:47',
+        youtubeId: 'WjUrCh3D0yA',
+        thumbnailUrl: 'https://img.youtube.com/vi/WjUrCh3D0yA/hqdefault.jpg'
       }
     ]
   },
