@@ -41,6 +41,7 @@ export const AllIndiaCapMapView: React.FC<AllIndiaCapMapViewProps> = ({
         maxBounds: indiaBounds,
         maxBoundsViscosity: 1.0,
         zoomControl: true,
+        scrollWheelZoom: false,
       });
 
       map.fitBounds(indiaBounds, { padding: [10, 10] });

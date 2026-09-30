@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, ShieldCheck, AlertTriangle, Play, Pause, FastForward, Anchor, LifeBuoy, Wind } from 'lucide-react';
+import { Layers, Radio, Globe, Compass, ExternalLink, ShieldAlert, CircleDot, CloudRain, Zap, Newspaper, Tag, Eye, Flame, Shield, ShieldCheck, AlertTriangle, Play, Pause, FastForward, Anchor, LifeBuoy, Wind, Plus, Minus, Target } from 'lucide-react';
 import { EventCluster, WeatherReport, DwrStation, ALL_INDIAN_STATES_UTS, INDIAN_STATE_COORDINATES } from '../../types';
 import { fetchDwrRadarGrid } from '../../services/api';
 import { useTheme } from '../../context/ThemeContext';
@@ -215,6 +215,7 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
         maxBounds: indiaBounds,
         maxBoundsViscosity: 0.95, // Smooth bounce-back boundary lock to India
         zoomControl: false,
+        scrollWheelZoom: false, // Prevent accidental zooming when scrolling down the page
       });
 
       map.fitBounds(indiaBounds, { padding: [12, 12] });
@@ -850,37 +851,59 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     });
   }, [events, selectedState, selectedEventId, showInundationZones, radarTimeline, onSelectEvent]);
 
-  // Camera auto-focus when dashboardFilter or events change
+  // Track previous filter and eventId to prevent jerky auto-moving on background data polling
+  const prevFilterRef = useRef(dashboardFilter);
+  const prevSelectedEventIdRef = useRef(selectedEventId);
+
+  // Camera focus ONLY when user explicitly changes filter or selects an event
   useEffect(() => {
     if (!mapInstanceRef.current) return;
 
-    if (dashboardFilter === 'ALL' || !dashboardFilter) {
-      mapInstanceRef.current.flyTo([22.0, 82.5], 5, { duration: 0.9 });
-      return;
-    }
-
-    if (events && events.length > 0) {
-      const validPoints = events
-        .filter(e => typeof e.latitude === 'number' && typeof e.longitude === 'number' && !isNaN(e.latitude) && !isNaN(e.longitude))
-        .map(e => [e.latitude, e.longitude] as [number, number]);
-
-      if (validPoints.length === 1) {
-        mapInstanceRef.current.flyTo(validPoints[0], 8, { duration: 0.9 });
-      } else if (validPoints.length > 1) {
-        const bounds = L.latLngBounds(validPoints);
-        mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 8, animate: true, duration: 0.9 });
-      }
-    } else if (reports && reports.length > 0) {
-      const validPoints = reports
-        .filter(r => typeof r.latitude === 'number' && typeof r.longitude === 'number' && !isNaN(r.latitude) && !isNaN(r.longitude))
-        .map(r => [r.latitude, r.longitude] as [number, number]);
-
-      if (validPoints.length > 0) {
-        const bounds = L.latLngBounds(validPoints);
-        mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 8, animate: true, duration: 0.9 });
+    // 1. If user explicitly clicked an event to inspect
+    if (selectedEventId && selectedEventId !== prevSelectedEventIdRef.current) {
+      prevSelectedEventIdRef.current = selectedEventId;
+      const targetEvent = events.find(e => e.id === selectedEventId);
+      if (targetEvent && typeof targetEvent.latitude === 'number' && typeof targetEvent.longitude === 'number') {
+        mapInstanceRef.current.flyTo([targetEvent.latitude, targetEvent.longitude], 8, { duration: 1.0 });
+        return;
       }
     }
-  }, [dashboardFilter, events]);
+    prevSelectedEventIdRef.current = selectedEventId;
+
+    // 2. If user explicitly changed the dashboard filter
+    if (dashboardFilter !== prevFilterRef.current) {
+      prevFilterRef.current = dashboardFilter;
+
+      if (dashboardFilter === 'ALL' || !dashboardFilter) {
+        const indiaSouthWest = L.latLng(5.5, 66.0);
+        const indiaNorthEast = L.latLng(37.8, 98.5);
+        mapInstanceRef.current.fitBounds(L.latLngBounds(indiaSouthWest, indiaNorthEast), { padding: [12, 12], animate: true, duration: 0.8 });
+        return;
+      }
+
+      if (events && events.length > 0) {
+        const validPoints = events
+          .filter(e => typeof e.latitude === 'number' && typeof e.longitude === 'number' && !isNaN(e.latitude) && !isNaN(e.longitude))
+          .map(e => [e.latitude, e.longitude] as [number, number]);
+
+        if (validPoints.length === 1) {
+          mapInstanceRef.current.flyTo(validPoints[0], 8, { duration: 0.8 });
+        } else if (validPoints.length > 1) {
+          const bounds = L.latLngBounds(validPoints);
+          mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 8, animate: true, duration: 0.8 });
+        }
+      } else if (reports && reports.length > 0) {
+        const validPoints = reports
+          .filter(r => typeof r.latitude === 'number' && typeof r.longitude === 'number' && !isNaN(r.latitude) && !isNaN(r.longitude))
+          .map(r => [r.latitude, r.longitude] as [number, number]);
+
+        if (validPoints.length > 0) {
+          const bounds = L.latLngBounds(validPoints);
+          mapInstanceRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 8, animate: true, duration: 0.8 });
+        }
+      }
+    }
+  }, [dashboardFilter, selectedEventId]);
 
   return (
     <div className="relative isolate z-0 w-full h-full rounded-2xl overflow-hidden shadow-md bg-slate-100 dark:bg-slate-950 flex flex-col font-sans">
@@ -1044,8 +1067,37 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
       {/* Leaflet Container */}
       <div ref={mapContainerRef} className="w-full flex-1 min-h-0" />
 
+      {/* Floating Zoom & Pan Controls */}
+      <div className="absolute top-20 right-3 z-[400] flex flex-col gap-1 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-1 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl pointer-events-auto">
+        <button
+          onClick={() => mapInstanceRef.current?.zoomIn()}
+          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer"
+          title="Zoom In"
+        >
+          <Plus className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => mapInstanceRef.current?.zoomOut()}
+          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer"
+          title="Zoom Out"
+        >
+          <Minus className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => {
+            const indiaSouthWest = L.latLng(5.5, 66.0);
+            const indiaNorthEast = L.latLng(37.8, 98.5);
+            mapInstanceRef.current?.fitBounds(L.latLngBounds(indiaSouthWest, indiaNorthEast), { padding: [12, 12] });
+          }}
+          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer border-t border-slate-200 dark:border-slate-800"
+          title="Reset to Pan-India View"
+        >
+          <Target className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+        </button>
+      </div>
+
       {/* DWR Radar Reflectivity dBZ Scale Legend */}
-      <div className="absolute top-28 sm:top-auto sm:bottom-3 right-3 z-[400] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-[9px] space-y-1 shadow-xl pointer-events-auto">
+      <div className="absolute top-44 sm:top-auto sm:bottom-3 right-3 z-[400] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-[9px] space-y-1 shadow-xl pointer-events-auto">
         <span className="font-bold text-slate-700 dark:text-slate-300 block uppercase tracking-wider text-[8px]">DWR Radar (dBZ)</span>
         <div className="flex items-center gap-1 font-mono">
           <span className="px-1 py-0.2 rounded bg-emerald-700 text-white font-bold text-[8px] sm:text-[9px]">15-25</span>
