@@ -43,17 +43,17 @@ interface DosDontsData {
 }
 
 const CATEGORY_NAMES: Record<DisasterCategory, Partial<Record<LanguageCode, string>>> = {
-  'Cyclones': { 'English': 'Cyclones', 'हिन्दी': 'चक्रवात (Cyclones)', 'বাংলা': 'ঘূর্ণিঝড়', 'ગુજરાતી': 'વાવાઝોડું', 'मराठी': 'चक्रीवादळ', 'தமிழ்': 'புயல்' },
-  'Tsunamis': { 'English': 'Tsunamis', 'हिन्दी': 'सुनामी (Tsunamis)', 'বাংলা': 'সুনামি', 'ગુજરાતી': 'સુનામી', 'मराठी': 'सुनामी', 'தமிழ்': 'சுனாமி' },
-  'Avalanches': { 'English': 'Avalanches', 'हिन्दी': 'हिमस्खलन (Avalanches)', 'বাংলা': 'হিমবাহ ধস', 'ગુજરાતી': 'બરફનું સ્ખલન', 'मराठी': 'हिमस्खलन', 'தமிழ்': 'பனிச்சரிவு' },
-  'Cold Wave': { 'English': 'Cold Wave', 'हिन्दी': 'शीतलहर (Cold Wave)', 'বাংলা': 'শৈত্যপ্রবাহ', 'ગુજરાતી': 'શીત લહેર', 'मराठी': 'थंडीची लाट', 'தமிழ்': 'குளிரலை' },
-  'Heat Waves': { 'English': 'Heat Waves', 'हिन्दी': 'लू (Heat Waves)', 'বাংলা': 'তাপপ্রবাহ', 'ગુજરાતી': 'ગરમીની લહેર', 'मराठी': 'उष्णतेची लाट', 'தமிழ்': 'வெப்ப அலை' },
-  'Lightning': { 'English': 'Lightning', 'हिन्दी': 'आकाशीय बिजली (Lightning)', 'বাংলা': 'বজ্রপাত', 'ગુજરાતી': 'વીજળી', 'मराठी': 'वीज पडणे', 'தமிழ்': 'மின்னல்' },
-  'Floods': { 'English': 'Floods', 'हिन्दी': 'बाढ़ (Floods)', 'বাংলা': 'বন্যা', 'ગુજરાતી': 'પૂર', 'मराठी': 'पूर', 'தமிழ்': 'வெள்ளம்' },
-  'Earthquakes': { 'English': 'Earthquakes', 'हिन्दी': 'भूकंप (Earthquakes)', 'বাংলা': 'ভূমিকম্প', 'ગુજરાતી': 'ધરતીકંપ', 'मराठी': 'भूकंप', 'தமிழ்': 'நிலநடுக்கம்' },
-  'Urban Floods': { 'English': 'Urban Floods', 'हिन्दी': 'शहरी बाढ़ (Urban Floods)', 'বাংলা': 'শহুরে বন্যা', 'ગુજરાતી': 'શહેરી પૂર', 'मराठी': 'शहरी पूर', 'தமிழ்': 'நகர்ப்புற வெள்ளம்' },
-  'Landslides': { 'English': 'Landslides', 'हिन्दी': 'भूस्खलन (Landslides)', 'বাংলা': 'ভূমিধস', 'ગુજરાતી': 'જમીન ધસી પડવી', 'मराठी': 'दरड कोसळणे', 'தமிழ்': 'நிலச்சரிவு' },
-  'Cloudbursts': { 'English': 'Cloudbursts', 'हिन्दी': 'बादल फटना (Cloudbursts)', 'বাংলা': 'মেঘভাঙা বৃষ্টি', 'ગુજરાતી': 'વાદળ ફાટવું', 'मराठी': 'ढगफुटी', 'தமிழ்': 'மேகவெடிப்பு' }
+  'Cyclones': { 'English': 'Cyclones', 'हिन्दी': 'चक्रवात (Cyclones)', 'বাংলা': 'ঘূর্ণিঝড় (Cyclones)', 'ગુજરાતી': 'વાવાઝોડું', 'मराठी': 'चक्रीवादळ', 'தமிழ்': 'புயல்' },
+  'Tsunamis': { 'English': 'Tsunamis', 'हिन्दी': 'सुनामी (Tsunamis)', 'বাংলা': 'সুনামি (Tsunamis)', 'ગુજરાતી': 'સુનામી', 'मराठी': 'सुनामी', 'தமிழ்': 'சுனாமி' },
+  'Avalanches': { 'English': 'Avalanches', 'हिन्दी': 'हिमस्खलन (Avalanches)', 'বাংলা': 'হিমবাহ ধস (Avalanches)', 'ગુજરાતી': 'બરફનું સ્ખલન', 'मराठी': 'हिमस्खलन', 'தமிழ்': 'பனிச்சரிவு' },
+  'Cold Wave': { 'English': 'Cold Wave', 'हिन्दी': 'शीतलहर (Cold Wave)', 'বাংলা': 'শৈত্যপ্রবাহ (Cold Wave)', 'ગુજરાતી': 'શીત લહેર', 'मराठी': 'थंडीची लाट', 'தமிழ்': 'குளிரலை' },
+  'Heat Waves': { 'English': 'Heat Waves', 'हिन्दी': 'लू (Heat Waves)', 'বাংলা': 'তাপপ্রবাহ (Heat Waves)', 'ગુજરાતી': 'ગરમીની લહેર', 'मराठी': 'उष्णतेची लाट', 'தமிழ்': 'வெப்ப அலை' },
+  'Lightning': { 'English': 'Lightning', 'हिन्दी': 'आकाशीय बिजली (Lightning)', 'বাংলা': 'বজ্রপাত (Lightning)', 'ગુજરાતી': 'વીજળી', 'मराठी': 'वीज पडणे', 'தமிழ்': 'மின்னல்' },
+  'Floods': { 'English': 'Floods', 'हिन्दी': 'बाढ़ (Floods)', 'বাংলা': 'বন্যা (Floods)', 'ગુજરાતી': 'પૂર', 'मराठी': 'पूर', 'தமிழ்': 'வெள்ளம்' },
+  'Earthquakes': { 'English': 'Earthquakes', 'हिन्दी': 'भूकंप (Earthquakes)', 'বাংলা': 'ভূমিকম্প (Earthquakes)', 'ગુજરાતી': 'ધરતીકંપ', 'मराठी': 'भूकंप', 'தமிழ்': 'நிலநடுக்கம்' },
+  'Urban Floods': { 'English': 'Urban Floods', 'हिन्दी': 'शहरी बाढ़ (Urban Floods)', 'বাংলা': 'শহুরে বন্যা (Urban Floods)', 'ગુજરાતી': 'શહેરી પૂર', 'मराठी': 'शहरी पूर', 'தமிழ்': 'நகர்ப்புற வெள்ளம்' },
+  'Landslides': { 'English': 'Landslides', 'हिन्दी': 'भूस्खलन (Landslides)', 'বাংলা': 'ভূমিধস (Landslides)', 'ગુજરાતી': 'જમીન ધસી પડવી', 'मराठी': 'दरड कोसळणे', 'தமிழ்': 'நிலச்சரிவு' },
+  'Cloudbursts': { 'English': 'Cloudbursts', 'हिन्दी': 'बादल फटना (Cloudbursts)', 'বাংলা': 'মেঘভাঙা বৃষ্টি (Cloudbursts)', 'ગુજરાતી': 'વાદળ ફાટવું', 'मराठी': 'ढगफुटी', 'தமிழ்': 'மேகவெடிப்பு' }
 };
 
 const UI_TEXT: Record<string, {
@@ -88,11 +88,11 @@ const UI_TEXT: Record<string, {
   },
   'বাংলা': {
     dosAndDonts: "করণীয় ও বর্জনীয় (Dos and Don'ts)",
-    eventsLabel: "দুর্যোগসমূহ:",
-    searchPlaceholder: "দুর্যোগ খুঁজুন...",
+    eventsLabel: "দুর্যোগসমূহ (Events):",
+    searchPlaceholder: "দুর্যোগ অনুসন্ধান করুন...",
     beforePrefix: "দুর্যোগের পূর্বে (BEFORE)",
     duringAfterPrefix: "চলাকালীন ও পরে (DURING & AFTER)",
-    videoSection: "ভিডিও নির্দেশিকা (Video Section)",
+    videoSection: "ভিডিও সুরক্ষা নির্দেশিকা (Video Section)",
     officialSafety: "সরকারি এনডিএমএ সুরক্ষা",
     footerNotice: "জাতীয় দুর্যোগ ব্যবস্থাপনা কর্তৃপক্ষ (NDMA) নাগরিক সুরক্ষা নির্দেশাবলী"
   }
@@ -333,6 +333,51 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
           thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
         }
       ]
+    },
+    'বাংলা': {
+      title: 'বন্যা (FLOODS)',
+      beforeTitle: 'বন্যার আগে (BEFORE FLOODS)',
+      duringAfterTitle: 'বন্যার সময় ও পরে (DURING & AFTER FLOODS)',
+      before: [
+        'আপনার এলাকার বন্যার ইতিহাস এবং নিরাপদ উঁচু স্থানান্তর পথের সম্পূর্ণ তথ্য জেনে রাখুন।',
+        'বাড়ির চারপাশের নিকাশি নালা আবর্জনা ও প্লাস্টিকমুক্ত রাখুন।',
+        'বৈদ্যুতিক সরঞ্জাম, রান্নার গ্যাস সিলিন্ডার এবং মূল্যবান জিনিসপত্র সম্ভাব্য জলস্তর থেকে উঁচুতে রাখুন।',
+        'বিশুদ্ধ পানীয় জল, শুকনো খাবার, টর্চ এবং প্রয়োজনীয় ওষুধসহ একটি জরুরি ব্যাগ তৈরি রাখুন।',
+        'মোবাইল ফোন ও পাওয়ার ব্যাঙ্ক চার্জ রাখুন; ব্যাটারি চালিত রেডিও সঙ্গে রাখুন।'
+      ],
+      duringAfter: [
+        'প্রবাহিত বন্যার জলের মধ্য দিয়ে হাঁটা, সাঁতার কাটা বা গাড়ি চালানোর চেষ্টা করবেন না — মাত্র ৬ ইঞ্চি স্রোতের জল আপনাকে ভাসিয়ে দিতে পারে।',
+        'বিদ্যুতের খুঁটি, ছিঁড়ে পড়া তার এবং জলে নিমজ্জিত ট্রান্সফরমার থেকে নিরাপদ দূরত্ব বজায় রাখুন।',
+        'জলবাহিত রোগ প্রতিরোধ করতে শুধুমাত্র ফোটানো বা ক্লোরিনযুক্ত বিশুদ্ধ জল পান করুন।',
+        'বন্যার জলের সংস্পর্শে আসা কোনো খাদ্যসামগ্রী গ্রহণ করবেন না।',
+        'উদ্ধার অভিযানের সময় এনডিআরএফ (NDRF), এসডিআরএফ (SDRF) এবং স্থানীয় প্রশাসনকে পূর্ণ সহযোগিতা করুন।'
+      ],
+      videos: [
+        {
+          title: '#বন্যা | বন্যার আগে ও চলাকালীন নাগরিক সুরক্ষাবিধি',
+          duration: '4:15',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#বন্যা | প্লাবিত রাস্তায় গাড়ি চালাবেন না',
+          duration: '2:30',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#বন্যা | বন্যা পরবর্তী স্বাস্থ্যবিধি ও পানীয় জল বিশুদ্ধকরণ',
+          duration: '3:50',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#বন্যা | গবাদি পশু ও সম্পত্তির সুরক্ষা নির্দেশিকা',
+          duration: '4:40',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
     }
   },
   'Urban Floods': {
@@ -416,6 +461,49 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
         },
         {
           title: '#शहरीबाढ़ | वर्षा जल संचयन और शहर की जल निकासी',
+          duration: '5:20',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
+    },
+    'বাংলা': {
+      title: 'শহুরে বন্যা ও জলমগ্নতা (URBAN FLOODS)',
+      beforeTitle: 'শহুরে বন্যার আগে (BEFORE URBAN FLOODS)',
+      duringAfterTitle: 'শহুরে বন্যার সময় ও পরে (DURING & AFTER URBAN FLOODS)',
+      before: [
+        'বাড়ির সম্পূর্ণ প্রাঙ্গণ কংক্রিট করবেন না; ভূগর্ভস্থ জল প্রবেশের জন্য কিছুটা কাঁচা মাটি রাখুন।',
+        'পৌরসভার নিকাশি আপডেট লক্ষ্য করুন এবং ভারী বৃষ্টির সময় আন্ডারপাস দিয়ে চলাচল এড়িয়ে চলুন।',
+        'বেসমেন্টে থাকা জল নিষ্কাশন পাম্প এবং ব্যাকফ্লো প্রিভেন্টার ভালভ কার্যকর আছে কিনা পরীক্ষা করুন।',
+        'ভারী বৃষ্টির সতর্কবার্তা থাকাকালীন আন্ডারগ্রাউন্ড বেসমেন্ট বা নিচু রাস্তায় গাড়ি পার্ক করবেন না।'
+      ],
+      duringAfter: [
+        'জলমগ্ন সাবওয়ে, আন্ডারপাস এবং বেসমেন্ট পার্কিংয়ে যাওয়া থেকে বিরত থাকুন।',
+        'বন্যার জলের নিচে লুকানো খোলা ম্যানহোল এবং নর্দমা থেকে সতর্ক থাকুন।',
+        'ঘরের ভেতর জল ঢুকতে শুরু করলে অবিলম্বে প্রধান বৈদ্যুতিক সুইচ (Main Switch) বন্ধ করে দিন।',
+        'ট্র্যাফিক পুলিশ ও দুর্যোগ ব্যবস্থাপনা কর্তৃপক্ষ নির্দেশিত উঁচু বিকল্প পথ ব্যবহার করুন।'
+      ],
+      videos: [
+        {
+          title: '#শহুরেবন্যা | বর্ষায় শহরের জলমগ্ন রাস্তায় চলাচলের নিয়ম',
+          duration: '3:10',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#শহুরেবন্যা | খোলা ম্যানহোল ও বৈদ্যুতিক বিপদ',
+          duration: '2:45',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#শহুরেবন্যা | বেসমেন্ট জল নিষ্কাশন ও পাম্প ব্যবস্থাপনা',
+          duration: '4:00',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#শহুরেবন্যা | বৃষ্টির জল সংরক্ষণ ও নিকাশি ব্যবস্থা',
           duration: '5:20',
           youtubeId: '3eZ9aXo1n6k',
           thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
@@ -509,6 +597,49 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
           thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
         }
       ]
+    },
+    'বাংলা': {
+      title: 'বজ্রপাত ও ঝড়বৃষ্টি (LIGHTNING)',
+      beforeTitle: 'বজ্রপাতের আগে (BEFORE LIGHTNING)',
+      duringAfterTitle: 'বজ্রপাতের সময় ও পরে (DURING & AFTER LIGHTNING)',
+      before: [
+        'বাইরে বের হওয়ার আগে দামিনী (DAMINI) ও বর্ষানেট (VARSHANET) বজ্রপাত পূর্বাভাস দেখে নিন।',
+        'উঁচু ভবনে সুরক্ষার জন্য বজ্র নিরোধক দণ্ড (Lightning Arrester) স্থাপন করুন।',
+        'ঝড়বৃষ্টি শুরু হওয়ার আগেই সংবেদনশীল বৈদ্যুতিক যন্ত্রপাতির প্লাগ খুলে রাখুন।'
+      ],
+      duringAfter: [
+        '৩০-৩০ নিয়ম মেনে চলুন: বিদ্যুৎ চমকানো ও মেঘের গর্জনের ব্যবধান ৩০ সেকেন্ডের কম হলে অবিলম্বে পাকা আশ্রয়ে যান।',
+        'খোলা মাঠে একাকী দাঁড়িয়ে থাকা উঁচু গাছ বা টিনের শেডের নিচে কখনোই আশ্রয় নেবেন না।',
+        'খোলা জায়গায় আটকা পড়লে পায়ের আঙুলে ভর দিয়ে মাথা নিচু করে কান ঢেকে বসুন (Lightning Crouch)।',
+        'পুকুর, নদী, ধাতব বেড়া, ট্র্যাক্টর এবং সাইকেল থেকে অবিলম্বে দূরে সরে যান।',
+        'বজ্রাহত ব্যক্তিকে অবিলম্বে কৃত্রিম শ্বাস-প্রশ্বাস (CPR) ও প্রাথমিক চিকিৎসা দিন; তাদের শরীরে কোনো বিদ্যুৎ থাকে না।'
+      ],
+      videos: [
+        {
+          title: '#বজ্রপাত | ৩০-৩০ নিয়ম ও বাঁচার সঠিক ভঙ্গি',
+          duration: '3:20',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#বজ্রপাত | কৃষকদের জন্য খোলা মাঠে সুরক্ষাবিধি',
+          duration: '4:10',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#বজ্রপাত | আহত ব্যক্তির জরুরি প্রাথমিক চিকিৎসা ও সিপিআর',
+          duration: '3:40',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#বজ্রপাত | ভবনে বজ্র নিরোধক ব্যবস্থা',
+          duration: '5:00',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
     }
   },
   'Heat Waves': {
@@ -592,6 +723,49 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
         },
         {
           title: '#लू | बुजुर्गों, बच्चों और श्रमिकों की सुरक्षा',
+          duration: '4:50',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
+    },
+    'বাংলা': {
+      title: 'তাপপ্রবাহ ও লু (HEAT WAVES)',
+      beforeTitle: 'তাপপ্রবাহের আগে (BEFORE HEAT WAVES)',
+      duringAfterTitle: 'তাপপ্রবাহের সময় ও পরে (DURING & AFTER HEAT WAVES)',
+      before: [
+        'আবহাওয়া দপ্তরের দৈনিক তাপমাত্রা এবং তাপপ্রবাহের সতর্কবার্তা নিয়মিত লক্ষ্য করুন।',
+        'ওআরএস (ORS) এবং দেশীয় পানীয় (লেবুর জল, ছাতুর শরবত, ডাবের জল, কাঁচা আমের শরবত) মজুত রাখুন।',
+        'রোদ আসা জানলায় পর্দা বা তাপ প্রতিরোধী আচ্ছাদন ব্যবহার করুন।'
+      ],
+      duringAfter: [
+        'বেলা ১২:০০ টা থেকে বিকেল ৩:৩০ টা পর্যন্ত সরাসরি তীব্র রোদে বের হওয়া এড়িয়ে চলুন।',
+        'তৃষ্ণা না পেলেও ঘন ঘন পর্যাপ্ত জল এবং তরল পানীয় পান করুন।',
+        'হালকা রঙের ঢিলেঢালা সুতির পোশাক পরুন এবং বাইরে বের হলে টুপি বা ছাতা ব্যবহার করুন।',
+        'বন্ধ গাড়িতে শিশু বা পোষ্যকে কখনোই একা ফেলে রাখবেন না।',
+        'সানস্ট্রোক হলে রোগীকে অবিলম্বে ছায়াযুক্ত ঠান্ডা স্থানে নিয়ে যান, ভেজা কাপড়ে গা মুছিয়ে দিন এবং ওআরএস খাওয়ান।'
+      ],
+      videos: [
+        {
+          title: '#তাপপ্রবাহ | সানস্ট্রোক প্রতিরোধ ও সুরক্ষাবিধি',
+          duration: '3:30',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#তাপপ্রবাহ | দেশীয় স্বাস্থ্যকর পানীয় ও সতর্কতা',
+          duration: '4:05',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#তাপপ্রবাহ | সানস্ট্রোকের জরুরি প্রাথমিক চিকিৎসা',
+          duration: '2:55',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#তাপপ্রবাহ | প্রবীণ ও শিশুদের বিশেষ যত্ন',
           duration: '4:50',
           youtubeId: 'bA4A-q6u7n4',
           thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
@@ -683,6 +857,48 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
           thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
         }
       ]
+    },
+    'বাংলা': {
+      title: 'শৈত্যপ্রবাহ (COLD WAVE)',
+      beforeTitle: 'শৈত্যপ্রবাহের আগে (BEFORE COLD WAVE)',
+      duringAfterTitle: 'শৈত্যপ্রবাহের সময় ও পরে (DURING & AFTER COLD WAVE)',
+      before: [
+        'শীতের জন্য পর্যাপ্ত গরম পোশাক, কম্বল ও নিরাপদ ঘর গরম রাখার ব্যবস্থা প্রস্তুত রাখুন।',
+        'জলের পাইপলাইন বরফে জমে যাওয়া থেকে রক্ষা করতে যথাযথ নিরোধক ব্যবস্থা নিন।',
+        'ঠান্ডা লাগা, কাশি এবং প্রয়োজনীয় জরুরি ওষুধের মজুত আগে থেকেই রাখুন।'
+      ],
+      duringAfter: [
+        'একটি মোটা কাপড়ের পরিবর্তে একাধিক স্তরের (Layers) ঢিলেঢালা গরম পোশাক পরুন।',
+        'বাইরে বের হওয়ার সময় মাথা, কান, গলা, হাত ও পা ভালো করে ঢেকে রাখুন।',
+        'ঘরের ভেতর কয়লার উনুন বা হিটার ব্যবহারের সময় পর্যাপ্ত বাতাস চলাচলের ব্যবস্থা রাখুন যাতে বিষাক্ত গ্যাস না জমে।',
+        'গৃহপালিত পশু ও পোষ্যদের ঠান্ডার হাত থেকে বাঁচাতে শুকনো ও গরম আশ্রয়ে রাখুন।'
+      ],
+      videos: [
+        {
+          title: '#শৈত্যপ্রবাহ | হাইপোথার্মিয়া প্রতিরোধ ও শীতের সুরক্ষা',
+          duration: '3:15',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#শৈত্যপ্রবাহ | নিরাপদ হিটিং ও কার্বন মনোক্সাইড বিষক্রিয়া প্রতিরোধ',
+          duration: '4:30',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#শৈত্যপ্রবাহ | ফসল ও গবাদি পশুর সুরক্ষা',
+          duration: '3:45',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#শৈত্যপ্রবাহ | প্রবীণ ও শিশুদের বিশেষ সতর্কতা',
+          duration: '5:00',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
     }
   },
   'Earthquakes': {
@@ -769,6 +985,48 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
           thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
         }
       ]
+    },
+    'বাংলা': {
+      title: 'ভূমিকম্প (EARTHQUAKES)',
+      beforeTitle: 'ভূমিকম্পের আগে (BEFORE EARTHQUAKE)',
+      duringAfterTitle: 'ভূমিকম্পের সময় ও পরে (DURING & AFTER EARTHQUAKE)',
+      before: [
+        'ভারী আলমারি, শোকেস ও ওয়াটার হিটার দেওয়ালের সঙ্গে শক্তভাবে বেঁধে রাখুন।',
+        'বাড়ির প্রতিটি ঘরে মজবুত টেবিলের নিচে বা ভেতরের দেওয়ালের পাশে নিরাপদ স্থান চিহ্নিত করে রাখুন।',
+        'পরিবারের জরুরি মিলনস্থল ঠিক করে রাখুন এবং দুর্যোগকালীন সুরক্ষা কিট তৈরি রাখুন।'
+      ],
+      duringAfter: [
+        'ঝুঁকুন, ঢাকুন ও ধরে রাখুন (DROP, COVER & HOLD ON): মেঝেতে বসে মজবুত টেবিলের নিচে মাথা ঢাকুন এবং শক্ত করে ধরে থাকুন।',
+        'ঘরের ভেতর থাকলে কাঁপুনি না থামা পর্যন্ত ভেতরেই থাকুন। কখনোই লিফট ব্যবহার করবেন না।',
+        'বাইরে থাকলে বহুতল ভবন, বিদ্যুতের তার এবং বড় গাছপালা থেকে দূরে খোলা মাঠে চলে যান।',
+        'পরবর্তী মৃদু কম্পনের (Aftershocks) জন্য প্রস্তুত থাকুন। গ্যাস লিক পরীক্ষা করুন এবং মেইন সুইচ বন্ধ রাখুন।'
+      ],
+      videos: [
+        {
+          title: '#ভূমিকম্প | ঝুঁকুন, ঢাকুন ও ধরে রাখুন সঠিক মহড়া',
+          duration: '2:40',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#ভূমিকম্প | বাড়ির কাঠামো ও আসবাবপত্রের সুরক্ষা',
+          duration: '4:15',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#ভূমিকম্প | ভূমিকম্প পরবর্তী বিদ্যুৎ ও গ্যাস পরীক্ষা',
+          duration: '3:30',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#ভূমিকম্প | কমিউনিটি উদ্ধার ও প্রাথমিক চিকিৎসা',
+          duration: '5:20',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
     }
   },
   'Tsunamis': {
@@ -822,6 +1080,42 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
         'समुद्र का पानी पीछे हटने का नजारा देखने या मछली पकड़ने समुद्र तट पर कभी न जाएं।',
         'याद रखें: सुनामी कई लहरों की श्रृंखला होती है और पहली लहर सबसे बड़ी नहीं होती।',
         'जब तक इनकोइस (INCOIS) या एनडीएमए द्वारा आधिकारिक ऑल-क्लियर न मिले, ऊंचे स्थान पर ही रहें।'
+      ],
+      videos: [
+        {
+          title: '#AapdaKaSaamna | Prevention, Safety & Response When A #Tsunami Strikes',
+          duration: '3:45',
+          youtubeId: 'qhC1GxLLG-M',
+          thumbnailUrl: 'https://img.youtube.com/vi/qhC1GxLLG-M/hqdefault.jpg'
+        },
+        {
+          title: 'NDMA INDIA - Tsunami (are you ready)',
+          duration: '2:50',
+          youtubeId: 'wCpjaXPc3eI',
+          thumbnailUrl: 'https://img.youtube.com/vi/wCpjaXPc3eI/hqdefault.jpg'
+        },
+        {
+          title: 'NDMA INDIA Tsunami (Dost Appu- Hindi)',
+          duration: '4:15',
+          youtubeId: 'W7GHpxHpnzk',
+          thumbnailUrl: 'https://img.youtube.com/vi/W7GHpxHpnzk/hqdefault.jpg'
+        }
+      ]
+    },
+    'বাংলা': {
+      title: 'সুনামি (TSUNAMIS)',
+      beforeTitle: 'সুনামির আগে (BEFORE TSUNAMIS)',
+      duringAfterTitle: 'সুনামির সময় ও পরে (DURING & AFTER TSUNAMIS)',
+      before: [
+        'উপকূলবর্তী এলাকার সুনামি ঝুঁকিপূর্ণ স্থান এবং উঁচু স্থানান্তর পথের তথ্য জেনে রাখুন।',
+        'প্রাকৃতিক সতর্ক সংকেত চিনুন: তীব্র উপকূলীয় ভূমিকম্প বা হঠাৎ সমুদ্রের জল অস্বাভাবিকভাবে পিছিয়ে যাওয়া।',
+        'সমুদ্র উপকূল থেকে দূরে এবং সমুদ্রপৃষ্ঠ থেকে কমপক্ষে ৩০ মিটার উঁচু নিরাপদ আশ্রয়স্থলের নকশা মনে রাখুন।'
+      ],
+      duringAfter: [
+        'উপকূলবর্তী এলাকায় তীব্র ভূমিকম্প অনুভূত হলে কোনো সতর্কবার্তার অপেক্ষা না করে অবিলম্বে পায়ে হেঁটে উঁচু স্থানে যান।',
+        'समुद्रের জল পিছিয়ে যাওয়ার দৃশ্য দেখতে বা মাছ ধরতে কখনোই সমুদ্র সৈকতে যাবেন না।',
+        'মনে রাখবেন: সুনামি একাধিক ঢেউয়ের একটি ধারাবাহিক ধারা এবং প্রথম ঢেউটি সবচেয়ে বড় নাও হতে পারে।',
+        'যতক্ষণ না ইনকয়েস (INCOIS) বা এনডিএমএ (NDMA) থেকে অল-ক্লিয়ার বার্তা আসে, ততক্ষণ উঁচু নিরাপদ স্থানেই থাকুন।'
       ],
       videos: [
         {
@@ -927,6 +1221,47 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
           thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
         }
       ]
+    },
+    'বাংলা': {
+      title: 'হিমবাহ ধস ও তুষারধস (AVALANCHES)',
+      beforeTitle: 'হিমবাহ ধসের আগে (BEFORE AVALANCHES)',
+      duringAfterTitle: 'হিমবাহ ধসের সময় ও পরে (DURING & AFTER AVALANCHES)',
+      before: [
+        'পার্বত্য অঞ্চলে ভ্রমণের আগে সাসে (SASE/DGRE) বুলেটিন এবং তুষারধসের পূর্বাভাস জেনে নিন।',
+        'সঙ্গে অ্যাভালাঞ্চ ট্রান্সিভার বীকন, স্নো প্রোব ও পোর্টেবল বেলচা রাখুন।',
+        'দলে ভ্রমণ করুন কিন্তু ঝুঁকিপূর্ণ বরফের ঢাল একজন একজন করে পার হন।'
+      ],
+      duringAfter: [
+        'তুষারধসের কবলে পড়লে স্কি ও ভারী সরঞ্জাম ফেলে বরফের উপর সাঁতার কাটার মতো হাত-পা চালান।',
+        'বরফের গতি থামার আগেই মুখের সামনে হাত রেখে একটি ফাঁপা বায়ু পকেট (Air Pocket) তৈরি করুন।',
+        'অক্সিজেন বাঁচাতে শান্ত থাকুন এবং উদ্ধারকারী দলের অনুসন্ধান সংকেত শোনার চেষ্টা করুন।'
+      ],
+      videos: [
+        {
+          title: '#হিমবাহধস | উচ্চ পর্বত অঞ্চলে জীবন রক্ষা ও এয়ার পকেট কৌশল',
+          duration: '4:00',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#হিমবাহধস | সাসে সতর্কতা সংকেত ও বীকন ব্যবস্থাপনা',
+          duration: '3:30',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#হিমবাহধস | পাহাড়ি বরফাবৃত রাস্তায় গাড়ি চালানোর সতর্কতা',
+          duration: '2:50',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#হিমবাহধস | উদ্ধারকারী দলের অনুসন্ধান কৌশল',
+          duration: '5:15',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
     }
   },
   'Landslides': {
@@ -1011,6 +1346,47 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
           thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
         }
       ]
+    },
+    'বাংলা': {
+      title: 'ভূমিধস (LANDSLIDES)',
+      beforeTitle: 'ভূমিধসের আগে (BEFORE LANDSLIDES)',
+      duringAfterTitle: 'ভূমিধসের সময় ও পরে (DURING & AFTER LANDSLIDES)',
+      before: [
+        'মাটির ক্ষয়রোধ করতে পাহাড়ের ঢালে গভীর শিকড়যুক্ত গাছপালা রোপণ করুন।',
+        'ভূমিধসের পূর্বলক্ষণ লক্ষ্য করুন: জানলা-দরজা আটকে যাওয়া, গাছ হেলে পড়া বা মাটিতে নতুন ফাটল ধরা।',
+        'পাহাড়ি নিকাশি খাতের মুখে বা খাড়া ঢালে বাড়ি তৈরি করা থেকে বিরত থাকুন।'
+      ],
+      duringAfter: [
+        'টানা ভারী বৃষ্টির সময় সতর্ক থাকুন; মাটি গর্জন করার শব্দ বা নদীর জল হঠাৎ ঘোলাটে হলে সাবধান হোন।',
+        'পাথর বা কাদার স্রোত নামতে দেখলে অবিলম্বে নিরাপদ ও স্থিতিশীল পাহাড়ি রিজের দিকে চলে যান।',
+        'বিআরও (BRO) বা প্রশাসনের অনুমতি ছাড়া ধস কবলিত রাস্তা দিয়ে যাতায়াত করবেন না।'
+      ],
+      videos: [
+        {
+          title: '#ভূমিধস | পাহাড়ি ঢালে ভূমিধসের আগাম লক্ষণ',
+          duration: '3:45',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#ভূমিধস | পাহাড়ি রাস্তায় গাড়ি চলাচলের বিশেষ সতর্কতা',
+          duration: '4:10',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#ভূমিধস | বায়ো-ইঞ্জিনিয়ারিং পদ্ধতিতে ঢাল সুরক্ষা',
+          duration: '3:20',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#ভূমিধস | উদ্ধার ও নিরাপত্তা অভিযান',
+          duration: '5:00',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
     }
   },
   'Cloudbursts': {
@@ -1090,6 +1466,47 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
         },
         {
           title: '#बादलफटना | सामुदायिक त्वरित प्रतिक्रिया और सीटी संकेत',
+          duration: '4:50',
+          youtubeId: '3eZ9aXo1n6k',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+        }
+      ]
+    },
+    'বাংলা': {
+      title: 'মেঘভাঙা বৃষ্টি ও আকস্মিক প্লাবন (CLOUDBURSTS)',
+      beforeTitle: 'মেঘভাঙা বৃষ্টির আগে (BEFORE CLOUDBURSTS)',
+      duringAfterTitle: 'মেঘভাঙা বৃষ্টির সময় ও পরে (DURING & AFTER CLOUDBURSTS)',
+      before: [
+        'পাহাড়ি মৌসুমি নদীখাত বা ঝর্ণার মুখে কখনোই তাঁবু বা অস্থায়ী ক্যাম্প তৈরি করবেন না।',
+        'হিমালয় বা পাহাড়ি অঞ্চলে ভ্রমণের সময় আগেই উঁচু পাথুরে রিজ এবং জরুরি নির্গমন পথ চিনে রাখুন।',
+        'জরুরি বাঁশি, টর্চ এবং প্রাথমিক সুরক্ষা কিট সবসময় সঙ্গে রাখুন।'
+      ],
+      duringAfter: [
+        'পাহাড়ি উপত্যকায় অস্বাভাবিক প্রবল বর্ষণ শুরু হলে তৎক্ষণাৎ নদীখাত ছেড়ে ওপরের পাহাড়ের দিকে উঠুন।',
+        'পাহাড়ি খরস্রোতা জলস্রোত পায়ে হেঁটে বা গাড়িতে পার হওয়ার চেষ্টা করবেন না।',
+        'দুর্বল আলগা পাথুরে ঢাল থেকে দূরে পাকা ও সুরক্ষিত কাঠামোয় আশ্রয় নিন।'
+      ],
+      videos: [
+        {
+          title: '#মেঘভাঙাবৃষ্টি | পাহাড়ি উপত্যকায় হড়পা বান থেকে সুরক্ষাবিধি',
+          duration: '4:20',
+          youtubeId: '43M5mZuz3JA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#মেঘভাঙাবৃষ্টি | পাহাড়ি বর্ষাকালীন ভ্রমণ ও নিরাপত্তা ব্যবস্থা',
+          duration: '3:40',
+          youtubeId: 'OqjXl4r2GqA',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#মেঘভাঙাবৃষ্টি | উপত্যকা থেকে দ্রুত নির্গমন ও শৈলশিরা সুরক্ষা',
+          duration: '3:05',
+          youtubeId: 'bA4A-q6u7n4',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+        },
+        {
+          title: '#মেঘভাঙাবৃষ্টি | আকস্মিক দুর্যোগে বাঁশি সংকেত ও উদ্ধার',
           duration: '4:50',
           youtubeId: '3eZ9aXo1n6k',
           thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
