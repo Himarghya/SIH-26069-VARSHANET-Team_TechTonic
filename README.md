@@ -2,6 +2,7 @@
 
 # 🌧️ VARSHANET 2.0
 ### National Weather Big Data Analytics, Multi-Modal AI Verification & Disaster Impact Grid
+#### 🏆 Smart India Hackathon (SIH 2026) • Team Tech_Tonic
  
 <p align="center">
   <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
@@ -10,15 +11,14 @@
   <img src="https://img.shields.io/badge/AI-PyTorch%20%2B%20Transformers-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
   <img src="https://img.shields.io/badge/GenAI-Google%20Gemini-4285F4?style=flat-square&logo=google&logoColor=white" alt="Gemini" />
   <img src="https://img.shields.io/badge/GIS-Leaflet%20%2B%20ESRI-199900?style=flat-square&logo=leaflet&logoColor=white" alt="Leaflet" />
-  <img src="https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
-  <img src="https://img.shields.io/badge/Streaming-Native%20WebSockets-010101?style=flat-square&logo=socketdotio&logoColor=white" alt="WebSockets" />
+  <img src="https://img.shields.io/badge/Languages-16%20Indic%20Languages-E91E63?style=flat-square" alt="16 Languages" />
   <img src="https://img.shields.io/badge/Coverage-36%20States%20%26%20UTs-FF9933?style=flat-square" alt="Pan-India Coverage" />
   <img src="https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white" alt="Render" />
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="MIT License" />
 </p>
 
 <p align="center">
-  <b>An open-standard disaster intelligence grid uniting 33 IMD Doppler Radars, INSAT-3DR Satellites, CWC Flood Telemetry, and VayuScore™ Multi-Modal AI Ground Verification across all 36 Indian States and Union Territories into automated NDRF Convoy Routing & OASIS CAP 1.2 Cell Siren Alerting.</b>
+  <b>An open-standard disaster intelligence grid uniting 33 IMD Doppler Radars, INSAT-3DR Satellites, CWC Flood Telemetry, and VayuScore™ Multi-Modal AI Ground Verification across all 36 Indian States and Union Territories into automated NDRF Convoy Routing & OASIS CAP 1.2 Cell Siren Alerting with full 16-language dynamic localization.</b>
 </p>
 
 <!-- Continuous Autoplaying 60-Second Video Preview -->
@@ -52,11 +52,10 @@
 ## 🚀 Live Platform & Workflow Links
 
 | 🌐 **LIVE DEPLOYED WEBSITE** | 📊 **INTERACTIVE SYSTEM WORKFLOW** |
-| :---: | :---: |
-| [![Live Website](https://img.shields.io/badge/🌐_LIVE_WEBSITE-VISIT_NOW-00C49F?style=for-the-badge&logo=googlechrome&logoColor=white)]([https://sih-26069-varshanet-team-techtonic.onrendr.com/](https://sih-26069-varshanet-team-techtonic.onrender.com/)) | [![Workflow Diagram](https://img.shields.io/badge/📊_WORKFLOW_DIAGRAM-DIAGRAMS.NET-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white)](https://app.diagrams.net/) |
-| <h1><a href="https://varshanet-backend.onrender.com">👉 Open Live Website ↗</a></h1> | <h1><a href="https://app.diagrams.net/">👉 Open diagrams.net Workflow ↗</a></h1> |
-| 🔗 **[`https://sih-26069-varshanet-team-techtonic.onrender.com/`](https://sih-26069-varshanet-team-techtonic.onrender.com)** | 🔗 **[`https://app.diagrams.net/`](https://app.diagrams.net/)** |
-| *Live Deployment on Render • Interactive GIS Map • Real-Time AI Verification* | *Full Interactive Closed-Loop System & Multi-Modal ML Flowchart* |
+| [![Live Website](https://img.shields.io/badge/🌐_LIVE_WEBSITE-VISIT_NOW-00C49F?style=for-the-badge&logo=googlechrome&logoColor=white)](https://sih-26069-varshanet-team-techtonic.onrender.com/) | [![Workflow Diagram](https://img.shields.io/badge/📊_WORKFLOW_DIAGRAM-DIAGRAMS.NET-F08705?style=for-the-badge&logo=diagramsdotnet&logoColor=white)](https://app.diagrams.net/) |
+| <h1><a href="https://sih-26069-varshanet-team-techtonic.onrender.com/">👉 Open Live Website ↗</a></h1> | <h1><a href="https://app.diagrams.net/">👉 Open diagrams.net Workflow ↗</a></h1> |
+| 🔗 **[`https://sih-26069-varshanet-team-techtonic.onrender.com/`](https://sih-26069-varshanet-team-techtonic.onrender.com/)** | 🔗 **[`https://app.diagrams.net/`](https://app.diagrams.net/)** |
+| *Live Production Deployment on Render • Full 16-Language Indic UI • Interactive GIS Radar & AI Incident Grid* | *Full Interactive Closed-Loop System & Multi-Modal ML Flowchart* |
 
 ---
 
@@ -64,6 +63,7 @@
   <a href="#-system-architecture--closed-loop-diagram">🏗️ <b>Architecture</b></a> •
   <a href="#-multimodal-ai-pipelines-architecture">🧠 <b>AI Pipelines</b></a> •
   <a href="#-key-highlights--operational-capabilities">⚡ <b>Features</b></a> •
+  <a href="#-operational-navigation--ui-suite">🧭 <b>UI Suite</b></a> •
   <a href="#-system-requirements--prerequisites">💻 <b>Requirements</b></a> •
   <a href="#-step-by-step-setup--installation-guide">🚀 <b>Setup Guide</b></a> •
   <a href="#-rest-api--websocket-documentation">📖 <b>API Docs</b></a>
@@ -75,10 +75,10 @@
 
 ### ⚡ Prototype at a Glance
 
-| 🛰️ **33** IMD Radar Feeds | 🇮🇳 **All 36** Indian States & UTs | 🏆 **VayuScore™ (0-100)** | ⚡ **<50ms** WebSocket Streaming |
+| 🌐 **16** Official Indian Languages | 🇮🇳 **All 36** Indian States & UTs | 🏆 **VayuScore™ (0-100)** | ⚡ **<50ms** WebSocket Streaming |
 | :---: | :---: | :---: | :---: |
-| 🛡️ **16** NDRF Battalions | 🧠 **Dual ML** (Vision + NLP) | 🚨 **1-Click** CAP 1.2 XML | 📄 **1-Click** NDMA SitRep PDF |
-| 🏷️ **AI Hashtags** (#IMD Fallback) | ⏱️ **6-Hour** Data Freshness | 🔄 **5-Min** News Auto-Sync | 🗺️ **Google Street View** Ground Pin |
+| 🛰️ **33** IMD Doppler Radars | 🧠 **Dual ML** (Vision + NLP) | 🚨 **1-Click** CAP 1.2 XML | 📄 **1-Click** NDMA SitRep Dossier |
+| 🛡️ **16** NDRF Battalions | 🔒 **All-Green** Verification Lock | ⏱️ **5-Min** Live Sync Countdown | 🌗 **Bright / Dark** Theme Toggle |
 
 ---
 
@@ -102,7 +102,7 @@
 
 ## 🌧️ Platform Overview
 
-**VARSHANET 2.0** is an enterprise-grade National Weather Big Data Analytics, Real-Time AI Verification, and Disaster Nowcasting Grid engineered specifically for India.
+**VARSHANET 2.0** is an enterprise-grade National Weather Big Data Analytics, Real-Time AI Verification, and Disaster Nowcasting Grid engineered by **Team Tech_Tonic** for the **Smart India Hackathon (SIH 2026)**.
 
 It continuously ingests real-time observations across:
 * **33 IMD Doppler Weather Radars (DWR)** with reflectivity (dBZ), rain rates, and hydrometeor classifications.
@@ -114,9 +114,10 @@ It continuously ingests real-time observations across:
 
 VARSHANET translates raw telemetry into life-safety decision support:
 * **VayuScore™ (0–100)**: Composite multi-modal credibility metric fusing 5 independent verification vectors.
-* **TextGuard Multilingual NLP**: Real-time disaster threat detection with instant visual feedback across English, Hindi, and Hinglish.
+* **TextGuard Multilingual NLP**: Real-time disaster threat detection with instant visual feedback across English, Hindi, and regional Indic languages.
 * **VisionGuard Forensics**: Dual-stage binary PyTorch disaster classification + 64-bit Perceptual DHash deduplication + HSV turbidity checks.
 * **Flood-Aware Convoy Routing**: Graph detour routing for **16 official NDRF Battalions** that automatically avoids submerged bridges and inundated underpasses.
+* **16-Language Indic Localization**: Seamless real-time dynamic switching across 16 major Indian languages.
 
 ---
 
@@ -157,14 +158,14 @@ VARSHANET employs two distinct, specialized machine learning pipelines that oper
 
 #### Pipeline A: VisionGuard Forensics (Images & Videos)
 1. **Input Normalization**: Resizes images to 224 × 224 with ImageNet RGB mean/std tensor normalization.
-2. **PyTorch Binary CNN Classifier**: Custom CNN model trained specifically on disaster imagery (`disaster_binary_classifier.pt`) evaluating ground hazard features.
+2. **PyTorch Binary CNN Classifier**: Custom CNN model trained specifically on disaster imagery (`disaster_binary_classifier.pt`) evaluating ground hazard features against Kaggle CDD baselines.
 3. **Optical Forensics & Anti-Spoofing**:
    * **64-bit Perceptual DHash**: Detects near-identical duplicates and past photo re-use.
    * **HSV Turbidity Color Distribution**: Analyzes flood water turbidity and storm cloud overcast signatures.
-   * **Strict < 20% Quarantine Rule**: Flags wildlife, domestic pets, memes, or unrelated visuals with an automatic rejection recommendation.
+   * **Strict Quarantine Rule**: Flags wildlife, domestic pets, memes, or unrelated visuals with an automatic rejection recommendation.
 
-#### Pipeline B: TextGuard Multilingual NLP (Text & Hinglish)
-1. **Multilingual Text Preprocessing**: Normalizes English, Hindi, and Hinglish observations.
+#### Pipeline B: TextGuard Multilingual NLP (Text & Indic Languages)
+1. **Multilingual Text Preprocessing**: Normalizes observations across English, Hindi, Bengali, Tamil, Telugu, and all major Indic scripts.
 2. **Dual-Classifier Architecture**:
    * **Fine-Tuned DistilBERT Transformer Pipeline**: Evaluates contextual semantic threat severity.
    * **Calibrated Scikit-Learn Model (`text_classifier.joblib`)**: Fast CPU-level inference for high-throughput stream processing.
@@ -179,44 +180,39 @@ VARSHANET employs two distinct, specialized machine learning pipelines that oper
 
 ## ⚡ Key Highlights & Operational Capabilities
 
-### 1. 🇮🇳 Complete Coverage of All 36 Indian States & Union Territories
+### 1. 🌐 Complete 16-Language Dynamic Indic Localization
+* Full platform-wide dynamic internationalization across **16 major Indian languages**:
+  * **English**, **हिन्दी (Hindi)**, **বাংলা (Bengali)**, **অসমীয়া (Assamese)**, **ગુજરાતી (Gujarati)**, **ಕನ್ನಡ (Kannada)**, **മലയാളം (Malayalam)**, **मराठी (Marathi)**, **ଓଡ଼ିଆ (Odia)**, **ਪੰਜਾਬੀ (Punjabi)**, **தமிழ் (Tamil)**, **తెలుగు (Telugu)**, **اردو (Urdu)**, **संस्कृतम् (Sanskrit)**, **मैथिली (Maithili)**, and **ᱥᱟᱱᱛᱟᱲᱤ (Santali)**.
+* Instantly translates the Navbar, Live Feed, Citizen Weather Intelligence Portal, Dos & Don'ts awareness modules, CAP System Overviews, and Tracking ticket pages without page reload.
+
+### 2. 🇮🇳 Complete Coverage of All 36 Indian States & Union Territories
 * Full interactive support across **all 28 States and 8 Union Territories**:
   * **28 States**: *Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand, West Bengal.*
   * **8 UTs**: *Andaman and Nicobar Islands, Chandigarh, Dadra and Nagar Haveli and Daman and Diu, Delhi (NCR), Jammu and Kashmir, Ladakh, Lakshadweep, Puducherry.*
 * **Tactical Camera Jump (flyTo)**: Selecting any State/UT in the National Weather Map smoothly re-centers and zooms the viewport directly onto that territory while dynamically filtering incident clusters and verified ground pins.
 * **Backend Geo-Resolver**: `indian_geo_resolver.py` resolves city landmarks, union territories, and districts into verified GPS coordinates.
 
-### 2. 🏷️ Automated AI Trending Hashtags with #IMD Fallback
-* Every ingested observation is automatically classified into trending meteorological categories:
-  * **#Monsoon2026**: Monsoon surge, seasonal rainfall, southwest/northeast monsoon currents.
-  * **#MumbaiRains**: Mumbai, MMR, Thane, Navi Mumbai, Santacruz rainfall and local inundation.
-  * **#DelhiWeather**: Delhi NCR, Safdarjung, Palam, Yamuna flood levels, dense smog/fog.
-  * **#Cloudburst**: Localized extreme deluges, flash runoffs, and mountain slope failures.
-  * **#FloodAlert**: Urban waterlogging, river flood basins, dam discharges, rising waters.
-  * **#HeatwaveWarning**: Severe heatwaves, loo winds, extreme temperatures (≥ 40°C).
-  * **#CycloneAlert**: Depressions, cyclonic storms, gale warnings, coastal landfall cones.
-  * **#IMD (Official Meteorological Fallback)**: Any observation outside the 7 specific categories automatically defaults to #IMD.
+### 3. 🚨 Citizen Ground Intelligence & Strict "All-Green" Pre-Screen Lock
+* Drag-and-drop multi-file evidence upload supporting both field photos (JPG, PNG, WebP) and high-resolution disaster videos (MP4, WebM, MOV).
+* In-app automated ML forensics card for every attached image/video displaying real-time Kaggle CDD validation verdicts.
+* **Strict Submission Locking**: Submission is unlocked only when both Text Threat (TextGuard NLP) and Media Proofs (VisionGuard ML) pass with verified green indicators.
+* **Instant Ticket Generation & Live Tracking**: VR tracking codes (e.g. `VR-2026-AB12CD`) with official transmission status receipts.
 
-### 3. 🛡️ Admin Verification & Live Map Pinning with Google Street View
-* Reports verified by emergency command admins immediately transform into interactive verified pins on the National Weather Map.
-* **Animated Pulsing Emerald Shield Marker (🛡️)** renders at the verified GPS location.
-* **Interactive Ground Popup**: Displays the AI-assigned incident category, credibility trust percentage (≥ 95%), observation text, author attribution, and direct **Google Street View** integration for instant visual ground verification.
-
-### 4. 📅 Functional Date & Clean Operational Status Filters
-* **Date Filter**:
-  * **Today**: Real-time matching for today's calendar date and current 24-hour cycle.
-  * **Past 24 Hours**: Instant filtering of reports from the preceding 24 hours.
-  * **Past 7 Days**: Comprehensive weekly review.
-  * **All Dates**: Access to all historical and real-time records.
-  * Handled via cross-platform ISO-8601 parsing resilient to SQLite datetimes and timezone skews.
-* **Clean Operational Status Filtering**:
-  * Removed unverified noise (UNVERIFIED), pending reviews (REQUIRES_REVIEW), and misleading flags (LIKELY_MISLEADING) from the operational reports view.
-  * Clean filtering between: **All Verification States**, **Verified Official**, and **Likely Authentic**.
+### 4. 🏢 Incident Command Room & Operational Personas
+* **3 Operational Personas**:
+  * **Citizen**: Public hazard reporting, verified local alerts, and awareness guides.
+  * **Analyst**: GIS hazard command, 33 Doppler radar stations, CWC river telemetry, and meteorological nowcasting.
+  * **Admin Ops**: Verification queue, official 100% pre-verified publisher, OASIS CAP 1.2 sirens, and NDMA SitRep generation.
+* **Critical Infrastructure Inundation Matrix**: Real-time risk tracking for bridges, airports, thermal power plants, hospital corridors, and rail junctions across major cities (Delhi, Mumbai, Patna, Kolkata, Chennai, Varanasi).
+* **Emergency Resource Dispatch Hero**: Full-width interactive dispatch commander coordinating NDRF search & rescue, IAF helicopter airdrops, SDRF motorboats, and civil defense units.
 
 ### 5. 🚒 Flood-Aware 16 NDRF Battalion Tactical Routing
 * Direct integration of all **16 official NDRF Battalions** (*Guwahati, Kolkata, Cuttack, Arakkonam, Pune, Vadodara, Bhatinda, Ghaziabad, Patna, Vijayawada, Varanasi, Itanagar, Ludhiana, Jasur, Srinagar, Bhopal*).
 * Dynamic graph routing applies a **1.22× detour factor** during flood events, automatically routing convoys away from submerged bridges and waterlogged underpasses.
 * 1-click **Official Requisition Order Generator** formatted for immediate administrative dispatch.
+
+### 6. 🌗 Bright (White) & Cyber Dark Theme Switcher
+* One-click theme toggle supporting high-contrast **Bright (White)** daytime operation and tactical **Cyber Dark** night mode for command room displays.
 
 ---
 
@@ -225,17 +221,18 @@ VARSHANET employs two distinct, specialized machine learning pipelines that oper
 The platform's operational tabs are ordered logically for emergency triage:
 
 ```text
-Overview ➔ Reports ➔ Map ➔ Incident Room ➔ Events ➔ Analytics
+Home ➔ Do's & Don'ts ➔ Reports ➔ Map ➔ Incident Room ➔ Events ➔ Analytics ➔ Citizen Portal ➔ Admin Ops
 ```
 
-1. **Overview** (`DashboardPage.tsx`): High-level operational metrics, live observation cards, and active weather summaries.
-2. **Reports** (`ReportsPage.tsx` / `ReportTable.tsx`): Real-time observation tabular feed, dynamic AI hashtag bar, date-wise filter, and verified status selectors.
-3. **Map** (`MapPage.tsx` / `IndiaWeatherMap.tsx`): Leaflet/ESRI interactive GIS with 33 Doppler radars, NDRF battalions, CWC river flood polylines, cyclone cones, and 🛡️ verified reports.
-4. **Incident Room** (`IncidentCommandRoomPage.tsx`): Incident deep-dive, 16 NDRF battalion convoy requisition, 2-photo evidence lightbox, and NDMA SitRep generator.
-5. **Events** (`EventsPage.tsx`): Active spatiotemporal event clusters grouped by geographic proximity.
-6. **Analytics** (`AnalyticsPage.tsx`): Interactive Big Data SQL query runner, VayuScore™ composite scorecard, and public sentiment panic index.
-7. **Citizen Portal** (`CitizenPage.tsx`): Citizen hazard reporting with drag-and-drop 3-photo proof, real-time Green/Red NLP threat feedback, and ticket tracking.
-8. **Admin Ops** (`AdminPage.tsx`): 100% pre-verified official incident publisher, verification queue, and distributed system health diagnostics.
+1. **Home / Overview** (`DashboardPage.tsx`): High-level operational metrics, live observation feed, interactive weather summaries, and CAP 4-stage workflow.
+2. **Do's & Don'ts** (`DosAndDontsSection.tsx`): Multilingual disaster preparedness guidelines for Cyclones, Floods, Earthquakes, Heatwaves, Landslides, and Lightning with embedded educational video demos.
+3. **Reports** (`ReportsPage.tsx` / `ReportTable.tsx`): Real-time observation tabular feed, dynamic AI hashtag bar, date-wise filter, and verified status selectors.
+4. **Map** (`MapPage.tsx` / `IndiaWeatherMap.tsx`): Leaflet/ESRI interactive GIS with 33 Doppler radars, NDRF battalions, CWC river flood polylines, cyclone cones, and 🛡️ verified reports with Google Street View.
+5. **Incident Room** (`IncidentCommandRoomPage.tsx`): Incident deep-dive, 16 NDRF battalion convoy requisition, infrastructure risk matrix, resource dispatch, and NDMA SitRep dossier generator.
+6. **Events** (`EventsPage.tsx`): Active spatiotemporal event clusters grouped by geographic proximity.
+7. **Analytics** (`AnalyticsPage.tsx`): Interactive Big Data SQL query runner, VayuScore™ composite scorecard, and public sentiment panic index.
+8. **Citizen Portal** (`CitizenPage.tsx` / `CitizenReportForm.tsx`): Citizen hazard reporting with drag-and-drop 3-photo/video proof, real-time Green/Red NLP threat feedback, and ticket tracking.
+9. **Admin Ops** (`AdminPage.tsx`): 100% pre-verified official incident publisher, verification queue, and distributed system health diagnostics.
 
 ---
 
@@ -481,8 +478,8 @@ FRONTEND_PORT=5173
 ## ☁️ Deployment (Render & Cloud Platforms)
 
 > [!IMPORTANT]
-> ### 🌐 [Click Here to Open the Live Deployed Platform on Render ↗](https://varshanet-backend.onrender.com)
-> **Live Production Website:** [https://varshanet-backend.onrender.com](https://varshanet-backend.onrender.com)
+> ### 🌐 [Click Here to Open the Live Deployed Platform on Render ↗](https://sih-26069-varshanet-team-techtonic.onrender.com/)
+> **Live Production Website:** [https://sih-26069-varshanet-team-techtonic.onrender.com/](https://sih-26069-varshanet-team-techtonic.onrender.com/)
 
 VARSHANET 2.0 includes a production-ready `render.yaml` blueprint for one-click deployment:
 * Automatically builds the React 18 production bundle (`npm run build` in `frontend/`).
