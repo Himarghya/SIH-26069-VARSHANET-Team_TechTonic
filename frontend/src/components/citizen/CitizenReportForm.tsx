@@ -12,9 +12,13 @@ import {
   Trash2,
   ArrowDownCircle,
   Clock,
-  CheckCircle
+  CheckCircle,
+  PhoneCall,
+  ShieldAlert,
+  Radio,
+  LifeBuoy
 } from 'lucide-react';
-import { submitCitizenReport, trackCitizenReport, analyzeMedia, analyzeObservationText, TextAnalysisResult } from '../../services/api';
+import { submitCitizenReport, analyzeMedia, analyzeObservationText, TextAnalysisResult } from '../../services/api';
 import { WeatherReport, ALL_INDIAN_STATES_UTS } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
 import { CITIZEN_TRANSLATIONS } from './citizenTranslations';
@@ -106,11 +110,6 @@ export const CitizenReportForm: React.FC = () => {
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [mediaAnalyses, setMediaAnalyses] = useState<{ [key: string]: MediaAnalysisResult }>({});
-
-  // Tracking state
-  const [trackingId, setTrackingId] = useState('');
-  const [trackedReport, setTrackedReport] = useState<WeatherReport | null>(null);
-  const [trackError, setTrackError] = useState('');
 
   // 🧠 Automatic ML inference whenever any photo enters (uploaded, dropped, pasted, or clicked)
   useEffect(() => {
@@ -355,18 +354,6 @@ export const CitizenReportForm: React.FC = () => {
       alert(err.response?.data?.detail || 'Failed to submit report. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const handleTrack = async () => {
-    if (!trackingId) return;
-    setTrackError('');
-    try {
-      const res = await trackCitizenReport(trackingId.trim());
-      setTrackedReport(res);
-    } catch (err) {
-      setTrackError(ct.ticketNotFound);
-      setTrackedReport(null);
     }
   };
 
@@ -895,66 +882,116 @@ export const CitizenReportForm: React.FC = () => {
         )}
       </div>
 
-      {/* Tracking Portal */}
-      <div className="lg:col-span-5 bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm dark:shadow-2xl space-y-4 flex flex-col justify-between font-sans">
-        <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">{ct.trackTitle}</h3>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
-            {ct.trackSubtitle}
-          </p>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder={ct.trackPlaceholder}
-              value={trackingId}
-              onChange={(e) => setTrackingId(e.target.value)}
-              className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white uppercase placeholder-slate-400 dark:placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500"
-            />
-            <button
-              onClick={handleTrack}
-              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-cyan-700 dark:text-cyan-300 text-xs font-bold border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              {ct.trackBtn}
-            </button>
+      {/* Emergency Assistance & Verification Protocol Panel */}
+      <div className="lg:col-span-5 space-y-4 font-sans">
+        {/* Emergency Dispatch Helplines */}
+        <div className="bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-2xl space-y-3.5">
+          <div className="flex items-center gap-2 pb-2.5 border-b border-slate-200 dark:border-slate-800">
+            <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/50">
+              <PhoneCall className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Emergency Dispatch Helplines</h3>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">24x7 Toll-Free National & State Response</p>
+            </div>
           </div>
 
-          {trackError && (
-            <p className="text-xs text-rose-600 dark:text-rose-400 mt-2 font-mono">{trackError}</p>
-          )}
-
-          {trackedReport && (
-            <div className="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs font-mono">
-              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                <span className="text-slate-900 dark:text-white font-bold">{trackedReport.event_type}</span>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                  trackedReport.verification_status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800' :
-                  trackedReport.verification_status === 'LIKELY_MISLEADING' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-800' : 'bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800'
-                }`}>
-                  {trackedReport.verification_status === 'VERIFIED' ? ct.statusVerified :
-                   trackedReport.verification_status === 'LIKELY_MISLEADING' ? ct.statusFlagged : ct.statusUnderReview}
-                </span>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <a
+              href="tel:112"
+              className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-800/80 transition-all group flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">National Police / Fire</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </div>
-              <p className="text-slate-700 dark:text-slate-300 font-sans text-xs py-1">{trackedReport.text}</p>
-              
-              {/* Image Proof Inspection in Tracking */}
-              {trackedReport.media_urls && trackedReport.media_urls.length > 0 && (
-                <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block mb-1.5 font-semibold">{ct.trackedEvidenceTitle} ({trackedReport.media_urls.length}):</span>
-                  <div className="flex gap-2">
-                    {trackedReport.media_urls.map((p, i) => (
-                      <img key={i} src={p} alt="Tracked Proof" className="w-14 h-14 rounded-lg object-cover border border-slate-200 dark:border-slate-700" />
-                    ))}
-                  </div>
-                </div>
-              )}
+              <div className="text-lg font-black text-rose-600 dark:text-rose-400 group-hover:scale-105 transition-transform font-mono">
+                112
+              </div>
+              <span className="text-[10px] text-slate-500">All Emergencies</span>
+            </a>
 
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-800/80 text-[11px]">
-                <div>{ct.trackedLocation} <strong className="text-slate-900 dark:text-white">{trackedReport.city || 'District'}, {trackedReport.state}</strong></div>
-                <div>{ct.trackedStatus} <strong className="text-cyan-700 dark:text-cyan-300">{trackedReport.verification_status}</strong></div>
+            <a
+              href="tel:1070"
+              className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-800/80 transition-all group flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">NDMA / SDMA</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              </div>
+              <div className="text-lg font-black text-amber-600 dark:text-amber-400 group-hover:scale-105 transition-transform font-mono">
+                1070
+              </div>
+              <span className="text-[10px] text-slate-500">Disaster Management</span>
+            </a>
+
+            <a
+              href="tel:1077"
+              className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-sky-300 dark:hover:border-sky-800/80 transition-all group flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">DDMA Control</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              </div>
+              <div className="text-lg font-black text-sky-600 dark:text-sky-400 group-hover:scale-105 transition-transform font-mono">
+                1077
+              </div>
+              <span className="text-[10px] text-slate-500">District Emergency</span>
+            </a>
+
+            <a
+              href="tel:108"
+              className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-800/80 transition-all group flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Medical & Health</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              </div>
+              <div className="text-lg font-black text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform font-mono">
+                108
+              </div>
+              <span className="text-[10px] text-slate-500">Ambulance Service</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Verification Protocol Info Card */}
+        <div className="bg-white dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-2xl space-y-3">
+          <div className="flex items-center gap-2 pb-2.5 border-b border-slate-200 dark:border-slate-800">
+            <div className="p-2 rounded-lg bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/50">
+              <Shield className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Ground Verification Protocol</h3>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Automated Multi-Source Correlation</p>
+            </div>
+          </div>
+
+          <div className="space-y-2 text-xs">
+            <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
+              <span className="w-5 h-5 rounded-full bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-300 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+              <div>
+                <strong className="block text-slate-900 dark:text-white text-[11px]">AI VisionGuard & NLP Screening</strong>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400">Uploaded images/videos & text are checked against flood, cyclone, and hazard models.</span>
               </div>
             </div>
-          )}
+
+            <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
+              <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+              <div>
+                <strong className="block text-slate-900 dark:text-white text-[11px]">Doppler Radar & Satellite Match</strong>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400">Live GPS reports are cross-matched with IMD reflectivity radar grids and INSAT-3D feeds.</span>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
+              <span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+              <div>
+                <strong className="block text-slate-900 dark:text-white text-[11px]">Emergency Operations Dispatch</strong>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400">Corroborated incident clusters trigger instant CAP alerts and operational warnings.</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Public Service Notice (High contrast in both Light & Dark modes) */}
