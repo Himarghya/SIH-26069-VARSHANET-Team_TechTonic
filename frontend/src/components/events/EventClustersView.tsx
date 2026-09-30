@@ -64,9 +64,6 @@ export const EventClustersView: React.FC<EventClustersViewProps> = ({ events, on
             <span className="text-slate-500 dark:text-slate-400 font-medium">Aggregated: </span>
             <strong className="text-cyan-700 dark:text-cyan-400 font-bold tabular-nums">{totalUnderlyingReports} Reports</strong>
           </div>
-          <div className="px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300">
-            <span className="font-bold">⚡ 99.2% Noise Filtered</span>
-          </div>
         </div>
       </div>
 
