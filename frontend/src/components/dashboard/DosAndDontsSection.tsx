@@ -1156,28 +1156,22 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#Avalanche | High Altitude Survival & Air Pocket Creation',
-          duration: '4:00',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: '#Avalanche | Early Warning Signs & Mountain Safety Guidelines',
+          duration: '3:15',
+          youtubeId: 'oJYmZu4Cl_E',
+          thumbnailUrl: 'https://img.youtube.com/vi/oJYmZu4Cl_E/hqdefault.jpg'
         },
         {
-          title: '#Avalanche | SASE Warning Interpretation & Beacon Protocol',
-          duration: '3:30',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#Avalanche | Mountain Road Safety & Snow Chains Setup',
+          title: '#Avalanche | Survival Techniques & Air Pocket Creation if Trapped',
           duration: '2:50',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          youtubeId: '3Q7fYDTL3dM',
+          thumbnailUrl: 'https://img.youtube.com/vi/3Q7fYDTL3dM/hqdefault.jpg'
         },
         {
-          title: '#Avalanche | Probing & Companion Rescue Techniques',
-          duration: '5:15',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: 'How Avalanches Happen | Scientific Causes & Slope Triggers',
+          duration: '4:10',
+          youtubeId: 'xB5V7Z8C_ik',
+          thumbnailUrl: 'https://img.youtube.com/vi/xB5V7Z8C_ik/hqdefault.jpg'
         }
       ]
     },
@@ -1197,28 +1191,22 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#हिमस्खलन | बर्फीले पहाड़ों में जीवन रक्षा और एयर पॉकेट तकनीक',
-          duration: '4:00',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: '#Avalanche | जानिए इस वीडियो द्वारा हिमस्खलन के संकेत।',
+          duration: '3:15',
+          youtubeId: 'oJYmZu4Cl_E',
+          thumbnailUrl: 'https://img.youtube.com/vi/oJYmZu4Cl_E/hqdefault.jpg'
         },
         {
-          title: '#हिमस्खलन | सासे चेतावनी और बीकन उपकरण प्रोटोकॉल',
-          duration: '3:30',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#हिमस्खलन | बर्फीले पहाड़ी मार्गों पर वाहन सुरक्षा',
+          title: '#Avalanche | यदि आप हिमस्खलन में फस जाएँ, घबराएँ नहीं, बचने के लिए यह उपाए अपनाएँ!',
           duration: '2:50',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          youtubeId: '3Q7fYDTL3dM',
+          thumbnailUrl: 'https://img.youtube.com/vi/3Q7fYDTL3dM/hqdefault.jpg'
         },
         {
-          title: '#हिमस्खलन | खोज एवं बचाव (Rescue) तकनीक',
-          duration: '5:15',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: 'कैसे होता है हिमस्खलन [Avalanche]',
+          duration: '4:10',
+          youtubeId: 'xB5V7Z8C_ik',
+          thumbnailUrl: 'https://img.youtube.com/vi/xB5V7Z8C_ik/hqdefault.jpg'
         }
       ]
     },
@@ -1238,28 +1226,22 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#হিমবাহধস | উচ্চ পর্বত অঞ্চলে জীবন রক্ষা ও এয়ার পকেট কৌশল',
-          duration: '4:00',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          title: '#হিমবাহধস | তুষারধসের প্রাথমিক লক্ষণ ও সংকেত',
+          duration: '3:15',
+          youtubeId: 'oJYmZu4Cl_E',
+          thumbnailUrl: 'https://img.youtube.com/vi/oJYmZu4Cl_E/hqdefault.jpg'
         },
         {
-          title: '#হিমবাহধস | সাসে সতর্কতা সংকেত ও বীকন ব্যবস্থাপনা',
-          duration: '3:30',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#হিমবাহধস | পাহাড়ি বরফাবৃত রাস্তায় গাড়ি চালানোর সতর্কতা',
+          title: '#হিমবাহধস | তুষারধসে আটকে গেলে বাঁচার গুরুত্বপূর্ণ কৌশল',
           duration: '2:50',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+          youtubeId: '3Q7fYDTL3dM',
+          thumbnailUrl: 'https://img.youtube.com/vi/3Q7fYDTL3dM/hqdefault.jpg'
         },
         {
-          title: '#হিমবাহধস | উদ্ধারকারী দলের অনুসন্ধান কৌশল',
-          duration: '5:15',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: 'কীভাবে ঘটে হিমবাহ ধস [Avalanche Causes & Safety]',
+          duration: '4:10',
+          youtubeId: 'xB5V7Z8C_ik',
+          thumbnailUrl: 'https://img.youtube.com/vi/xB5V7Z8C_ik/hqdefault.jpg'
         }
       ]
     }
