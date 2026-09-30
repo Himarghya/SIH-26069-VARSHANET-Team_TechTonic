@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Play, X, ShieldAlert, ShieldCheck, CheckCircle2, AlertTriangle, BookOpen, Video, Globe, Sparkles } from 'lucide-react';
 import { 
   DisasterCategory, 
@@ -9,14 +9,27 @@ import {
   CATEGORY_NAMES, 
   UI_TEXT 
 } from './dosAndDontsTypes';
-import { DISASTER_CONTENT } from './translations';
 import { useLanguage, LanguageCode as GlobalLanguageCode } from '../../context/LanguageContext';
+import { 
+  getAllCategories, 
+  getGuidelineContent, 
+  subscribeToGuidelines 
+} from '../../services/dosAndDontsStore';
 
 export const DosAndDontsSection: React.FC = () => {
   const { language: globalLanguage, setLanguage: setGlobalLanguage } = useLanguage();
-  const [selectedCategory, setSelectedCategory] = useState<DisasterCategory>('Cyclones');
+  const [categories, setCategories] = useState<string[]>(getAllCategories());
+  const [selectedCategory, setSelectedCategory] = useState<string>('Cyclones');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeVideo, setActiveVideo] = useState<{ title: string; youtubeId: string } | null>(null);
+
+  // Subscribe to live guideline updates from Admin
+  useEffect(() => {
+    const unsubscribe = subscribeToGuidelines(() => {
+      setCategories(getAllCategories());
+    });
+    return unsubscribe;
+  }, []);
 
   // Map global language into DosAndDonts language code
   const selectedLanguage: LanguageCode = useMemo(() => {
@@ -40,19 +53,19 @@ export const DosAndDontsSection: React.FC = () => {
 
   // Filter categories based on search input
   const filteredCategories = useMemo(() => {
-    if (!searchQuery.trim()) return DISASTER_CATEGORIES;
-    return DISASTER_CATEGORIES.filter(cat => {
-      const localizedName = CATEGORY_NAMES[cat]?.[selectedLanguage] || cat;
+    if (!searchQuery.trim()) return categories;
+    return categories.filter(cat => {
+      const isDefault = (CATEGORY_NAMES as any)[cat];
+      const localizedName = isDefault ? (CATEGORY_NAMES[cat as DisasterCategory]?.[selectedLanguage] || cat) : cat;
       return cat.toLowerCase().includes(searchQuery.toLowerCase()) ||
              localizedName.toLowerCase().includes(searchQuery.toLowerCase());
     });
-  }, [searchQuery, selectedLanguage]);
+  }, [categories, searchQuery, selectedLanguage]);
 
-  // Current content with fallback
+  // Current content with fallback & dynamic overrides
   const currentContent = useMemo(() => {
-    const categoryData = DISASTER_CONTENT[selectedCategory] || DISASTER_CONTENT['Cyclones'];
-    return categoryData[selectedLanguage] || categoryData['English'] || DISASTER_CONTENT['Cyclones']['English'];
-  }, [selectedCategory, selectedLanguage]);
+    return getGuidelineContent(selectedCategory, selectedLanguage);
+  }, [selectedCategory, selectedLanguage, categories]);
 
   return (
     <div className="w-full space-y-4 font-sans select-none animate-fade-in">
@@ -101,7 +114,7 @@ export const DosAndDontsSection: React.FC = () => {
           <div className="flex items-center gap-1.5 flex-wrap overflow-x-auto pb-1">
             {filteredCategories.map((cat) => {
               const isSelected = selectedCategory === cat;
-              const displayName = CATEGORY_NAMES[cat]?.[selectedLanguage] || cat;
+              const displayName = (CATEGORY_NAMES as any)[cat]?.[selectedLanguage] || cat;
               return (
                 <button
                   key={cat}
@@ -162,7 +175,7 @@ export const DosAndDontsSection: React.FC = () => {
                 </span>
                 <h4 className="text-xs sm:text-[13px] font-extrabold uppercase tracking-wide text-emerald-950 dark:text-emerald-200 mt-0.5 flex items-center justify-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{currentContent.beforeTitle || `${ui.beforePrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}</span>
+                  <span>{currentContent.beforeTitle || `${ui.beforePrefix} ${((CATEGORY_NAMES as any)[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}</span>
                 </h4>
               </div>
 
@@ -185,7 +198,7 @@ export const DosAndDontsSection: React.FC = () => {
                 </span>
                 <h4 className="text-xs sm:text-[13px] font-extrabold uppercase tracking-wide text-rose-950 dark:text-rose-200 mt-0.5 flex items-center justify-center gap-1.5">
                   <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
-                  <span>{currentContent.duringAfterTitle || `${ui.duringAfterPrefix} ${(CATEGORY_NAMES[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}</span>
+                  <span>{currentContent.duringAfterTitle || `${ui.duringAfterPrefix} ${((CATEGORY_NAMES as any)[selectedCategory]?.[selectedLanguage] || selectedCategory).toUpperCase()}`}</span>
                 </h4>
               </div>
 
