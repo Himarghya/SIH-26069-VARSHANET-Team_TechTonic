@@ -1,0 +1,454 @@
+import { DisasterCategory, DosDontsData } from '../dosAndDontsTypes';
+
+export const assameseContent: Record<DisasterCategory, DosDontsData> = {
+  'Cyclones': {
+    title: 'ঘূৰ্ণিবতাহ (CYCLONE)',
+    beforeTitle: 'ঘূৰ্ণিবতাহৰ পূৰ্বে (BEFORE CYCLONE)',
+    duringAfterTitle: 'ঘূৰ্ণিবতাহৰ সময়ত আৰু পিছত (DURING & AFTER CYCLONE)',
+    before: [
+      'উৰাবাতৰি বিশ্বাস নকৰিব, শান্ত থাকক আৰু আতংকিত নহব।',
+      'জৰুৰী যোগাযোগৰ বাবে মোবাইল ফোন সম্পূৰ্ণ চাৰ্জ কৰি ৰাখক; SMS ব্যৱহাৰ কৰক।',
+      'বতৰৰ জাননীৰ বাবে ৰেডিঅ’ শুনক আৰু টিভি বা চৰকাৰী বুলেটিন চাওক।',
+      'গুৰুত্বপূৰ্ণ নথিপত্ৰ আৰু মূল্যবান সামগ্ৰী ৱাটাৰপ্ৰুফ বেগত বা ওখ ঠাইত নিৰাপদে ৰাখক।',
+      'শুকান খাদ্য, খোৱাপানী, টৰ্চ লাইট, প্ৰাথমিক চিকিৎসা কিট আৰু প্ৰয়োজনীয় ঔষধ সাজু ৰাখক।',
+      'ঘৰৰ চাল আৰু খিৰিকী মেৰামতি কৰি মজবুত কৰক; বাহিৰত চোকা বস্তু পেলাই নাথব।'
+    ],
+    duringAfter: [
+      'পোহনীয়া জীৱ-জন্তুক মুক্ত কৰি দিয়ক যাতে বিপদৰ সময়ত সিহঁতে ওখ ঠাইলৈ যাব পাৰে।',
+      'ধুমুহা বা বানপানীৰ সতৰ্কবাৰ্তা পালে পলম নকৰি ওচৰৰ ঘূৰ্ণিবতাহ আশ্ৰয় শিবিৰলৈ যাওক।',
+      'অন্ততঃ এসপ্তাহৰ বাবে পৰ্যাপ্ত শুকান খাদ্য আৰু বিশুদ্ধ খোৱাপানী মজুত ৰাখক।',
+      'দুৱাৰ আৰু খিৰিকী টানকৈ বন্ধ ৰাখক। ধুমুহাৰ চকু পাৰ হোৱাৰ শান্ত সময়তো বাহিৰলৈ নোলাব।',
+      'প্ৰশাসনে নিৰাপদ বুলি ঘোষণা নকৰালৈকে আশ্ৰয় শিবিৰতে থাকক।'
+    ],
+    videos: [
+      {
+        title: '#Cyclone | ঘূৰ্ণিবতাহৰ সময়ত কি কৰিব আৰু কি নকৰিব | NDMA',
+        duration: '3:15',
+        youtubeId: 'B9qR2e3xyJo',
+        thumbnailUrl: 'https://img.youtube.com/vi/B9qR2e3xyJo/hqdefault.jpg'
+      },
+      {
+        title: '#Cyclone | বাহিৰত থকা অৱস্থাত সুৰক্ষাৰ নিয়মসমূহ | NDMA',
+        duration: '2:45',
+        youtubeId: 'CcvOhT7n3y8',
+        thumbnailUrl: 'https://img.youtube.com/vi/CcvOhT7n3y8/hqdefault.jpg'
+      },
+      {
+        title: '#Cyclone | ঘূৰ্ণিবতাহৰ পূৰ্বে কিদৰে প্ৰস্তুত থাকিব ?',
+        duration: '3:30',
+        youtubeId: '-vqBNQ0Fhq8',
+        thumbnailUrl: 'https://img.youtube.com/vi/-vqBNQ0Fhq8/hqdefault.jpg'
+      },
+      {
+        title: '#Cyclone | ঘৰৰ চাল আৰু নিৰাপত্তা সুদৃঢ়কৰণ | NDMA',
+        duration: '4:10',
+        youtubeId: 'Gm9c9EehO2g',
+        thumbnailUrl: 'https://img.youtube.com/vi/Gm9c9EehO2g/hqdefault.jpg'
+      }
+    ]
+  },
+  'Floods': {
+    title: 'বানপানী (FLOODS)',
+    beforeTitle: 'বানপানীৰ পূৰ্বে (BEFORE FLOODS)',
+    duringAfterTitle: 'বানপানীৰ সময়ত আৰু পিছত (DURING & AFTER FLOODS)',
+    before: [
+      'আপোনাৰ এলেকাৰ সম্ভাব্য বানপানীৰ উচ্চতা আৰু ওচৰৰ ওখ নিৰাপদ আশ্ৰয়স্থলীৰ সন্ধান ৰাখক।',
+      'ঘৰৰ বিদ্যুৎ মিটাৰ আৰু সঁজুলিসমূহ মাটিৰ পৰা যথেষ্ট ওখ স্থানত স্থাপন কৰক।',
+      'তলৰ কোঠাৰ বেৰত পানী প্ৰতিৰোধক আৱৰণ লগাওক।',
+      'জৰুৰীকালীন লাইট, পাৱাৰ বেংক আৰু প্ৰয়োজনীয় ঔষধ সাজু ৰাখক।'
+    ],
+    duringAfter: [
+      'বানপানীত কেতিয়াও খোজ নাকাঢ়িব, সাতুৰিব নাযাব বা গাড়ী নচলাব।',
+      'তীব্ৰ সোঁত থকা দলং বা পানীয়ে বুৰোৱা ৰাস্তাৰে যাতায়াত নকৰিব।',
+      'খোৱাপানী সদায় উতলাই খাব অথবা বিশুদ্ধ বটলৰ পানী ব্যৱহাৰ কৰক।',
+      'বানপানীৰ সংস্পৰ্শলৈ অহা কোনো খাদ্য সামগ্ৰী গ্ৰহণ নকৰিব।'
+    ],
+    videos: [
+      {
+        title: '#বানপানী | বান সুৰক্ষা আৰু আগতীয়া স্থানান্তৰণ নিৰ্দেশনাৱলী',
+        duration: '3:15',
+        youtubeId: '3eZ9aXo1n6k',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#বানপানী | বিদ্যুৎ আৰু দূষিত পানীৰ বিপদৰ পৰা সাৱধানতা',
+        duration: '4:00',
+        youtubeId: '43M5mZuz3JA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#বানপানী | বৰষুণৰ সময়ত নিৰাপদ গাড়ী চালনাৰ নিয়ম',
+        duration: '2:50',
+        youtubeId: 'bA4A-q6u7n4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#বানপানী | বানৰ পিছত পৰিষ্কাৰকৰণ আৰু বীজাণুমুক্তকৰণ পদ্ধতি',
+        duration: '5:10',
+        youtubeId: 'OqjXl4r2GqA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  },
+  'Urban Floods': {
+    title: 'নগৰীয়া বান আৰু পানী জমা হোৱা (URBAN FLOODS)',
+    beforeTitle: 'নগৰীয়া বানৰ পূৰ্বে (BEFORE URBAN FLOODING)',
+    duringAfterTitle: 'নগৰীয়া বানৰ সময়ত আৰু পিছত (DURING & AFTER URBAN FLOODING)',
+    before: [
+      'ঘৰৰ চালৰ পাইপ আৰু সন্মুখৰ নলা-নৰ্দমাৰ আৱৰ্জনা নিয়মীয়াকৈ পৰিষ্কাৰ কৰক।',
+      'নলাৰ লেতেৰা পানী ঘৰলৈ সোমাই অহা বন্ধ কৰিবলৈ নন-ৰিটাৰ্ণ ভাল্ভ লগাওক।',
+      'তলৰ মহলাৰ বিদ্যুৎ প্লাগ পইণ্টসমূহ ওখ স্থানত ৰাখক।'
+    ],
+    duringAfter: [
+      'খোলা মেনহোল, নলা আৰু পানীত নিমজ্জিত বিদ্যুৎ খুঁটাৰ পৰা আঁতৰি থাকক।',
+      'প্ৰবল বৰষুণৰ সময়ত আণ্ডাৰপাছ বা বেচমেণ্টত প্ৰৱেশ নকৰিব।',
+      'ঘৰত পানী সোমাবলৈ ধৰিলে তৎক্ষণাৎ মেইন চুইচ (Main Switch) বন্ধ কৰক।'
+    ],
+    videos: [
+      {
+        title: '#নগৰীয়াবান | বাৰিষাৰ নলা-নৰ্দমা আৰু বেচমেণ্ট সুৰক্ষা',
+        duration: '4:05',
+        youtubeId: '43M5mZuz3JA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#নগৰীয়াবান | বিদ্যুৎস্পৃষ্ট আৰু খোলা নলাৰ বিপদৰ পৰা আত্মৰক্ষা',
+        duration: '3:20',
+        youtubeId: 'bA4A-q6u7n4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#নগৰীয়াবান | আণ্ডাৰপাছ যাতায়াত সুৰক্ষা নিয়ম',
+        duration: '3:50',
+        youtubeId: '3eZ9aXo1n6k',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#নগৰীয়াবান | নৰ্দমাৰ পানী ওলোটাকৈ সোমোৱা প্ৰতিৰোধৰ ব্যৱস্থা',
+        duration: '4:45',
+        youtubeId: 'OqjXl4r2GqA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  },
+  'Lightning': {
+    title: 'বজ্ৰপাত আৰু ধুমুহা (LIGHTNING)',
+    beforeTitle: 'বজ্ৰপাতৰ পূৰ্বে (BEFORE LIGHTNING)',
+    duringAfterTitle: 'বজ্ৰপাতৰ সময়ত আৰু পিছত (DURING & AFTER LIGHTNING)',
+    before: [
+      'পথাৰত কাম কৰিবলৈ যোৱাৰ আগতে বতৰ ৰাডাৰ আৰু দামিনী (Damini) এপ চাওক।',
+      'ওখ অট্টালিকা আৰু ফাৰ্ম হাউচত মানসম্পন্ন বজ্ৰনিৰোধক দণ্ড (Lightning Conductor) সংস্থাপন কৰক।',
+      'ধুমুহা আৰম্ভ হোৱাৰ পূৰ্বেই টিভি, কম্পিউটাৰ আদি বৈদ্যুতিক সঁজুলিৰ সংযোগ বিচ্ছিন্ন কৰক।'
+    ],
+    duringAfter: [
+      '৩০-৩০ সুৰক্ষা নিয়ম: বিজুলী আৰু ঢেৰেকনিৰ মাজত ৩০ ছেকেণ্ডতকৈ কম ব্যৱধান হ’লে তৎক্ষণাৎ পকী ঘৰত আশ্ৰয় লওক।',
+      'অকলশৰীয়া গছ, তাঁৰৰ বেৰ বা টিনৰ চালৰ তলত কেতিয়াও থিয় নহ’ব।',
+      'মুকলি ঠাইত আৱদ্ধ হ’লে আঁঠু কাঢ়ি মূৰটো আঁঠুৰ মাজত সুমুৱাই লওক (Lightning Crouch)।'
+    ],
+    videos: [
+      {
+        title: '#বজ্ৰপাত | ৩০-৩০ সুৰক্ষা নিয়ম আৰু মুকলি ঠাইত সাৱধানতা',
+        duration: '2:30',
+        youtubeId: 'OqjXl4r2GqA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#বজ্ৰপাত | বজ্ৰনিৰোধক দণ্ড সংস্থাপন নিৰ্দেশনাৱলী',
+        duration: '3:45',
+        youtubeId: '43M5mZuz3JA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#বজ্ৰপাত | কৃষক আৰু গ্ৰাম্যাঞ্চলৰ বাবে সুৰক্ষা নিয়ম',
+        duration: '4:10',
+        youtubeId: 'bA4A-q6u7n4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#বজ্ৰপাত | বজ্ৰাঘাত হোৱা ব্যক্তিৰ জৰুৰী প্ৰাথমিক চিকিৎসা (CPR)',
+        duration: '5:15',
+        youtubeId: '3eZ9aXo1n6k',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  },
+  'Heat Waves': {
+    title: 'তাপপ্ৰবাহ আৰু সানষ্ট্ৰোক (HEAT WAVES)',
+    beforeTitle: 'তাপপ্ৰবাহৰ পূৰ্বে (BEFORE HEAT WAVE)',
+    duringAfterTitle: 'তাপপ্ৰবাহৰ সময়ত আৰু পিছত (DURING & AFTER HEAT WAVE)',
+    before: [
+      'ORS, ঘোল, নেমু পানী, ডাবৰ পানী আদি প্ৰচুৰ পৰিমাণে পান কৰক।',
+      'খিৰিকীত ডাঠ পৰ্দা লগাওক আৰু চালত চূণ/বগা ৰং দি ঘৰ ঠাণ্ডা ৰাখক।',
+      'কঠিন শাৰীৰিক পৰিশ্ৰম পুৱা সোনকালে অথবা গধূলি কৰক।'
+    ],
+    duringAfter: [
+      'দুপৰীয়া ১২:০০ বজাৰ পৰা ৩:০০ বজালৈ প্ৰখৰ ৰ’দত বাহিৰলৈ নোলাব।',
+      'পাতল ৰঙৰ ঢিলা কপাহী কাপোৰ পিন্ধক, ৰ’দৰ চশমা, টুপি বা ছাতি ব্যৱহাৰ কৰক।',
+      'ৰ’দত থোৱা বন্ধ গাড়ীত শিশু বা পোহনীয়া জীৱ-জন্তুক এৰি নাযাব।',
+      'মূৰ ঘুৰোৱা যেন পালে ছাঁত জিৰণি লওক, তিতা কাপোৰৰ পটি দিয়ক আৰু পানী খাওক।'
+    ],
+    videos: [
+      {
+        title: '#তাপপ্ৰবাহ | হিট ষ্ট্ৰোকৰ লক্ষণ আৰু প্ৰাথমিক চিকিৎসা',
+        duration: '3:20',
+        youtubeId: 'bA4A-q6u7n4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#তাপপ্ৰবাহ | পৰম্পৰাগত শীতল পানীয় আৰু খাদ্য তালিকা',
+        duration: '2:55',
+        youtubeId: '3eZ9aXo1n6k',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#তাপপ্ৰবাহ | কুল ৰুফছ আৰু ঘৰ প্ৰাকৃতিকভাৱে ঠাণ্ডা ৰখাৰ উপায়',
+        duration: '4:40',
+        youtubeId: '43M5mZuz3JA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#তাপপ্ৰবাহ | শ্ৰমিক আৰু কৃষকসকলৰ বাবে স্বাস্থ্য নীতি',
+        duration: '3:50',
+        youtubeId: 'OqjXl4r2GqA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  },
+  'Cold Wave': {
+    title: 'শীতপ্ৰবাহ (COLD WAVE)',
+    beforeTitle: 'শীতপ্ৰবাহৰ পূৰ্বে (BEFORE COLD WAVE)',
+    duringAfterTitle: 'শীতপ্ৰবাহৰ সময়ত আৰু পিছত (DURING & AFTER COLD WAVE)',
+    before: [
+      'শীতকালৰ বাবে পৰ্যাপ্ত গৰম কাপোৰ, কম্বল আৰু সুৰক্ষিত হিটাৰ প্ৰস্তুত ৰাখক।',
+      'পানীৰ পাইপ গোট মৰা ৰোধ কৰিবলৈ উপযুক্ত ইনচুলেচন কৰক।',
+      'কাহ, চৰ্দি আৰু প্ৰয়োজনীয় জৰুৰী ঔষধ মজুত ৰাখক।'
+    ],
+    duringAfter: [
+      'এটা ডাঠ কাপোৰৰ পৰিৱৰ্তে কেইবাটাও তৰপৰ (Layers) ঢিলা উণৰ কাপোৰ পিন্ধক।',
+      'বাহিৰলৈ ওলাওঁতে মূৰ, কাণ, ডিঙি, হাত আৰু ভৰি ভালদৰে ঢাকি ৰাখক।',
+      'কোঠাত হিটাৰ ব্যৱহাৰ কৰোঁতে বিষাক্ত গেছৰ পৰা বাচিবলৈ খিৰিকী সামান্য খোলা ৰাখক।',
+      'পোহনীয়া জীৱ-জন্তুৰ বাবে উমাল আশ্ৰয় আৰু শুকান বিছনাৰ ব্যৱস্থা কৰক।'
+    ],
+    videos: [
+      {
+        title: '#Coldwave | শীতপ্ৰবাহৰ সময়ত কি কৰিব আৰু কি নকৰিব',
+        duration: '3:15',
+        youtubeId: '3dGT8jQQvLw',
+        thumbnailUrl: 'https://img.youtube.com/vi/3dGT8jQQvLw/hqdefault.jpg'
+      },
+      {
+        title: '#Coldwave | শ্ৰমিক আৰু কৰ্মীসকলৰ বাবে শীতকালীন সুৰক্ষা',
+        duration: '3:45',
+        youtubeId: 'pl89ipXtGvk',
+        thumbnailUrl: 'https://img.youtube.com/vi/pl89ipXtGvk/hqdefault.jpg'
+      },
+      {
+        title: '#Coldwave | কৃষকসকলৰ বাবে শস্য সুৰক্ষা নিৰ্দেশনাৱলী',
+        duration: '4:10',
+        youtubeId: 'JdSYoPPx1io',
+        thumbnailUrl: 'https://img.youtube.com/vi/JdSYoPPx1io/hqdefault.jpg'
+      },
+      {
+        title: '#Coldwave | পাহাৰীয়া অঞ্চলৰ বাসিন্দাৰ বাবে বিশেষ সাৱধানতা',
+        duration: '3:30',
+        youtubeId: 'yYSfPDfIqMg',
+        thumbnailUrl: 'https://img.youtube.com/vi/yYSfPDfIqMg/hqdefault.jpg'
+      }
+    ]
+  },
+  'Earthquakes': {
+    title: 'ভূমিকম্প (EARTHQUAKES)',
+    beforeTitle: 'ভূমিকম্পৰ পূৰ্বে (BEFORE EARTHQUAKE)',
+    duringAfterTitle: 'ভূমিকম্পৰ সময়ত আৰু পিছত (DURING & AFTER EARTHQUAKE)',
+    before: [
+      'গধুৰ আলমাৰী, আইনা আৰু ৱাটাৰ হিটাৰ বেৰৰ লগত টানকৈ বান্ধি ৰাখক।',
+      'ঘৰৰ প্ৰতিটো কোঠাত মজবুত মেজৰ তলত নিৰাপদ স্থান চিনাক্ত কৰক।',
+      'পৰিয়ালৰ জৰুৰী মিলনস্থল নিৰ্ধাৰণ কৰক আৰু দুৰ্যোগ কিট সাজু ৰাখক।'
+    ],
+    duringAfter: [
+      'হালিব, ঢাকিব আৰু ধৰিব (DROP, COVER & HOLD ON): মজিয়াত বহি মেজৰ তলত মূৰ ঢাকি টানকৈ ধৰি থাকক।',
+      'ঘৰৰ ভিতৰত থাকিলে কঁপনি নথমা পৰ্যন্ত ভিতৰতে থাকক। লিফ্ট ব্যৱহাৰ নকৰিব।',
+      'বাহিৰত থাকিলে ওখ অট্টালিকা, বিজুলীৰ খুঁটা আৰু গছৰ পৰা আঁতৰি মুকলি পথাৰলৈ যাওক।',
+      'অনুকম্পনৰ (Aftershocks) বাবে সাজু থাকক। মেইন চুইচ বন্ধ কৰক।'
+    ],
+    videos: [
+      {
+        title: '#ভূমিকম্প | হালিব, ঢাকিব আৰু ধৰিব (Drop, Cover, Hold On) অনুশীলন',
+        duration: '2:40',
+        youtubeId: 'OqjXl4r2GqA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#ভূমিকম্প | ঘৰৰ গাঁথনি আৰু সুৰক্ষা ব্যৱস্থা',
+        duration: '4:15',
+        youtubeId: 'bA4A-q6u7n4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#ভূমিকম্প | ভূমিকম্পৰ পিছত গেছ আৰু বিদ্যুৎ পৰীক্ষা',
+        duration: '3:30',
+        youtubeId: '3eZ9aXo1n6k',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#ভূমিকম্প | সম্প্ৰদায় উদ্ধাৰ আৰু সুৰক্ষা প্ৰট’কল',
+        duration: '5:20',
+        youtubeId: '43M5mZuz3JA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  },
+  'Tsunamis': {
+    title: 'চুনামী (TSUNAMIS)',
+    beforeTitle: 'চুনামীৰ পূৰ্বে (BEFORE TSUNAMIS)',
+    duringAfterTitle: 'চুনামীৰ সময়ত আৰু পিছত (DURING & AFTER TSUNAMIS)',
+    before: [
+      'উপকূলীয় চুনামী প্ৰৱণ এলেকা আৰু ওখ নিৰাপদ আশ্ৰয়স্থলৰ তথ্য জানি থওক।',
+      'প্ৰাকৃতিক সংকেত চিনাক্ত কৰক: তীব্ৰ উপকূলীয় ভূমিকম্প বা হঠাৎ সাগৰৰ পানী পিছলৈ আঁতৰি যোৱা।',
+      'উপকূলৰ পৰা দূৰত আৰু সাগৰ পৃষ্ঠৰ পৰা অন্ততঃ ৩০ মিটাৰ ওখ নিৰাপদ পথ মনত ৰাখক।'
+    ],
+    duringAfter: [
+      'উপকূলত তীব্ৰ ভূমিকম্প অনুভৱ হ’লে কোনো সতৰ্কবাৰ্তালৈ বাট নাচাই তৎক্ষণাৎ খোজকাঢ়ি ওখ স্থানলৈ যাওক।',
+      'সাগৰৰ পানী পিছ হুহকা দৃশ্য চাবলৈ বা মাছ ধৰিবলৈ সাগৰ পাৰলৈ নাযাব।',
+      'মনত ৰাখক: চুনামী কেইবাটাও ঢৌৰ শৃংখলা আৰু প্ৰথম ঢৌটোৱেই ডাঙৰ নহ’বও পাৰে।',
+      'INCOIS বা NDMA-ৰ পৰা অনুমতি নোপোৱালৈকে ওখ স্থানতে থাকক।'
+    ],
+    videos: [
+      {
+        title: '#AapdaKaSaamna | চুনামী প্ৰতিৰোধ আৰু জৰুৰীকালীন সুৰক্ষা',
+        duration: '3:45',
+        youtubeId: 'qhC1GxLLG-M',
+        thumbnailUrl: 'https://img.youtube.com/vi/qhC1GxLLG-M/hqdefault.jpg'
+      },
+      {
+        title: 'NDMA INDIA - Tsunami (are you ready)',
+        duration: '2:50',
+        youtubeId: 'wCpjaXPc3eI',
+        thumbnailUrl: 'https://img.youtube.com/vi/wCpjaXPc3eI/hqdefault.jpg'
+      },
+      {
+        title: 'NDMA INDIA Tsunami (Dost Appu- Hindi)',
+        duration: '4:15',
+        youtubeId: 'W7GHpxHpnzk',
+        thumbnailUrl: 'https://img.youtube.com/vi/W7GHpxHpnzk/hqdefault.jpg'
+      }
+    ]
+  },
+  'Avalanches': {
+    title: 'হিমস্খলন (AVALANCHES)',
+    beforeTitle: 'হিমস্খলনৰ পূৰ্বে (BEFORE AVALANCHES)',
+    duringAfterTitle: 'হিমস্খলনৰ সময়ত আৰু পিছত (DURING & AFTER AVALANCHES)',
+    before: [
+      'পাহাৰীয়া যাত্ৰাৰ আগতে SASE/DGRE বুলেটিন আৰু হিমস্খলনৰ পূৰ্বানুমান চাওক।',
+      'এভালাঞ্চ ট্ৰাঞ্চিভাৰ বীকন, স্নো প্ৰ’ব আৰু সৰু বেলচা লগত ৰাখক।',
+      'দল বান্ধি যাত্ৰা কৰক কিন্তু বিপদজনক বৰফৰ ঢাল এজন এজনকৈ পাৰ হওক।'
+    ],
+    duringAfter: [
+      'হিমস্খলনৰ কবলত পৰিলে স্কি সঁজুলি দলিয়াই বৰফৰ ওপৰত সাঁতোৰাৰ দৰে হাত-ভৰি চলাওক।',
+      'বৰফ ৰোৱাৰ আগতে উশাহ ল’বলৈ মুখৰ সন্মুখত হাত ৰাখি এয়াৰ পকেট (Air Pocket) বনাওক।',
+      'অক্সিজেন বচাবলৈ শান্ত থাকক আৰু উদ্ধাৰকাৰী দলৰ শব্দ শুনিবলৈ চেষ্টা কৰক।'
+    ],
+    videos: [
+      {
+        title: '#হিমস্খলন | প্ৰাৰম্ভিক সংকেত আৰু পৰ্বতাৰোহণ সুৰক্ষা',
+        duration: '3:15',
+        youtubeId: 'oJYmZu4Cl_E',
+        thumbnailUrl: 'https://img.youtube.com/vi/oJYmZu4Cl_E/hqdefault.jpg'
+      },
+      {
+        title: '#হিমস্খলন | বৰফত আৱদ্ধ হ’লে জীৱন ৰক্ষাৰ কৌশল',
+        duration: '2:50',
+        youtubeId: '3Q7fYDTL3dM',
+        thumbnailUrl: 'https://img.youtube.com/vi/3Q7fYDTL3dM/hqdefault.jpg'
+      },
+      {
+        title: 'হিমস্খলন কেনেকৈ হয় [Avalanche Causes & Safety]',
+        duration: '4:10',
+        youtubeId: 'xB5V7Z8C_ik',
+        thumbnailUrl: 'https://img.youtube.com/vi/xB5V7Z8C_ik/hqdefault.jpg'
+      }
+    ]
+  },
+  'Landslides': {
+    title: 'ভূমিস্খলন (LANDSLIDES)',
+    beforeTitle: 'ভূমিস্খলনৰ পূৰ্বে (BEFORE LANDSLIDES)',
+    duringAfterTitle: 'ভূমিস্খলনৰ সময়ত আৰু পিছত (DURING & AFTER LANDSLIDES)',
+    before: [
+      'মাটিৰ খহনীয়া ৰোধ কৰিবলৈ পাহাৰৰ ঢালত গভীৰ শিপাযুক্ত গছ-গছনি ৰোপণ কৰক।',
+      'পূৰ্বলক্ষণ লক্ষ্য কৰক: দুৱাৰ-খিৰিকী লাগি ধৰা, গছ হেলনীয়া হোৱা বা মাটিত ফাঁট মেলা।',
+      'পাহাৰীয়া নলা বা খাড়া ঢালৰ মুখত ঘৰ সজাৰ পৰা বিৰত থাকক।'
+    ],
+    duringAfter: [
+      'টানা ধাৰাসাৰ বৰষুণৰ সময়ত সতৰ্ক থাকক; পাহাৰৰ গৰ্জন বা পানী ঘোলা হ’লে সাৱধান হওক।',
+      'মাটি বা শিল খহি পৰা দেখিলেই তৎক্ষণাৎ নিৰাপদ ওখ পাহাৰৰ দিশে ঢাপলি মেলক।',
+      'প্ৰশাসনৰ অনুমতি অবিহনে ভূমিস্খলন হোৱা পথৰে যাতায়াত নকৰিব।'
+    ],
+    videos: [
+      {
+        title: '#ভূমিস্খলন | পাহাৰীয়া ঢালত ভূমিস্খলনৰ আগতীয়া লক্ষণ',
+        duration: '3:45',
+        youtubeId: '3eZ9aXo1n6k',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#ভূমিস্খলন | পাহাৰীয়া ৰাস্তাত গাড়ী চলোৱাৰ সতৰ্কতা',
+        duration: '4:10',
+        youtubeId: '43M5mZuz3JA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#ভূমিস্খলন | বায়’-ইঞ্জিনিয়াৰিঙৰ জৰিয়তে মাটি স্থিৰীকৰণ',
+        duration: '3:20',
+        youtubeId: 'bA4A-q6u7n4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#ভূমিস্খলন | ভূমিস্খলনৰ পিছত উদ্ধাৰ আৰু সাহায্য কাৰ্যসূচী',
+        duration: '5:00',
+        youtubeId: 'OqjXl4r2GqA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  },
+  'Cloudbursts': {
+    title: 'মেঘভঙা বৰষুণ আৰু আকস্মিক বান (CLOUDBURSTS)',
+    beforeTitle: 'মেঘভঙা বৰষুণৰ পূৰ্বে (BEFORE CLOUDBURSTS)',
+    duringAfterTitle: 'মেঘভঙা বৰষুণৰ সময়ত আৰু পিছত (DURING & AFTER CLOUDBURSTS)',
+    before: [
+      'পাহাৰীয়া বাৰিষাৰ নদী বা জানৰ মুখত কেতিয়াও তম্বু বা অস্থায়ী শিবিৰ নাপাতিব।',
+      'পাহাৰীয়া যাত্ৰাৰ সময়ত পূৰ্বতেই ওখ পাথৰৰ টিলা আৰু জৰুৰী ওলোৱা পথ চিনাক্ত কৰক।',
+      'জৰুৰী হুইচেল, টৰ্চ লাইট আৰু প্ৰয়োজনীয় সুৰক্ষা কিট সদায় লগত ৰাখক।'
+    ],
+    duringAfter: [
+      'পাহাৰীয়া উপত্যকাত প্ৰচণ্ড ধাৰাসাৰ বৰষুণ আৰম্ভ হ’লেই নদীৰ পাৰ এৰি ওপৰৰ পাহাৰলৈ উঠক।',
+      'পাহাৰীয়া প্ৰবল জলসোঁত খোজকাঢ়ি বা গাড়ীৰে পাৰ হ’বলৈ চেষ্টা নকৰিব।',
+      'দুৰ্বল শিলৰ ঢালৰ পৰা আঁতৰি পকী সুৰক্ষিত গৃহত আশ্ৰয় লওক।'
+    ],
+    videos: [
+      {
+        title: '#মেঘভঙাবৰষুণ | পাহাৰীয়া উপত্যকাত হঠাত হোৱা বানৰ পৰা সুৰক্ষা',
+        duration: '4:20',
+        youtubeId: '43M5mZuz3JA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#মেঘভঙাবৰষুণ | বাৰিষাকালীন পাহাৰীয়া ভ্ৰমণ সুৰক্ষা ব্যৱস্থা',
+        duration: '3:40',
+        youtubeId: 'OqjXl4r2GqA',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#মেঘভঙাবৰষুণ | উপত্যকাৰ পৰা দ্ৰুত নিষ্কাষণ আৰু নিৰাপত্তা',
+        duration: '3:05',
+        youtubeId: 'bA4A-q6u7n4',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        title: '#মেঘভঙাবৰষুণ | সম্প্ৰদায়ৰ জৰুৰী সঁহাৰি আৰু হুইচেল সংকেত',
+        duration: '4:50',
+        youtubeId: '3eZ9aXo1n6k',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  }
+};
