@@ -51,13 +51,18 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
     return diff >= 0 && diff <= SIX_HOURS_MS;
   };
 
+  const isReportVerified = (r: WeatherReport) => 
+    r.verification_status === 'VERIFIED' || 
+    r.verification_status === 'LIKELY_AUTHENTIC' ||
+    (r.credibility_score && r.credibility_score >= 80);
+
   const recentCount = reports.filter(r => isReportRecent(r.timestamp)).length;
-  const verifiedCount = reports.filter(r => r.verification_status === 'VERIFIED').length;
+  const verifiedCount = reports.filter(isReportVerified).length;
   const citizenCount = reports.filter(r => r.source_type === 'citizen_report').length;
-  const verifiedCitizenCount = reports.filter(r => r.source_type === 'citizen_report' && r.verification_status === 'VERIFIED').length;
+  const verifiedCitizenCount = reports.filter(r => r.source_type === 'citizen_report' && isReportVerified(r)).length;
 
   const displayReports = reports.filter(r => {
-    if (filterMode === 'verified') return r.verification_status === 'VERIFIED';
+    if (filterMode === 'verified') return isReportVerified(r);
     if (filterMode === 'citizen') return r.source_type === 'citizen_report';
     if (filterMode === 'recent') return isReportRecent(r.timestamp);
     return true;
@@ -67,22 +72,22 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({
     <div className="bg-white dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col h-[580px] shadow-sm dark:shadow-xl font-sans overflow-hidden">
       {/* SACHET Official Blue Header Banner */}
       <div className="bg-[#18447e] text-white px-4 py-3 flex items-center justify-between shadow-xs">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-white/15 border border-white/30 flex items-center justify-center text-amber-300">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-7 h-7 rounded-full bg-white/15 border border-white/30 flex items-center justify-center text-amber-300 shrink-0">
             <Bell className="w-4 h-4 animate-bounce" />
           </div>
-          <div>
-            <h3 className="text-sm font-black tracking-wider uppercase text-white font-heading">
+          <div className="min-w-0">
+            <h3 className="text-sm font-black tracking-wider uppercase text-white font-heading truncate">
               {t('feed_title')}
             </h3>
-            <p className="text-[10px] text-blue-200 font-mono tracking-wide">
+            <p className="text-[10px] text-blue-200 font-mono tracking-wide truncate">
               {t('feed_subtitle')} ({reports.length})
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] font-mono font-bold text-white uppercase tracking-wider">{t('live_fresh')}</span>
+        <div className="flex items-center gap-1.5 shrink-0 ml-2">
+          <span className="text-[11px] font-mono font-bold text-white uppercase tracking-wider whitespace-nowrap">{t('live_fresh')}</span>
         </div>
       </div>
 

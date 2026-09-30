@@ -159,7 +159,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         <MetricCard
           title="Total Ingested"
           value={totalIngested}
-          subtext="Multi-source stream"
+          subtext="Telemetry stream"
           icon={Activity}
           trend={`+${past24hCount} 24h`}
           colorTheme="cyan"
@@ -167,9 +167,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('reports', { status: 'All' })}
         />
         <MetricCard
-          title={t('metric_active_clusters')}
+          title="Active Clusters"
           value={activeEventsCount || events.length}
-          subtext={t('metric_active_sub')}
+          subtext="Corroborated"
           icon={Radio}
           trend={`${activeEventsCount} Live`}
           colorTheme="blue"
@@ -177,9 +177,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('events')}
         />
         <MetricCard
-          title={t('feed_verified')}
+          title="Verified Incidents"
           value={verifiedCount}
-          subtext="Ground truth confirmed"
+          subtext="Ground truth"
           icon={ShieldCheck}
           trend={`${verifiedRate}% Rate`}
           colorTheme="emerald"
@@ -187,9 +187,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('reports', { status: 'VERIFIED' })}
         />
         <MetricCard
-          title={t('metric_critical_alerts')}
+          title="Critical Alerts"
           value={criticalCount}
-          subtext={t('metric_critical_sub')}
+          subtext="Emergency warning"
           icon={AlertTriangle}
           trend={criticalCount > 0 ? `${criticalCount} Warning` : 'Clear'}
           trendPositive={criticalCount === 0}
@@ -198,9 +198,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('incident', { eventId: firstCriticalAlert?.event_cluster_id })}
         />
         <MetricCard
-          title={t('metric_states_affected')}
+          title="States Affected"
           value={statesAffectedCount}
-          subtext={t('metric_states_sub')}
+          subtext="Pan-Indian Union"
           icon={MapPin}
           trend="Pan-India"
           colorTheme="amber"
@@ -208,9 +208,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           onClick={() => onNavigateTab && onNavigateTab('map')}
         />
         <MetricCard
-          title={t('metric_trust_score')}
+          title="Mean AI Trust"
           value={`${avgTrust}%`}
-          subtext={t('metric_trust_sub')}
+          subtext="Credibility score"
           icon={Shield}
           trend="High Accuracy"
           colorTheme="purple"

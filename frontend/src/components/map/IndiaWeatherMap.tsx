@@ -203,21 +203,21 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
     }
 
     try {
-      const indiaSouthWest = L.latLng(6.5, 68.0);
-      const indiaNorthEast = L.latLng(37.2, 97.5);
+      const indiaSouthWest = L.latLng(5.5, 66.0);
+      const indiaNorthEast = L.latLng(37.8, 98.5);
       const indiaBounds = L.latLngBounds(indiaSouthWest, indiaNorthEast);
 
       const map = L.map(mapContainerRef.current, {
-        center: [22.5, 82.5],
-        zoom: 5,
-        minZoom: 4.8,
+        center: [21.5, 79.5],
+        zoom: 4.5,
+        minZoom: 4.0,
         maxZoom: 16,
         maxBounds: indiaBounds,
-        maxBoundsViscosity: 1.0, // Hard bounce-back boundary lock to India
+        maxBoundsViscosity: 0.95, // Smooth bounce-back boundary lock to India
         zoomControl: false,
       });
 
-      map.fitBounds(indiaBounds, { padding: [10, 10] });
+      map.fitBounds(indiaBounds, { padding: [12, 12] });
 
       setTileLayer(map, selectedBaseMap);
 
