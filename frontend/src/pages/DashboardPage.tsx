@@ -4,6 +4,7 @@ import { MetricCard } from '../components/common/MetricCard';
 import { IndiaWeatherMap } from '../components/map/IndiaWeatherMap';
 import { LiveFeed } from '../components/dashboard/LiveFeed';
 import { DosAndDontsSection } from '../components/dashboard/DosAndDontsSection';
+import { CapAboutSection } from '../components/dashboard/CapAboutSection';
 import { WeatherReport, EventCluster, Alert, AnalyticsOverview } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -318,6 +319,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Official SACHET / NDMA Citizen Dos & Don'ts Section */}
       <div className="pt-2">
         <DosAndDontsSection />
+      </div>
+
+      {/* Official NDMA Pan-India CAP Alert System Architecture & Dissemination Overview */}
+      <div className="pt-2">
+        <CapAboutSection />
       </div>
     </div>
   );
