@@ -895,12 +895,8 @@ export const IndiaWeatherMap: React.FC<IndiaWeatherMapProps> = ({
 
   return (
     <div className="relative isolate z-0 w-full h-full min-h-[580px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/80 shadow-2xl bg-slate-100 dark:bg-slate-950 flex flex-col font-sans">
-      {/* Tactical Quick-Jump City Bar */}
-      <div className="bg-slate-100/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 py-2 flex items-center justify-between gap-2 overflow-x-auto z-10 shrink-0">
-        <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-700 dark:text-cyan-300 shrink-0 font-mono">
-          <Compass className="w-4 h-4 text-cyan-600 dark:text-cyan-400 animate-spin-slow" />
-          <span>Tactical City Jump:</span>
-        </div>
+      {/* Quick-Jump City Bar */}
+      <div className="bg-slate-100/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 py-2 flex items-center gap-2 overflow-x-auto z-10 shrink-0">
         <div className="flex items-center gap-1.5 overflow-x-auto">
           {QUICK_JUMP_CITIES.map((c, i) => (
             <button
