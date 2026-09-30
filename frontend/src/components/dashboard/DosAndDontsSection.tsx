@@ -1022,28 +1022,28 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#ColdWave | Winter Safety & Hypothermia Prevention',
+          title: '#Coldwave | What To Do and What Not To Do During a Cold Wave',
           duration: '3:15',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          youtubeId: '3dGT8jQQvLw',
+          thumbnailUrl: 'https://img.youtube.com/vi/3dGT8jQQvLw/hqdefault.jpg'
         },
         {
-          title: '#ColdWave | Safe Heating Practices & Carbon Monoxide Hazards',
-          duration: '4:30',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#ColdWave | Protecting Crops & Livestock from Frost Bite',
+          title: '#Coldwave | Do\'s and Don\'ts for Daily Wage Workers & Laborers',
           duration: '3:45',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          youtubeId: 'pl89ipXtGvk',
+          thumbnailUrl: 'https://img.youtube.com/vi/pl89ipXtGvk/hqdefault.jpg'
         },
         {
-          title: '#ColdWave | Cold Wave Protocol for Vulnerable Groups',
-          duration: '5:00',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: '#Coldwave | Safety Guidelines and Precautions for Farmers',
+          duration: '4:10',
+          youtubeId: 'JdSYoPPx1io',
+          thumbnailUrl: 'https://img.youtube.com/vi/JdSYoPPx1io/hqdefault.jpg'
+        },
+        {
+          title: '#Coldwave | Do\'s and Don\'ts for People Residing in Hilly Regions',
+          duration: '3:30',
+          youtubeId: 'yYSfPDfIqMg',
+          thumbnailUrl: 'https://img.youtube.com/vi/yYSfPDfIqMg/hqdefault.jpg'
         }
       ]
     },
@@ -1064,28 +1064,28 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#शीतलहर | सर्दियों में हाइपोथर्मिया से बचाव और सुरक्षा',
+          title: '#Coldwave | शीतलहर के दौरान क्या करें - क्या ना करें',
           duration: '3:15',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          youtubeId: '3dGT8jQQvLw',
+          thumbnailUrl: 'https://img.youtube.com/vi/3dGT8jQQvLw/hqdefault.jpg'
         },
         {
-          title: '#शीतलहर | सुरक्षित हीटिंग और अंगीठी से होने वाले खतरे',
-          duration: '4:30',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#शीतलहर | पाले से फसलों और पशुओं का बचाव',
+          title: '#Coldwave | मजदूर और कामकाजी व्यक्ति शीतलहर के दौरान क्या करें - क्या न करें।',
           duration: '3:45',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          youtubeId: 'pl89ipXtGvk',
+          thumbnailUrl: 'https://img.youtube.com/vi/pl89ipXtGvk/hqdefault.jpg'
         },
         {
-          title: '#शीतलहर | बुजुर्गों और बच्चों के लिए शीतलहर प्रोटोकॉल',
-          duration: '5:00',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: '#Coldwave | शीतलहर से पहले और उसके दौरान किसान क्या करें - क्या ना करें',
+          duration: '4:10',
+          youtubeId: 'JdSYoPPx1io',
+          thumbnailUrl: 'https://img.youtube.com/vi/JdSYoPPx1io/hqdefault.jpg'
+        },
+        {
+          title: '#Coldwave | Do\'s and don\'ts of a cold wave for people residing in hilly regions',
+          duration: '3:30',
+          youtubeId: 'yYSfPDfIqMg',
+          thumbnailUrl: 'https://img.youtube.com/vi/yYSfPDfIqMg/hqdefault.jpg'
         }
       ]
     },
@@ -1106,28 +1106,28 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#শৈত্যপ্রবাহ | হাইপোথার্মিয়া প্রতিরোধ ও শীতের সুরক্ষা',
+          title: '#শৈত্যপ্রবাহ | শৈত্যপ্রবাহের সময় কী করবেন এবং কী করবেন না',
           duration: '3:15',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          youtubeId: '3dGT8jQQvLw',
+          thumbnailUrl: 'https://img.youtube.com/vi/3dGT8jQQvLw/hqdefault.jpg'
         },
         {
-          title: '#শৈত্যপ্রবাহ | নিরাপদ হিটিং ও কার্বন মনোক্সাইড বিষক্রিয়া প্রতিরোধ',
-          duration: '4:30',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#শৈত্যপ্রবাহ | ফসল ও গবাদি পশুর সুরক্ষা',
+          title: '#শৈত্যপ্রবাহ | শ্রমিক ও কর্মজীবী মানুষের জন্য করণীয় ও বর্জনীয়',
           duration: '3:45',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          youtubeId: 'pl89ipXtGvk',
+          thumbnailUrl: 'https://img.youtube.com/vi/pl89ipXtGvk/hqdefault.jpg'
         },
         {
-          title: '#শৈত্যপ্রবাহ | প্রবীণ ও শিশুদের বিশেষ সতর্কতা',
-          duration: '5:00',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: '#শৈত্যপ্রবাহ | শৈত্যপ্রবাহে কৃষকদের করণীয় সুরক্ষা নির্দেশিকা',
+          duration: '4:10',
+          youtubeId: 'JdSYoPPx1io',
+          thumbnailUrl: 'https://img.youtube.com/vi/JdSYoPPx1io/hqdefault.jpg'
+        },
+        {
+          title: '#শৈত্যপ্রবাহ | পাহাড়ি অঞ্চলের বাসিন্দাদের জন্য বিশেষ সতর্কতা',
+          duration: '3:30',
+          youtubeId: 'yYSfPDfIqMg',
+          thumbnailUrl: 'https://img.youtube.com/vi/yYSfPDfIqMg/hqdefault.jpg'
         }
       ]
     },
@@ -1148,28 +1148,28 @@ const DISASTER_CONTENT: Record<DisasterCategory, Record<string, DosDontsData>> =
       ],
       videos: [
         {
-          title: '#શીતલહેર | શિયાળામાં હાઈપોથર્મિયાથી રક્ષણ અને સાવચેતી',
+          title: '#શીતલહેર | શીત લહેર દરમિયાન શું કરવું અને શું ન કરવું',
           duration: '3:15',
-          youtubeId: 'bA4A-q6u7n4',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80'
+          youtubeId: '3dGT8jQQvLw',
+          thumbnailUrl: 'https://img.youtube.com/vi/3dGT8jQQvLw/hqdefault.jpg'
         },
         {
-          title: '#શીતલહેર | સુરક્ષિત હીટિંગ અને કાર્બન મોનોક્સાઇડના જોખમો',
-          duration: '4:30',
-          youtubeId: '3eZ9aXo1n6k',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          title: '#શીતલહેર | પાક અને પશુધનનું રક્ષણ',
+          title: '#શીતલહેર | શ્રમિકો અને કામદારો માટે શીત લહેરમાં સુરક્ષા સલાહ',
           duration: '3:45',
-          youtubeId: '43M5mZuz3JA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+          youtubeId: 'pl89ipXtGvk',
+          thumbnailUrl: 'https://img.youtube.com/vi/pl89ipXtGvk/hqdefault.jpg'
         },
         {
-          title: '#શીતલહેર | વરિષ્ઠ નાગરિકો અને બાળકો માટે સુરક્ષા પ્રોટોકોલ',
-          duration: '5:00',
-          youtubeId: 'OqjXl4r2GqA',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=600&q=80'
+          title: '#શીતલહેર | ખેડૂતો માટે શીત લહેર પહેલાં અને દરમિયાન સાવચેતી',
+          duration: '4:10',
+          youtubeId: 'JdSYoPPx1io',
+          thumbnailUrl: 'https://img.youtube.com/vi/JdSYoPPx1io/hqdefault.jpg'
+        },
+        {
+          title: '#શીતલહેર | પર્વતીય વિસ્તારોના રહેવાસીઓ માટે શું કરવું અને શું ન કરવું',
+          duration: '3:30',
+          youtubeId: 'yYSfPDfIqMg',
+          thumbnailUrl: 'https://img.youtube.com/vi/yYSfPDfIqMg/hqdefault.jpg'
         }
       ]
     }
