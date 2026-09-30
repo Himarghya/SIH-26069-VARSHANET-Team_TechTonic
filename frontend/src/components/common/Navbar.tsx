@@ -240,15 +240,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Toolbar Controls */}
         <div className="flex items-center gap-2 shrink-0">
-          {/* Live Sync Trigger & Countdown Badge */}
+          {/* Live Sync Trigger & Countdown Badge (High-Contrast Bright Text) */}
           <button
             onClick={handleSync}
             disabled={isSyncing}
-            className="h-8 flex items-center gap-1.5 px-2.5 rounded bg-[#123666] dark:bg-slate-950 border border-[#1f4a85] dark:border-slate-800 hover:border-yellow-400/50 text-white dark:text-slate-300 transition-all text-xs font-mono shadow-xs cursor-pointer shrink-0"
+            className="h-8 flex items-center gap-1.5 px-2.5 rounded-md bg-[#0e2a52] dark:bg-slate-950 border border-blue-400/60 hover:border-yellow-400 text-yellow-300 transition-all text-xs font-mono shadow-sm cursor-pointer shrink-0"
             title="Auto-cycles every 5 minutes. Click to force instant live sync"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-yellow-300 dark:text-cyan-400 ${isSyncing ? 'animate-spin' : ''}`} />
-            <span className="text-[11px] hidden sm:inline text-yellow-200 dark:text-cyan-400 font-bold tabular-nums">
+            <RefreshCw className={`w-3.5 h-3.5 text-yellow-400 dark:text-yellow-300 ${isSyncing ? 'animate-spin' : ''}`} />
+            <span className="text-xs font-black font-mono text-yellow-300 dark:text-yellow-300 tracking-wider tabular-nums">
               {syncMessage ? syncMessage : timerDisplay}
             </span>
           </button>
