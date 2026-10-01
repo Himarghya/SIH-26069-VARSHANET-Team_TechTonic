@@ -23,10 +23,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   onSelectReport,
   onNavigateToTab
 }) => {
-  const [adminTab, setAdminTab] = useState<'post' | 'tracking' | 'dos_donts' | 'verification' | 'active_learning' | 'health'>('post');
+  const [adminTab, setAdminTab] = useState<'dispatch_tracker' | 'dos_donts' | 'verification' | 'active_learning' | 'health'>('dispatch_tracker');
+  const [dispatchSubTab, setDispatchSubTab] = useState<'post' | 'tracking'>('post');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Admin Navigation Sub-Bar */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
@@ -38,27 +39,15 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
         <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 flex-wrap">
           <button
-            onClick={() => setAdminTab('post')}
+            onClick={() => setAdminTab('dispatch_tracker')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              adminTab === 'post'
+              adminTab === 'dispatch_tracker'
                 ? 'bg-rose-600 text-white shadow-md'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Send className="w-3.5 h-3.5" />
-            Official Incident Post (Pre-Verified)
-          </button>
-
-          <button
-            onClick={() => setAdminTab('tracking')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-              adminTab === 'tracking'
-                ? 'bg-cyan-600 text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-            }`}
-          >
-            <Search className="w-3.5 h-3.5" />
-            Track Submissions
+            Official Incident Post &amp; Tracker
           </button>
 
           <button
@@ -112,18 +101,54 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       </div>
 
       {/* Sub-view switcher */}
-      {adminTab === 'post' && (
-        <AdminIncidentPostForm
-          onReportPublished={onRefreshData}
-          onNavigateToMap={() => onNavigateToTab && onNavigateToTab('map')}
-        />
-      )}
+      {adminTab === 'dispatch_tracker' && (
+        <div className="space-y-4">
+          {/* Sub-navigation to easily switch between Post Form and Track Submissions */}
+          <div className="flex items-center justify-between gap-3 bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setDispatchSubTab('post')}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  dispatchSubTab === 'post'
+                    ? 'bg-rose-600 text-white shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+                }`}
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Official Incident Post (Pre-Verified)</span>
+              </button>
 
-      {adminTab === 'tracking' && (
-        <AdminSubmissionTracker
-          onSelectReport={onSelectReport}
-          onNavigateToMap={() => onNavigateToTab && onNavigateToTab('map')}
-        />
+              <button
+                onClick={() => setDispatchSubTab('tracking')}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  dispatchSubTab === 'tracking'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+                }`}
+              >
+                <Search className="w-3.5 h-3.5" />
+                <span>Track Submissions &amp; Audit</span>
+              </button>
+            </div>
+
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 pr-2 hidden md:block font-medium">
+              Publish official incident alerts &amp; audit live citizen submissions together
+            </div>
+          </div>
+
+          {dispatchSubTab === 'post' ? (
+            <AdminIncidentPostForm
+              onReportPublished={onRefreshData}
+              onNavigateToMap={() => onNavigateToTab && onNavigateToTab('map')}
+              onViewTracking={() => setDispatchSubTab('tracking')}
+            />
+          ) : (
+            <AdminSubmissionTracker
+              onSelectReport={onSelectReport}
+              onNavigateToMap={() => onNavigateToTab && onNavigateToTab('map')}
+            />
+          )}
+        </div>
       )}
 
       {adminTab === 'dos_donts' && (

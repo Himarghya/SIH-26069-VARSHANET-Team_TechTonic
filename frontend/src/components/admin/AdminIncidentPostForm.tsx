@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldAlert, Send, MapPin, Camera, Upload, Trash2, ArrowDownCircle, CheckCircle2, AlertTriangle, Radio, Sparkles, Navigation, Globe } from 'lucide-react';
+import { ShieldAlert, Send, MapPin, Camera, Upload, Trash2, ArrowDownCircle, CheckCircle2, AlertTriangle, Radio, Sparkles, Navigation, Globe, Search } from 'lucide-react';
 import { publishAdminVerifiedReport } from '../../services/api';
 import { WeatherReport, ALL_INDIAN_STATES_UTS } from '../../types';
 
@@ -64,11 +64,13 @@ const CATEGORY_SAMPLE_PHOTOS: Record<string, { name: string; url: string }[]> = 
 interface AdminIncidentPostFormProps {
   onReportPublished?: () => void;
   onNavigateToMap?: () => void;
+  onViewTracking?: () => void;
 }
 
 export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
   onReportPublished,
-  onNavigateToMap
+  onNavigateToMap,
+  onViewTracking
 }) => {
   const [eventType, setEventType] = useState('Urban Flooding');
   const [severity, setSeverity] = useState<'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL'>('HIGH');
@@ -225,7 +227,7 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-3 pt-2">
+          <div className="flex items-center justify-center gap-3 pt-2 flex-wrap">
             <button
               onClick={() => {
                 setPublishedReport(null);
@@ -235,6 +237,16 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
             >
               Post Another Verified Incident
             </button>
+
+            {onViewTracking && (
+              <button
+                onClick={onViewTracking}
+                className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all cursor-pointer shadow-md flex items-center gap-1.5"
+              >
+                <Search className="w-4 h-4" />
+                <span>Track in Submission Ledger</span>
+              </button>
+            )}
 
             {onNavigateToMap && (
               <button
