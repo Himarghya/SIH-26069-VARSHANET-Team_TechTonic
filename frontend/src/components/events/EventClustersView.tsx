@@ -44,9 +44,6 @@ export const EventClustersView: React.FC<EventClustersViewProps> = ({ events, on
               <h1 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                 Disaster Event Clusters
               </h1>
-              <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-700/60">
-                LIVE SPATIOTEMPORAL GRID
-              </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
               Multi-source sensor fusion deduplicating raw hazard streams into verified incident units.
