@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Radio, AlertTriangle, ShieldCheck, Activity, RefreshCw, ChevronRight, FileText, PhoneCall, ShieldAlert, HeartHandshake, MapPin } from 'lucide-react';
+import {
+  Radio,
+  AlertTriangle,
+  ShieldCheck,
+  Activity,
+  RefreshCw,
+  ChevronRight,
+  FileText,
+  PhoneCall,
+  ShieldAlert,
+  HeartHandshake,
+  MapPin,
+  Users,
+  Cpu,
+  FileCheck,
+  Layers
+} from 'lucide-react';
 import { EventCluster, EventImpactResponse } from '../types';
 import { fetchEventImpact } from '../services/api';
 import { IncidentHeader } from '../components/incident/IncidentHeader';
@@ -37,6 +53,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
   const [impactData, setImpactData] = useState<EventImpactResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showSitRepModal, setShowSitRepModal] = useState(false);
+  const [activeApproach, setActiveApproach] = useState<string>('ALL');
 
   useEffect(() => {
     if (selectedEventId) {
@@ -220,92 +237,238 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               />
             </div>
           ) : (
-            /* ANALYST / ADMIN VIEW: Perfectly Balanced Tactical Command Suite */
             <>
-              {/* SECTION 1: Demographic Exposure & 3-Hour Nowcast Trajectory */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                <div className="lg:col-span-6 flex flex-col">
-                  <ImpactSummary exposure={impactData.impact_evaluation.population_exposure} />
-                </div>
-                <div className="lg:col-span-6 flex flex-col">
-                  <RiskTrajectory
-                    trajectory={impactData.impact_evaluation.nowcast_trajectory}
-                    escalationProbability={impactData.impact_evaluation.scores.escalation_probability}
-                  />
-                </div>
+              {/* ANALYST / ADMIN VIEW: Structured Operational Approaches */}
+              {/* Operational Approach Selector Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl scrollbar-none">
+                {[
+                  { id: 'ALL', label: 'All Operational Modules', icon: Activity, count: '6 Sectors' },
+                  { id: 'THREAT', label: '1. Threat & Exposure', icon: Users, tag: 'Impact' },
+                  { id: 'TACTICAL', label: '2. Tactical Response & NDRF', icon: ShieldAlert, tag: 'Logistics' },
+                  { id: 'ALERTS', label: '3. Alerts & Ground Intel', icon: Radio, tag: 'CAP & Gaps' },
+                  { id: 'AI_NOWCAST', label: '4. AI Radar & Multimodal', icon: Cpu, tag: 'Forecaster' },
+                  { id: 'FORENSICS', label: '5. Ground Evidence & Audit', icon: FileCheck, tag: 'Forensics' }
+                ].map((approach) => {
+                  const isSelected = activeApproach === approach.id;
+                  const Icon = approach.icon;
+                  return (
+                    <button
+                      key={approach.id}
+                      onClick={() => setActiveApproach(approach.id)}
+                      className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+                        isSelected
+                          ? 'bg-cyan-600 text-white shadow-sm'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                      <span>{approach.label}</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* SECTION 2: AI SOP Recommendations & Critical Infrastructure Risk */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                <div className="lg:col-span-6 flex flex-col">
-                  <ResponseRecommendations
-                    recommendations={impactData.impact_evaluation.response_recommendations}
-                  />
-                </div>
-                <div className="lg:col-span-6 flex flex-col">
-                  <InfrastructureRiskPanel infrastructure={impactData.impact_evaluation.infrastructure} />
-                </div>
-              </div>
+              {/* APPROACH 1: Threat Assessment & Demographic Exposure */}
+              {(activeApproach === 'ALL' || activeApproach === 'THREAT') && (
+                <div className="space-y-4 pt-2">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-cyan-100 dark:bg-cyan-950/80 text-cyan-700 dark:text-cyan-400 font-mono font-black text-xs flex items-center justify-center border border-cyan-300/60 dark:border-cyan-800">
+                        01
+                      </div>
+                      <div>
+                        <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                          Hazard Assessment & Demographic Exposure
+                        </h2>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          Population vulnerability mapping and 3-hour radar nowcast trajectories
+                        </p>
+                      </div>
+                    </div>
+                    <span className="hidden sm:inline-block text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-md bg-cyan-50 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800">
+                      Threat Assessment
+                    </span>
+                  </div>
 
-              {/* SECTION 3: Full-Width 16 NDRF Battalion Tactical Routing & Asset Dispatch Suite */}
-              <EmergencyResourceDispatch
-                city={impactData.city || impactData.state}
-                state={impactData.state}
-                latitude={impactData.latitude}
-                longitude={impactData.longitude}
-                totalPopulationExposed={impactData.impact_evaluation.population_exposure.total_population_exposed}
-                severity={impactData.severity}
-              />
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <div className="lg:col-span-6 flex flex-col">
+                      <ImpactSummary exposure={impactData.impact_evaluation.population_exposure} />
+                    </div>
+                    <div className="lg:col-span-6 flex flex-col">
+                      <RiskTrajectory
+                        trajectory={impactData.impact_evaluation.nowcast_trajectory}
+                        escalationProbability={impactData.impact_evaluation.scores.escalation_probability}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
 
-              {/* SECTION 4: CAP Cell Early Warning Broadcast & Ground Verification Resolver */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                <div className="lg:col-span-6 flex flex-col">
-                  <CapBroadcastSimulator
+              {/* APPROACH 2: Tactical Action Plan & Emergency NDRF Dispatch */}
+              {(activeApproach === 'ALL' || activeApproach === 'TACTICAL') && (
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-400 font-mono font-black text-xs flex items-center justify-center border border-amber-300/60 dark:border-amber-800">
+                        02
+                      </div>
+                      <div>
+                        <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                          Tactical Action Plan & Emergency NDRF Dispatch
+                        </h2>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          AI Standard Operating Procedures (SOPs), 16 NDRF battalion routing, and critical infrastructure protection
+                        </p>
+                      </div>
+                    </div>
+                    <span className="hidden sm:inline-block text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-md bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                      Emergency Operations
+                    </span>
+                  </div>
+
+                  {/* SOP Recommendations & Critical Infrastructure */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <div className="lg:col-span-6 flex flex-col">
+                      <ResponseRecommendations
+                        recommendations={impactData.impact_evaluation.response_recommendations}
+                      />
+                    </div>
+                    <div className="lg:col-span-6 flex flex-col">
+                      <InfrastructureRiskPanel infrastructure={impactData.impact_evaluation.infrastructure} />
+                    </div>
+                  </div>
+
+                  {/* NDRF Logistics Dispatcher */}
+                  <EmergencyResourceDispatch
                     city={impactData.city || impactData.state}
                     state={impactData.state}
+                    latitude={impactData.latitude}
+                    longitude={impactData.longitude}
+                    totalPopulationExposed={impactData.impact_evaluation.population_exposure.total_population_exposed}
                     severity={impactData.severity}
+                  />
+                </div>
+              )}
+
+              {/* APPROACH 3: Public Warning Broadcast & Ground Verification */}
+              {(activeApproach === 'ALL' || activeApproach === 'ALERTS') && (
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-400 font-mono font-black text-xs flex items-center justify-center border border-rose-300/60 dark:border-rose-800">
+                        03
+                      </div>
+                      <div>
+                        <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                          Public Warning Broadcast & Field Intelligence Gaps
+                        </h2>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          Common Alerting Protocol (CAP) cellular broadcast simulator and telemetry reconciliation
+                        </p>
+                      </div>
+                    </div>
+                    <span className="hidden sm:inline-block text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-md bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+                      Public Advisory
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <div className="lg:col-span-6 flex flex-col">
+                      <CapBroadcastSimulator
+                        city={impactData.city || impactData.state}
+                        state={impactData.state}
+                        severity={impactData.severity}
+                        eventType={impactData.event_type}
+                        recommendations={impactData.impact_evaluation.response_recommendations.map(r => r.action)}
+                      />
+                    </div>
+                    <div className="lg:col-span-6 flex flex-col">
+                      <InformationGapPanel
+                        gaps={impactData.impact_evaluation.information_gaps}
+                        verificationRequests={impactData.impact_evaluation.verification_requests}
+                        onVerificationDone={() => currentEventId && loadImpactData(currentEventId)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* APPROACH 4: AI Radar Nowcasting & Multimodal Fusion */}
+              {(activeApproach === 'ALL' || activeApproach === 'AI_NOWCAST') && (
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-400 font-mono font-black text-xs flex items-center justify-center border border-purple-300/60 dark:border-purple-800">
+                        04
+                      </div>
+                      <div>
+                        <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                          AI Radar Nowcasting & Multimodal Fusion Telemetry
+                        </h2>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          Spatiotemporal escalation radar and deep learning multimodal sensor fusion diagnostics
+                        </p>
+                      </div>
+                    </div>
+                    <span className="hidden sm:inline-block text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-md bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                      Machine Intelligence
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <div className="lg:col-span-6 flex flex-col">
+                      <SeverityForecastRadar />
+                    </div>
+                    <div className="lg:col-span-6 flex flex-col">
+                      <MultimodalFusionInspector />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* APPROACH 5: Ground Truth Evidence & Forensic Provenance */}
+              {(activeApproach === 'ALL' || activeApproach === 'FORENSICS') && (
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-400 font-mono font-black text-xs flex items-center justify-center border border-emerald-300/60 dark:border-emerald-800">
+                        05
+                      </div>
+                      <div>
+                        <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                          Ground Truth Evidence & Forensic Provenance
+                        </h2>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          Verified citizen image telemetry, explainable multi-source evidence chain, and calibration delta
+                        </p>
+                      </div>
+                    </div>
+                    <span className="hidden sm:inline-block text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                      Forensic Audit
+                    </span>
+                  </div>
+
+                  {/* Citizen Photo Evidence */}
+                  <VerifiedGroundEvidenceGallery
+                    photos={impactData.verified_ground_photos}
+                    city={impactData.city || impactData.state}
+                    state={impactData.state}
                     eventType={impactData.event_type}
-                    recommendations={impactData.impact_evaluation.response_recommendations.map(r => r.action)}
                   />
-                </div>
-                <div className="lg:col-span-6 flex flex-col">
-                  <InformationGapPanel
-                    gaps={impactData.impact_evaluation.information_gaps}
-                    verificationRequests={impactData.impact_evaluation.verification_requests}
-                    onVerificationDone={() => currentEventId && loadImpactData(currentEventId)}
-                  />
-                </div>
-              </div>
 
-              {/* SECTION 5: AI Escalation Forecaster Radar & Multimodal Verification Tensor Inspector */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                <div className="lg:col-span-6 flex flex-col">
-                  <SeverityForecastRadar />
+                  {/* Multi-Source Evidence Chain & Calibration Delta */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <div className="lg:col-span-6 flex flex-col">
+                      <EvidenceChain evidenceChain={impactData.impact_evaluation.evidence_chain} />
+                    </div>
+                    <div className="lg:col-span-6 flex flex-col">
+                      <PredictionAccuracy
+                        predictedExposure={impactData.impact_evaluation.population_exposure.total_population_exposed}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="lg:col-span-6 flex flex-col">
-                  <MultimodalFusionInspector />
-                </div>
-              </div>
-
-              {/* SECTION 6: Verified Ground Truth & Citizen Photo Evidence Gallery */}
-              <VerifiedGroundEvidenceGallery
-                photos={impactData.verified_ground_photos}
-                city={impactData.city || impactData.state}
-                state={impactData.state}
-                eventType={impactData.event_type}
-              />
-
-              {/* SECTION 7: Explainable Multi-Source Evidence Chain & Calibration Delta */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                <div className="lg:col-span-6 flex flex-col">
-                  <EvidenceChain evidenceChain={impactData.impact_evaluation.evidence_chain} />
-                </div>
-                <div className="lg:col-span-6 flex flex-col">
-                  <PredictionAccuracy
-                    predictedExposure={impactData.impact_evaluation.population_exposure.total_population_exposed}
-                  />
-                </div>
-              </div>
+              )}
             </>
           )}
         </div>
