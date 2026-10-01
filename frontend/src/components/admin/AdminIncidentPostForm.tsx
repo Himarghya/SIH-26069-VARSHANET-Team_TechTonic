@@ -180,10 +180,6 @@ export const AdminIncidentPostForm: React.FC<AdminIncidentPostFormProps> = ({
               <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                 Official Incident Dispatch &amp; Pre-Verified Post
               </h2>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-600 text-[10px] font-mono font-bold shrink-0 shadow-2xs">
-                <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                <span>100% Pre-Verified • Zero Queue Moderation</span>
-              </span>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
               Publishes official ground intelligence or warnings directly onto the National Weather Map &amp; Incident Grid with immediate cluster placement.
