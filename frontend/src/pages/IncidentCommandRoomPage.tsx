@@ -53,7 +53,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
   const [impactData, setImpactData] = useState<EventImpactResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showSitRepModal, setShowSitRepModal] = useState(false);
-  const [activeApproach, setActiveApproach] = useState<string>('ALL');
+  const [activeApproach, setActiveApproach] = useState<string>('THREAT');
 
   useEffect(() => {
     if (selectedEventId) {
@@ -242,7 +242,6 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               {/* Operational Approach Selector Tabs */}
               <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl scrollbar-none">
                 {[
-                  { id: 'ALL', label: 'All Operational Modules', icon: Activity, count: '6 Sectors' },
                   { id: 'THREAT', label: '1. Threat & Exposure', icon: Users, tag: 'Impact' },
                   { id: 'TACTICAL', label: '2. Tactical Response & NDRF', icon: ShieldAlert, tag: 'Logistics' },
                   { id: 'ALERTS', label: '3. Alerts & Ground Intel', icon: Radio, tag: 'CAP & Gaps' },
@@ -269,7 +268,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               </div>
 
               {/* APPROACH 1: Threat Assessment & Demographic Exposure */}
-              {(activeApproach === 'ALL' || activeApproach === 'THREAT') && (
+              {activeApproach === 'THREAT' && (
                 <div className="space-y-4 pt-2">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-2.5">
@@ -305,7 +304,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               )}
 
               {/* APPROACH 2: Tactical Action Plan & Emergency NDRF Dispatch */}
-              {(activeApproach === 'ALL' || activeApproach === 'TACTICAL') && (
+              {activeApproach === 'TACTICAL' && (
                 <div className="space-y-4 pt-4">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-2.5">
@@ -351,7 +350,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               )}
 
               {/* APPROACH 3: Public Warning Broadcast & Ground Verification */}
-              {(activeApproach === 'ALL' || activeApproach === 'ALERTS') && (
+              {activeApproach === 'ALERTS' && (
                 <div className="space-y-4 pt-4">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-2.5">
@@ -394,7 +393,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               )}
 
               {/* APPROACH 4: AI Radar Nowcasting & Multimodal Fusion */}
-              {(activeApproach === 'ALL' || activeApproach === 'AI_NOWCAST') && (
+              {activeApproach === 'AI_NOWCAST' && (
                 <div className="space-y-4 pt-4">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-2.5">
@@ -427,7 +426,7 @@ export const IncidentCommandRoomPage: React.FC<IncidentCommandRoomPageProps> = (
               )}
 
               {/* APPROACH 5: Ground Truth Evidence & Forensic Provenance */}
-              {(activeApproach === 'ALL' || activeApproach === 'FORENSICS') && (
+              {activeApproach === 'FORENSICS' && (
                 <div className="space-y-4 pt-4">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-2.5">
