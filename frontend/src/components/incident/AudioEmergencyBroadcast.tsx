@@ -116,13 +116,6 @@ export const AudioEmergencyBroadcast: React.FC<AudioBroadcastProps> = ({
             <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">
               {isCritical ? 'Emergency Radio Broadcast (TTS)' : 'Radio Bulletin Broadcast (TTS)'}
             </span>
-            <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ${
-              isCritical ? 'bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800' :
-              isHigh ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800' :
-              'bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800'
-            }`}>
-              AI Judged: {normalizedSeverity}
-            </span>
           </div>
           <p className="text-[11px] text-slate-600 dark:text-slate-300 font-sans mt-0.5">
             Synthesizes dynamic voice bulletins tailored to actual AI risk severity.
