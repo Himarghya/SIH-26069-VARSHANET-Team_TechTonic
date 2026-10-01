@@ -901,9 +901,8 @@ export const CitizenReportForm: React.FC = () => {
               href="tel:112"
               className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-800/80 transition-all group flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between mb-1">
+              <div className="mb-1">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">National Police / Fire</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </div>
               <div className="text-lg font-black text-rose-600 dark:text-rose-400 group-hover:scale-105 transition-transform font-mono">
                 112
@@ -915,9 +914,8 @@ export const CitizenReportForm: React.FC = () => {
               href="tel:1070"
               className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-800/80 transition-all group flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between mb-1">
+              <div className="mb-1">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">NDMA / SDMA</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </div>
               <div className="text-lg font-black text-amber-600 dark:text-amber-400 group-hover:scale-105 transition-transform font-mono">
                 1070
@@ -929,9 +927,8 @@ export const CitizenReportForm: React.FC = () => {
               href="tel:1077"
               className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-sky-300 dark:hover:border-sky-800/80 transition-all group flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between mb-1">
+              <div className="mb-1">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">DDMA Control</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </div>
               <div className="text-lg font-black text-sky-600 dark:text-sky-400 group-hover:scale-105 transition-transform font-mono">
                 1077
@@ -943,9 +940,8 @@ export const CitizenReportForm: React.FC = () => {
               href="tel:108"
               className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-800/80 transition-all group flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between mb-1">
+              <div className="mb-1">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Medical & Health</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </div>
               <div className="text-lg font-black text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform font-mono">
                 108
